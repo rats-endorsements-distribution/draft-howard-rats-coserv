@@ -1,6 +1,6 @@
-# TODO - Your title
+# Concise Selector for Endorsements and Reference Values (CoSERV)
 
-This is the working area for the individual Internet-Draft, "TODO - Your title".
+This is the working area for the individual Internet-Draft, "Concise Selector for Endorsements and Reference Values".
 
 * [Editor's Copy](https://paulhowardarm.github.io/draft-rats-howard-coserv/#go.draft-rats-howard-coserv.html)
 * [Datatracker Page](https://datatracker.ietf.org/doc/draft-rats-howard-coserv)
