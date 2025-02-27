@@ -132,7 +132,7 @@ A CoSERV query comprises the following elements:
 
 Below is an example of a CoSERV query in JSON format:
 
-```json
+~~~json
 {
   "environment": {
     "class": "hardware",
@@ -155,6 +155,7 @@ Below is an example of a CoSERV query in JSON format:
   },
   "security_level": "high"
 }
+~~~
 
 # IANA Considerations
 
