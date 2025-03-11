@@ -5,8 +5,8 @@
 Network Working Group                                          P. Howard
 Internet-Draft                                                       Arm
 Intended status: Informational                                T. Fossati
-Expires: 31 August 2025                                           Linaro
-                                                        27 February 2025
+Expires: 12 September 2025                                        Linaro
+                                                           11 March 2025
 
 
          Concise Selector for Endorsements and Reference Values
@@ -50,7 +50,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 31 August 2025.
+   This Internet-Draft will expire on 12 September 2025.
 
 Copyright Notice
 
@@ -80,6 +80,7 @@ Table of Contents
    8.  References
      8.1.  Normative References
      8.2.  Informative References
+   Appendix A.  CoSERV CDDL
    Acknowledgments
    Authors' Addresses
 
@@ -216,26 +217,16 @@ Table of Contents
    Below is an example of a CoSERV query in JSON format:
 
    {
-     "environment": {
-       "class": "hardware",
-       "instance": {
-         "id": "1234-5678-9012",
-         "attributes": {
-           "manufacturer": "ExampleCorp",
-           "model": "X1000"
-         }
-       },
-       "group": {
-         "group_id": "group-01",
-         "members": ["1234-5678-9012", "1234-5678-9013"]
-       }
-     },
      "artifact_type": "endorsement",
-     "version_constraints": {
-       "min_version": "1.0",
-       "max_version": "2.0"
-     },
-     "security_level": "high"
+     "profile": "<some sort of profile string, eg. OID, URI, other...>",
+     "environment": {
+       "class": {
+           "id": [],
+           "vendor": ["ExampleCorp"],
+           "model": ["X1000"]
+       },
+       "group": []
+     }
    }
 
 7.  IANA Considerations
@@ -281,9 +272,95 @@ Table of Contents
    [I-D.ietf-rats-endorsements]
               Thaler, D., Birkholz, H., and T. Fossati, "RATS
               Endorsements", Work in Progress, Internet-Draft, draft-
-              ietf-rats-endorsements-05, 8 November 2024,
+              ietf-rats-endorsements-06, 3 March 2025,
               <https://datatracker.ietf.org/doc/html/draft-ietf-rats-
-              endorsements-05>.
+              endorsements-06>.
+
+Appendix A.  CoSERV CDDL
+
+   coserv = {
+     &(artifact-type: 1) => "ev" / "ta" / "rv"
+     &(profile: 2) => oid-type / uri
+     &(environment: 3) => environment-map-query
+   }
+
+   environment-map-query = non-empty<{
+     ? &(class: 0) => [ * class-map ]
+     ? &(instance: 1) => [ * $instance-id-type-choice ]
+     ? &(group: 2) => [ * $group-id-type-choice ]
+   }>
+
+   class-map = non-empty<{
+     ? &(class-id: 0) => $class-id-type-choice
+     ? &(vendor: 1) => tstr
+     ? &(model: 2) => tstr
+     ? &(layer: 3) => uint
+     ? &(index: 4) => uint
+   }>
+   ;
+   ; note: from this point onwards it's just CoRIM type system deps
+   ;
+   $class-id-type-choice /= tagged-oid-type
+   $class-id-type-choice /= tagged-uuid-type
+   $class-id-type-choice /= tagged-bytes
+
+   $instance-id-type-choice /= tagged-ueid-type
+   $instance-id-type-choice /= tagged-uuid-type
+   $instance-id-type-choice /= $crypto-key-type-choice
+   $instance-id-type-choice /= tagged-bytes
+
+   $group-id-type-choice /= tagged-uuid-type
+   $group-id-type-choice /= tagged-bytes
+
+   tagged-bytes = #6.560(bytes)
+
+   oid-type = bytes
+   tagged-oid-type = #6.111(oid-type)
+
+   ueid-type = bytes .size 33
+   tagged-ueid-type = #6.550(ueid-type)
+
+   uuid-type = bytes .size 16
+   tagged-uuid-type = #6.37(uuid-type)
+
+   $crypto-key-type-choice /= tagged-pkix-base64-key-type
+   $crypto-key-type-choice /= tagged-pkix-base64-cert-type
+   $crypto-key-type-choice /= tagged-pkix-base64-cert-path-type
+   $crypto-key-type-choice /= tagged-cose-key-type
+   $crypto-key-type-choice /= tagged-thumbprint-type
+   $crypto-key-type-choice /= tagged-cert-thumbprint-type
+   $crypto-key-type-choice /= tagged-cert-path-thumbprint-type
+   $crypto-key-type-choice /= tagged-pkix-asn1der-cert-type
+   $crypto-key-type-choice /= tagged-bytes
+
+   tagged-pkix-base64-key-type = #6.554(tstr)
+   tagged-pkix-base64-cert-type = #6.555(tstr)
+   tagged-pkix-base64-cert-path-type = #6.556(tstr)
+   tagged-thumbprint-type = #6.557(digest)
+   tagged-cose-key-type = #6.558(COSE_KeySet / COSE_Key)
+   tagged-cert-thumbprint-type = #6.559(digest)
+   tagged-cert-path-thumbprint-type = #6.561(digest)
+   tagged-pkix-asn1der-cert-type = #6.562(bstr)
+
+   digest = [
+     alg: (int / text),
+     val: bytes
+   ]
+
+   digests-type = [ + digest ]
+
+   non-empty<M> = (M) .and ({ + any => any })
+
+   COSE_KeySet = [ + COSE_Key ]
+
+   COSE_Key = {
+       1 => tstr / int
+       ? 2 => bstr
+       ? 3 => tstr / int
+       ? 4 => [+ (tstr / int) ]
+       ? 5 => bstr
+       * cose-label => cose-value
+   }
 
 Acknowledgments
 
