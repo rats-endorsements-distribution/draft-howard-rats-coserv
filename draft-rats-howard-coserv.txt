@@ -214,18 +214,19 @@ Table of Contents
 
 6.  JSON Representation
 
-   Below is an example of a CoSERV query in JSON format:
+   Below is an example of a CoSERV query in CBOR EDN format:
 
    {
-     "artifact_type": "endorsement",
-     "profile": "<some sort of profile string, eg. OID, URI, other...>",
-     "environment": {
-       "class": {
-           "id": [],
-           "vendor": ["ExampleCorp"],
-           "model": ["X1000"]
-       },
-       "group": []
+     1: "rv",
+     2: "tag:example.com,2025:cc-platform#1.0.0",
+     3: {
+       0: [
+         {
+           0: 560(h'00112233'),
+           1: "Example Vendor",
+           2: "Example Model"
+         }
+       ]
      }
    }
 
@@ -280,7 +281,7 @@ Appendix A.  CoSERV CDDL
 
    coserv = {
      &(artifact-type: 1) => "ev" / "ta" / "rv"
-     &(profile: 2) => oid-type / uri
+     &(profile: 2) => oid-type / ~uri
      &(environment: 3) => environment-map-query
    }
 
@@ -361,6 +362,9 @@ Appendix A.  CoSERV CDDL
        ? 5 => bstr
        * cose-label => cose-value
    }
+
+   cose-label = int / tstr
+   cose-value = any
 
 Acknowledgments
 

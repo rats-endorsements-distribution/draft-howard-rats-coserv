@@ -1334,19 +1334,20 @@ and <span><a href="https://rfc-editor.org/rfc/rfc8610#appendix-G" class="relref"
       <h2 id="name-json-representation">
 <a href="#section-6" class="section-number selfRef">6. </a><a href="#name-json-representation" class="section-name selfRef">JSON Representation</a>
       </h2>
-<p id="section-6-1">Below is an example of a CoSERV query in JSON format:<a href="#section-6-1" class="pilcrow">¶</a></p>
-<div class="lang-json sourcecode" id="section-6-2">
+<p id="section-6-1">Below is an example of a CoSERV query in CBOR EDN format:<a href="#section-6-1" class="pilcrow">¶</a></p>
+<div class="lang-edn sourcecode" id="section-6-2">
 <pre>
 {
-  "artifact_type": "endorsement",
-  "profile": "&lt;some sort of profile string, eg. OID, URI, other...&gt;",
-  "environment": {
-    "class": {
-        "id": [],
-        "vendor": ["ExampleCorp"],
-        "model": ["X1000"]
-    },
-    "group": []
+  1: "rv",
+  2: "tag:example.com,2025:cc-platform#1.0.0",
+  3: {
+    0: [
+      {
+        0: 560(h'00112233'),
+        1: "Example Vendor",
+        2: "Example Model"
+      }
+    ]
   }
 }
 </pre><a href="#section-6-2" class="pilcrow">¶</a>
@@ -1423,7 +1424,7 @@ and <span><a href="https://rfc-editor.org/rfc/rfc8610#appendix-G" class="relref"
 <pre>
 coserv = {
   &amp;(artifact-type: 1) =&gt; "ev" / "ta" / "rv"
-  &amp;(profile: 2) =&gt; oid-type / uri
+  &amp;(profile: 2) =&gt; oid-type / ~uri
   &amp;(environment: 3) =&gt; environment-map-query
 }
 
@@ -1504,6 +1505,9 @@ COSE_Key = {
     ? 5 =&gt; bstr
     * cose-label =&gt; cose-value
 }
+
+cose-label = int / tstr
+cose-value = any
 </pre><a href="#appendix-A-1" class="pilcrow">¶</a>
 </div>
 </section>
