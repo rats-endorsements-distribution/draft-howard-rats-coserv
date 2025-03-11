@@ -130,21 +130,10 @@ A CoSERV query comprises the following elements:
 
 # JSON Representation
 
-Below is an example of a CoSERV query in JSON format:
+Below is an example of a CoSERV query in CBOR EDN format:
 
-~~~json
-{
-  "artifact_type": "endorsement",
-  "profile": "<some sort of profile string, eg. OID, URI, other...>",
-  "environment": {
-    "class": {
-        "id": [],
-        "vendor": ["ExampleCorp"],
-        "model": ["X1000"]
-    },
-    "group": []
-  }
-}
+~~~edn
+{::include-fold cddl/examples/rv-class-simple.diag}
 ~~~
 
 # IANA Considerations
@@ -156,7 +145,7 @@ This document has no IANA actions.
 # CoSERV CDDL
 
 ~~~
-{::include-fold cddl/coserve.cddl}
+{::include-fold cddl/coserv.cddl}
 ~~~
 
 # Acknowledgments

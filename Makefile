@@ -13,3 +13,9 @@ else
 	    https://github.com/martinthomson/i-d-template $(LIBDIR)
 endif
 endif
+
+$(drafts_xml): cddl/coserv-autogen.cddl
+
+cddl/coserv-autogen.cddl: ; $(MAKE) -C cddl check
+
+clean:: ; $(MAKE) -C cddl clean

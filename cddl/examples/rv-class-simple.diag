@@ -1,0 +1,13 @@
+{
+  1: "rv",
+  2: "tag:example.com,2025:cc-platform#1.0.0",
+  3: {
+    0: [
+      {
+        0: 560(h'00112233'),
+        1: "Example Vendor",
+        2: "Example Model"
+      }
+    ]
+  }
+}

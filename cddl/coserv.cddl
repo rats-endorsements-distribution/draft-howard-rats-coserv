@@ -1,6 +1,6 @@
 coserv = {
   &(artifact-type: 1) => "ev" / "ta" / "rv"
-  &(profile: 2) => oid-type / uri
+  &(profile: 2) => oid-type / ~uri
   &(environment: 3) => environment-map-query
 }
 
@@ -81,3 +81,6 @@ COSE_Key = {
     ? 5 => bstr
     * cose-label => cose-value
 }
+
+cose-label = int / tstr
+cose-value = any
