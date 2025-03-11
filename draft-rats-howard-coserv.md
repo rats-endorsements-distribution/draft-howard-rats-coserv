@@ -134,26 +134,16 @@ Below is an example of a CoSERV query in JSON format:
 
 ~~~json
 {
-  "environment": {
-    "class": "hardware",
-    "instance": {
-      "id": "1234-5678-9012",
-      "attributes": {
-        "manufacturer": "ExampleCorp",
-        "model": "X1000"
-      }
-    },
-    "group": {
-      "group_id": "group-01",
-      "members": ["1234-5678-9012", "1234-5678-9013"]
-    }
-  },
   "artifact_type": "endorsement",
-  "version_constraints": {
-    "min_version": "1.0",
-    "max_version": "2.0"
-  },
-  "security_level": "high"
+  "profile": "<some sort of profile string, eg. OID, URI, other...>",
+  "environment": {
+    "class": {
+        "id": [],
+        "vendor": ["ExampleCorp"],
+        "model": ["X1000"]
+    },
+    "group": []
+  }
 }
 ~~~
 
@@ -161,8 +151,13 @@ Below is an example of a CoSERV query in JSON format:
 
 This document has no IANA actions.
 
-
 --- back
+
+# CoSERV CDDL
+
+~~~
+{::include-fold cddl/coserve.cddl}
+~~~
 
 # Acknowledgments
 {:numbered="false"}
