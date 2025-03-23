@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-03-20T00:41:32.547975+00:00",
+  "timestamp": "2025-03-23T00:46:02.099379+00:00",
   "repo": "paulhowardarm/draft-rats-howard-coserv",
   "labels": [
     {
@@ -49,6 +49,74 @@
       "color": "ffffff"
     }
   ],
-  "issues": [],
-  "pulls": []
+  "issues": [
+    {
+      "number": 1,
+      "id": "I_kwDOOAZd1M6u6zi5",
+      "title": "Some questions about CoSERV",
+      "url": "https://github.com/paulhowardarm/draft-rats-howard-coserv/issues/1",
+      "state": "OPEN",
+      "author": "Xynnn007",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "Hi, I am excited to see this standard work on \"How to identify reference value\" as a confidential computing developer. I have some questions about this\n\n1. This standard specifies how to calibrate reference values. Do we have plans to standardize the reference value return format or the protocol interaction process being queried? The context is that different hardware architectures currently do not have a unified reference value query API, and the APIs for distributing reference values \u200b\u200bin the software ecosystem are also different. If we standardized this process, it would benefit the confidential computing ecosystem.\n\n2. In the Query Structure of the reference value query, is it necessary to add the \"time\" optional parameter, which means the reference value that meets other conditions as of a certain time.\n\nThanks!",
+      "createdAt": "2025-03-20T09:15:11Z",
+      "updatedAt": "2025-03-20T13:00:00Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "paulhowardarm",
+          "authorAssociation": "OWNER",
+          "body": "Hi @Xynnn007 and thanks for your interest in this work.\n\nWe're quite early in the evolution of this draft, and we don't have a version published to the data tracker yet. At the moment, I think there are some inconsistencies between the text and the CDDL, which I will rectify soon.\n\nFor your question [1], the intention of this draft is deliberately only scoped to the query language, not the output format. The idea is that a CoSERV query would form the input to an endorsement distribution service, and there would be a media type negotiation to decide on the best-applicable output format for the consumer. There are different output formats in the ecosystem, and this draft is not intended to compete with or replace those. CoRIM, for example, already has a lot of traction in the RATS world, and indeed CoSERV is heavily influenced by the environment maps used by CoRIM. So you could imagine a service where CoSERV is the input, and CoRIM is the output. But there could also be other output types.\n\nFor question [2], this isn't something I had considered. What would be the expected use case for this? It's certainly expected that RV sets might change over time (due to such things as firmware image upgrade, for instance). But I would expect that latest/current values are the most useful thing to a consumer at any given point.",
+          "createdAt": "2025-03-20T12:59:58Z",
+          "updatedAt": "2025-03-20T12:59:58Z"
+        }
+      ]
+    }
+  ],
+  "pulls": [
+    {
+      "number": 2,
+      "id": "PR_kwDOOAZd1M6Pfjpq",
+      "title": "split cddl and dynamically reassemble it",
+      "url": "https://github.com/paulhowardarm/draft-rats-howard-coserv/pull/2",
+      "state": "MERGED",
+      "author": "thomas-fossati",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-03-20T16:04:20Z",
+      "updatedAt": "2025-03-20T16:33:50Z",
+      "baseRepository": "paulhowardarm/draft-rats-howard-coserv",
+      "baseRefName": "main",
+      "baseRefOid": "1dc791f609083e4f982d172b573db1d4b4cd8d71",
+      "headRepository": "paulhowardarm/draft-rats-howard-coserv",
+      "headRefName": "cddl-split",
+      "headRefOid": "7596dff75977d0d2a99f97ada114152096968f6c",
+      "closedAt": "2025-03-20T16:33:50Z",
+      "mergedAt": "2025-03-20T16:33:50Z",
+      "mergedBy": "paulhowardarm",
+      "mergeCommit": {
+        "oid": "7f2b69cfe6d879b17ab93329f6a3006a2b26d68b"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOOAZd1M6hIudy",
+          "commit": {
+            "abbreviatedOid": "7596dff"
+          },
+          "author": "paulhowardarm",
+          "authorAssociation": "OWNER",
+          "state": "APPROVED",
+          "body": "Looks great, thank you!",
+          "createdAt": "2025-03-20T16:33:14Z",
+          "updatedAt": "2025-03-20T16:33:14Z",
+          "comments": []
+        }
+      ]
+    }
+  ]
 }
