@@ -5,8 +5,8 @@
 Network Working Group                                          P. Howard
 Internet-Draft                                                       Arm
 Intended status: Informational                                T. Fossati
-Expires: 21 September 2025                                        Linaro
-                                                           20 March 2025
+Expires: 25 September 2025                                        Linaro
+                                                           24 March 2025
 
 
          Concise Selector for Endorsements and Reference Values
@@ -50,7 +50,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 21 September 2025.
+   This Internet-Draft will expire on 25 September 2025.
 
 Copyright Notice
 
