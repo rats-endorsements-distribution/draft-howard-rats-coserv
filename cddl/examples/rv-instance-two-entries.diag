@@ -1,0 +1,10 @@
+{
+  0: 2,
+  1: "tag:example.com,2025:cc-platform#1.0.0",
+  2: {
+    1: [
+      550(h'02DEADBEEFDEAD'),
+      560(h'8999786556')
+    ]
+  }
+}

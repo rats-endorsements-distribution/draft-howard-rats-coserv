@@ -1,5 +1,5 @@
-environment-selector-map = non-empty<{
-  ? &(class: 0) => [ * class-map ]
-  ? &(instance: 1) => [ * $instance-id-type-choice ]
-  ? &(group: 2) => [ * $group-id-type-choice ]
-}>
+environment-selector-map = { selector }
+
+selector //= ( &(class: 0) => [ * class-map ] )
+selector //= ( &(instance: 1) => [ * $instance-id-type-choice ] )
+selector //= ( &(group: 2) => [ * $group-id-type-choice ] )

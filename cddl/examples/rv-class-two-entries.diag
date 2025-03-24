@@ -1,0 +1,16 @@
+{
+  0: 2,
+  1: "tag:example.com,2025:cc-platform#1.0.0",
+  2: {
+    0: [
+      {
+        0: 560(h'8999786556'),
+        1: "Example Vendor",
+        2: "Example Model"
+      },
+      {
+        0: 37(h'31FB5ABF023E4992AA4E95F9C1503BFA')
+      }
+    ]
+  }
+}
