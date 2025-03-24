@@ -23,7 +23,7 @@ tagged-bytes = #6.560(bytes)
 oid-type = bytes
 tagged-oid-type = #6.111(oid-type)
 
-ueid-type = bytes .size 33
+ueid-type = bytes .size (7..33)
 tagged-ueid-type = #6.550(ueid-type)
 
 uuid-type = bytes .size 16
