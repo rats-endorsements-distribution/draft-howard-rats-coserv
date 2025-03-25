@@ -115,11 +115,11 @@ The meanings of these fields are detailed in the following subsections.
 
 ### Artifact Type
 
-The `artifact-type` field is the foremost discriminator of the query. It is a top-level category selector. Its three permissible values are `ta`, `ev` and `rv`. These correspond to the following three categories of endorsement artifact that can be identified in the RATS architecture:
+The `artifact-type` field is the foremost discriminator of the query. It is a top-level category selector. Its three permissible values are `trust-anchors` (codepoint 1), `endorsed-values` (codepoint 0) and `reference-values` (codepoint 2). These correspond to the following three categories of endorsement artifact that can be identified in the RATS architecture:
 
-  - **Trust Anchor** (`ta`): A trust anchor is as defined in {{RFC6024}}. An example of a trust anchor would be the public part of the asymmetric signing key that is used by the Attester to sign Evidence, such that the Verifier is able to verify the cryptographic signature.
-  - **Endorsed Value** (`ev`): An endorsed value is as defined in {{Section 1.1.1 of -rats-corim}}.
-  - **Reference Value** (`rv`): A reference value is as defined in {{Section 1.1.1 of -rats-corim}}. A reference value specifies an individual aspect of the Attester's desired state. Reference values are sometimes informally called "golden values". An example of a reference value would be the expected hash or checksum of a binary firmware or software image running in the Attester's environment. Evidence from the Attester would then include claims about the Attester's actual state, which the Verifier can then compare with the reference values at Evidence appraisal time.
+  - **Trust Anchor** (`trust-anchors`): A trust anchor is as defined in {{RFC6024}}. An example of a trust anchor would be the public part of the asymmetric signing key that is used by the Attester to sign Evidence, such that the Verifier is able to verify the cryptographic signature.
+  - **Endorsed Value** (`endorsed-values`): An endorsed value is as defined in {{Section 1.1.1 of -rats-corim}}.
+  - **Reference Value** (`reference-values`): A reference value is as defined in {{Section 1.1.1 of -rats-corim}}. A reference value specifies an individual aspect of the Attester's desired state. Reference values are sometimes informally called "golden values". An example of a reference value would be the expected hash or checksum of a binary firmware or software image running in the Attester's environment. Evidence from the Attester would then include claims about the Attester's actual state, which the Verifier can then compare with the reference values at Evidence appraisal time.
 
 It is expected that implementations might choose to store these different categories of artifacts in different top-level stores or database tables. Where this is the case, the `artifact-type` field serves to narrow the query down to the correct store or table. Even where this is not the case, the discriminator is useful as a filter for the consumer, resulting in an efficiency gain by avoiding the transfer of unwanted data items.
 
@@ -151,7 +151,7 @@ Although these three environment definitions are mutually-exclusive in a CoSERV 
 
 This section provides some illustrative examples of valid CoSERV query objects.
 
-The following example shows a query for Reference Values scoped by a single class. The `artifact-type` is set to `rv`, indicating a query for Reference Values. The `profile` is given the example value of `tag:example.com,2025:cc-platform#1.0.0`. Finally, the `environment-selector` uses the tag 0 to select for class, and the value contains a single entry with illustrative settings for the identifier, vendor and model.
+The following example shows a query for Reference Values scoped by a single class. The `artifact-type` is set to 2 (`reference-values`), indicating a query for Reference Values. The `profile` is given the example value of `tag:example.com,2025:cc-platform#1.0.0`. Finally, the `environment-selector` uses the tag 0 to select for class, and the value contains a single entry with illustrative settings for the identifier, vendor and model.
 
 ~~~edn
 {::include-fold cddl/examples/rv-class-simple.diag}
@@ -163,7 +163,7 @@ The next example is similar, but adds a second entry to the set of classes in th
 {::include-fold cddl/examples/rv-class-two-entries.diag}
 ~~~
 
-The following example shows a query for Reference Values scoped by instance. Again, the `artifact-type` is set to `rv`, and `profile` is given a demonstration value. The `environment-selector` now uses the tag 1 to select for instances, and the value contains two entries with example instance identifiers.
+The following example shows a query for Reference Values scoped by instance. Again, the `artifact-type` is set to 2, and `profile` is given a demonstration value. The `environment-selector` now uses the tag 1 to select for instances, and the value contains two entries with example instance identifiers.
 
 ~~~edn
 {::include-fold cddl/examples/rv-instance-two-entries.diag}
