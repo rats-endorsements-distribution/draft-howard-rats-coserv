@@ -53,7 +53,7 @@ informative:
 
 --- abstract
 
-In the Remote Attestation Procedures (RATS) architecture, Verifiers require Endorsements and Reference Values to assess the trustworthiness of Attesters. This document specifies the Concise Selector for Endorsements and Reference Values (CoSERV), a structured query format designed to facilitate the discovery and retrieval of these artifacts from various providers. CoSERV defines a query language that can be expressed in both JSON and CBOR formats, with a common CDDL schema, enabling interoperability across diverse systems.
+In the Remote Attestation Procedures (RATS) architecture, Verifiers require Endorsements and Reference Values to assess the trustworthiness of Attesters. This document specifies the Concise Selector for Endorsements and Reference Values (CoSERV), a structured query format designed to facilitate the discovery and retrieval of these artifacts from various providers. CoSERV defines a query language using CDDL that can be serialized in CBOR format, enabling interoperability across diverse systems.
 
 --- middle
 
@@ -65,7 +65,7 @@ The Concise Selector for Endorsements and Reference Values (CoSERV) addresses th
 
 The CoSERV query language is intended to form the input data type for tools and services that provide access to Endorsements and Reference Values. This document does not define the complete APIs or interaction models for such tools and services. Nor does this document constrain the format of the output data that such tools and services might produce. The scope of this document is limited to the definition of the query language only.
 
-The environment characteristics of Endorsements and Reference Values are derived from the equivalent concepts in CoRIM {{-rats-corim}}. CoSERV therefore borrows heavily from CoRIM, and shares some data types for its fields. And, like CoRIM, the CoSERV schema is defined using CDDL {{-cddl}}. A CoSERV query can be serialized in both CBOR {{-cbor}} and JSON {{-json}} formats.
+The environment characteristics of Endorsements and Reference Values are derived from the equivalent concepts in CoRIM {{-rats-corim}}. CoSERV therefore borrows heavily from CoRIM, and shares some data types for its fields. And, like CoRIM, the CoSERV schema is defined using CDDL {{-cddl}}. A CoSERV query can be serialized in CBOR {{-cbor}} format.
 
 ## Terminology and Requirements Language
 
@@ -85,22 +85,22 @@ and {{Section G of -cddl}}. Terms and concepts are always referenced as proper n
 
 # CoSERV Query Language
 
-The CoSERV query language enables Verifiers to specify the desired characteristics of Endorsements and Reference Values based on the environment in which they are applicable. This section presents the JSON and CBOR data model for CoSERV queries.
+The CoSERV query language enables Verifiers to specify the desired characteristics of Endorsements and Reference Values based on the environment in which they are applicable. This section presents the CBOR data model for CoSERV queries.
 
-CDDL is used to express rules and constraints of the data model for both JSON and CBOR. These rules must be strictly followed when creating or validating CoSERV data objects. When there is variation between CBOR and JSON, the `JC<>` CDDL generic defined in {{Appendix D of -rats-eat}} is used.
+CDDL is used to express rules and constraints of the data model for CBOR. These rules must be strictly followed when creating or validating CoSERV data objects.
 
 ## Common Data Types
-
-CoSERV inherits the following CDDL definitions from COSE {{-cose}}:
-
-~~~cddl
-{::include cddl/mini-cose.cddl}
-~~~
 
 CoSERV inherits the following CDDL definitions from the Concise Module Identifier (CoMID) as defined in {{Section 5 of -rats-corim}}.
 
 ~~~cddl
 {::include cddl/mini-comid.cddl}
+~~~
+
+CoMID inherits the following CDDL definitions from COSE {{-cose}}:
+
+~~~cddl
+{::include cddl/mini-cose.cddl}
 ~~~
 
 ## Query Structure
@@ -115,11 +115,11 @@ The meanings of these fields are detailed in the following subsections.
 
 ### Artifact Type
 
-The `artifact-type` field is the foremost discriminator of the query. It is a top-level category selector. Its three permissible values are `ta`, `ev` and `rv`. These correspond to the following three categories of endorsement artifact that can be identified in the RATS architecture:
+The `artifact-type` field is the foremost discriminator of the query. It is a top-level category selector. Its three permissible values are `trust-anchors` (codepoint 1), `endorsed-values` (codepoint 0) and `reference-values` (codepoint 2). These correspond to the following three categories of endorsement artifact that can be identified in the RATS architecture:
 
-  - **Trust Anchor** (`ta`): A trust anchor is as defined in {{RFC6024}}. An example of a trust anchor would be the public part of the asymmetric signing key that is used by the Attester to sign Evidence, such that the Verifier is able to verify the cryptographic signature.
-  - **Endorsed Value** (`ev`): An endorsed value is as defined in {{Section 1.1.1 of -rats-corim}}.
-  - **Reference Value** (`rv`): A reference value is as defined in {{Section 1.1.1 of -rats-corim}}. A reference value specifies an individual aspect of the Attester's desired state. Reference values are sometimes informally called "golden values". An example of a reference value would be the expected hash or checksum of a binary firmware or software image running in the Attester's environment. Evidence from the Attester would then include claims about the Attester's actual state, which the Verifier can then compare with the reference values at Evidence appraisal time.
+  - **Trust Anchor** (`trust-anchors`): A trust anchor is as defined in {{RFC6024}}. An example of a trust anchor would be the public part of the asymmetric signing key that is used by the Attester to sign Evidence, such that the Verifier is able to verify the cryptographic signature.
+  - **Endorsed Value** (`endorsed-values`): An endorsed value is as defined in {{Section 1.1.1 of -rats-corim}}.
+  - **Reference Value** (`reference-values`): A reference value is as defined in {{Section 1.1.1 of -rats-corim}}. A reference value specifies an individual aspect of the Attester's desired state. Reference values are sometimes informally called "golden values". An example of a reference value would be the expected hash or checksum of a binary firmware or software image running in the Attester's environment. Evidence from the Attester would then include claims about the Attester's actual state, which the Verifier can then compare with the reference values at Evidence appraisal time.
 
 It is expected that implementations might choose to store these different categories of artifacts in different top-level stores or database tables. Where this is the case, the `artifact-type` field serves to narrow the query down to the correct store or table. Even where this is not the case, the discriminator is useful as a filter for the consumer, resulting in an efficiency gain by avoiding the transfer of unwanted data items.
 
@@ -151,7 +151,7 @@ Although these three environment definitions are mutually-exclusive in a CoSERV 
 
 This section provides some illustrative examples of valid CoSERV query objects.
 
-The following example shows a query for Reference Values scoped by a single class. The `artifact-type` is set to `rv`, indicating a query for Reference Values. The `profile` is given the example value of `tag:example.com,2025:cc-platform#1.0.0`. Finally, the `environment-selector` uses the tag 0 to select for class, and the value contains a single entry with illustrative settings for the identifier, vendor and model.
+The following example shows a query for Reference Values scoped by a single class. The `artifact-type` is set to 2 (`reference-values`), indicating a query for Reference Values. The `profile` is given the example value of `tag:example.com,2025:cc-platform#1.0.0`. Finally, the `environment-selector` uses the key 0 to select for class, and the value contains a single entry with illustrative settings for the identifier, vendor and model.
 
 ~~~edn
 {::include-fold cddl/examples/rv-class-simple.diag}
@@ -163,7 +163,7 @@ The next example is similar, but adds a second entry to the set of classes in th
 {::include-fold cddl/examples/rv-class-two-entries.diag}
 ~~~
 
-The following example shows a query for Reference Values scoped by instance. Again, the `artifact-type` is set to `rv`, and `profile` is given a demonstration value. The `environment-selector` now uses the tag 1 to select for instances, and the value contains two entries with example instance identifiers.
+The following example shows a query for Reference Values scoped by instance. Again, the `artifact-type` is set to 2, and `profile` is given a demonstration value. The `environment-selector` now uses the key 1 to select for instances, and the value contains two entries with example instance identifiers.
 
 ~~~edn
 {::include-fold cddl/examples/rv-instance-two-entries.diag}
@@ -190,10 +190,16 @@ TODO: Add media type requests for `application/serv+cbor` and `application/serv+
 
 --- back
 
-# CoSERV CDDL
+# Collated CoSERV CDDL
 
 ~~~
 {::include-fold cddl/coserv.cddl}
+
+{::include-fold cddl/environment-selector.cddl}
+
+{::include-fold cddl/mini-comid.cddl}
+
+{::include-fold cddl/mini-cose.cddl}
 ~~~
 
 # Acknowledgments
