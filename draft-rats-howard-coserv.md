@@ -53,7 +53,7 @@ informative:
 
 --- abstract
 
-In the Remote Attestation Procedures (RATS) architecture, Verifiers require Endorsements and Reference Values to assess the trustworthiness of Attesters. This document specifies the Concise Selector for Endorsements and Reference Values (CoSERV), a structured query format designed to facilitate the discovery and retrieval of these artifacts from various providers. CoSERV defines a query language that can be expressed in both JSON and CBOR formats, with a common CDDL schema, enabling interoperability across diverse systems.
+In the Remote Attestation Procedures (RATS) architecture, Verifiers require Endorsements and Reference Values to assess the trustworthiness of Attesters. This document specifies the Concise Selector for Endorsements and Reference Values (CoSERV), a structured query format designed to facilitate the discovery and retrieval of these artifacts from various providers. CoSERV defines a query language using CDDL that can be serialized in CBOR format, enabling interoperability across diverse systems.
 
 --- middle
 
@@ -65,7 +65,7 @@ The Concise Selector for Endorsements and Reference Values (CoSERV) addresses th
 
 The CoSERV query language is intended to form the input data type for tools and services that provide access to Endorsements and Reference Values. This document does not define the complete APIs or interaction models for such tools and services. Nor does this document constrain the format of the output data that such tools and services might produce. The scope of this document is limited to the definition of the query language only.
 
-The environment characteristics of Endorsements and Reference Values are derived from the equivalent concepts in CoRIM {{-rats-corim}}. CoSERV therefore borrows heavily from CoRIM, and shares some data types for its fields. And, like CoRIM, the CoSERV schema is defined using CDDL {{-cddl}}. A CoSERV query can be serialized in both CBOR {{-cbor}} and JSON {{-json}} formats.
+The environment characteristics of Endorsements and Reference Values are derived from the equivalent concepts in CoRIM {{-rats-corim}}. CoSERV therefore borrows heavily from CoRIM, and shares some data types for its fields. And, like CoRIM, the CoSERV schema is defined using CDDL {{-cddl}}. A CoSERV query can be serialized in CBOR {{-cbor}} format.
 
 ## Terminology and Requirements Language
 
@@ -85,9 +85,9 @@ and {{Section G of -cddl}}. Terms and concepts are always referenced as proper n
 
 # CoSERV Query Language
 
-The CoSERV query language enables Verifiers to specify the desired characteristics of Endorsements and Reference Values based on the environment in which they are applicable. This section presents the JSON and CBOR data model for CoSERV queries.
+The CoSERV query language enables Verifiers to specify the desired characteristics of Endorsements and Reference Values based on the environment in which they are applicable. This section presents the CBOR data model for CoSERV queries.
 
-CDDL is used to express rules and constraints of the data model for both JSON and CBOR. These rules must be strictly followed when creating or validating CoSERV data objects. When there is variation between CBOR and JSON, the `JC<>` CDDL generic defined in {{Appendix D of -rats-eat}} is used.
+CDDL is used to express rules and constraints of the data model for CBOR. These rules must be strictly followed when creating or validating CoSERV data objects.
 
 ## Common Data Types
 
