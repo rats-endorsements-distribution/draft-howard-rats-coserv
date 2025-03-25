@@ -190,10 +190,16 @@ TODO: Add media type requests for `application/serv+cbor` and `application/serv+
 
 --- back
 
-# CoSERV CDDL
+# Collated CoSERV CDDL
 
 ~~~
 {::include-fold cddl/coserv.cddl}
+
+{::include-fold cddl/environment-selector.cddl}
+
+{::include-fold cddl/mini-comid.cddl}
+
+{::include-fold cddl/mini-cose.cddl}
 ~~~
 
 # Acknowledgments
