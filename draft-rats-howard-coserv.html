@@ -8,7 +8,7 @@
 <meta content="Paul Howard" name="author">
 <meta content="Thomas Fossati" name="author">
 <meta content="
-       In the Remote Attestation Procedures (RATS) architecture, Verifiers require Endorsements and Reference Values to assess the trustworthiness of Attesters. This document specifies the Concise Selector for Endorsements and Reference Values (CoSERV), a structured query format designed to facilitate the discovery and retrieval of these artifacts from various providers. CoSERV defines a query language that can be expressed in both JSON and CBOR formats, with a common CDDL schema, enabling interoperability across diverse systems. 
+       In the Remote Attestation Procedures (RATS) architecture, Verifiers require Endorsements and Reference Values to assess the trustworthiness of Attesters. This document specifies the Concise Selector for Endorsements and Reference Values (CoSERV), a structured query format designed to facilitate the discovery and retrieval of these artifacts from various providers. CoSERV defines a query language using CDDL that can be serialized in CBOR format, enabling interoperability across diverse systems. 
     " name="description">
 <meta content="xml2rfc 3.28.0" name="generator">
 <meta content="RATS" name="keyword">
@@ -1087,7 +1087,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <h1 id="title">Concise Selector for Endorsements and Reference Values</h1>
 <section id="section-abstract">
       <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
-<p id="section-abstract-1">In the Remote Attestation Procedures (RATS) architecture, Verifiers require Endorsements and Reference Values to assess the trustworthiness of Attesters. This document specifies the Concise Selector for Endorsements and Reference Values (CoSERV), a structured query format designed to facilitate the discovery and retrieval of these artifacts from various providers. CoSERV defines a query language that can be expressed in both JSON and CBOR formats, with a common CDDL schema, enabling interoperability across diverse systems.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+<p id="section-abstract-1">In the Remote Attestation Procedures (RATS) architecture, Verifiers require Endorsements and Reference Values to assess the trustworthiness of Attesters. This document specifies the Concise Selector for Endorsements and Reference Values (CoSERV), a structured query format designed to facilitate the discovery and retrieval of these artifacts from various providers. CoSERV defines a query language using CDDL that can be serialized in CBOR format, enabling interoperability across diverse systems.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
 </section>
 <section class="note rfcEditorRemove" id="section-note.1">
       <h2 id="name-about-this-document">
@@ -1205,7 +1205,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9">
-            <p id="section-toc.1-1.9.1"><a href="#appendix-A" class="auto internal xref">Appendix A</a>.  <a href="#name-coserv-cddl" class="internal xref">CoSERV CDDL</a></p>
+            <p id="section-toc.1-1.9.1"><a href="#appendix-A" class="auto internal xref">Appendix A</a>.  <a href="#name-collated-coserv-cddl" class="internal xref">Collated CoSERV CDDL</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10">
             <p id="section-toc.1-1.10.1"><a href="#appendix-B" class="auto internal xref"></a><a href="#name-acknowledgments" class="internal xref">Acknowledgments</a></p>
@@ -1225,7 +1225,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <p id="section-1-1">Remote Attestation Procedures (RATS) enable Relying Parties to evaluate the trustworthiness of remote Attesters by appraising Evidence. This appraisal necessitates access to Endorsements and Reference Values, which are often distributed across multiple providers, including hardware manufacturers, firmware developers, and software vendors. The lack of standardized methods for querying and retrieving these artifacts poses challenges in achieving seamless interoperability.<a href="#section-1-1" class="pilcrow">¶</a></p>
 <p id="section-1-2">The Concise Selector for Endorsements and Reference Values (CoSERV) addresses this challenge by defining a query language that allows Verifiers to specify the environment characteristics of the desired artifacts. This facilitates the efficient discovery and retrieval of relevant Endorsements and Reference Values from providers.<a href="#section-1-2" class="pilcrow">¶</a></p>
 <p id="section-1-3">The CoSERV query language is intended to form the input data type for tools and services that provide access to Endorsements and Reference Values. This document does not define the complete APIs or interaction models for such tools and services. Nor does this document constrain the format of the output data that such tools and services might produce. The scope of this document is limited to the definition of the query language only.<a href="#section-1-3" class="pilcrow">¶</a></p>
-<p id="section-1-4">The environment characteristics of Endorsements and Reference Values are derived from the equivalent concepts in CoRIM <span>[<a href="#I-D.ietf-rats-corim" class="cite xref">I-D.ietf-rats-corim</a>]</span>. CoSERV therefore borrows heavily from CoRIM, and shares some data types for its fields. And, like CoRIM, the CoSERV schema is defined using CDDL <span>[<a href="#RFC8610" class="cite xref">RFC8610</a>]</span>. A CoSERV query can be serialized in both CBOR <span>[<a href="#STD94" class="cite xref">STD94</a>]</span> and JSON <span>[<a href="#RFC8259" class="cite xref">RFC8259</a>]</span> formats.<a href="#section-1-4" class="pilcrow">¶</a></p>
+<p id="section-1-4">The environment characteristics of Endorsements and Reference Values are derived from the equivalent concepts in CoRIM <span>[<a href="#I-D.ietf-rats-corim" class="cite xref">I-D.ietf-rats-corim</a>]</span>. CoSERV therefore borrows heavily from CoRIM, and shares some data types for its fields. And, like CoRIM, the CoSERV schema is defined using CDDL <span>[<a href="#RFC8610" class="cite xref">RFC8610</a>]</span>. A CoSERV query can be serialized in CBOR <span>[<a href="#STD94" class="cite xref">STD94</a>]</span> format.<a href="#section-1-4" class="pilcrow">¶</a></p>
 <div id="terminology-and-requirements-language">
 <section id="section-1.1">
         <h3 id="name-terminology-and-requirement">
@@ -1252,33 +1252,15 @@ and <span><a href="https://rfc-editor.org/rfc/rfc8610#appendix-G" class="relref"
       <h2 id="name-coserv-query-language">
 <a href="#section-2" class="section-number selfRef">2. </a><a href="#name-coserv-query-language" class="section-name selfRef">CoSERV Query Language</a>
       </h2>
-<p id="section-2-1">The CoSERV query language enables Verifiers to specify the desired characteristics of Endorsements and Reference Values based on the environment in which they are applicable. This section presents the JSON and CBOR data model for CoSERV queries.<a href="#section-2-1" class="pilcrow">¶</a></p>
-<p id="section-2-2">CDDL is used to express rules and constraints of the data model for both JSON and CBOR. These rules must be strictly followed when creating or validating CoSERV data objects. When there is variation between CBOR and JSON, the <code>JC&lt;&gt;</code> CDDL generic defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-rats-eat-31#appendix-D" class="relref">Appendix D</a> of [<a href="#I-D.ietf-rats-eat" class="cite xref">I-D.ietf-rats-eat</a>]</span> is used.<a href="#section-2-2" class="pilcrow">¶</a></p>
+<p id="section-2-1">The CoSERV query language enables Verifiers to specify the desired characteristics of Endorsements and Reference Values based on the environment in which they are applicable. This section presents the CBOR data model for CoSERV queries.<a href="#section-2-1" class="pilcrow">¶</a></p>
+<p id="section-2-2">CDDL is used to express rules and constraints of the data model for CBOR. These rules must be strictly followed when creating or validating CoSERV data objects.<a href="#section-2-2" class="pilcrow">¶</a></p>
 <div id="common-data-types">
 <section id="section-2.1">
         <h3 id="name-common-data-types">
 <a href="#section-2.1" class="section-number selfRef">2.1. </a><a href="#name-common-data-types" class="section-name selfRef">Common Data Types</a>
         </h3>
-<p id="section-2.1-1">CoSERV inherits the following CDDL definitions from COSE <span>[<a href="#STD96" class="cite xref">STD96</a>]</span>:<a href="#section-2.1-1" class="pilcrow">¶</a></p>
-<div class="lang-cddl sourcecode" id="section-2.1-2">
-<pre>
-COSE_KeySet = [ + COSE_Key ]
-
-COSE_Key = {
-    1 =&gt; tstr / int
-    ? 2 =&gt; bstr
-    ? 3 =&gt; tstr / int
-    ? 4 =&gt; [+ (tstr / int) ]
-    ? 5 =&gt; bstr
-    * cose-label =&gt; cose-value
-}
-
-cose-label = int / tstr
-cose-value = any
-</pre><a href="#section-2.1-2" class="pilcrow">¶</a>
-</div>
-<p id="section-2.1-3">CoSERV inherits the following CDDL definitions from the Concise Module Identifier (CoMID) as defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-rats-corim-07#section-5" class="relref">Section 5</a> of [<a href="#I-D.ietf-rats-corim" class="cite xref">I-D.ietf-rats-corim</a>]</span>.<a href="#section-2.1-3" class="pilcrow">¶</a></p>
-<div class="breakable lang-cddl sourcecode" id="section-2.1-4">
+<p id="section-2.1-1">CoSERV inherits the following CDDL definitions from the Concise Module Identifier (CoMID) as defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-rats-corim-07#section-5" class="relref">Section 5</a> of [<a href="#I-D.ietf-rats-corim" class="cite xref">I-D.ietf-rats-corim</a>]</span>.<a href="#section-2.1-1" class="pilcrow">¶</a></p>
+<div class="breakable lang-cddl sourcecode" id="section-2.1-2">
 <pre>
 class-map = non-empty&lt;{
   ? &amp;(class-id: 0) =&gt; $class-id-type-choice
@@ -1338,6 +1320,24 @@ digest = [
 digests-type = [ + digest ]
 
 non-empty&lt;M&gt; = (M) .and ({ + any =&gt; any })
+</pre><a href="#section-2.1-2" class="pilcrow">¶</a>
+</div>
+<p id="section-2.1-3">CoMID inherits the following CDDL definitions from COSE <span>[<a href="#STD96" class="cite xref">STD96</a>]</span>:<a href="#section-2.1-3" class="pilcrow">¶</a></p>
+<div class="lang-cddl sourcecode" id="section-2.1-4">
+<pre>
+COSE_KeySet = [ + COSE_Key ]
+
+COSE_Key = {
+    1 =&gt; tstr / int
+    ? 2 =&gt; bstr
+    ? 3 =&gt; tstr / int
+    ? 4 =&gt; [+ (tstr / int) ]
+    ? 5 =&gt; bstr
+    * cose-label =&gt; cose-value
+}
+
+cose-label = int / tstr
+cose-value = any
 </pre><a href="#section-2.1-4" class="pilcrow">¶</a>
 </div>
 </section>
@@ -1369,16 +1369,16 @@ profile-type = oid-type / ~uri
           <h4 id="name-artifact-type">
 <a href="#section-2.2.1" class="section-number selfRef">2.2.1. </a><a href="#name-artifact-type" class="section-name selfRef">Artifact Type</a>
           </h4>
-<p id="section-2.2.1-1">The <code>artifact-type</code> field is the foremost discriminator of the query. It is a top-level category selector. Its three permissible values are <code>ta</code>, <code>ev</code> and <code>rv</code>. These correspond to the following three categories of endorsement artifact that can be identified in the RATS architecture:<a href="#section-2.2.1-1" class="pilcrow">¶</a></p>
+<p id="section-2.2.1-1">The <code>artifact-type</code> field is the foremost discriminator of the query. It is a top-level category selector. Its three permissible values are <code>trust-anchors</code> (codepoint 1), <code>endorsed-values</code> (codepoint 0) and <code>reference-values</code> (codepoint 2). These correspond to the following three categories of endorsement artifact that can be identified in the RATS architecture:<a href="#section-2.2.1-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-2.2.1-2.1">
-              <p id="section-2.2.1-2.1.1"><strong>Trust Anchor</strong> (<code>ta</code>): A trust anchor is as defined in <span>[<a href="#RFC6024" class="cite xref">RFC6024</a>]</span>. An example of a trust anchor would be the public part of the asymmetric signing key that is used by the Attester to sign Evidence, such that the Verifier is able to verify the cryptographic signature.<a href="#section-2.2.1-2.1.1" class="pilcrow">¶</a></p>
+              <p id="section-2.2.1-2.1.1"><strong>Trust Anchor</strong> (<code>trust-anchors</code>): A trust anchor is as defined in <span>[<a href="#RFC6024" class="cite xref">RFC6024</a>]</span>. An example of a trust anchor would be the public part of the asymmetric signing key that is used by the Attester to sign Evidence, such that the Verifier is able to verify the cryptographic signature.<a href="#section-2.2.1-2.1.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-2.2.1-2.2">
-              <p id="section-2.2.1-2.2.1"><strong>Endorsed Value</strong> (<code>ev</code>): An endorsed value is as defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-rats-corim-07#section-1.1.1" class="relref">Section 1.1.1</a> of [<a href="#I-D.ietf-rats-corim" class="cite xref">I-D.ietf-rats-corim</a>]</span>.<a href="#section-2.2.1-2.2.1" class="pilcrow">¶</a></p>
+              <p id="section-2.2.1-2.2.1"><strong>Endorsed Value</strong> (<code>endorsed-values</code>): An endorsed value is as defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-rats-corim-07#section-1.1.1" class="relref">Section 1.1.1</a> of [<a href="#I-D.ietf-rats-corim" class="cite xref">I-D.ietf-rats-corim</a>]</span>.<a href="#section-2.2.1-2.2.1" class="pilcrow">¶</a></p>
 </li>
             <li class="normal" id="section-2.2.1-2.3">
-              <p id="section-2.2.1-2.3.1"><strong>Reference Value</strong> (<code>rv</code>): A reference value is as defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-rats-corim-07#section-1.1.1" class="relref">Section 1.1.1</a> of [<a href="#I-D.ietf-rats-corim" class="cite xref">I-D.ietf-rats-corim</a>]</span>. A reference value specifies an individual aspect of the Attester's desired state. Reference values are sometimes informally called "golden values". An example of a reference value would be the expected hash or checksum of a binary firmware or software image running in the Attester's environment. Evidence from the Attester would then include claims about the Attester's actual state, which the Verifier can then compare with the reference values at Evidence appraisal time.<a href="#section-2.2.1-2.3.1" class="pilcrow">¶</a></p>
+              <p id="section-2.2.1-2.3.1"><strong>Reference Value</strong> (<code>reference-values</code>): A reference value is as defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-rats-corim-07#section-1.1.1" class="relref">Section 1.1.1</a> of [<a href="#I-D.ietf-rats-corim" class="cite xref">I-D.ietf-rats-corim</a>]</span>. A reference value specifies an individual aspect of the Attester's desired state. Reference values are sometimes informally called "golden values". An example of a reference value would be the expected hash or checksum of a binary firmware or software image running in the Attester's environment. Evidence from the Attester would then include claims about the Attester's actual state, which the Verifier can then compare with the reference values at Evidence appraisal time.<a href="#section-2.2.1-2.3.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 <p id="section-2.2.1-3">It is expected that implementations might choose to store these different categories of artifacts in different top-level stores or database tables. Where this is the case, the <code>artifact-type</code> field serves to narrow the query down to the correct store or table. Even where this is not the case, the discriminator is useful as a filter for the consumer, resulting in an efficiency gain by avoiding the transfer of unwanted data items.<a href="#section-2.2.1-3" class="pilcrow">¶</a></p>
@@ -1433,7 +1433,7 @@ selector //= ( &amp;(group: 2) =&gt; [ * $group-id-type-choice ] )
 <a href="#section-3" class="section-number selfRef">3. </a><a href="#name-examples" class="section-name selfRef">Examples</a>
       </h2>
 <p id="section-3-1">This section provides some illustrative examples of valid CoSERV query objects.<a href="#section-3-1" class="pilcrow">¶</a></p>
-<p id="section-3-2">The following example shows a query for Reference Values scoped by a single class. The <code>artifact-type</code> is set to <code>rv</code>, indicating a query for Reference Values. The <code>profile</code> is given the example value of <code>tag:example.com,2025:cc-platform#1.0.0</code>. Finally, the <code>environment-selector</code> uses the tag 0 to select for class, and the value contains a single entry with illustrative settings for the identifier, vendor and model.<a href="#section-3-2" class="pilcrow">¶</a></p>
+<p id="section-3-2">The following example shows a query for Reference Values scoped by a single class. The <code>artifact-type</code> is set to 2 (<code>reference-values</code>), indicating a query for Reference Values. The <code>profile</code> is given the example value of <code>tag:example.com,2025:cc-platform#1.0.0</code>. Finally, the <code>environment-selector</code> uses the key 0 to select for class, and the value contains a single entry with illustrative settings for the identifier, vendor and model.<a href="#section-3-2" class="pilcrow">¶</a></p>
 <div class="lang-edn sourcecode" id="section-3-3">
 <pre>
 {
@@ -1472,7 +1472,7 @@ selector //= ( &amp;(group: 2) =&gt; [ * $group-id-type-choice ] )
 }
 </pre><a href="#section-3-5" class="pilcrow">¶</a>
 </div>
-<p id="section-3-6">The following example shows a query for Reference Values scoped by instance. Again, the <code>artifact-type</code> is set to <code>rv</code>, and <code>profile</code> is given a demonstration value. The <code>environment-selector</code> now uses the tag 1 to select for instances, and the value contains two entries with example instance identifiers.<a href="#section-3-6" class="pilcrow">¶</a></p>
+<p id="section-3-6">The following example shows a query for Reference Values scoped by instance. Again, the <code>artifact-type</code> is set to 2, and <code>profile</code> is given a demonstration value. The <code>environment-selector</code> now uses the key 1 to select for instances, and the value contains two entries with example instance identifiers.<a href="#section-3-6" class="pilcrow">¶</a></p>
 <div class="lang-edn sourcecode" id="section-3-7">
 <pre>
 {
@@ -1602,10 +1602,10 @@ selector //= ( &amp;(group: 2) =&gt; [ * $group-id-type-choice ] )
 </div>
 </section>
 </div>
-<div id="coserv-cddl">
+<div id="collated-coserv-cddl">
 <section id="appendix-A">
-      <h2 id="name-coserv-cddl">
-<a href="#appendix-A" class="section-number selfRef">Appendix A. </a><a href="#name-coserv-cddl" class="section-name selfRef">CoSERV CDDL</a>
+      <h2 id="name-collated-coserv-cddl">
+<a href="#appendix-A" class="section-number selfRef">Appendix A. </a><a href="#name-collated-coserv-cddl" class="section-name selfRef">Collated CoSERV CDDL</a>
       </h2>
 <div class="alignLeft art-text artwork" id="appendix-A-1">
 <pre>
@@ -1620,6 +1620,85 @@ artifact-type = &amp;(endorsed-values: 0)
                 / &amp;(reference-values: 2)
 
 profile-type = oid-type / ~uri
+
+environment-selector-map = { selector }
+
+selector //= ( &amp;(class: 0) =&gt; [ * class-map ] )
+selector //= ( &amp;(instance: 1) =&gt; [ * $instance-id-type-choice ] )
+selector //= ( &amp;(group: 2) =&gt; [ * $group-id-type-choice ] )
+
+class-map = non-empty&lt;{
+  ? &amp;(class-id: 0) =&gt; $class-id-type-choice
+  ? &amp;(vendor: 1) =&gt; tstr
+  ? &amp;(model: 2) =&gt; tstr
+  ? &amp;(layer: 3) =&gt; uint
+  ? &amp;(index: 4) =&gt; uint
+}&gt;
+
+$class-id-type-choice /= tagged-oid-type
+$class-id-type-choice /= tagged-uuid-type
+$class-id-type-choice /= tagged-bytes
+
+$instance-id-type-choice /= tagged-ueid-type
+$instance-id-type-choice /= tagged-uuid-type
+$instance-id-type-choice /= $crypto-key-type-choice
+$instance-id-type-choice /= tagged-bytes
+
+$group-id-type-choice /= tagged-uuid-type
+$group-id-type-choice /= tagged-bytes
+
+tagged-bytes = #6.560(bytes)
+
+oid-type = bytes
+tagged-oid-type = #6.111(oid-type)
+
+ueid-type = bytes .size (7..33)
+tagged-ueid-type = #6.550(ueid-type)
+
+uuid-type = bytes .size 16
+tagged-uuid-type = #6.37(uuid-type)
+
+$crypto-key-type-choice /= tagged-pkix-base64-key-type
+$crypto-key-type-choice /= tagged-pkix-base64-cert-type
+$crypto-key-type-choice /= tagged-pkix-base64-cert-path-type
+$crypto-key-type-choice /= tagged-cose-key-type
+$crypto-key-type-choice /= tagged-thumbprint-type
+$crypto-key-type-choice /= tagged-cert-thumbprint-type
+$crypto-key-type-choice /= tagged-cert-path-thumbprint-type
+$crypto-key-type-choice /= tagged-pkix-asn1der-cert-type
+$crypto-key-type-choice /= tagged-bytes
+
+tagged-pkix-base64-key-type = #6.554(tstr)
+tagged-pkix-base64-cert-type = #6.555(tstr)
+tagged-pkix-base64-cert-path-type = #6.556(tstr)
+tagged-thumbprint-type = #6.557(digest)
+tagged-cose-key-type = #6.558(COSE_KeySet / COSE_Key)
+tagged-cert-thumbprint-type = #6.559(digest)
+tagged-cert-path-thumbprint-type = #6.561(digest)
+tagged-pkix-asn1der-cert-type = #6.562(bstr)
+
+digest = [
+  alg: (int / text),
+  val: bytes
+]
+
+digests-type = [ + digest ]
+
+non-empty&lt;M&gt; = (M) .and ({ + any =&gt; any })
+
+COSE_KeySet = [ + COSE_Key ]
+
+COSE_Key = {
+    1 =&gt; tstr / int
+    ? 2 =&gt; bstr
+    ? 3 =&gt; tstr / int
+    ? 4 =&gt; [+ (tstr / int) ]
+    ? 5 =&gt; bstr
+    * cose-label =&gt; cose-value
+}
+
+cose-label = int / tstr
+cose-value = any
 </pre><a href="#appendix-A-1" class="pilcrow">¶</a>
 </div>
 </section>

@@ -20,8 +20,8 @@ Abstract
    Selector for Endorsements and Reference Values (CoSERV), a structured
    query format designed to facilitate the discovery and retrieval of
    these artifacts from various providers.  CoSERV defines a query
-   language that can be expressed in both JSON and CBOR formats, with a
-   common CDDL schema, enabling interoperability across diverse systems.
+   language using CDDL that can be serialized in CBOR format, enabling
+   interoperability across diverse systems.
 
 About This Document
 
@@ -84,7 +84,7 @@ Table of Contents
    8.  References
      8.1.  Normative References
      8.2.  Informative References
-   Appendix A.  CoSERV CDDL
+   Appendix A.  Collated CoSERV CDDL
    Acknowledgments
    Authors' Addresses
 
@@ -118,7 +118,7 @@ Table of Contents
    [I-D.ietf-rats-corim].  CoSERV therefore borrows heavily from CoRIM,
    and shares some data types for its fields.  And, like CoRIM, the
    CoSERV schema is defined using CDDL [RFC8610].  A CoSERV query can be
-   serialized in both CBOR [STD94] and JSON [RFC8259] formats.
+   serialized in CBOR [STD94] format.
 
 1.1.  Terminology and Requirements Language
 
@@ -148,31 +148,13 @@ Table of Contents
    The CoSERV query language enables Verifiers to specify the desired
    characteristics of Endorsements and Reference Values based on the
    environment in which they are applicable.  This section presents the
-   JSON and CBOR data model for CoSERV queries.
+   CBOR data model for CoSERV queries.
 
    CDDL is used to express rules and constraints of the data model for
-   both JSON and CBOR.  These rules must be strictly followed when
-   creating or validating CoSERV data objects.  When there is variation
-   between CBOR and JSON, the JC<> CDDL generic defined in Appendix D of
-   [I-D.ietf-rats-eat] is used.
+   CBOR.  These rules must be strictly followed when creating or
+   validating CoSERV data objects.
 
 2.1.  Common Data Types
-
-   CoSERV inherits the following CDDL definitions from COSE [STD96]:
-
-   COSE_KeySet = [ + COSE_Key ]
-
-   COSE_Key = {
-       1 => tstr / int
-       ? 2 => bstr
-       ? 3 => tstr / int
-       ? 4 => [+ (tstr / int) ]
-       ? 5 => bstr
-       * cose-label => cose-value
-   }
-
-   cose-label = int / tstr
-   cose-value = any
 
    CoSERV inherits the following CDDL definitions from the Concise
    Module Identifier (CoMID) as defined in Section 5 of
@@ -237,6 +219,22 @@ Table of Contents
 
    non-empty<M> = (M) .and ({ + any => any })
 
+   CoMID inherits the following CDDL definitions from COSE [STD96]:
+
+   COSE_KeySet = [ + COSE_Key ]
+
+   COSE_Key = {
+       1 => tstr / int
+       ? 2 => bstr
+       ? 3 => tstr / int
+       ? 4 => [+ (tstr / int) ]
+       ? 5 => bstr
+       * cose-label => cose-value
+   }
+
+   cose-label = int / tstr
+   cose-value = any
+
 2.2.  Query Structure
 
    The top-level structure of a CoSERV query is given by the following
@@ -261,26 +259,27 @@ Table of Contents
 
    The artifact-type field is the foremost discriminator of the query.
    It is a top-level category selector.  Its three permissible values
-   are ta, ev and rv.  These correspond to the following three
-   categories of endorsement artifact that can be identified in the RATS
-   architecture:
+   are trust-anchors (codepoint 1), endorsed-values (codepoint 0) and
+   reference-values (codepoint 2).  These correspond to the following
+   three categories of endorsement artifact that can be identified in
+   the RATS architecture:
 
-   *  *Trust Anchor* (ta): A trust anchor is as defined in [RFC6024].
-      An example of a trust anchor would be the public part of the
-      asymmetric signing key that is used by the Attester to sign
+   *  *Trust Anchor* (trust-anchors): A trust anchor is as defined in
+      [RFC6024].  An example of a trust anchor would be the public part
+      of the asymmetric signing key that is used by the Attester to sign
       Evidence, such that the Verifier is able to verify the
       cryptographic signature.
 
-   *  *Endorsed Value* (ev): An endorsed value is as defined in
-      Section 1.1.1 of [I-D.ietf-rats-corim].
+   *  *Endorsed Value* (endorsed-values): An endorsed value is as
+      defined in Section 1.1.1 of [I-D.ietf-rats-corim].
 
-   *  *Reference Value* (rv): A reference value is as defined in
-      Section 1.1.1 of [I-D.ietf-rats-corim].  A reference value
-      specifies an individual aspect of the Attester's desired state.
-      Reference values are sometimes informally called "golden values".
-      An example of a reference value would be the expected hash or
-      checksum of a binary firmware or software image running in the
-      Attester's environment.  Evidence from the Attester would then
+   *  *Reference Value* (reference-values): A reference value is as
+      defined in Section 1.1.1 of [I-D.ietf-rats-corim].  A reference
+      value specifies an individual aspect of the Attester's desired
+      state.  Reference values are sometimes informally called "golden
+      values".  An example of a reference value would be the expected
+      hash or checksum of a binary firmware or software image running in
+      the Attester's environment.  Evidence from the Attester would then
       include claims about the Attester's actual state, which the
       Verifier can then compare with the reference values at Evidence
       appraisal time.
@@ -364,12 +363,12 @@ Table of Contents
    query objects.
 
    The following example shows a query for Reference Values scoped by a
-   single class.  The artifact-type is set to rv, indicating a query for
-   Reference Values.  The profile is given the example value of
-   tag:example.com,2025:cc-platform#1.0.0.  Finally, the environment-
-   selector uses the tag 0 to select for class, and the value contains a
-   single entry with illustrative settings for the identifier, vendor
-   and model.
+   single class.  The artifact-type is set to 2 (reference-values),
+   indicating a query for Reference Values.  The profile is given the
+   example value of tag:example.com,2025:cc-platform#1.0.0.  Finally,
+   the environment-selector uses the key 0 to select for class, and the
+   value contains a single entry with illustrative settings for the
+   identifier, vendor and model.
 
    {
      0: 2,
@@ -407,10 +406,10 @@ Table of Contents
    }
 
    The following example shows a query for Reference Values scoped by
-   instance.  Again, the artifact-type is set to rv, and profile is
-   given a demonstration value.  The environment-selector now uses the
-   tag 1 to select for instances, and the value contains two entries
-   with example instance identifiers.
+   instance.  Again, the artifact-type is set to 2, and profile is given
+   a demonstration value.  The environment-selector now uses the key 1
+   to select for instances, and the value contains two entries with
+   example instance identifiers.
 
    {
      0: 2,
@@ -529,7 +528,7 @@ Table of Contents
               Requirements", RFC 6024, DOI 10.17487/RFC6024, October
               2010, <https://www.rfc-editor.org/rfc/rfc6024>.
 
-Appendix A.  CoSERV CDDL
+Appendix A.  Collated CoSERV CDDL
 
    coserv = {
      &(artifact-type: 0) => artifact-type
@@ -542,6 +541,85 @@ Appendix A.  CoSERV CDDL
                    / &(reference-values: 2)
 
    profile-type = oid-type / ~uri
+
+   environment-selector-map = { selector }
+
+   selector //= ( &(class: 0) => [ * class-map ] )
+   selector //= ( &(instance: 1) => [ * $instance-id-type-choice ] )
+   selector //= ( &(group: 2) => [ * $group-id-type-choice ] )
+
+   class-map = non-empty<{
+     ? &(class-id: 0) => $class-id-type-choice
+     ? &(vendor: 1) => tstr
+     ? &(model: 2) => tstr
+     ? &(layer: 3) => uint
+     ? &(index: 4) => uint
+   }>
+
+   $class-id-type-choice /= tagged-oid-type
+   $class-id-type-choice /= tagged-uuid-type
+   $class-id-type-choice /= tagged-bytes
+
+   $instance-id-type-choice /= tagged-ueid-type
+   $instance-id-type-choice /= tagged-uuid-type
+   $instance-id-type-choice /= $crypto-key-type-choice
+   $instance-id-type-choice /= tagged-bytes
+
+   $group-id-type-choice /= tagged-uuid-type
+   $group-id-type-choice /= tagged-bytes
+
+   tagged-bytes = #6.560(bytes)
+
+   oid-type = bytes
+   tagged-oid-type = #6.111(oid-type)
+
+   ueid-type = bytes .size (7..33)
+   tagged-ueid-type = #6.550(ueid-type)
+
+   uuid-type = bytes .size 16
+   tagged-uuid-type = #6.37(uuid-type)
+
+   $crypto-key-type-choice /= tagged-pkix-base64-key-type
+   $crypto-key-type-choice /= tagged-pkix-base64-cert-type
+   $crypto-key-type-choice /= tagged-pkix-base64-cert-path-type
+   $crypto-key-type-choice /= tagged-cose-key-type
+   $crypto-key-type-choice /= tagged-thumbprint-type
+   $crypto-key-type-choice /= tagged-cert-thumbprint-type
+   $crypto-key-type-choice /= tagged-cert-path-thumbprint-type
+   $crypto-key-type-choice /= tagged-pkix-asn1der-cert-type
+   $crypto-key-type-choice /= tagged-bytes
+
+   tagged-pkix-base64-key-type = #6.554(tstr)
+   tagged-pkix-base64-cert-type = #6.555(tstr)
+   tagged-pkix-base64-cert-path-type = #6.556(tstr)
+   tagged-thumbprint-type = #6.557(digest)
+   tagged-cose-key-type = #6.558(COSE_KeySet / COSE_Key)
+   tagged-cert-thumbprint-type = #6.559(digest)
+   tagged-cert-path-thumbprint-type = #6.561(digest)
+   tagged-pkix-asn1der-cert-type = #6.562(bstr)
+
+   digest = [
+     alg: (int / text),
+     val: bytes
+   ]
+
+   digests-type = [ + digest ]
+
+   non-empty<M> = (M) .and ({ + any => any })
+
+   COSE_KeySet = [ + COSE_Key ]
+
+   COSE_Key = {
+       1 => tstr / int
+       ? 2 => bstr
+       ? 3 => tstr / int
+       ? 4 => [+ (tstr / int) ]
+       ? 5 => bstr
+       * cose-label => cose-value
+   }
+
+   cose-label = int / tstr
+   cose-value = any
 
 Acknowledgments
 
