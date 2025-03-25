@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-03-23T00:46:02.099379+00:00",
+  "timestamp": "2025-03-25T00:43:08.545189+00:00",
   "repo": "paulhowardarm/draft-rats-howard-coserv",
   "labels": [
     {
@@ -114,6 +114,48 @@
           "body": "Looks great, thank you!",
           "createdAt": "2025-03-20T16:33:14Z",
           "updatedAt": "2025-03-20T16:33:14Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "id": "PR_kwDOOAZd1M6P3wHQ",
+      "title": "allow only one selector type at a time",
+      "url": "https://github.com/paulhowardarm/draft-rats-howard-coserv/pull/3",
+      "state": "MERGED",
+      "author": "thomas-fossati",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "also:\r\n* add a couple more examples\r\n* fix error in CoMID",
+      "createdAt": "2025-03-24T13:27:01Z",
+      "updatedAt": "2025-03-24T13:30:30Z",
+      "baseRepository": "paulhowardarm/draft-rats-howard-coserv",
+      "baseRefName": "main",
+      "baseRefOid": "7f2b69cfe6d879b17ab93329f6a3006a2b26d68b",
+      "headRepository": "paulhowardarm/draft-rats-howard-coserv",
+      "headRefName": "more-proto",
+      "headRefOid": "007f37cb6a05d9523c2c5a07298ca716cb15088d",
+      "closedAt": "2025-03-24T13:30:30Z",
+      "mergedAt": "2025-03-24T13:30:30Z",
+      "mergedBy": "paulhowardarm",
+      "mergeCommit": {
+        "oid": "590e6c2270895b0754e0a3efda3d1645917032ab"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOOAZd1M6hjVBZ",
+          "commit": {
+            "abbreviatedOid": "007f37c"
+          },
+          "author": "paulhowardarm",
+          "authorAssociation": "OWNER",
+          "state": "APPROVED",
+          "body": "Looks good. Thanks.",
+          "createdAt": "2025-03-24T13:29:21Z",
+          "updatedAt": "2025-03-24T13:29:21Z",
           "comments": []
         }
       ]
