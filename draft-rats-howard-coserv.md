@@ -91,16 +91,16 @@ CDDL is used to express rules and constraints of the data model for CBOR. These 
 
 ## Common Data Types
 
-CoSERV inherits the following CDDL definitions from COSE {{-cose}}:
-
-~~~cddl
-{::include cddl/mini-cose.cddl}
-~~~
-
 CoSERV inherits the following CDDL definitions from the Concise Module Identifier (CoMID) as defined in {{Section 5 of -rats-corim}}.
 
 ~~~cddl
 {::include cddl/mini-comid.cddl}
+~~~
+
+CoMID inherits the following CDDL definitions from COSE {{-cose}}:
+
+~~~cddl
+{::include cddl/mini-cose.cddl}
 ~~~
 
 ## Query Structure
