@@ -151,7 +151,7 @@ Although these three environment definitions are mutually-exclusive in a CoSERV 
 
 This section provides some illustrative examples of valid CoSERV query objects.
 
-The following example shows a query for Reference Values scoped by a single class. The `artifact-type` is set to 2 (`reference-values`), indicating a query for Reference Values. The `profile` is given the example value of `tag:example.com,2025:cc-platform#1.0.0`. Finally, the `environment-selector` uses the tag 0 to select for class, and the value contains a single entry with illustrative settings for the identifier, vendor and model.
+The following example shows a query for Reference Values scoped by a single class. The `artifact-type` is set to 2 (`reference-values`), indicating a query for Reference Values. The `profile` is given the example value of `tag:example.com,2025:cc-platform#1.0.0`. Finally, the `environment-selector` uses the key 0 to select for class, and the value contains a single entry with illustrative settings for the identifier, vendor and model.
 
 ~~~edn
 {::include-fold cddl/examples/rv-class-simple.diag}
@@ -163,7 +163,7 @@ The next example is similar, but adds a second entry to the set of classes in th
 {::include-fold cddl/examples/rv-class-two-entries.diag}
 ~~~
 
-The following example shows a query for Reference Values scoped by instance. Again, the `artifact-type` is set to 2, and `profile` is given a demonstration value. The `environment-selector` now uses the tag 1 to select for instances, and the value contains two entries with example instance identifiers.
+The following example shows a query for Reference Values scoped by instance. Again, the `artifact-type` is set to 2, and `profile` is given a demonstration value. The `environment-selector` now uses the key 1 to select for instances, and the value contains two entries with example instance identifiers.
 
 ~~~edn
 {::include-fold cddl/examples/rv-instance-two-entries.diag}
