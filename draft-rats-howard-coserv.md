@@ -47,6 +47,7 @@ normative:
 
 informative:
   RFC6024: TA requirements
+  RFC7942: Improving Awareness of Running Code
   I-D.ietf-rats-endorsements: rats-endorsements
   I-D.ietf-rats-corim: rats-corim
   I-D.ietf-rats-eat: rats-eat
@@ -196,6 +197,36 @@ Again, the `artifact-type` is set to 2, and `profile` is given a demonstration v
 {::include-fold cddl/examples/rv-instance-two-entries.diag}
 ~~~
 
+# Implementation Status
+[^rfced] please remove this section prior to publication.
+
+This section records the status of known implementations of the protocol defined by this specification at the time of posting of this Internet-Draft, and is based on a proposal described in {{RFC7942}}.
+The description of implementations in this section is intended to assist the IETF in its decision processes in progressing drafts to RFCs.
+Please note that the listing of any individual implementation here does not imply endorsement by the IETF.
+Furthermore, no effort has been spent to verify the information presented here that was supplied by IETF contributors.
+This is not intended as, and must not be construed to be, a catalog of available implementations or their features.
+Readers are advised to note that other implementations may exist.
+
+According to {{RFC7942}}, "this will allow reviewers and working groups to assign due consideration to documents that have the benefit of running code, which may serve as evidence of valuable experimentation and feedback that have made the implemented protocols more mature.
+It is up to the individual working groups to use this information as they see fit".
+
+## Veraison
+Responsible Organisation: Veraison (open source project within the Confidential Computing Consortium).
+
+Location: https://github.com/veraison
+
+Description: Veraison provides components that can be used to build a Verifier, and also exemplifies adjacent RATS roles such as the Relying Party.
+There is an active effort to extend Veraison so that it can act in the capacity of an Endorser or Reference Value Provider, showing how CoSERV can be used as a query language for such services.
+This includes library code to assist with the creation, parsing and manipulation of CoSERV queries.
+
+Level of Maturity: This is a proof-of-concept prototype implementation.
+
+License: Apache-2.0.
+
+Coverage: This implementation covers all aspects of the CoSERV query language.
+
+Contact: Thomas Fossati, Thomas.Fossati@linaro.org
+
 # Security Considerations {#seccons}
 The CoSERV data type serves an auxiliary function in the RATS architecture.
 It does not directly convey Evidence, Endorsements, Reference Values, Policies or Attestation Results.
@@ -220,9 +251,6 @@ Suitable mitigations include the following:
 
 - The use of authenticated secure channels between the producers and the consumers of CoSERV queries and returned artifacts.
 - Collating Attester instances into anonymity groups, and referencing the groups rather than the individual instances.
-
-# Implementation Status
-TODO
 
 # IANA Considerations
 
@@ -304,3 +332,5 @@ Provisional registration:
 {:numbered="false"}
 
 TODO acknowledge.
+
+[^rfced]: RFC Editor:
