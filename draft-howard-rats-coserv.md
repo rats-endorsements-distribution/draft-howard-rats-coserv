@@ -9,20 +9,20 @@ number:
 date:
 consensus: true
 v: 3
-# area: AREA
-# workgroup: WG Working Group
+area: "Security"
+workgroup: "Remote ATtestation ProcedureS"
 keyword:
  - RATS
  - attestation
  - endorsement
  - reference value
 venue:
-#  group: WG
-#  type: Working Group
-#  mail: WG@example.com
-#  arch: https://example.com/WG
-  github: "paulhowardarm/draft-rats-howard-coserv"
-  latest: "https://paulhowardarm.github.io/draft-rats-howard-coserv/draft-howard-rats-coserv.html"
+  group: "Remote ATtestation ProcedureS"
+  type: "Working Group"
+  mail: "rats@ietf.org"
+  arch: "https://mailarchive.ietf.org/arch/browse/rats/"
+  github: "rats-endorsements-distribution/draft-howard-rats-coserv"
+  latest: "https://rats-endorsements-distribution.github.io/draft-howard-rats-coserv/draft-howard-rats-coserv.html"
 
 author:
 - ins: P. Howard
