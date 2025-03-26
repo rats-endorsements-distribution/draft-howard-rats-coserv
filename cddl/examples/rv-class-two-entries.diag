@@ -1,15 +1,16 @@
 {
-  0: 2,
-  1: "tag:example.com,2025:cc-platform#1.0.0",
-  2: {
-    0: [
+  / artifact-type / 0: 2, / reference-values /
+  / profile /       1: "tag:example.com,2025:cc-platform#1.0.0",
+  / environment-selector /  2: {
+    / class / 0: [
       {
-        0: 560(h'8999786556'),
-        1: "Example Vendor",
-        2: "Example Model"
+        / class-id /  0: 560(h'8999786556'),  / tagged-bytes /
+        / vendor /    1: "Example Vendor",
+        / model /     2: "Example Model"
       },
       {
-        0: 37(h'31FB5ABF023E4992AA4E95F9C1503BFA')
+        / class-id /  0:
+          37(h'31FB5ABF023E4992AA4E95F9C1503BFA')  / UUID /
       }
     ]
   }
