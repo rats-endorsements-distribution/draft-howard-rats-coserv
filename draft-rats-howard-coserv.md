@@ -209,7 +209,14 @@ Examples of such desirable characteristics might be:
 - Queries cannot be intercepted or undetectably modified by an entity that is interposed between the Verifier and the Endorser or Reference Value Provider.
 
 # Privacy Considerations
-TODO
+A CoSERV query can potentially contain privacy-sensitive information.
+Specifically, the `environment-selector` field of the query may reference identifiable Attester instances in some cases.
+This concern naturally also extends to the data objects that might be returned to the consumer in response to the query, although the specifications of such data objects are beyond the scope of this document.
+Implementations should ensure that appropriate attention is paid to this.
+Suitable mitigations include the following:
+
+- The use of authenticated secure channels between the producers and the consumers of CoSERV queries and returned artifacts.
+- Collating Attester instances into anonymity groups, and referencing the groups rather than the individual instances.
 
 # Implementation Status
 TODO
