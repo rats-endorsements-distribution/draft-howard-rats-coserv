@@ -1426,14 +1426,14 @@ Finally, the <code>environment-selector</code> uses the key 0 to select for clas
 <div class="lang-edn sourcecode" id="section-3-3">
 <pre>
 {
-  0: 2,
-  1: "tag:example.com,2025:cc-platform#1.0.0",
-  2: {
-    0: [
+  / artifact-type / 0: 2, / reference-values /
+  / profile /       1: "tag:example.com,2025:cc-platform#1.0.0",
+  / environment-selector /  2: {
+    / class / 0: [
       {
-        0: 560(h'00112233'),
-        1: "Example Vendor",
-        2: "Example Model"
+        / class-id /  0: 560(h'00112233'),  / tagged-bytes /
+        / vendor /    1: "Example Vendor",
+        / model /     2: "Example Model"
       }
     ]
   }
@@ -1444,17 +1444,18 @@ Finally, the <code>environment-selector</code> uses the key 0 to select for clas
 <div class="lang-edn sourcecode" id="section-3-5">
 <pre>
 {
-  0: 2,
-  1: "tag:example.com,2025:cc-platform#1.0.0",
-  2: {
-    0: [
+  / artifact-type / 0: 2, / reference-values /
+  / profile /       1: "tag:example.com,2025:cc-platform#1.0.0",
+  / environment-selector /  2: {
+    / class / 0: [
       {
-        0: 560(h'8999786556'),
-        1: "Example Vendor",
-        2: "Example Model"
+        / class-id /  0: 560(h'8999786556'),  / tagged-bytes /
+        / vendor /    1: "Example Vendor",
+        / model /     2: "Example Model"
       },
       {
-        0: 37(h'31FB5ABF023E4992AA4E95F9C1503BFA')
+        / class-id /  0:
+          37(h'31FB5ABF023E4992AA4E95F9C1503BFA')  / UUID /
       }
     ]
   }
@@ -1466,12 +1467,12 @@ Again, the <code>artifact-type</code> is set to 2, and <code>profile</code> is g
 <div class="lang-edn sourcecode" id="section-3-7">
 <pre>
 {
-  0: 2,
-  1: "tag:example.com,2025:cc-platform#1.0.0",
-  2: {
-    1: [
-      550(h'02DEADBEEFDEAD'),
-      560(h'8999786556')
+  / artifact-type / 0: 2, / reference-values /
+  / profile /       1: "tag:example.com,2025:cc-platform#1.0.0",
+  / environment-selector /  2: {
+    / instance / 1: [
+      550(h'02DEADBEEFDEAD'), / UEID /
+      560(h'8999786556')      / tagged-bytes /
     ]
   }
 }
