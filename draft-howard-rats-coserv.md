@@ -3,7 +3,7 @@ title: "Concise Selector for Endorsements and Reference Values"
 abbrev: "CoSERV"
 category: info
 
-docname: draft-rats-howard-coserv-latest
+docname: draft-howard-rats-coserv-latest
 submissiontype: IETF  # also: "independent", "editorial", "IAB", or "IRTF"
 number:
 date:
@@ -22,7 +22,7 @@ venue:
 #  mail: WG@example.com
 #  arch: https://example.com/WG
   github: "paulhowardarm/draft-rats-howard-coserv"
-  latest: "https://paulhowardarm.github.io/draft-rats-howard-coserv/draft-rats-howard-coserv.html"
+  latest: "https://paulhowardarm.github.io/draft-rats-howard-coserv/draft-howard-rats-coserv.html"
 
 author:
 - ins: P. Howard
