@@ -297,9 +297,9 @@ Table of Contents
    CoSERV query to gain efficiency when responding to a future identical
    query.  For these use cases to be effective, it is essential that any
    given CoSERV query is always serialized to the same fixed sequence of
-   CBOR bytes.  Therefore, CoSERV queries MUST always use deterministic
-   encoding.  Further, CoSERV queries MUST NOT use indefinite-length
-   (streaming) encoding.
+   CBOR bytes.  Therefore, CoSERV queries MUST always use CBOR
+   deterministic encoding as specified in Section 4.2 of [STD94].
+   Further, CoSERV queries MUST use CBOR definite-length encoding.
 
 3.  Examples
 

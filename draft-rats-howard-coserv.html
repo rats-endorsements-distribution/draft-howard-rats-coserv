@@ -1407,8 +1407,8 @@ For example, it would not be possible to query for both class-level and instance
 <p id="section-2.3-1">Implementations may wish to use serialized CoSERV queries as canonical identifiers for artifact collections.
 For example, a Reference Value Provider service may wish the cache the results of a CoSERV query to gain efficiency when responding to a future identical query.
 For these use cases to be effective, it is essential that any given CoSERV query is always serialized to the same fixed sequence of CBOR bytes.
-Therefore, CoSERV queries <span class="bcp14">MUST</span> always use deterministic encoding.
-Further, CoSERV queries <span class="bcp14">MUST NOT</span> use indefinite-length (streaming) encoding.<a href="#section-2.3-1" class="pilcrow">¶</a></p>
+Therefore, CoSERV queries <span class="bcp14">MUST</span> always use CBOR deterministic encoding as specified in <span><a href="https://rfc-editor.org/rfc/rfc8949#section-4.2" class="relref">Section 4.2</a> of [<a href="#STD94" class="cite xref">STD94</a>]</span>.
+Further, CoSERV queries <span class="bcp14">MUST</span> use CBOR definite-length encoding.<a href="#section-2.3-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
