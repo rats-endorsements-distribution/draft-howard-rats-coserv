@@ -1,17 +1,19 @@
-# Concise Selector for Endorsements and Reference Values (CoSERV)
+<!-- regenerate: on (set to off if you edit this file) -->
+
+# Concise Selector for Endorsements and Reference Values
 
 This is the working area for the individual Internet-Draft, "Concise Selector for Endorsements and Reference Values".
 
-* [Editor's Copy](https://paulhowardarm.github.io/draft-rats-howard-coserv/#go.draft-rats-howard-coserv.html)
-* [Datatracker Page](https://datatracker.ietf.org/doc/draft-rats-howard-coserv)
-* [Individual Draft](https://datatracker.ietf.org/doc/html/draft-rats-howard-coserv)
-* [Compare Editor's Copy to Individual Draft](https://paulhowardarm.github.io/draft-rats-howard-coserv/#go.draft-rats-howard-coserv.diff)
+* [Editor's Copy](https://rats-endorsements-distribution.github.io/draft-howard-rats-coserv/#go.draft-howard-rats-coserv.html)
+* [Datatracker Page](https://datatracker.ietf.org/doc/draft-howard-rats-coserv)
+* [Individual Draft](https://datatracker.ietf.org/doc/html/draft-howard-rats-coserv)
+* [Compare Editor's Copy to Individual Draft](https://rats-endorsements-distribution.github.io/draft-howard-rats-coserv/#go.draft-howard-rats-coserv.diff)
 
 
 ## Contributing
 
 See the
-[guidelines for contributions](https://github.com/paulhowardarm/draft-rats-howard-coserv/blob/main/CONTRIBUTING.md).
+[guidelines for contributions](https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/blob/main/CONTRIBUTING.md).
 
 Contributions can be made by creating pull requests.
 The GitHub interface supports creating pull requests using the Edit (✏) button.

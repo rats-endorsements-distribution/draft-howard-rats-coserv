@@ -1,4 +1,4 @@
 # License
 
 See the
-[guidelines for contributions](https://github.com/paulhowardarm/draft-rats-howard-coserv/blob/main/CONTRIBUTING.md).
+[guidelines for contributions](https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/blob/main/CONTRIBUTING.md).
