@@ -249,6 +249,11 @@ Examples of such desirable characteristics might be:
 - The Verifier is authorised to query data from the Endorser or Reference Value Provider.
 - Queries cannot be intercepted or undetectably modified by an entity that is interposed between the Verifier and the Endorser or Reference Value Provider.
 
+## Forming Native Database Queries from CoSERV
+Implementations should take care when transforming CoSERV queries into native query types that are compatible with their underlying storage technology (such as SQL queries).
+There is a risk of injection attacks arising from poorly-formed or maliciously-formed CoSERV queries.
+Implementations must ensure that suitable sanitization procedures are in place when performing such translations.
+
 # Privacy Considerations
 A CoSERV query can potentially contain privacy-sensitive information.
 Specifically, the `environment-selector` field of the query may reference identifiable Attester instances in some cases.
