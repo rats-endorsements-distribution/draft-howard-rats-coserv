@@ -171,6 +171,13 @@ Likewise for classes and groups.
 However, it would not be possible for a single query to specify more than one kind of environment.
 For example, it would not be possible to query for both class-level and instance-level artifacts in a single CoSERV transaction.
 
+## Encoding Requirements
+Implementations may wish to use serialized CoSERV queries as canonical identifiers for artifact collections.
+For example, a Reference Value Provider service may wish the cache the results of a CoSERV query to gain efficiency when responding to a future identical query.
+For these use cases to be effective, it is essential that any given CoSERV query is always serialized to the same fixed sequence of CBOR bytes.
+Therefore, CoSERV queries MUST always use deterministic encoding.
+Further, CoSERV queries MUST NOT use indefinite-length (streaming) encoding.
+
 # Examples
 
 This section provides some illustrative examples of valid CoSERV query objects.
