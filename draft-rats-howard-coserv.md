@@ -51,6 +51,9 @@ informative:
   I-D.ietf-rats-corim: rats-corim
   I-D.ietf-rats-eat: rats-eat
 
+entity:
+  SELF: "RFCthis"
+
 --- abstract
 
 In the Remote Attestation Procedures (RATS) architecture, Verifiers require Endorsements and Reference Values to assess the trustworthiness of Attesters.
@@ -193,7 +196,7 @@ Again, the `artifact-type` is set to 2, and `profile` is given a demonstration v
 {::include-fold cddl/examples/rv-instance-two-entries.diag}
 ~~~
 
-# Security Considerations
+# Security Considerations {#seccons}
 The CoSERV data type serves an auxiliary function in the RATS architecture.
 It does not directly convey Evidence, Endorsements, Reference Values, Policies or Attestation Results.
 CoSERV exists only to facilitate the interactions between the Verifier and the Endorser or Reference Value Provider roles.
@@ -223,7 +226,65 @@ TODO
 
 # IANA Considerations
 
-TODO: Add media type requests for `application/serv+cbor` and `application/serv+json`.
+[^rfced] replace "{{&SELF}}" with the RFC number assigned to this document.
+
+## Media Types Registrations
+
+IANA is requested to add the following media types to the "Media Types" registry {{!IANA.media-types}}.
+
+| Name | Template | Reference |
+|-----------------|-------------------------|-----------|
+| `coserv+cbor` | `application/coserv+cbor` | {{&SELF}} |
+{: #tab-mc-regs title="CoSERV Media Types"}
+
+### `application/coserv+cbor`
+
+{:compact}
+Type name:
+: application
+
+Subtype name:
+: coserv+cbor
+
+Required parameters:
+: n/a
+
+Optional parameters:
+: n/a
+
+Encoding considerations:
+: binary (CBOR)
+
+Security considerations:
+: {{seccons}} of {{&SELF}}
+
+Interoperability considerations:
+: n/a
+
+Published specification:
+: {{&SELF}}
+
+Applications that use this media type:
+: Verifiers, Endorsers, Reference Value Providers
+
+Fragment identifier considerations:
+: The syntax and semantics of fragment identifiers are as specified for "application/cbor". (No fragment identification syntax is currently defined for "application/cbor".)
+
+Person & email address to contact for further information:
+: RATS WG mailing list (rats@ietf.org)
+
+Intended usage:
+: COMMON
+
+Restrictions on usage:
+: none
+
+Author/Change controller:
+: IETF
+
+Provisional registration:
+: no
+
 
 --- back
 
