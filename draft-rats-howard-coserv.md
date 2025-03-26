@@ -103,17 +103,9 @@ These rules must be strictly followed when creating or validating CoSERV data ob
 
 ## Common Data Types
 
-CoSERV inherits the following CDDL definitions from the Concise Module Identifier (CoMID) as defined in {{Section 5 of -rats-corim}}.
+CoSERV inherits the following types from the CoRIM data model `class-map`, `$class-id-type-choice`, `$instance-id-type-choice` and `$group-id-type-choice`.
 
-~~~cddl
-{::include cddl/mini-comid.cddl}
-~~~
-
-CoMID inherits the following CDDL definitions from COSE {{-cose}}:
-
-~~~cddl
-{::include cddl/mini-cose.cddl}
-~~~
+The collated CDDL is in {{collated-cddl}}.
 
 ## Query Structure
 
@@ -228,7 +220,7 @@ TODO: Add media type requests for `application/serv+cbor` and `application/serv+
 
 --- back
 
-# Collated CoSERV CDDL
+# Collated CoSERV CDDL {#collated-cddl}
 
 ~~~
 {::include-fold cddl/coserv.cddl}
