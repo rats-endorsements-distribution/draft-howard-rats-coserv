@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-03-27T00:42:31.185712+00:00",
+  "timestamp": "2025-03-30T00:47:02.682340+00:00",
   "repo": "rats-endorsements-distribution/draft-howard-rats-coserv",
   "labels": [
     {
@@ -119,6 +119,22 @@
       "body": "We need to clearly explain CoSERV's query semantics, i.e.:\n\n* The entries in the class/istance/group array represent alternatives (`OR`)\n* In a given class:\n    * All fields that are set must match (`AND`)\n    * Any unset fields are wildcards (`*`)\n\nTo illustrate the concepts, we can use the `ToSQL` examples in [`coserv/environmentselector_test.go`](https://github.com/veraison/corim/blob/coserv/coserv/environmentselector_test.go)\n",
       "createdAt": "2025-03-26T20:42:42Z",
       "updatedAt": "2025-03-26T20:44:35Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 10,
+      "id": "I_kwDOOAZd1M6wDUHS",
+      "title": "fix cardinality of the selectors",
+      "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/issues/10",
+      "state": "OPEN",
+      "author": "thomas-fossati",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "We currently have 0..n:\n```\nselector //= ( &(class: 0) => [ * class-map ] )\n```\n\nIt should be 1..n:\n```\nselector //= ( &(class: 0) => [ + class-map ] )\n```",
+      "createdAt": "2025-03-27T16:27:38Z",
+      "updatedAt": "2025-03-27T16:27:38Z",
       "closedAt": null,
       "comments": []
     }
