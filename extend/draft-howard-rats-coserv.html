@@ -1799,6 +1799,28 @@ selector //= ( &amp;(class: 0) =&gt; [ * class-map ] )
 selector //= ( &amp;(instance: 1) =&gt; [ * $instance-id-type-choice ] )
 selector //= ( &amp;(group: 2) =&gt; [ * $group-id-type-choice ] )
 
+concise-mid-tag = {
+  ? &amp;(language: 0) =&gt; text
+  &amp;(tag-identity: 1) =&gt; tag-identity-map
+  ? &amp;(entities: 2) =&gt; [ + comid-entity-map ]
+  ? &amp;(linked-tags: 3) =&gt; [ + linked-tag-map ]
+  &amp;(triples: 4) =&gt; triples-map
+  * $$concise-mid-tag-extension
+}
+
+attest-key-triple-record = [
+  environment: environment-map
+  key-list: [ + $crypto-key-type-choice ]
+  ? conditions: non-empty&lt; {
+    ? &amp;(mkey: 0) =&gt; $measured-element-type-choice,
+    ? &amp;(authorized-by: 1) =&gt; [ + $crypto-key-type-choice ]
+  }&gt;
+]
+
+$class-id-type-choice /= tagged-oid-type
+$class-id-type-choice /= tagged-uuid-type
+$class-id-type-choice /= tagged-bytes
+
 class-map = non-empty&lt;{
   ? &amp;(class-id: 0) =&gt; $class-id-type-choice
   ? &amp;(vendor: 1) =&gt; tstr
@@ -1807,28 +1829,43 @@ class-map = non-empty&lt;{
   ? &amp;(index: 4) =&gt; uint
 }&gt;
 
-$class-id-type-choice /= tagged-oid-type
-$class-id-type-choice /= tagged-uuid-type
-$class-id-type-choice /= tagged-bytes
+comid-entity-map =
+  entity-map&lt;$comid-role-type-choice, $$comid-entity-map-extension&gt;
 
-$instance-id-type-choice /= tagged-ueid-type
-$instance-id-type-choice /= tagged-uuid-type
-$instance-id-type-choice /= $crypto-key-type-choice
-$instance-id-type-choice /= tagged-bytes
+$comid-role-type-choice /= &amp;(tag-creator: 0)
+$comid-role-type-choice /= &amp;(creator: 1)
+$comid-role-type-choice /= &amp;(maintainer: 2)
 
-$group-id-type-choice /= tagged-uuid-type
-$group-id-type-choice /= tagged-bytes
+conditional-endorsement-series-triple-record = [
+  condition: stateful-environment-record
+  series: [ + conditional-series-record ]
+]
 
-tagged-bytes = #6.560(bytes)
+conditional-series-record = [
+  selection: [ + measurement-map]
+  addition: [ + measurement-map ]
+]
 
-oid-type = bytes
-tagged-oid-type = #6.111(oid-type)
+COSE_KeySet = [ + COSE_Key ]
 
-ueid-type = bytes .size (7..33)
-tagged-ueid-type = #6.550(ueid-type)
+COSE_Key = {
+    1 =&gt; tstr / int
+    ? 2 =&gt; bstr
+    ? 3 =&gt; tstr / int
+    ? 4 =&gt; [+ (tstr / int) ]
+    ? 5 =&gt; bstr
+    * cose-label =&gt; cose-value
+}
 
-uuid-type = bytes .size 16
-tagged-uuid-type = #6.37(uuid-type)
+cose-label = int / tstr
+cose-value = any
+
+coswid-triple-record = [
+  environment-map
+  [ + concise-swid-tag-id ]
+]
+
+concise-swid-tag-id = text / bstr .size 16
 
 $crypto-key-type-choice /= tagged-pkix-base64-key-type
 $crypto-key-type-choice /= tagged-pkix-base64-cert-type
@@ -1849,6 +1886,208 @@ tagged-cert-thumbprint-type = #6.559(digest)
 tagged-cert-path-thumbprint-type = #6.561(digest)
 tagged-pkix-asn1der-cert-type = #6.562(bstr)
 
+domain-dependency-triple-record = [
+  $domain-type-choice
+  [ + $domain-type-choice ]
+]
+
+domain-membership-triple-record = [
+  $domain-type-choice
+  [ + environment-map ]
+]
+
+conditional-endorsement-triple-record = [
+  conditions: [ + stateful-environment-record ]
+  endorsements: [ + endorsed-triple-record ]
+]
+
+$domain-type-choice /= uint
+$domain-type-choice /= text
+$domain-type-choice /= tagged-uuid-type
+$domain-type-choice /= tagged-oid-type
+
+endorsed-triple-record = [
+  condition: environment-map
+  endorsement: [ + measurement-map ]
+]
+
+entity-map&lt;role-type-choice, extension-socket&gt; = {
+  &amp;(entity-name: 0) =&gt; $entity-name-type-choice
+  ? &amp;(reg-id: 1) =&gt; uri
+  &amp;(role: 2) =&gt; [ + role-type-choice ]
+  * extension-socket
+}
+
+$entity-name-type-choice /= text
+
+environment-map = non-empty&lt;{
+  ? &amp;(class: 0) =&gt; class-map
+  ? &amp;(instance: 1) =&gt; $instance-id-type-choice
+  ? &amp;(group: 2) =&gt; $group-id-type-choice
+}&gt;
+
+flags-map = {
+  ? &amp;(is-configured: 0) =&gt; bool
+  ? &amp;(is-secure: 1) =&gt; bool
+  ? &amp;(is-recovery: 2) =&gt; bool
+  ? &amp;(is-debug: 3) =&gt; bool
+  ? &amp;(is-replay-protected: 4) =&gt; bool
+  ? &amp;(is-integrity-protected: 5) =&gt; bool
+  ? &amp;(is-runtime-meas: 6) =&gt; bool
+  ? &amp;(is-immutable: 7) =&gt; bool
+  ? &amp;(is-tcb: 8) =&gt; bool
+  ? &amp;(is-confidentiality-protected: 9) =&gt; bool
+  * $$flags-map-extension
+}
+
+$group-id-type-choice /= tagged-uuid-type
+$group-id-type-choice /= tagged-bytes
+
+identity-triple-record = [
+  environment: environment-map
+  key-list: [ + $crypto-key-type-choice ]
+  ? conditions: non-empty&lt;{
+    ? &amp;(mkey: 0) =&gt; $measured-element-type-choice,
+    ? &amp;(authorized-by: 1) =&gt; [ + $crypto-key-type-choice ]
+  }&gt;
+]
+
+$instance-id-type-choice /= tagged-ueid-type
+$instance-id-type-choice /= tagged-uuid-type
+$instance-id-type-choice /= $crypto-key-type-choice
+$instance-id-type-choice /= tagged-bytes
+
+ip-addr-type-choice = ip4-addr-type / ip6-addr-type
+ip4-addr-type = bytes .size 4
+ip6-addr-type = bytes .size 16
+
+raw-int-type-choice = int / tagged-int-range
+int-range = [min: int / negative-inf, max: int / positive-inf]
+tagged-int-range = #6.564(int-range)
+positive-inf = null
+negative-inf = null
+
+linked-tag-map = {
+  &amp;(linked-tag-id: 0) =&gt; $tag-id-type-choice
+  &amp;(tag-rel: 1) =&gt; $tag-rel-type-choice
+}
+
+mac-addr-type-choice = eui48-addr-type / eui64-addr-type
+eui48-addr-type = bytes .size 6
+eui64-addr-type = bytes .size 8
+
+$measured-element-type-choice /= tagged-oid-type
+$measured-element-type-choice /= tagged-uuid-type
+$measured-element-type-choice /= uint
+$measured-element-type-choice /= tstr
+
+measurement-map = {
+  ? &amp;(mkey: 0) =&gt; $measured-element-type-choice
+  &amp;(mval: 1) =&gt; measurement-values-map
+  ? &amp;(authorized-by: 2) =&gt; [ + $crypto-key-type-choice ]
+}
+
+measurement-values-map = non-empty&lt;{
+  ? &amp;(version: 0) =&gt; version-map
+  ? &amp;(svn: 1) =&gt; svn-type-choice
+  ? &amp;(digests: 2) =&gt; digests-type
+  ? &amp;(flags: 3) =&gt; flags-map
+  ? (
+      &amp;(raw-value: 4) =&gt; $raw-value-type-choice,
+      ? &amp;(raw-value-mask: 5) =&gt; raw-value-mask-type
+    )
+  ? &amp;(mac-addr: 6) =&gt; mac-addr-type-choice
+  ? &amp;(ip-addr: 7) =&gt;  ip-addr-type-choice
+  ? &amp;(serial-number: 8) =&gt; text
+  ? &amp;(ueid: 9) =&gt; ueid-type
+  ? &amp;(uuid: 10) =&gt; uuid-type
+  ? &amp;(name: 11) =&gt; text
+  ? &amp;(cryptokeys: 13) =&gt; [ + $crypto-key-type-choice ]
+  ? &amp;(integrity-registers: 14) =&gt; integrity-registers
+  ? &amp;(raw-int: 15) =&gt; raw-int-type-choice
+  * $$measurement-values-map-extension
+}&gt;
+
+non-empty&lt;M&gt; = (M) .and ({ + any =&gt; any })
+
+oid-type = bytes
+tagged-oid-type = #6.111(oid-type)
+
+$raw-value-type-choice /= tagged-bytes
+$raw-value-type-choice /= tagged-masked-raw-value
+
+raw-value-mask-type = bytes
+
+tagged-masked-raw-value = #6.563([
+  value: bytes
+  mask : bytes
+])
+
+reference-triple-record = [
+  ref-env: environment-map
+  ref-claims: [ + measurement-map ]
+]
+
+stateful-environment-record = [
+  environment: environment-map,
+  claims-list: [ + measurement-map ]
+]
+
+svn-type = uint
+svn = svn-type
+min-svn = svn-type
+tagged-svn = #6.552(svn)
+tagged-min-svn = #6.553(min-svn)
+svn-type-choice = svn / tagged-svn / tagged-min-svn
+
+$tag-id-type-choice /= tstr
+$tag-id-type-choice /= uuid-type
+
+tag-identity-map = {
+  &amp;(tag-id: 0) =&gt; $tag-id-type-choice
+  ? &amp;(tag-version: 1) =&gt; tag-version-type
+}
+
+$tag-rel-type-choice /= &amp;(supplements: 0)
+$tag-rel-type-choice /= &amp;(replaces: 1)
+
+tag-version-type = uint .default 0
+
+tagged-bytes = #6.560(bytes)
+
+triples-map = non-empty&lt;{
+  ? &amp;(reference-triples: 0) =&gt;
+    [ + reference-triple-record ]
+  ? &amp;(endorsed-triples: 1) =&gt;
+    [ + endorsed-triple-record ]
+  ? &amp;(identity-triples: 2) =&gt;
+    [ + identity-triple-record ]
+  ? &amp;(attest-key-triples: 3) =&gt;
+    [ + attest-key-triple-record ]
+  ? &amp;(dependency-triples: 4) =&gt;
+    [ + domain-dependency-triple-record ]
+  ? &amp;(membership-triples: 5) =&gt;
+    [ + domain-membership-triple-record ]
+  ? &amp;(coswid-triples: 6) =&gt;
+    [ + coswid-triple-record ]
+  ? &amp;(conditional-endorsement-series-triples: 8) =&gt;
+    [ + conditional-endorsement-series-triple-record ]
+  ? &amp;(conditional-endorsement-triples: 10) =&gt;
+    [ + conditional-endorsement-triple-record ]
+  * $$triples-map-extension
+}&gt;
+
+ueid-type = bytes .size (7..33)
+tagged-ueid-type = #6.550(ueid-type)
+
+uuid-type = bytes .size 16
+tagged-uuid-type = #6.37(uuid-type)
+
+version-map = {
+  &amp;(version: 0) =&gt; text
+  ? &amp;(version-scheme: 1) =&gt; $version-scheme
+}
+
 digest = [
   alg: (int / text),
   val: bytes
@@ -1856,21 +2095,285 @@ digest = [
 
 digests-type = [ + digest ]
 
-non-empty&lt;M&gt; = (M) .and ({ + any =&gt; any })
+integrity-register-id-type-choice = uint / text
 
-COSE_KeySet = [ + COSE_Key ]
-
-COSE_Key = {
-    1 =&gt; tstr / int
-    ? 2 =&gt; bstr
-    ? 3 =&gt; tstr / int
-    ? 4 =&gt; [+ (tstr / int) ]
-    ? 5 =&gt; bstr
-    * cose-label =&gt; cose-value
+integrity-registers = {
+  + integrity-register-id-type-choice =&gt; digests-type
 }
 
-cose-label = int / tstr
-cose-value = any
+concise-swid-tag = {
+  tag-id =&gt; text / bstr .size 16,
+  tag-version =&gt; integer,
+  ? corpus =&gt; bool,
+  ? patch =&gt; bool,
+  ? supplemental =&gt; bool,
+  software-name =&gt; text,
+  ? software-version =&gt; text,
+  ? version-scheme =&gt; $version-scheme,
+  ? media =&gt; text,
+  ? software-meta =&gt; one-or-more&lt;software-meta-entry&gt;,
+  entity =&gt; one-or-more&lt;entity-entry&gt;,
+  ? link =&gt; one-or-more&lt;link-entry&gt;,
+  ? payload-or-evidence,
+  * $$coswid-extension,
+  global-attributes,
+}
+
+payload-or-evidence //= ( payload =&gt; payload-entry )
+payload-or-evidence //= ( evidence =&gt; evidence-entry )
+
+any-uri = uri
+label = text / int
+
+$version-scheme /= multipartnumeric
+$version-scheme /= multipartnumeric-suffix
+$version-scheme /= alphanumeric
+$version-scheme /= decimal
+$version-scheme /= semver
+$version-scheme /= int / text
+
+any-attribute = (
+  label =&gt; one-or-more&lt;text&gt; / one-or-more&lt;int&gt;
+)
+
+one-or-more&lt;T&gt; = T / [ 2* T ]
+
+global-attributes = (
+  ? lang =&gt; text,
+  * any-attribute,
+)
+
+hash-entry = [
+  hash-alg-id: int,
+  hash-value: bytes,
+]
+
+entity-entry = {
+  entity-name =&gt; text,
+  ? reg-id =&gt; any-uri,
+  role =&gt; one-or-more&lt;$role&gt;,
+  ? thumbprint =&gt; hash-entry,
+  * $$entity-extension,
+  global-attributes,
+}
+
+$role /= tag-creator
+$role /= software-creator
+$role /= aggregator
+$role /= distributor
+$role /= licensor
+$role /= maintainer
+$role /= int / text
+
+link-entry = {
+  ? artifact =&gt; text,
+  href =&gt; any-uri,
+  ? media =&gt; text,
+  ? ownership =&gt; $ownership,
+  rel =&gt; $rel,
+  ? media-type =&gt; text,
+  ? use =&gt; $use,
+  * $$link-extension,
+  global-attributes,
+}
+
+$ownership /= shared
+$ownership /= private
+$ownership /= abandon
+$ownership /= int / text
+
+$rel /= ancestor
+$rel /= component
+$rel /= feature
+$rel /= installationmedia
+$rel /= packageinstaller
+$rel /= parent
+$rel /= patches
+$rel /= requires
+$rel /= see-also
+$rel /= supersedes
+$rel /= supplemental
+$rel /= -256..64436 / text
+
+$use /= optional
+$use /= required
+$use /= recommended
+$use /= int / text
+
+software-meta-entry = {
+  ? activation-status =&gt; text,
+  ? channel-type =&gt; text,
+  ? colloquial-version =&gt; text,
+  ? description =&gt; text,
+  ? edition =&gt; text,
+  ? entitlement-data-required =&gt; bool,
+  ? entitlement-key =&gt; text,
+  ? generator =&gt;  text / bstr .size 16,
+  ? persistent-id =&gt; text,
+  ? product =&gt; text,
+  ? product-family =&gt; text,
+  ? revision =&gt; text,
+  ? summary =&gt; text,
+  ? unspsc-code =&gt; text,
+  ? unspsc-version =&gt; text,
+  * $$software-meta-extension,
+  global-attributes,
+}
+
+path-elements-group = ( ? directory =&gt; one-or-more&lt;directory-entry&gt;,
+                        ? file =&gt; one-or-more&lt;file-entry&gt;,
+                      )
+
+resource-collection = (
+  path-elements-group,
+  ? process =&gt; one-or-more&lt;process-entry&gt;,
+  ? resource =&gt; one-or-more&lt;resource-entry&gt;,
+  * $$resource-collection-extension,
+)
+
+file-entry = {
+  filesystem-item,
+  ? size =&gt; uint,
+  ? file-version =&gt; text,
+  ? hash =&gt; hash-entry,
+  * $$file-extension,
+  global-attributes,
+}
+
+directory-entry = {
+  filesystem-item,
+  ? path-elements =&gt; { path-elements-group },
+  * $$directory-extension,
+  global-attributes,
+}
+
+process-entry = {
+  process-name =&gt; text,
+  ? pid =&gt; integer,
+  * $$process-extension,
+  global-attributes,
+}
+
+resource-entry = {
+  type =&gt; text,
+  * $$resource-extension,
+  global-attributes,
+}
+
+filesystem-item = (
+  ? key =&gt; bool,
+  ? location =&gt; text,
+  fs-name =&gt; text,
+  ? root =&gt; text,
+)
+
+payload-entry = {
+  resource-collection,
+  * $$payload-extension,
+  global-attributes,
+}
+
+evidence-entry = {
+  resource-collection,
+  ? date =&gt; integer-time,
+  ? device-id =&gt; text,
+  ? location =&gt; text,
+  * $$evidence-extension,
+  global-attributes,
+}
+
+integer-time = #6.1(int)
+
+tag-id = 0
+software-name = 1
+entity = 2
+evidence = 3
+link = 4
+software-meta = 5
+payload = 6
+hash = 7
+corpus = 8
+patch = 9
+media = 10
+supplemental = 11
+tag-version = 12
+software-version = 13
+version-scheme = 14
+lang = 15
+directory = 16
+file = 17
+process = 18
+resource = 19
+size = 20
+file-version = 21
+key = 22
+location = 23
+fs-name = 24
+root = 25
+path-elements = 26
+process-name = 27
+pid = 28
+type = 29
+entity-name = 31
+reg-id = 32
+role = 33
+thumbprint = 34
+date = 35
+device-id = 36
+artifact = 37
+href = 38
+ownership = 39
+rel = 40
+media-type = 41
+use = 42
+activation-status = 43
+channel-type = 44
+colloquial-version = 45
+description = 46
+edition = 47
+entitlement-data-required = 48
+entitlement-key = 49
+generator = 50
+persistent-id = 51
+product = 52
+product-family = 53
+revision = 54
+summary = 55
+unspsc-code = 56
+unspsc-version = 57
+
+multipartnumeric = 1
+multipartnumeric-suffix = 2
+alphanumeric = 3
+decimal = 4
+semver = 16384
+
+tag-creator=1
+software-creator=2
+aggregator=3
+distributor=4
+licensor=5
+maintainer=6
+
+abandon=1
+private=2
+shared=3
+
+ancestor=1
+component=2
+feature=3
+installationmedia=4
+packageinstaller=5
+parent=6
+patches=7
+requires=8
+see-also=9
+supersedes=10
+
+optional=1
+required=2
+recommended=3
+
 </pre><a href="#appendix-A-1" class="pilcrow">¶</a>
 </div>
 </section>
