@@ -1,6 +1,7 @@
 result-set //= ? reference-values
 result-set //= ? endorsed-values
 result-set //= ? trust-anchors
+result-set //= ? $$result-set-extensions
 
 reference-values = (
   &(rvt: 10) => [ * reference-triple-record ]
