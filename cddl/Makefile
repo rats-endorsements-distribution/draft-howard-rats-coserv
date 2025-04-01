@@ -9,3 +9,5 @@ clean: ; rm -f $(CLEANFILES)
 .PHONY: clean
 
 $(eval $(call cddl_check_template,coserv,$(COSERV_FRAGS),$(COSERV_EXAMPLES)))
+
+include comid.mk
