@@ -14,8 +14,10 @@ else
 endif
 endif
 
-$(drafts_xml): cddl/coserv-autogen.cddl
+cddl_deps := cddl/coserv-autogen.cddl cddl/comid-autogen.cddl
 
-cddl/coserv-autogen.cddl: ; $(MAKE) -C cddl check
+$(drafts_xml): $(cddl_deps)
+
+$(cddl_deps): ; $(MAKE) -C cddl check
 
 clean:: ; $(MAKE) -C cddl clean
