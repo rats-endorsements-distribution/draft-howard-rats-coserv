@@ -1,11 +1,7 @@
 coserv = {
-  &(artifact-type: 0) => artifact-type
-  &(profile: 1) => profile-type
-  &(environment-selector: 2) => environment-selector-map
+  &(profile: 0) => profile
+  &(query: 1) => query
+  ? result-set
 }
 
-artifact-type = &(endorsed-values: 0)
-                / &(trust-anchors: 1)
-                / &(reference-values: 2)
-
-profile-type = oid-type / ~uri
+profile = oid-type / ~uri

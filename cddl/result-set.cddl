@@ -1,0 +1,23 @@
+result-set //= ? reference-values
+result-set //= ? endorsed-values
+result-set //= ? trust-anchors
+result-set //= ? $$result-set-extensions
+
+reference-values = (
+  &(rvt: 10) => [ * reference-triple-record ]
+)
+
+endorsed-values = (
+  &(evt: 20) => [ * endorsed-triple-record ]
+  &(cet: 21) => [ * conditional-endorsement-triple-record ]
+)
+
+trust-anchors = (
+  &(akt: 30) => [ * attest-key-triple-record ]
+  &(tas: 31) => [ * cots ]
+)
+
+;
+; import CoTS
+;
+cots = "TODO COTS"

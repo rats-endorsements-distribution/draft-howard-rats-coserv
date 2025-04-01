@@ -24,3 +24,8 @@ cbor2pretty ?= $(shell command -v cbor2pretty.rb)
 ifeq ($(strip $(cbor2pretty)),)
   $(error cbor2pretty tool not found. To install cbor2pretty, run: 'gem install cbor-diag')
 endif
+
+curl ?= $(shell command -v curl)
+ifeq ($(strip $(curl)),)
+  $(error curl not found.)
+endif

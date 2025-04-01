@@ -1,0 +1,8 @@
+query = {
+  &(artifact-type: 0) => artifact-type
+  &(environment-selector: 1) => environment-selector-map
+}
+
+artifact-type = &(endorsed-values: 0)
+                / &(trust-anchors: 1)
+                / &(reference-values: 2)

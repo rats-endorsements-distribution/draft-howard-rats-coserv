@@ -1,13 +1,15 @@
 {
-  / artifact-type / 0: 2, / reference-values /
-  / profile /       1: "tag:example.com,2025:cc-platform#1.0.0",
-  / environment-selector /  2: {
-    / class / 0: [
-      {
-        / class-id /  0: 560(h'00112233'),  / tagged-bytes /
-        / vendor /    1: "Example Vendor",
-        / model /     2: "Example Model"
-      }
-    ]
+  / profile / 0: "tag:example.com,2025:cc-platform#1.0.0",
+  / query /   1: {
+    / artifact-type /         0: 2, / reference-values /
+    / environment-selector /  1: {
+      / class / 0: [
+        {
+          / class-id /  0: 560(h'00112233'),  / tagged-bytes /
+          / vendor /    1: "Example Vendor",
+          / model /     2: "Example Model"
+        }
+      ]
+    }
   }
 }

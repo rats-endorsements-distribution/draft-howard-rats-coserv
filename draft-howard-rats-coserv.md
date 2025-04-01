@@ -335,9 +335,7 @@ Provisional registration:
 
 {::include-fold cddl/environment-selector.cddl}
 
-{::include-fold cddl/mini-comid.cddl}
-
-{::include-fold cddl/mini-cose.cddl}
+{::include-fold cddl/comid-autogen.cddl}
 ~~~
 
 # Acknowledgments
