@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-04-01T00:50:28.711588+00:00",
+  "timestamp": "2025-04-03T00:42:50.818204+00:00",
   "repo": "rats-endorsements-distribution/draft-howard-rats-coserv",
   "labels": [
     {
@@ -135,6 +135,22 @@
       "body": "We currently have 0..n:\n```\nselector //= ( &(class: 0) => [ * class-map ] )\n```\n\nIt should be 1..n:\n```\nselector //= ( &(class: 0) => [ + class-map ] )\n```",
       "createdAt": "2025-03-27T16:27:38Z",
       "updatedAt": "2025-03-27T16:27:38Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 12,
+      "id": "I_kwDOOAZd1M6wqYN7",
+      "title": "Result type is more extensible than the query",
+      "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/issues/12",
+      "state": "OPEN",
+      "author": "paulhowardarm",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "The coserv query can select for `artifact-type` as being either Trust Anchor, Endorsed Value or Reference Value. This is a rigid definition that was chosen to reflect the \"RATS-native\" artifacts.\n\nHowever, we also want to support profile-defined extensions, and the result set is defined in such a way to support this via an extension socket in the CDDL.\n\nSo there's asymmetry between how extensible the query is, relative to how extensible the result is.\n\nNeed to find a good data model idiom to resolve this.\n\nOne option might be to simply add a fourth option to `artifact-type` that essentially means \"profile-specific\" and assume that the profile will handle its semantics.\n",
+      "createdAt": "2025-04-01T16:03:19Z",
+      "updatedAt": "2025-04-01T16:03:19Z",
       "closedAt": null,
       "comments": []
     }
@@ -346,6 +362,48 @@
           "body": "Looks good, thanks.",
           "createdAt": "2025-03-26T14:17:01Z",
           "updatedAt": "2025-03-26T14:17:01Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 11,
+      "id": "PR_kwDOOAZd1M6Q8Gf9",
+      "title": "refactor coserv to include result set",
+      "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/pull/11",
+      "state": "MERGED",
+      "author": "thomas-fossati",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-04-01T13:57:59Z",
+      "updatedAt": "2025-04-01T16:05:13Z",
+      "baseRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
+      "baseRefName": "main",
+      "baseRefOid": "faeda381117749f1e2cfd6aed386423afcf597c7",
+      "headRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
+      "headRefName": "extend",
+      "headRefOid": "cdd29301da362b2f765da8dbb2223657ebbf71d8",
+      "closedAt": "2025-04-01T16:05:12Z",
+      "mergedAt": "2025-04-01T16:05:12Z",
+      "mergedBy": "paulhowardarm",
+      "mergeCommit": {
+        "oid": "470f2ff59889e2f4518235f33122cfec6a9f9948"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOOAZd1M6i6bbU",
+          "commit": {
+            "abbreviatedOid": "cdd2930"
+          },
+          "author": "paulhowardarm",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Excellent stuff - many thanks.",
+          "createdAt": "2025-04-01T15:58:37Z",
+          "updatedAt": "2025-04-01T15:58:37Z",
           "comments": []
         }
       ]
