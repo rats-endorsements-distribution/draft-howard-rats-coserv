@@ -44,12 +44,12 @@ normative:
     -: cbor
     =: RFC8949
   RFC9334: rats-arch
+  I-D.ietf-rats-corim: rats-corim
 
 informative:
   RFC6024: TA requirements
   RFC7942: Improving Awareness of Running Code
   I-D.ietf-rats-endorsements: rats-endorsements
-  I-D.ietf-rats-corim: rats-corim
   I-D.ietf-rats-eat: rats-eat
 
 entity:
