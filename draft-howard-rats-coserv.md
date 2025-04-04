@@ -58,8 +58,8 @@ entity:
 --- abstract
 
 In the Remote Attestation Procedures (RATS) architecture, Verifiers require Endorsements and Reference Values to assess the trustworthiness of Attesters.
-This document specifies the Concise Selector for Endorsements and Reference Values (CoSERV), a structured query format designed to facilitate the discovery and retrieval of these artifacts from various providers.
-CoSERV defines a query language using CDDL that can be serialized in CBOR format, enabling interoperability across diverse systems.
+This document specifies the Concise Selector for Endorsements and Reference Values (CoSERV), a structured query/result format designed to facilitate the discovery and retrieval of these artifacts from various providers.
+CoSERV defines a query language and corresponding result structure using CDDL, which can be serialized in CBOR format, enabling efficient interoperability across diverse systems.
 
 --- middle
 
@@ -69,13 +69,18 @@ Remote Attestation Procedures (RATS) enable Relying Parties to evaluate the trus
 This appraisal necessitates access to Endorsements and Reference Values, which are often distributed across multiple providers, including hardware manufacturers, firmware developers, and software vendors.
 The lack of standardized methods for querying and retrieving these artifacts poses challenges in achieving seamless interoperability.
 
-The Concise Selector for Endorsements and Reference Values (CoSERV) addresses this challenge by defining a query language that allows Verifiers to specify the environment characteristics of the desired artifacts.
-This facilitates the efficient discovery and retrieval of relevant Endorsements and Reference Values from providers.
+The Concise Selector for Endorsements and Reference Values (CoSERV) addresses this challenge by defining a query language and a corresponding result structure for the transaction of artifacts between a provider and a consumer.
+The query language format provides Verifiers with a standard way to specify the environment characteristics of Attesters, such that the relevant artifacts can be obtained from Endorsers and Reference Value Providers.
+In turn, the result format allows those Endorsers and Reference Value Providers to package the artifacts within a standard structure.
+This facilitates the efficient discovery and retrieval of relevant Endorsements and Reference Values from providers, maximising the re-use of common software tools and libraries within the transactions.
 
 The CoSERV query language is intended to form the input data type for tools and services that provide access to Endorsements and Reference Values.
+The CoSERV result set is intended to form the corresponding output data type from those tools and services.
 This document does not define the complete APIs or interaction models for such tools and services.
-Nor does this document constrain the format of the output data that such tools and services might produce.
-The scope of this document is limited to the definition of the query language only.
+The scope of this document is limited to the definitions of the query language and the result set only.
+
+Both the query language and the result set are designed for extensibility.
+This addresses the need for a common baseline format to optimise for interoperability and software reuse, while maintaining the flexibility demanded by a dynamic and diverse ecosystem.
 
 The environment characteristics of Endorsements and Reference Values are derived from the equivalent concepts in CoRIM {{-rats-corim}}.
 CoSERV therefore borrows heavily from CoRIM, and shares some data types for its fields.
