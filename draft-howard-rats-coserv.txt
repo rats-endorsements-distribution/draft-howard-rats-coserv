@@ -99,6 +99,8 @@ Table of Contents
    8.  IANA Considerations
      8.1.  Media Types Registrations
        8.1.1.  application/coserv+cbor
+       8.1.2.  application/coserv+cose
+     8.2.  CoAP Content-Formats
    9.  References
      9.1.  Normative References
      9.2.  Informative References
@@ -655,20 +657,23 @@ Table of Contents
    IANA is requested to add the following media types to the "Media
    Types" registry [IANA.media-types].
 
-           +=============+=========================+===========+
-           | Name        | Template                | Reference |
-           +=============+=========================+===========+
-           | coserv+cbor | application/coserv+cbor | RFCthis   |
-           +-------------+-------------------------+-----------+
+    +=============+=========================+========================+
+    | Name        | Template                | Reference              |
+    +=============+=========================+========================+
+    | coserv+cbor | application/coserv+cbor | Section 3 of RFCthis   |
+    +-------------+-------------------------+------------------------+
+    | coserv+cose | application/coserv+cose | Section 3.6 of RFCthis |
+    +-------------+-------------------------+------------------------+
 
-                        Table 1: CoSERV Media Types
+                       Table 1: CoSERV Media Types
 
 8.1.1.  application/coserv+cbor
 
    Type name:  application
    Subtype name:  coserv+cbor
    Required parameters:  n/a
-   Optional parameters:  n/a
+   Optional parameters:  "profile" (CoSERV profile in string format.
+      OIDs must use the dotted-decimal notation.)
    Encoding considerations:  binary (CBOR)
    Security considerations:  Section 6 of RFCthis
    Interoperability considerations:  n/a
@@ -686,6 +691,51 @@ Table of Contents
    Author/Change controller:  IETF
    Provisional registration:  no
 
+8.1.2.  application/coserv+cose
+
+   Type name:  application
+   Subtype name:  coserv+cose
+   Required parameters:  n/a (cose-type is explicitly not supported, as
+      it is understood to be "cose-sign1")
+   Optional parameters:  "profile" CoSERV profile in string format.
+      OIDs must use the dotted-decimal notation.  Note that the cose-
+      type parameter is explicitly not supported, as it is understood to
+      be "cose-sign1".
+   Encoding considerations:  binary
+   Security considerations:  Section 6 of RFCthis
+   Interoperability considerations:  n/a
+   Published specification:  RFCthis
+   Applications that use this media type:  Verifiers, Endorsers,
+      Reference Value Providers
+   Fragment identifier considerations:  n/a
+   Person and email address to contact for further information:  RATS WG
+      mailing list (rats@ietf.org)
+   Intended usage:  COMMON
+   Restrictions on usage:  none
+   Author/Change controller:  IETF
+   Provisional registration?  no
+
+8.2.  CoAP Content-Formats
+
+   IANA is requested to register the following Content-Format IDs in the
+   "CoAP Content-Formats" registry, within the "Constrained RESTful
+   Environments (CoRE) Parameters" registry group
+   [IANA.core-parameters]:
+
+   +=========================+================+======+=============+
+   | Content-Type            | Content Coding | ID   | Reference   |
+   +=========================+================+======+=============+
+   | application/coserv+cbor | -              | TBD1 | Section 3   |
+   |                         |                |      | of RFCthis  |
+   +-------------------------+----------------+------+-------------+
+   | application/coserv+cose | -              | TBD2 | Section 3.6 |
+   |                         |                |      | of RFCthis  |
+   +-------------------------+----------------+------+-------------+
+
+                   Table 2: New CoAP Content Formats
+
+   If possible, TBD1 and TBD2 should be assigned in the 256..9999 range.
+
 9.  References
 
 9.1.  Normative References
@@ -696,6 +746,11 @@ Table of Contents
               Progress, Internet-Draft, draft-ietf-rats-corim-07, 3
               March 2025, <https://datatracker.ietf.org/doc/html/draft-
               ietf-rats-corim-07>.
+
+   [IANA.core-parameters]
+              IANA, "Constrained RESTful Environments (CoRE)
+              Parameters",
+              <https://www.iana.org/assignments/core-parameters>.
 
    [IANA.media-types]
               IANA, "Media Types",
