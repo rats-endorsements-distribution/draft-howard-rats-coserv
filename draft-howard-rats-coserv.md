@@ -102,13 +102,55 @@ The terminology from CBOR {{-cbor}}, CDDL {{-cddl}} and COSE {{-cose}} applies;
 in particular, CBOR diagnostic notation is defined in {{Section 8 of -cbor}}
 and {{Section G of -cddl}}. Terms and concepts are always referenced as proper nouns, i.e., with Capital Letters.
 
-# CoSERV Query Language
+# CoSERV Information Model {#secinfomodel}
 
-The CoSERV query language enables Verifiers to specify the desired characteristics of Endorsements and Reference Values based on the environment in which they are applicable.
-This section presents the CBOR data model for CoSERV queries.
+## Overview
+
+CoSERV is designed to facilitate query-response transactions between a producer and a consumer.
+In the RATS model, the producer is either an Endorser or a Reference Value Provider, and the consumer is a Verifier.
+CoSERV defines a single top-level data type that can be used for both queries and result sets.
+Queries are authored by the consumer (Verifier), while result sets are authored by the producer (Endorser or Reference Value Provider) in response to the query.
+A CoSERV data object always contains a query.
+When CoSERV is used to express a result set, the query is retained alongside the result set that was yielded by that query.
+This allows consumers to verify a match between the query that was sent to the producer, and the query that was subsequently returned with the result set.
+Such verification is useful because it mitigates against security threats arising from any untrusted infrastructure or intermediaries that might reside between the producer and the consumer.
+An example of this is caching.
+It might be expensive to compute the result set for a query, which would make caching desirable.
+However, if caching is managed by an untrusted intermediary, then there is a risk that such an untrusted intermediary might return incorrect results, either accidentally or maliciously.
+Pairing the original query with each result set provides an end-to-end contract between the consumer and producer, mitigating such risks.
+The transactional pattern between the producer and the consumer would be that the consumer begins the transaction by authoring a query and sending it to the producer as a CoSERV object.
+The producer receives the query, computes results, and returns a new CoSERV object formed from the results along with the original query.
+Notionally, the producer is "adding" the results to the query before sending it back to the consumer.
+
+## Queries
+
+The purpose of a query is to allow the consumer (Verifier) to specify the artifacts (Endorsements and Reference Values) that it needs.
+Consequently, a query corresponds to the environmental characteristics of one or more Attesters.
+Such environmental characteristics are identical to those used in the information model of CoRIM {{-rats-corim}}.
+In summary, they can include the following:
+
+- An individual Attester instance.
+- A group (identifiable collection) of Attester instances.
+- A class of Attester, defined by characteristics such as the vendor or model, of which there may be an arbitrary number of instances.
+
+To facilitate efficient transactions, a single query can specify either multiple instances, multiple groups or multiple classes.
+
+## Result Sets
+
+The result set contains the Endorsements and Reference Values that are needed by the Verifier in order to verify and appraise Evidence from one or more Attesters.
+
+# CoSERV Data Model {#secdatamodel}
+
+This section specifies the CBOR data model for CoSERV queries and result sets.
 
 CDDL is used to express rules and constraints of the data model for CBOR.
 These rules must be strictly followed when creating or validating CoSERV data objects.
+
+The top-level CoSERV data structure is given by the following CDDL:
+
+~~~cddl
+{::include cddl/coserv.cddl}
+~~~
 
 ## Common Data Types
 
@@ -116,12 +158,22 @@ CoSERV inherits the following types from the CoRIM data model `class-map`, `$cla
 
 The collated CDDL is in {{collated-cddl}}.
 
+## Profile
+
+In common with EAT and CoRIM, CoSERV supports the notion of profiles.
+As with EAT and CoRIM, profiles are a way to extend or specialize the structure of a generic CoSERV query in order to cater for a specific use case or environment.
+
+In a CoSERV query, the profile can be identified by either a Uniform Resource Identifier (URI) or an Object Identifier (OID).
+This convention is identical to how EAT profiles are identified using the `eat_profile` claim as described in {{Section 4.3.2 of -rats-eat}}.
+
 ## Query Structure
+
+The CoSERV query language enables Verifiers to specify the desired characteristics of Endorsements and Reference Values based on the environment in which they are applicable.
 
 The top-level structure of a CoSERV query is given by the following CDDL:
 
 ~~~cddl
-{::include cddl/coserv.cddl}
+{::include cddl/query.cddl}
 ~~~
 
 The meanings of these fields are detailed in the following subsections.
@@ -139,14 +191,6 @@ These correspond to the following three categories of endorsement artifact that 
 It is expected that implementations might choose to store these different categories of artifacts in different top-level stores or database tables.
 Where this is the case, the `artifact-type` field serves to narrow the query down to the correct store or table.
 Even where this is not the case, the discriminator is useful as a filter for the consumer, resulting in an efficiency gain by avoiding the transfer of unwanted data items.
-
-### Profile
-
-In common with EAT and CoRIM, CoSERV supports the notion of profiles.
-As with EAT and CoRIM, profiles are a way to extend or specialize the structure of a generic CoSERV query in order to cater for a specific use case or environment.
-
-In a CoSERV query, the profile can be identified by either a Uniform Resource Identifier (URI) or an Object Identifier (OID).
-This convention is identical to how EAT profiles are identified using the `eat_profile` claim as described in {{Section 4.3.2 of -rats-eat}}.
 
 ### Environment Selector
 
@@ -176,7 +220,16 @@ Likewise for classes and groups.
 However, it would not be possible for a single query to specify more than one kind of environment.
 For example, it would not be possible to query for both class-level and instance-level artifacts in a single CoSERV transaction.
 
+## Result Set Structure
+
+The result set structure is given by the following CDDL:
+
+~~~cddl
+{::include cddl/result-set.cddl}
+~~~
+
 ## Encoding Requirements
+
 Implementations may wish to use serialized CoSERV queries as canonical identifiers for artifact collections.
 For example, a Reference Value Provider service may wish the cache the results of a CoSERV query to gain efficiency when responding to a future identical query.
 For these use cases to be effective, it is essential that any given CoSERV query is always serialized to the same fixed sequence of CBOR bytes.
