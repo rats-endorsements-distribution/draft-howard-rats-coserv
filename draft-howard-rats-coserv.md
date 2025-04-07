@@ -374,7 +374,7 @@ Required parameters:
 : n/a
 
 Optional parameters:
-: n/a
+: "profile" (CoSERV profile in string format.  OIDs must use the dotted-decimal notation.)
 
 Encoding considerations:
 : binary (CBOR)
@@ -409,6 +409,53 @@ Author/Change controller:
 Provisional registration:
 : no
 
+### `application/coserv+cose`
+
+{:compact}
+Type name:
+: `application`
+
+Subtype name:
+: `coserv+cose`
+
+Required parameters:
+: n/a (cose-type is explicitly not supported, as it is understood to be "cose-sign1")
+
+Optional parameters:
+: "profile" (CoSERV profile in string format.  OIDs must use the dotted-decimal notation. The parameter value is case-insensitive.) Note that the `cose-type` parameter is explicitly not supported, as it is understood to be `"cose-sign1"`.
+
+Encoding considerations:
+: binary
+
+Security considerations:
+: {{seccons}} of {{&SELF}}
+
+Interoperability considerations:
+: n/a
+
+Published specification:
+: {{&SELF}}
+
+Applications that use this media type:
+: Verifiers, Endorsers, Reference Value Providers
+
+Fragment identifier considerations:
+: n/a
+
+Person and email address to contact for further information:
+: RATS WG mailing list (rats@ietf.org)
+
+Intended usage:
+: COMMON
+
+Restrictions on usage:
+: none
+
+Author/Change controller:
+: IETF
+
+Provisional registration?
+: no
 
 --- back
 
