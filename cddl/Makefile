@@ -1,6 +1,7 @@
 include tools.mk
 include check.mk
 include frags.mk
+include subst.mk
 
 check: check-coserv check-coserv-examples
 .PHONY: check

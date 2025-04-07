@@ -20,4 +20,6 @@ $(drafts_xml): $(cddl_deps)
 
 $(cddl_deps): ; $(MAKE) -C cddl check
 
+cddl/%.cddl: cddl/%.cddl.in ; $(MAKE) -C cddl
+
 clean:: ; $(MAKE) -C cddl clean

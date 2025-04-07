@@ -44,12 +44,14 @@ normative:
     -: cbor
     =: RFC8949
   RFC9334: rats-arch
+  I-D.ietf-rats-corim: rats-corim
 
 informative:
+  STD98: HTTP Caching
   RFC6024: TA requirements
   RFC7942: Improving Awareness of Running Code
+  RFC7252: The Constrained Application Protocol (CoAP)
   I-D.ietf-rats-endorsements: rats-endorsements
-  I-D.ietf-rats-corim: rats-corim
   I-D.ietf-rats-eat: rats-eat
 
 entity:
@@ -58,8 +60,8 @@ entity:
 --- abstract
 
 In the Remote Attestation Procedures (RATS) architecture, Verifiers require Endorsements and Reference Values to assess the trustworthiness of Attesters.
-This document specifies the Concise Selector for Endorsements and Reference Values (CoSERV), a structured query format designed to facilitate the discovery and retrieval of these artifacts from various providers.
-CoSERV defines a query language using CDDL that can be serialized in CBOR format, enabling interoperability across diverse systems.
+This document specifies the Concise Selector for Endorsements and Reference Values (CoSERV), a structured query/result format designed to facilitate the discovery and retrieval of these artifacts from various providers.
+CoSERV defines a query language and corresponding result structure using CDDL, which can be serialized in CBOR format, enabling efficient interoperability across diverse systems.
 
 --- middle
 
@@ -69,13 +71,18 @@ Remote Attestation Procedures (RATS) enable Relying Parties to evaluate the trus
 This appraisal necessitates access to Endorsements and Reference Values, which are often distributed across multiple providers, including hardware manufacturers, firmware developers, and software vendors.
 The lack of standardized methods for querying and retrieving these artifacts poses challenges in achieving seamless interoperability.
 
-The Concise Selector for Endorsements and Reference Values (CoSERV) addresses this challenge by defining a query language that allows Verifiers to specify the environment characteristics of the desired artifacts.
-This facilitates the efficient discovery and retrieval of relevant Endorsements and Reference Values from providers.
+The Concise Selector for Endorsements and Reference Values (CoSERV) addresses this challenge by defining a query language and a corresponding result structure for the transaction of artifacts between a provider and a consumer.
+The query language format provides Verifiers with a standard way to specify the environment characteristics of Attesters, such that the relevant artifacts can be obtained from Endorsers and Reference Value Providers.
+In turn, the result format allows those Endorsers and Reference Value Providers to package the artifacts within a standard structure.
+This facilitates the efficient discovery and retrieval of relevant Endorsements and Reference Values from providers, maximising the re-use of common software tools and libraries within the transactions.
 
 The CoSERV query language is intended to form the input data type for tools and services that provide access to Endorsements and Reference Values.
+The CoSERV result set is intended to form the corresponding output data type from those tools and services.
 This document does not define the complete APIs or interaction models for such tools and services.
-Nor does this document constrain the format of the output data that such tools and services might produce.
-The scope of this document is limited to the definition of the query language only.
+The scope of this document is limited to the definitions of the query language and the result set only.
+
+Both the query language and the result set are designed for extensibility.
+This addresses the need for a common baseline format to optimise for interoperability and software reuse, while maintaining the flexibility demanded by a dynamic and diverse ecosystem.
 
 The environment characteristics of Endorsements and Reference Values are derived from the equivalent concepts in CoRIM {{-rats-corim}}.
 CoSERV therefore borrows heavily from CoRIM, and shares some data types for its fields.
@@ -97,13 +104,55 @@ The terminology from CBOR {{-cbor}}, CDDL {{-cddl}} and COSE {{-cose}} applies;
 in particular, CBOR diagnostic notation is defined in {{Section 8 of -cbor}}
 and {{Section G of -cddl}}. Terms and concepts are always referenced as proper nouns, i.e., with Capital Letters.
 
-# CoSERV Query Language
+# CoSERV Information Model {#secinfomodel}
 
-The CoSERV query language enables Verifiers to specify the desired characteristics of Endorsements and Reference Values based on the environment in which they are applicable.
-This section presents the CBOR data model for CoSERV queries.
+## Overview
+
+CoSERV is designed to facilitate query-response transactions between a producer and a consumer.
+In the RATS model, the producer is either an Endorser or a Reference Value Provider, and the consumer is a Verifier.
+CoSERV defines a single top-level data type that can be used for both queries and result sets.
+Queries are authored by the consumer (Verifier), while result sets are authored by the producer (Endorser or Reference Value Provider) in response to the query.
+A CoSERV data object always contains a query.
+When CoSERV is used to express a result set, the query is retained alongside the result set that was yielded by that query.
+This allows consumers to verify a match between the query that was sent to the producer, and the query that was subsequently returned with the result set.
+Such verification is useful because it mitigates security threats arising from any untrusted infrastructure or intermediaries that might reside between the producer and the consumer.
+An example of this is caching in HTTP {{STD98}} and CoAP {{RFC7252}}.
+It might be expensive to compute the result set for a query, which would make caching desirable.
+However, if caching is managed by an untrusted intermediary, then there is a risk that such an untrusted intermediary might return incorrect results, either accidentally or maliciously.
+Pairing the original query with each result set provides an end-to-end contract between the consumer and producer, mitigating such risks.
+The transactional pattern between the producer and the consumer would be that the consumer begins the transaction by authoring a query and sending it to the producer as a CoSERV object.
+The producer receives the query, computes results, and returns a new CoSERV object formed from the results along with the original query.
+Notionally, the producer is "adding" the results to the query before sending it back to the consumer.
+
+## Queries
+
+The purpose of a query is to allow the consumer (Verifier) to specify the artifacts (Endorsements and Reference Values) that it needs.
+Consequently, a query corresponds to the environmental characteristics of one or more Attesters.
+Such environmental characteristics are identical to those used in the information model of CoRIM {{-rats-corim}}.
+In summary, they can include the following:
+
+- An individual Attester instance.
+- A group (identifiable collection) of Attester instances.
+- A class of Attester, defined by characteristics such as the vendor or model, of which there may be an arbitrary number of instances.
+
+To facilitate efficient transactions, a single query can specify either multiple instances, multiple groups or multiple classes.
+
+## Result Sets
+
+The result set contains the Endorsements and Reference Values that are needed by the Verifier in order to verify and appraise Evidence from one or more Attesters.
+
+# CoSERV Data Model {#secdatamodel}
+
+This section specifies the CBOR data model for CoSERV queries and result sets.
 
 CDDL is used to express rules and constraints of the data model for CBOR.
 These rules must be strictly followed when creating or validating CoSERV data objects.
+
+The top-level CoSERV data structure is given by the following CDDL:
+
+~~~cddl
+{::include cddl/coserv.cddl}
+~~~
 
 ## Common Data Types
 
@@ -111,12 +160,22 @@ CoSERV inherits the following types from the CoRIM data model `class-map`, `$cla
 
 The collated CDDL is in {{collated-cddl}}.
 
+## Profile
+
+In common with EAT and CoRIM, CoSERV supports the notion of profiles.
+As with EAT and CoRIM, profiles are a way to extend or specialize the structure of a generic CoSERV query in order to cater for a specific use case or environment.
+
+In a CoSERV query, the profile can be identified by either a Uniform Resource Identifier (URI) or an Object Identifier (OID).
+This convention is identical to how EAT profiles are identified using the `eat_profile` claim as described in {{Section 4.3.2 of -rats-eat}}.
+
 ## Query Structure
+
+The CoSERV query language enables Verifiers to specify the desired characteristics of Endorsements and Reference Values based on the environment in which they are applicable.
 
 The top-level structure of a CoSERV query is given by the following CDDL:
 
 ~~~cddl
-{::include cddl/coserv.cddl}
+{::include cddl/query.cddl}
 ~~~
 
 The meanings of these fields are detailed in the following subsections.
@@ -134,14 +193,6 @@ These correspond to the following three categories of endorsement artifact that 
 It is expected that implementations might choose to store these different categories of artifacts in different top-level stores or database tables.
 Where this is the case, the `artifact-type` field serves to narrow the query down to the correct store or table.
 Even where this is not the case, the discriminator is useful as a filter for the consumer, resulting in an efficiency gain by avoiding the transfer of unwanted data items.
-
-### Profile
-
-In common with EAT and CoRIM, CoSERV supports the notion of profiles.
-As with EAT and CoRIM, profiles are a way to extend or specialize the structure of a generic CoSERV query in order to cater for a specific use case or environment.
-
-In a CoSERV query, the profile can be identified by either a Uniform Resource Identifier (URI) or an Object Identifier (OID).
-This convention is identical to how EAT profiles are identified using the `eat_profile` claim as described in {{Section 4.3.2 of -rats-eat}}.
 
 ### Environment Selector
 
@@ -171,12 +222,45 @@ Likewise for classes and groups.
 However, it would not be possible for a single query to specify more than one kind of environment.
 For example, it would not be possible to query for both class-level and instance-level artifacts in a single CoSERV transaction.
 
+## Result Set Structure
+
+The result set structure is given by the following CDDL:
+
+~~~cddl
+{::include cddl/result-set.cddl}
+~~~
+
 ## Encoding Requirements
+
 Implementations may wish to use serialized CoSERV queries as canonical identifiers for artifact collections.
 For example, a Reference Value Provider service may wish the cache the results of a CoSERV query to gain efficiency when responding to a future identical query.
 For these use cases to be effective, it is essential that any given CoSERV query is always serialized to the same fixed sequence of CBOR bytes.
 Therefore, CoSERV queries MUST always use CBOR deterministic encoding as specified in {{Section 4.2 of -cbor}}.
 Further, CoSERV queries MUST use CBOR definite-length encoding.
+
+## Cryptographic Binding Between Query and Result Set
+
+CoSERV is designed to ensure that any result set passed from a producer to a consumer is precisely the result set that corresponds to the consumer's original query.
+This is the reason why the original query is always included along with the result set in the data model.
+However, this measure is only sufficient in cases where the conveyance protocol guarantees that CoSERV result sets are always transacted over an end-to-end secure channel without any intermediaries.
+Wherever this is not the case, producers MUST create an additional cryptographic binding between the query and the result.
+This is achieved by transacting the result set within a cryptographic envelope, with a signature added by the producer, which is verified by the consumer.
+A CoSERV data object can be signed using COSE {{-cose}}.
+A `signed-coserv` is a `COSE_Sign1` with the following layout:
+
+~~~ cddl
+{::include cddl/signed-coserv.cddl}
+~~~
+
+The payload MUST be the CBOR-encoded CoSERV.
+
+~~~ cddl
+{::include cddl/signed-coserv-headers.cddl}
+~~~
+
+The protected header MUST include the signature algorithm identifier.
+The protected header MUST include either the content type `application/coserv+cbor` or the CoAP Content-Format TBD1.
+Other header parameters MAY be added to the header buckets, for example a `kid` that identifies the signing key.
 
 # Examples
 

@@ -1,0 +1,12 @@
+signed-coserv-protected-hdr = {
+  1 => int                            ; alg
+  2 => "application/coserv+cbor" / TBD1 ; cty
+  * cose.label => cose.values
+}
+
+signed-coserv-unprotected-hdr = {
+  * cose.label => cose.values
+}
+
+cose.label = int / text
+cose.values = any
