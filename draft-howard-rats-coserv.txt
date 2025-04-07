@@ -341,9 +341,9 @@ Table of Contents
 
    environment-selector-map = { selector }
 
-   selector //= ( &(class: 0) => [ * class-map ] )
-   selector //= ( &(instance: 1) => [ * $instance-id-type-choice ] )
-   selector //= ( &(group: 2) => [ * $group-id-type-choice ] )
+   selector //= ( &(class: 0) => [ + class-map ] )
+   selector //= ( &(instance: 1) => [ + $instance-id-type-choice ] )
+   selector //= ( &(group: 2) => [ + $group-id-type-choice ] )
 
    The environment defines the scope (or scopes) in which the
    endorsement artifacts are applicable.  Given that the consumer of
@@ -842,9 +842,9 @@ Appendix A.  Collated CoSERV CDDL
 
    environment-selector-map = { selector }
 
-   selector //= ( &(class: 0) => [ * class-map ] )
-   selector //= ( &(instance: 1) => [ * $instance-id-type-choice ] )
-   selector //= ( &(group: 2) => [ * $group-id-type-choice ] )
+   selector //= ( &(class: 0) => [ + class-map ] )
+   selector //= ( &(instance: 1) => [ + $instance-id-type-choice ] )
+   selector //= ( &(group: 2) => [ + $group-id-type-choice ] )
 
    concise-mid-tag = {
      ? &(language: 0) => text

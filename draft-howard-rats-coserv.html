@@ -1471,9 +1471,9 @@ Even where this is not the case, the discriminator is useful as a filter for the
 <pre>
 environment-selector-map = { selector }
 
-selector //= ( &amp;(class: 0) =&gt; [ * class-map ] )
-selector //= ( &amp;(instance: 1) =&gt; [ * $instance-id-type-choice ] )
-selector //= ( &amp;(group: 2) =&gt; [ * $group-id-type-choice ] )
+selector //= ( &amp;(class: 0) =&gt; [ + class-map ] )
+selector //= ( &amp;(instance: 1) =&gt; [ + $instance-id-type-choice ] )
+selector //= ( &amp;(group: 2) =&gt; [ + $group-id-type-choice ] )
 </pre><a href="#section-3.3.2-2" class="pilcrow">¶</a>
 </div>
 <p id="section-3.3.2-3">The environment defines the scope (or scopes) in which the endorsement artifacts are applicable.
@@ -2129,9 +2129,9 @@ profile = oid-type / ~uri
 
 environment-selector-map = { selector }
 
-selector //= ( &amp;(class: 0) =&gt; [ * class-map ] )
-selector //= ( &amp;(instance: 1) =&gt; [ * $instance-id-type-choice ] )
-selector //= ( &amp;(group: 2) =&gt; [ * $group-id-type-choice ] )
+selector //= ( &amp;(class: 0) =&gt; [ + class-map ] )
+selector //= ( &amp;(instance: 1) =&gt; [ + $instance-id-type-choice ] )
+selector //= ( &amp;(group: 2) =&gt; [ + $group-id-type-choice ] )
 
 concise-mid-tag = {
   ? &amp;(language: 0) =&gt; text
