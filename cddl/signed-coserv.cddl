@@ -1,0 +1,6 @@
+signed-coserv = [
+  protected: bytes .cbor signed-coserv-protected-hdr
+  unprotected: signed-coserv-unprotected-hdr
+  payload: bytes .cbor coserv
+  signature: bytes
+]

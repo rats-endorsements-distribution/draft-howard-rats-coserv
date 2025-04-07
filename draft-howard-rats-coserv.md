@@ -47,8 +47,10 @@ normative:
   I-D.ietf-rats-corim: rats-corim
 
 informative:
+  STD98: HTTP Caching
   RFC6024: TA requirements
   RFC7942: Improving Awareness of Running Code
+  RFC7252: The Constrained Application Protocol (CoAP)
   I-D.ietf-rats-endorsements: rats-endorsements
   I-D.ietf-rats-eat: rats-eat
 
@@ -113,8 +115,8 @@ Queries are authored by the consumer (Verifier), while result sets are authored 
 A CoSERV data object always contains a query.
 When CoSERV is used to express a result set, the query is retained alongside the result set that was yielded by that query.
 This allows consumers to verify a match between the query that was sent to the producer, and the query that was subsequently returned with the result set.
-Such verification is useful because it mitigates against security threats arising from any untrusted infrastructure or intermediaries that might reside between the producer and the consumer.
-An example of this is caching.
+Such verification is useful because it mitigates security threats arising from any untrusted infrastructure or intermediaries that might reside between the producer and the consumer.
+An example of this is caching in HTTP {{STD98}} and CoAP {{RFC7252}}.
 It might be expensive to compute the result set for a query, which would make caching desirable.
 However, if caching is managed by an untrusted intermediary, then there is a risk that such an untrusted intermediary might return incorrect results, either accidentally or maliciously.
 Pairing the original query with each result set provides an end-to-end contract between the consumer and producer, mitigating such risks.
@@ -235,6 +237,30 @@ For example, a Reference Value Provider service may wish the cache the results o
 For these use cases to be effective, it is essential that any given CoSERV query is always serialized to the same fixed sequence of CBOR bytes.
 Therefore, CoSERV queries MUST always use CBOR deterministic encoding as specified in {{Section 4.2 of -cbor}}.
 Further, CoSERV queries MUST use CBOR definite-length encoding.
+
+## Cryptographic Binding Between Query and Result Set
+
+CoSERV is designed to ensure that any result set passed from a producer to a consumer is precisely the result set that corresponds to the consumer's original query.
+This is the reason why the original query is always included along with the result set in the data model.
+However, this measure is only sufficient in cases where the conveyance protocol guarantees that CoSERV result sets are always transacted over an end-to-end secure channel without any intermediaries.
+Wherever this is not the case, producers MUST create an additional cryptographic binding between the query and the result.
+This is achieved by transacting the result set within a cryptographic envelope, with a signature added by the producer, which is verified by the consumer.
+A CoSERV data object can be signed using COSE {{-cose}}.
+A `signed-coserv` is a `COSE_Sign1` with the following layout:
+
+~~~ cddl
+{::include cddl/signed-coserv.cddl}
+~~~
+
+The payload MUST be the CBOR-encoded CoSERV.
+
+~~~ cddl
+{::include cddl/signed-coserv-headers.cddl}
+~~~
+
+The protected header MUST include the signature algorithm identifier.
+The protected header MUST include either the content type `application/coserv+cbor` or the CoAP Content-Format TBD1.
+Other header parameters MAY be added to the header buckets, for example a `kid` that identifies the signing key.
 
 # Examples
 
