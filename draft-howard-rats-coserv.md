@@ -238,7 +238,7 @@ For these use cases to be effective, it is essential that any given CoSERV query
 Therefore, CoSERV queries MUST always use CBOR deterministic encoding as specified in {{Section 4.2 of -cbor}}.
 Further, CoSERV queries MUST use CBOR definite-length encoding.
 
-## Cryptographic Binding Between Query and Result Set
+## Cryptographic Binding Between Query and Result Set {#signed-coserv}
 
 CoSERV is designed to ensure that any result set passed from a producer to a consumer is precisely the result set that corresponds to the consumer's original query.
 This is the reason why the original query is always included along with the result set in the data model.
@@ -358,7 +358,8 @@ IANA is requested to add the following media types to the "Media Types" registry
 
 | Name | Template | Reference |
 |-----------------|-------------------------|-----------|
-| `coserv+cbor` | `application/coserv+cbor` | {{&SELF}} |
+| `coserv+cbor` | `application/coserv+cbor` | {{secdatamodel}} of {{&SELF}} |
+| `coserv+cose` | `application/coserv+cose` | {{signed-coserv}} of {{&SELF}} |
 {: #tab-mc-regs title="CoSERV Media Types"}
 
 ### `application/coserv+cbor`
@@ -422,7 +423,9 @@ Required parameters:
 : n/a (cose-type is explicitly not supported, as it is understood to be "cose-sign1")
 
 Optional parameters:
-: "profile" (CoSERV profile in string format.  OIDs must use the dotted-decimal notation. The parameter value is case-insensitive.) Note that the `cose-type` parameter is explicitly not supported, as it is understood to be `"cose-sign1"`.
+: "profile" CoSERV profile in string format.
+OIDs must use the dotted-decimal notation.
+Note that the `cose-type` parameter is explicitly not supported, as it is understood to be `"cose-sign1"`.
 
 Encoding considerations:
 : binary
@@ -456,6 +459,17 @@ Author/Change controller:
 
 Provisional registration?
 : no
+
+## CoAP Content-Formats
+
+IANA is requested to register the following Content-Format IDs in the "CoAP Content-Formats" registry, within the "Constrained RESTful Environments (CoRE) Parameters" registry group {{!IANA.core-parameters}}:
+
+| Content-Type | Content Coding | ID | Reference |
+| application/coserv+cbor | - | TBD1 | {{secdatamodel}} of {{&SELF}} |
+| application/coserv+cose | - | TBD2 | {{signed-coserv}} of {{&SELF}} |
+{: align="left" title="New CoAP Content Formats"}
+
+If possible, TBD1 and TBD2 should be assigned in the 256..9999 range.
 
 --- back
 
