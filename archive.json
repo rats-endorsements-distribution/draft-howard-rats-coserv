@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-04-03T00:42:50.818204+00:00",
+  "timestamp": "2025-04-08T00:42:45.494496+00:00",
   "repo": "rats-endorsements-distribution/draft-howard-rats-coserv",
   "labels": [
     {
@@ -79,32 +79,48 @@
       "id": "I_kwDOOAZd1M6v1UBy",
       "title": "CoRIM is a normative reference",
       "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/issues/7",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "thomas-fossati",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "CoRIM is currently stashed in the \u201cinformational\" bucket.\nIt should be moved up the ladder.",
       "createdAt": "2025-03-26T15:18:59Z",
-      "updatedAt": "2025-03-26T15:18:59Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2025-04-07T16:40:44Z",
+      "closedAt": "2025-04-07T16:40:43Z",
+      "comments": [
+        {
+          "author": "paulhowardarm",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Fixed by https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/pull/13",
+          "createdAt": "2025-04-07T16:40:43Z",
+          "updatedAt": "2025-04-07T16:40:43Z"
+        }
+      ]
     },
     {
       "number": 8,
       "id": "I_kwDOOAZd1M6v3Ey3",
       "title": "Security considerations related with the use of CoSERV in the distribution API",
       "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/issues/8",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "thomas-fossati",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "When using CoSERV with the distribution API, there must be a strong cryptographic binding between the computed result set and the query that triggers it.\n\nOtherwise, an intermediary could play cut & splice with different resources and URIs, potentially compromising the security of the appraisal.",
       "createdAt": "2025-03-26T18:15:58Z",
-      "updatedAt": "2025-03-26T20:36:27Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2025-04-07T18:03:05Z",
+      "closedAt": "2025-04-07T18:03:04Z",
+      "comments": [
+        {
+          "author": "paulhowardarm",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Closed with https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/pull/13",
+          "createdAt": "2025-04-07T18:03:04Z",
+          "updatedAt": "2025-04-07T18:03:04Z"
+        }
+      ]
     },
     {
       "number": 9,
@@ -127,15 +143,15 @@
       "id": "I_kwDOOAZd1M6wDUHS",
       "title": "fix cardinality of the selectors",
       "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/issues/10",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "thomas-fossati",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "We currently have 0..n:\n```\nselector //= ( &(class: 0) => [ * class-map ] )\n```\n\nIt should be 1..n:\n```\nselector //= ( &(class: 0) => [ + class-map ] )\n```",
       "createdAt": "2025-03-27T16:27:38Z",
-      "updatedAt": "2025-03-27T16:27:38Z",
-      "closedAt": null,
+      "updatedAt": "2025-04-07T18:42:07Z",
+      "closedAt": "2025-04-07T18:42:07Z",
       "comments": []
     },
     {
@@ -152,6 +168,42 @@
       "createdAt": "2025-04-01T16:03:19Z",
       "updatedAt": "2025-04-01T16:03:19Z",
       "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 14,
+      "id": "I_kwDOOAZd1M6xaFln",
+      "title": "`application/coserv+cbor` should expose the profile as an optional parameter",
+      "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/issues/14",
+      "state": "CLOSED",
+      "author": "thomas-fossati",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "thomas-fossati"
+      ],
+      "labels": [],
+      "body": "Similar to [EAT](https://www.ietf.org/archive/id/draft-ietf-rats-eat-media-type-12.html) and [CoRIM](https://www.ietf.org/archive/id/draft-ietf-rats-corim-07.html#section-12.12.1) media types.",
+      "createdAt": "2025-04-07T10:33:57Z",
+      "updatedAt": "2025-04-07T18:05:39Z",
+      "closedAt": "2025-04-07T18:05:39Z",
+      "comments": []
+    },
+    {
+      "number": 15,
+      "id": "I_kwDOOAZd1M6xd5Jt",
+      "title": "Add a CoAP Content-Format",
+      "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/issues/15",
+      "state": "CLOSED",
+      "author": "thomas-fossati",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "thomas-fossati"
+      ],
+      "labels": [],
+      "body": "We need to add a request to IANA for a new CoAP Content-Format for the `application/coserv+cbor` media type.",
+      "createdAt": "2025-04-07T16:30:13Z",
+      "updatedAt": "2025-04-07T18:05:39Z",
+      "closedAt": "2025-04-07T18:05:39Z",
       "comments": []
     }
   ],
@@ -404,6 +456,191 @@
           "body": "Excellent stuff - many thanks.",
           "createdAt": "2025-04-01T15:58:37Z",
           "updatedAt": "2025-04-01T15:58:37Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 13,
+      "id": "PR_kwDOOAZd1M6Rmkrp",
+      "title": "Restructure the draft to latest CDDL",
+      "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/pull/13",
+      "state": "MERGED",
+      "author": "paulhowardarm",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "A round of extensions and refactoring to match the draft prose to the CDDL data model.\r\n\r\n- Introduction is rewritten to expand the scope of CoSERV to include both queries _and_ result sets.\r\n- A new top-level \"Information Model\" section is introduced, so that we can keep informational concepts and structure distinct from the precise data model.\r\n- Top-level \"CoSERV Query Language\" heading changed to \"Data Model\"\r\n- CDDL section refactored to reflect the new top-level wrapper object, with the query now nested within it.\r\n\r\nThis is just a minimal set to make the prose more honest with respect to the CDDL. After this, we can probably do more refactoring to lift some verbosity out of the data model and put it into the information model instead.\r\n\r\nSigned-off-by: Paul Howard <paul.howard@arm.com>",
+      "createdAt": "2025-04-07T09:53:46Z",
+      "updatedAt": "2025-04-07T16:36:38Z",
+      "baseRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
+      "baseRefName": "main",
+      "baseRefOid": "470f2ff59889e2f4518235f33122cfec6a9f9948",
+      "headRepository": "paulhowardarm/draft-howard-rats-coserv",
+      "headRefName": "phResultSetProse",
+      "headRefOid": "9ef31a8137ab740d4a1134f46bcc126aee2ff9b0",
+      "closedAt": "2025-04-07T16:36:38Z",
+      "mergedAt": "2025-04-07T16:36:37Z",
+      "mergedBy": "paulhowardarm",
+      "mergeCommit": {
+        "oid": "f10a9fad3c672ad8070a7dabb0daf360d6acf397"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOOAZd1M6jsVLe",
+          "commit": {
+            "abbreviatedOid": "6ed9372"
+          },
+          "author": "thomas-fossati",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "Looks great!  I have inlined a couple suggestions.",
+          "createdAt": "2025-04-07T10:17:49Z",
+          "updatedAt": "2025-04-07T10:28:33Z",
+          "comments": [
+            {
+              "originalPosition": 66,
+              "body": "Non-native speaker question: is \u201cmitigate against something\u201d or \u201cmitigate something\u201d?  (In Italian, \u201cmitigate\u201d does not require any proposition because it is a transitive verb.)",
+              "createdAt": "2025-04-07T10:17:49Z",
+              "updatedAt": "2025-04-07T10:28:33Z"
+            },
+            {
+              "originalPosition": 67,
+              "body": "Maybe we can be more specific.  (The `?` in the ref implicitly makes an \u201cinformational reference\u201d entry.  However, we probably want to be consistent with the current model \u2014 i.e., being explicit.)\r\n\r\n```suggestion\r\nAn example of this is caching in HTTP {{?STD98}} and CoAP {{?RFC7252}}.\r\n```",
+              "createdAt": "2025-04-07T10:24:23Z",
+              "updatedAt": "2025-04-07T10:28:33Z"
+            },
+            {
+              "originalPosition": 69,
+              "body": "Countering manipulation by an untrusted intermediary also needs a cryptographic envelope around the CoSERV data item.",
+              "createdAt": "2025-04-07T10:26:10Z",
+              "updatedAt": "2025-04-07T10:28:33Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOOAZd1M6judYa",
+          "commit": {
+            "abbreviatedOid": "6ed9372"
+          },
+          "author": "paulhowardarm",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-04-07T13:38:12Z",
+          "updatedAt": "2025-04-07T13:38:12Z",
+          "comments": [
+            {
+              "originalPosition": 66,
+              "body": "Good catch. Slapdash usage on my part. Will correct.",
+              "createdAt": "2025-04-07T13:38:12Z",
+              "updatedAt": "2025-04-07T13:38:12Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOOAZd1M6jwph-",
+          "commit": {
+            "abbreviatedOid": "9ef31a8"
+          },
+          "author": "thomas-fossati",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Looks great.  Thanks much!",
+          "createdAt": "2025-04-07T16:31:19Z",
+          "updatedAt": "2025-04-07T16:31:55Z",
+          "comments": [
+            {
+              "originalPosition": 3,
+              "body": "Nice \u2014 we\u2019ll need to request registration of the CoAP Content-Format (added #15 to track this.)",
+              "createdAt": "2025-04-07T16:31:20Z",
+              "updatedAt": "2025-04-07T16:31:55Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 16,
+      "id": "PR_kwDOOAZd1M6Rq56s",
+      "title": "more IANA requests",
+      "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/pull/16",
+      "state": "MERGED",
+      "author": "thomas-fossati",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "* add optional \u201cprofile\u201d media type parameter \r\n* add `application/coserv+cose`\r\n* add CoAP Content-Format requests for `application/coserv+cbor` and `application/coserv+cose`\r\n\r\nFix #14\r\nFix #15 ",
+      "createdAt": "2025-04-07T17:42:24Z",
+      "updatedAt": "2025-04-07T18:16:58Z",
+      "baseRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
+      "baseRefName": "main",
+      "baseRefOid": "f10a9fad3c672ad8070a7dabb0daf360d6acf397",
+      "headRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
+      "headRefName": "iana",
+      "headRefOid": "a5db10e87f02955df6a7731d7260a1f2b62be7bf",
+      "closedAt": "2025-04-07T18:05:38Z",
+      "mergedAt": "2025-04-07T18:05:38Z",
+      "mergedBy": "paulhowardarm",
+      "mergeCommit": {
+        "oid": "19aaf61146967112bc58d3503d3bb508841a0211"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOOAZd1M6jxgiV",
+          "commit": {
+            "abbreviatedOid": "a5db10e"
+          },
+          "author": "paulhowardarm",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Looks good, thank you.",
+          "createdAt": "2025-04-07T18:04:36Z",
+          "updatedAt": "2025-04-07T18:04:36Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 17,
+      "id": "PR_kwDOOAZd1M6RrVa7",
+      "title": "Fix cardinality of the selectors",
+      "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/pull/17",
+      "state": "MERGED",
+      "author": "thomas-fossati",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Fix #10 ",
+      "createdAt": "2025-04-07T18:39:33Z",
+      "updatedAt": "2025-04-07T18:42:06Z",
+      "baseRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
+      "baseRefName": "main",
+      "baseRefOid": "19aaf61146967112bc58d3503d3bb508841a0211",
+      "headRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
+      "headRefName": "fix-cardinality",
+      "headRefOid": "189b009106698559c48864debbaa895f73fe6b7e",
+      "closedAt": "2025-04-07T18:42:06Z",
+      "mergedAt": "2025-04-07T18:42:06Z",
+      "mergedBy": "paulhowardarm",
+      "mergeCommit": {
+        "oid": "3620fc1381f2134968e25e39b53589833fac81ea"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOOAZd1M6jx2S9",
+          "commit": {
+            "abbreviatedOid": "189b009"
+          },
+          "author": "paulhowardarm",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Looks great. Thanks.",
+          "createdAt": "2025-04-07T18:41:44Z",
+          "updatedAt": "2025-04-07T18:41:44Z",
           "comments": []
         }
       ]
