@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-04-08T00:42:45.494496+00:00",
+  "timestamp": "2025-04-10T00:43:10.009536+00:00",
   "repo": "rats-endorsements-distribution/draft-howard-rats-coserv",
   "labels": [
     {
@@ -130,11 +130,13 @@
       "state": "OPEN",
       "author": "thomas-fossati",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "paulhowardarm"
+      ],
       "labels": [],
       "body": "We need to clearly explain CoSERV's query semantics, i.e.:\n\n* The entries in the class/istance/group array represent alternatives (`OR`)\n* In a given class:\n    * All fields that are set must match (`AND`)\n    * Any unset fields are wildcards (`*`)\n\nTo illustrate the concepts, we can use the `ToSQL` examples in [`coserv/environmentselector_test.go`](https://github.com/veraison/corim/blob/coserv/coserv/environmentselector_test.go)\n",
       "createdAt": "2025-03-26T20:42:42Z",
-      "updatedAt": "2025-03-26T20:44:35Z",
+      "updatedAt": "2025-04-08T14:03:02Z",
       "closedAt": null,
       "comments": []
     },
@@ -162,13 +164,23 @@
       "state": "OPEN",
       "author": "paulhowardarm",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "paulhowardarm"
+      ],
       "labels": [],
       "body": "The coserv query can select for `artifact-type` as being either Trust Anchor, Endorsed Value or Reference Value. This is a rigid definition that was chosen to reflect the \"RATS-native\" artifacts.\n\nHowever, we also want to support profile-defined extensions, and the result set is defined in such a way to support this via an extension socket in the CDDL.\n\nSo there's asymmetry between how extensible the query is, relative to how extensible the result is.\n\nNeed to find a good data model idiom to resolve this.\n\nOne option might be to simply add a fourth option to `artifact-type` that essentially means \"profile-specific\" and assume that the profile will handle its semantics.\n",
       "createdAt": "2025-04-01T16:03:19Z",
-      "updatedAt": "2025-04-01T16:03:19Z",
+      "updatedAt": "2025-04-08T14:07:06Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "paulhowardarm",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Update after chatting with @thomas-fossati - we should probably not rush to create extensibility mechanisms until such time as they can be matched to a clear use case, and in particular we should be wary of allowing profiles to introduce wholesale bespoke semantics, because that can end up leading to precisely the kind of fragmentation that we want to address with CoSERV. We should keep this issue open to track the ongoing extensibility problem in the meantime.",
+          "createdAt": "2025-04-08T14:07:01Z",
+          "updatedAt": "2025-04-08T14:07:01Z"
+        }
+      ]
     },
     {
       "number": 14,
