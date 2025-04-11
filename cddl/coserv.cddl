@@ -1,7 +1,7 @@
 coserv = {
   &(profile: 0) => profile
   &(query: 1) => query
-  ? result-set
+  ? &(results: 2) => results
 }
 
 profile = oid-type / ~uri
