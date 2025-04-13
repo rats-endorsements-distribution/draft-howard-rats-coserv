@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-04-10T00:43:10.009536+00:00",
+  "timestamp": "2025-04-13T02:10:15.683802+00:00",
   "repo": "rats-endorsements-distribution/draft-howard-rats-coserv",
   "labels": [
     {
@@ -656,6 +656,32 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 18,
+      "id": "PR_kwDOOAZd1M6SQ0-6",
+      "title": "slight refactoring of the coserv data item",
+      "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/pull/18",
+      "state": "OPEN",
+      "author": "thomas-fossati",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "* wrap the result set in its map\r\n* add a result-set example",
+      "createdAt": "2025-04-11T13:46:36Z",
+      "updatedAt": "2025-04-11T13:50:55Z",
+      "baseRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
+      "baseRefName": "main",
+      "baseRefOid": "3620fc1381f2134968e25e39b53589833fac81ea",
+      "headRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
+      "headRefName": "result-set-examples",
+      "headRefOid": "fbcffce1c9281d9bed937e6ce1cdd1b189fe4293",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
