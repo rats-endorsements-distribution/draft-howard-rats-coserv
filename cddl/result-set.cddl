@@ -2,10 +2,10 @@ results = {
   result-set
 }
 
-result-set //= ? reference-values
-result-set //= ? endorsed-values
-result-set //= ? trust-anchors
-result-set //= ? $$result-set-extensions
+result-set //= reference-values
+result-set //= endorsed-values
+result-set //= trust-anchors
+result-set //= $$result-set-extensions
 
 reference-values = (
   &(rvt: 0) => [ * reference-triple-record ]
