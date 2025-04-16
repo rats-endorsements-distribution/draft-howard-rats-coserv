@@ -392,6 +392,7 @@ Table of Contents
 
    results = {
      result-set
+     &(expiry: 10) => tdate ; RFC3339 date
    }
 
    result-set //= reference-values
