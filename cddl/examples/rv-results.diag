@@ -11,7 +11,8 @@
     }
   },
   / results / 2: {
-    / reference values / 0: [
+    / expiry / 10: 0("2030-12-13T18:30:02Z"),
+    / reference-value triples / 0: [
       [
         {
           0: {
