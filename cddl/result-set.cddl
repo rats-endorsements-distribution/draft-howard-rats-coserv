@@ -1,20 +1,24 @@
-result-set //= ? reference-values
-result-set //= ? endorsed-values
-result-set //= ? trust-anchors
-result-set //= ? $$result-set-extensions
+results = {
+  result-set
+}
+
+result-set //= reference-values
+result-set //= endorsed-values
+result-set //= trust-anchors
+result-set //= $$result-set-extensions
 
 reference-values = (
-  &(rvt: 10) => [ * reference-triple-record ]
+  &(rvt: 0) => [ * reference-triple-record ]
 )
 
 endorsed-values = (
-  &(evt: 20) => [ * endorsed-triple-record ]
-  &(cet: 21) => [ * conditional-endorsement-triple-record ]
+  &(evt: 1) => [ * endorsed-triple-record ]
+  &(cet: 2)=> [ * conditional-endorsement-triple-record ]
 )
 
 trust-anchors = (
-  &(akt: 30) => [ * attest-key-triple-record ]
-  &(tas: 31) => [ * cots ]
+  &(akt: 3) => [ * attest-key-triple-record ]
+  &(tas: 4) => [ * cots ]
 )
 
 ;
