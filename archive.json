@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-04-13T02:10:15.683802+00:00",
+  "timestamp": "2025-04-17T00:43:43.459541+00:00",
   "repo": "rats-endorsements-distribution/draft-howard-rats-coserv",
   "labels": [
     {
@@ -136,9 +136,17 @@
       "labels": [],
       "body": "We need to clearly explain CoSERV's query semantics, i.e.:\n\n* The entries in the class/istance/group array represent alternatives (`OR`)\n* In a given class:\n    * All fields that are set must match (`AND`)\n    * Any unset fields are wildcards (`*`)\n\nTo illustrate the concepts, we can use the `ToSQL` examples in [`coserv/environmentselector_test.go`](https://github.com/veraison/corim/blob/coserv/coserv/environmentselector_test.go)\n",
       "createdAt": "2025-03-26T20:42:42Z",
-      "updatedAt": "2025-04-08T14:03:02Z",
+      "updatedAt": "2025-04-15T15:29:28Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "deeglaze",
+          "authorAssociation": "NONE",
+          "body": "I think that a new query language and associated semantics is uncalled for unless it's a CBOR expression of Meta's GraphQL which is /then/ specialized down to selecting CoRIMs or individual tags like the evident single supported tags that have environment-map as a primary key (i.e., CoMID and CoTS).",
+          "createdAt": "2025-04-15T15:29:27Z",
+          "updatedAt": "2025-04-15T15:29:27Z"
+        }
+      ]
     },
     {
       "number": 10,
@@ -216,6 +224,22 @@
       "createdAt": "2025-04-07T16:30:13Z",
       "updatedAt": "2025-04-07T18:05:39Z",
       "closedAt": "2025-04-07T18:05:39Z",
+      "comments": []
+    },
+    {
+      "number": 19,
+      "id": "I_kwDOOAZd1M6yoOgu",
+      "title": "Select by signer as well",
+      "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/issues/19",
+      "state": "OPEN",
+      "author": "deeglaze",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "A reference value provider (e.g., Firmware vendor) can provide measurements for an environment whose name it does not own (e.g., Silicon vendor-named bootloader target). If I want to get reference values for the bootloader target that are specifically from a particular signer, then CoSERV does not allow me to name that.\n\nIf I select by manifest-signer role in the entity map, then since that's optional for directly signed CoRIMs in favor of the mandatory corim-meta  COSE header, then you'd need to search that as well. We don't even have a required structure for the manifest-signer, so I've opened https://github.com/ietf-rats-wg/draft-ietf-rats-corim/issues/421",
+      "createdAt": "2025-04-15T15:49:12Z",
+      "updatedAt": "2025-04-15T15:49:12Z",
+      "closedAt": null,
       "comments": []
     }
   ],
@@ -662,26 +686,84 @@
       "id": "PR_kwDOOAZd1M6SQ0-6",
       "title": "slight refactoring of the coserv data item",
       "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/pull/18",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "thomas-fossati",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "* wrap the result set in its map\r\n* add a result-set example",
       "createdAt": "2025-04-11T13:46:36Z",
-      "updatedAt": "2025-04-11T13:50:55Z",
+      "updatedAt": "2025-04-16T07:14:13Z",
       "baseRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
       "baseRefName": "main",
       "baseRefOid": "3620fc1381f2134968e25e39b53589833fac81ea",
       "headRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
       "headRefName": "result-set-examples",
-      "headRefOid": "fbcffce1c9281d9bed937e6ce1cdd1b189fe4293",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "fa90b868dcea11bf811c8c71d7464851469d3d97",
+      "closedAt": "2025-04-16T07:14:13Z",
+      "mergedAt": "2025-04-16T07:14:13Z",
+      "mergedBy": "paulhowardarm",
+      "mergeCommit": {
+        "oid": "8ae5ce34fc9864e4a208d260b4065b618a7b0f9b"
+      },
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOOAZd1M6lMC_b",
+          "commit": {
+            "abbreviatedOid": "fa90b86"
+          },
+          "author": "paulhowardarm",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Excellent, thank you.",
+          "createdAt": "2025-04-16T07:09:23Z",
+          "updatedAt": "2025-04-16T07:09:23Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 20,
+      "id": "PR_kwDOOAZd1M6S1d0O",
+      "title": "add an explicit expiry to the result set",
+      "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/pull/20",
+      "state": "MERGED",
+      "author": "thomas-fossati",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-04-16T12:49:58Z",
+      "updatedAt": "2025-04-16T12:53:12Z",
+      "baseRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
+      "baseRefName": "main",
+      "baseRefOid": "8ae5ce34fc9864e4a208d260b4065b618a7b0f9b",
+      "headRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
+      "headRefName": "expiry",
+      "headRefOid": "ef0cd789748cb71bf58ef3f67c6a4a0b0d651def",
+      "closedAt": "2025-04-16T12:53:12Z",
+      "mergedAt": "2025-04-16T12:53:11Z",
+      "mergedBy": "paulhowardarm",
+      "mergeCommit": {
+        "oid": "87e750d8ca1e4945995efe0a35220ee4b63d87f1"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOOAZd1M6lP7Ks",
+          "commit": {
+            "abbreviatedOid": "ef0cd78"
+          },
+          "author": "paulhowardarm",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "LGTM - thanks!",
+          "createdAt": "2025-04-16T12:52:29Z",
+          "updatedAt": "2025-04-16T12:52:29Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }
