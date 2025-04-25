@@ -5,8 +5,8 @@
 Remote ATtestation ProcedureS                                  P. Howard
 Internet-Draft                                                       Arm
 Intended status: Informational                                T. Fossati
-Expires: 18 October 2025                                          Linaro
-                                                           16 April 2025
+Expires: 27 October 2025                                          Linaro
+                                                           25 April 2025
 
 
          Concise Selector for Endorsements and Reference Values
@@ -57,7 +57,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 18 October 2025.
+   This Internet-Draft will expire on 27 October 2025.
 
 Copyright Notice
 
@@ -91,6 +91,8 @@ Table of Contents
      3.5.  Encoding Requirements
      3.6.  Cryptographic Binding Between Query and Result Set
    4.  Examples
+     4.1.  Query Data Examples
+     4.2.  Result Data Examples
    5.  Implementation Status
      5.1.  Veraison
    6.  Security Considerations
@@ -477,6 +479,8 @@ Table of Contents
 
 4.  Examples
 
+4.1.  Query Data Examples
+
    This section provides some illustrative examples of valid CoSERV
    query objects.
 
@@ -544,6 +548,63 @@ Table of Contents
            560(h'8999786556')      / tagged-bytes /
          ]
        }
+     }
+   }
+
+4.2.  Result Data Examples
+
+   This section provides some illustrative examples of valid CoSERV
+   queries with their corresponding result sets.
+
+   In this next example, the query is a reference value query based on
+   class.
+
+   The top-level structure is a map with three entries: profile
+   (codepoint 0), query (codepoint 1) and results (codepoint 2).
+
+   The profile and query structures are the same as in the previous
+   examples.  The result structure is a map with two entries: expiry
+   (codepoint 10) and reference-value triples (codepoint 0).  A single
+   reference-value triple is shown in this example.  Its environment-
+   map, as expected, is the same as the environment-map that was
+   supplied in the query.  The rest of the structure is the measurement-
+   map as defined in CoRIM [I-D.ietf-rats-corim].
+
+   {
+     / profile / 0: "tag:example.com,2025:cc-platform#1.0.0",
+     / query / 1: {
+       0: 2,
+       1: {
+         0: [
+           {
+             0: 560(h'8999786556')
+           }
+         ]
+       }
+     },
+     / results / 2: {
+       / expiry / 10: 0("2030-12-13T18:30:02Z"),
+       / reference-value triples / 0: [
+         [
+           {
+             0: {
+               0: 560(h'8999786556')
+             }
+           },
+           [
+             {
+               0: 37(h'31FB5ABF023E4992AA4E95F9C1503BFA'),
+               1: {
+                 / version / 0: {
+                   0: "1.2.3",
+                   1: 16384
+                 },
+                 / svn / 1: 553(2)
+               }
+             }
+           ]
+         ]
+       ]
      }
    }
 
