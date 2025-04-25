@@ -299,7 +299,9 @@ In this next example, the query is a reference value query based on class.
 The top-level structure is a map with three entries: `profile` (codepoint 0), `query` (codepoint 1) and `results` (codepoint 2).
 
 The profile and query structures are the same as in the previous examples.
-The result structure is a map with two entries: `expiry` (codepoint 10) and `reference-value triples` (codepoint 0). A single reference-value triple is shown in this example. Its `environment-map`, as expected, is the same as the `environment-map` that was supplied in the query. The rest of the structure is the `measurement-map` as defined in CoRIM {{-rats-corim}}.
+The result structure is a map with two entries: `expiry` (codepoint 10) and `reference-value triples` (codepoint 0).
+A single reference-value triple is shown in this example. Its `environment-map`, as expected, is the same as the `environment-map` that was supplied in the query.
+The rest of the structure is the `measurement-map` as defined in CoRIM {{-rats-corim}}.
 
 ~~~edn
 {::include-fold cddl/examples/rv-results.diag}
