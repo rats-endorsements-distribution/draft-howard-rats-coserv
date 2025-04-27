@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-04-24T00:44:21.707642+00:00",
+  "timestamp": "2025-04-27T00:48:34.681928+00:00",
   "repo": "rats-endorsements-distribution/draft-howard-rats-coserv",
   "labels": [
     {
@@ -786,20 +786,88 @@
       "id": "PR_kwDOOAZd1M6TcDta",
       "title": "Stitch the result set example into the prose.",
       "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/pull/22",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "paulhowardarm",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Splits the examples section into two subsections. Existing examples were query examples. The new example (just one so far) is query+result.\r\n",
       "createdAt": "2025-04-22T13:15:32Z",
-      "updatedAt": "2025-04-22T13:15:32Z",
+      "updatedAt": "2025-04-25T16:11:41Z",
       "baseRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
       "baseRefName": "main",
       "baseRefOid": "87e750d8ca1e4945995efe0a35220ee4b63d87f1",
       "headRepository": "paulhowardarm/draft-howard-rats-coserv",
       "headRefName": "phResultSetExamples",
-      "headRefOid": "5220c8dbc34f047272bbc7cb224529113a543f9c",
+      "headRefOid": "c7432f8b35dedcf8061c5e4518203d3289bb3cd0",
+      "closedAt": "2025-04-25T16:11:40Z",
+      "mergedAt": "2025-04-25T16:11:40Z",
+      "mergedBy": "thomas-fossati",
+      "mergeCommit": {
+        "oid": "1303dddfb3408c1c6db7dc93b45e91d2439a758f"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOOAZd1M6mkF2t",
+          "commit": {
+            "abbreviatedOid": "5220c8d"
+          },
+          "author": "thomas-fossati",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "LGTM! Just a couple of minor comments inlined.",
+          "createdAt": "2025-04-25T15:14:31Z",
+          "updatedAt": "2025-04-25T15:29:08Z",
+          "comments": [
+            {
+              "originalPosition": 21,
+              "body": "slightly more concise\r\n\r\n```suggestion\r\nThe profile and query structures are the same as in the previous examples.\r\n```",
+              "createdAt": "2025-04-25T15:14:31Z",
+              "updatedAt": "2025-04-25T15:29:08Z"
+            },
+            {
+              "originalPosition": 22,
+              "body": "new-sentence-new-line (as per convention)\r\n```suggestion\r\nThe result structure is a map with two entries: `expiry` (codepoint 10) and `reference-value triples` (codepoint 0).\r\nA single reference-value triple is shown in this example. Its `environment-map`, as expected, is the same as the `environment-map` that was supplied in the query.\r\nThe rest of the structure is the `measurement-map` as defined in CoRIM {{-rats-corim}}.\r\n```",
+              "createdAt": "2025-04-25T15:28:22Z",
+              "updatedAt": "2025-04-25T15:29:08Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOOAZd1M6mkrA_",
+          "commit": {
+            "abbreviatedOid": "c7432f8"
+          },
+          "author": "thomas-fossati",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Thanks!",
+          "createdAt": "2025-04-25T16:11:27Z",
+          "updatedAt": "2025-04-25T16:11:27Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 23,
+      "id": "PR_kwDOOAZd1M6T7Y0H",
+      "title": "[EXP] add authority to the result triples",
+      "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/pull/23",
+      "state": "OPEN",
+      "author": "thomas-fossati",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "First stab at adding explicit authority to result triples.\r\n\r\nThe idea explored in this PR is to wrap the existing triples in a map, which contains the authority context as \"crypto-key.\u201d\r\n\r\nThe downside of this approach is that it could potentially become extremely redundant, especially if the crypto-key is a cert or a cert chain.\r\n\r\nPossible mitigations include using \"CBOR packed\u201d or creating an auxiliary dictionary.",
+      "createdAt": "2025-04-25T15:00:05Z",
+      "updatedAt": "2025-04-25T15:05:43Z",
+      "baseRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
+      "baseRefName": "main",
+      "baseRefOid": "87e750d8ca1e4945995efe0a35220ee4b63d87f1",
+      "headRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
+      "headRefName": "authority",
+      "headRefOid": "1199ea95039b1314d48bcd6d0ec01560e3c0b440",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
