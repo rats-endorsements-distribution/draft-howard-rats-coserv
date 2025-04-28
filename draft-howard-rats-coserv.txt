@@ -5,8 +5,8 @@
 Remote ATtestation ProcedureS                                  P. Howard
 Internet-Draft                                                       Arm
 Intended status: Informational                                T. Fossati
-Expires: 27 October 2025                                          Linaro
-                                                           25 April 2025
+Expires: 30 October 2025                                          Linaro
+                                                           28 April 2025
 
 
          Concise Selector for Endorsements and Reference Values
@@ -57,7 +57,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 27 October 2025.
+   This Internet-Draft will expire on 30 October 2025.
 
 Copyright Notice
 
@@ -402,18 +402,43 @@ Table of Contents
    result-set //= trust-anchors
    result-set //= $$result-set-extensions
 
+   refval-quad = {
+     &(authority: 1) => $crypto-key-type-choice
+     &(rv-triple: 2) => reference-triple-record
+   }
+
    reference-values = (
-     &(rvt: 0) => [ * reference-triple-record ]
+     &(rvq: 0) => [ * refval-quad ]
    )
+
+   endval-quad = {
+     &(authority: 1) => $crypto-key-type-choice
+     &(ev-triple: 2) => endorsed-triple-record
+   }
+
+   cond-endval-quad = {
+     &(authority: 1) => $crypto-key-type-choice
+     &(ce-triple: 2) => conditional-endorsement-triple-record
+   }
 
    endorsed-values = (
-     &(evt: 1) => [ * endorsed-triple-record ]
-     &(cet: 2)=> [ * conditional-endorsement-triple-record ]
+     &(evq: 1) => [ * endval-quad ]
+     &(ceq: 2) => [ * cond-endval-quad ]
    )
 
+   ak-quad = {
+     &(authority: 1) => $crypto-key-type-choice
+     &(ak-triple: 2) => attest-key-triple-record
+   }
+
+   cots-stmt = {
+     &(authority: 1) => $crypto-key-type-choice
+     &(cots: 2) => cots
+   }
+
    trust-anchors = (
-     &(akt: 3) => [ * attest-key-triple-record ]
-     &(tas: 4) => [ * cots ]
+     &(akq: 3) => [ * ak-quad ]
+     &(tas: 4) => [ * cots-stmt ]
    )
 
    ;
@@ -583,27 +608,30 @@ Table of Contents
        }
      },
      / results / 2: {
-       / expiry / 10: 0("2030-12-13T18:30:02Z"),
-       / reference-value triples / 0: [
-         [
-           {
-             0: {
-               0: 560(h'8999786556')
-             }
-           },
-           [
+       10: 0("2030-12-13T18:30:02Z"),
+       0: [
+         {
+           1: 560(h'abcdef'),
+           2: [
              {
-               0: 37(h'31FB5ABF023E4992AA4E95F9C1503BFA'),
-               1: {
-                 / version / 0: {
-                   0: "1.2.3",
-                   1: 16384
-                 },
-                 / svn / 1: 553(2)
+               0: {
+                 0: 560(h'8999786556')
                }
-             }
+             },
+             [
+               {
+                 0: 37(h'31FB5ABF023E4992AA4E95F9C1503BFA'),
+                 1: {
+                   / version / 0: {
+                     0: "1.2.3",
+                     1: 16384
+                   },
+                   / svn / 1: 553(2)
+                 }
+               }
+             ]
            ]
-         ]
+         }
        ]
      }
    }
