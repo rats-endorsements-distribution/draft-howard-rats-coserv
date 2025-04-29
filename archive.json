@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-04-27T00:48:34.681928+00:00",
+  "timestamp": "2025-04-29T00:44:37.589659+00:00",
   "repo": "rats-endorsements-distribution/draft-howard-rats-coserv",
   "labels": [
     {
@@ -852,28 +852,44 @@
     {
       "number": 23,
       "id": "PR_kwDOOAZd1M6T7Y0H",
-      "title": "[EXP] add authority to the result triples",
+      "title": "Add authority to the result triples",
       "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/pull/23",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "thomas-fossati",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "First stab at adding explicit authority to result triples.\r\n\r\nThe idea explored in this PR is to wrap the existing triples in a map, which contains the authority context as \"crypto-key.\u201d\r\n\r\nThe downside of this approach is that it could potentially become extremely redundant, especially if the crypto-key is a cert or a cert chain.\r\n\r\nPossible mitigations include using \"CBOR packed\u201d or creating an auxiliary dictionary.",
       "createdAt": "2025-04-25T15:00:05Z",
-      "updatedAt": "2025-04-25T15:05:43Z",
+      "updatedAt": "2025-04-28T11:20:42Z",
       "baseRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
       "baseRefName": "main",
       "baseRefOid": "87e750d8ca1e4945995efe0a35220ee4b63d87f1",
       "headRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
       "headRefName": "authority",
       "headRefOid": "1199ea95039b1314d48bcd6d0ec01560e3c0b440",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-04-28T11:20:25Z",
+      "mergedAt": "2025-04-28T11:20:25Z",
+      "mergedBy": "thomas-fossati",
+      "mergeCommit": {
+        "oid": "c5ce3ab583962f7063e26229795862a10c7b340e"
+      },
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOOAZd1M6m0mrx",
+          "commit": {
+            "abbreviatedOid": "1199ea9"
+          },
+          "author": "paulhowardarm",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Looks good, thanks.",
+          "createdAt": "2025-04-28T10:17:57Z",
+          "updatedAt": "2025-04-28T10:17:57Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }
