@@ -1,0 +1,20 @@
+        
+GET /coserv/{q} .--------.                     .-----.
+--------------->|        | EndorsementQueryIn  |     |
+                |        +-------------------->|     | SynthCoservQueryKeys(q)  .--------------------.
+                |        |         q           |     |<----------------------->|    Store Handler    |
+                |        |                     |     |        {keys}           '--------------------'
+                |        |                     |     |
+                |        |                     |     |
+                |        |                     |     | for k_i in {keys}: .------.
+                | CoSERV |                     |     |  xStore.Get(k_i)  |        |
+                | ReST   |                     | VTS |<----------------->|'------'|
+                | API    |                     |     |       rset_i      | xStore |
+                |        |                     |     |                    '------'
+                |        |                     |     |
+                |        |                     |     |
+                |        |                     |     |  CoservRepackage(rset)   .--------------------.
+                |        | EndorsementQueryOut |     |<----------------------->| Endorsement Handler |
+   coserv+cbor  |        |<--------------------+     |     coserv{q, rset}     '--------------------'
+<---------------+        |   coserv{q, rset}   |     |
+    h'a300...'  '--------'                     '-----'
