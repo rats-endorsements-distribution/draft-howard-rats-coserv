@@ -18,7 +18,7 @@ theme: Plain Thomas
 
 ---
 
-# Enter CoSERV
+# Why CoSERV?
 
 * We could define more reference interaction models, or even include concrete API definitions (OpenAPI specs).
 * Any such API would need a data format to transact - a query/response language tailored towards RATS artefacts
@@ -33,6 +33,11 @@ theme: Plain Thomas
 * Adaptable to different interaction models (_e.g._ fetch everything, fetch deltas, pub/sub)
 * Efficient use of the transport (_e.g._ amenable to client-side or server-side caching)
 * Support constrained consumers - optimise data volume and minimise client-side processing burden
+
+---
+
+# Requirements and Guiding Principles (_cont._)
+
 * Specialise for "RATS-native" artefacts (endorsed values, reference values, trust anchors), but allow some extensibility
 * Re-use existing RATS designs where possible, and align to CDDL data model
 * Allow distributors to aggregate multiple sources, with flexible trust models
