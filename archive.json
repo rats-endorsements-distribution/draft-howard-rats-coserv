@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-04-29T00:44:37.589659+00:00",
+  "timestamp": "2025-05-01T00:51:38.766067+00:00",
   "repo": "rats-endorsements-distribution/draft-howard-rats-coserv",
   "labels": [
     {
@@ -887,6 +887,48 @@
           "body": "Looks good, thanks.",
           "createdAt": "2025-04-28T10:17:57Z",
           "updatedAt": "2025-04-28T10:17:57Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 24,
+      "id": "PR_kwDOOAZd1M6Uecto",
+      "title": "2025-05-02 meeting materials (first stab)",
+      "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/pull/24",
+      "state": "MERGED",
+      "author": "thomas-fossati",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Initial sketch for the RATS WG interim material.\r\n\r\nOn my side, the markdown is rendered using [Deckset](https://www.deckset.com/), an awesome but unfortunately non-free software.\r\n\r\n\r\n",
+      "createdAt": "2025-04-30T09:46:32Z",
+      "updatedAt": "2025-04-30T10:45:11Z",
+      "baseRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
+      "baseRefName": "main",
+      "baseRefOid": "c5ce3ab583962f7063e26229795862a10c7b340e",
+      "headRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
+      "headRefName": "interim-materials",
+      "headRefOid": "6c4c27ada0eaa7488ce8fe4ecfeaa5ea7b771d9d",
+      "closedAt": "2025-04-30T10:45:11Z",
+      "mergedAt": "2025-04-30T10:45:11Z",
+      "mergedBy": "paulhowardarm",
+      "mergeCommit": {
+        "oid": "bd5a050f7623697beff5360018d6897c914aa05c"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOOAZd1M6nSex-",
+          "commit": {
+            "abbreviatedOid": "6c4c27a"
+          },
+          "author": "paulhowardarm",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Looks awesome, thanks!",
+          "createdAt": "2025-04-30T10:43:26Z",
+          "updatedAt": "2025-04-30T10:43:26Z",
           "comments": []
         }
       ]
