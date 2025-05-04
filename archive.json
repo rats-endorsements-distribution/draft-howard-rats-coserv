@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-05-01T00:51:38.766067+00:00",
+  "timestamp": "2025-05-04T00:51:27.918536+00:00",
   "repo": "rats-endorsements-distribution/draft-howard-rats-coserv",
   "labels": [
     {
@@ -929,6 +929,68 @@
           "body": "Looks awesome, thanks!",
           "createdAt": "2025-04-30T10:43:26Z",
           "updatedAt": "2025-04-30T10:43:26Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 25,
+      "id": "PR_kwDOOAZd1M6UoP18",
+      "title": "IETF slide tweaks for interim meeting",
+      "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/pull/25",
+      "state": "MERGED",
+      "author": "paulhowardarm",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "- Add two scene-setting slides\r\n- Add a summary slide for the Veraison work, so that details can be skipped\r\n\r\nSigned-off-by: Paul Howard <paul.howard@arm.com>",
+      "createdAt": "2025-05-01T10:50:43Z",
+      "updatedAt": "2025-05-01T11:27:00Z",
+      "baseRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
+      "baseRefName": "main",
+      "baseRefOid": "bd5a050f7623697beff5360018d6897c914aa05c",
+      "headRepository": "paulhowardarm/draft-howard-rats-coserv",
+      "headRefName": "phIETFInterimPrep",
+      "headRefOid": "57bbfb0dfdd32841eac1af3e1f489bec1d8975a5",
+      "closedAt": "2025-05-01T11:27:00Z",
+      "mergedAt": "2025-05-01T11:27:00Z",
+      "mergedBy": "thomas-fossati",
+      "mergeCommit": {
+        "oid": "1dc0d7eaca90ce8a3f527dc1424485697dc66d15"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOOAZd1M6ndzf7",
+          "commit": {
+            "abbreviatedOid": "d0ca219"
+          },
+          "author": "thomas-fossati",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Looks great!  (Eventually, we might need to spread the content across more than 2 slides to make it readable \u2014 at least, for the first slide.)",
+          "createdAt": "2025-05-01T10:58:15Z",
+          "updatedAt": "2025-05-01T11:01:32Z",
+          "comments": [
+            {
+              "originalPosition": 20,
+              "body": "nits/personal preference: _\u201de.g.\u201d_ rather than \u201ceg.\u201d",
+              "createdAt": "2025-05-01T10:58:15Z",
+              "updatedAt": "2025-05-01T11:01:32Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOOAZd1M6nd5n1",
+          "commit": {
+            "abbreviatedOid": "57bbfb0"
+          },
+          "author": "thomas-fossati",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "awesome, thansk!",
+          "createdAt": "2025-05-01T11:26:36Z",
+          "updatedAt": "2025-05-01T11:26:36Z",
           "comments": []
         }
       ]
