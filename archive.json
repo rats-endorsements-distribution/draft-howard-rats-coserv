@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-05-04T00:51:27.918536+00:00",
+  "timestamp": "2025-05-15T00:44:55.832035+00:00",
   "repo": "rats-endorsements-distribution/draft-howard-rats-coserv",
   "labels": [
     {
@@ -62,7 +62,7 @@
       "labels": [],
       "body": "Hi, I am excited to see this standard work on \"How to identify reference value\" as a confidential computing developer. I have some questions about this\n\n1. This standard specifies how to calibrate reference values. Do we have plans to standardize the reference value return format or the protocol interaction process being queried? The context is that different hardware architectures currently do not have a unified reference value query API, and the APIs for distributing reference values \u200b\u200bin the software ecosystem are also different. If we standardized this process, it would benefit the confidential computing ecosystem.\n\n2. In the Query Structure of the reference value query, is it necessary to add the \"time\" optional parameter, which means the reference value that meets other conditions as of a certain time.\n\nThanks!",
       "createdAt": "2025-03-20T09:15:11Z",
-      "updatedAt": "2025-03-20T13:00:00Z",
+      "updatedAt": "2025-05-13T09:36:29Z",
       "closedAt": null,
       "comments": [
         {
@@ -71,6 +71,13 @@
           "body": "Hi @Xynnn007 and thanks for your interest in this work.\n\nWe're quite early in the evolution of this draft, and we don't have a version published to the data tracker yet. At the moment, I think there are some inconsistencies between the text and the CDDL, which I will rectify soon.\n\nFor your question [1], the intention of this draft is deliberately only scoped to the query language, not the output format. The idea is that a CoSERV query would form the input to an endorsement distribution service, and there would be a media type negotiation to decide on the best-applicable output format for the consumer. There are different output formats in the ecosystem, and this draft is not intended to compete with or replace those. CoRIM, for example, already has a lot of traction in the RATS world, and indeed CoSERV is heavily influenced by the environment maps used by CoRIM. So you could imagine a service where CoSERV is the input, and CoRIM is the output. But there could also be other output types.\n\nFor question [2], this isn't something I had considered. What would be the expected use case for this? It's certainly expected that RV sets might change over time (due to such things as firmware image upgrade, for instance). But I would expect that latest/current values are the most useful thing to a consumer at any given point.",
           "createdAt": "2025-03-20T12:59:58Z",
           "updatedAt": "2025-03-20T12:59:58Z"
+        },
+        {
+          "author": "thomas-fossati",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> For question [2], this isn't something I had considered. What would be the expected use case for this? It's certainly expected that RV sets might change over time (due to such things as firmware image upgrade, for instance). But I would expect that latest/current values are the most useful thing to a consumer at any given point.\n\nQuick note: in #20 we added an \u201cexpiration date\u201d field to the result set.  The idea is that the endorsement distributor sets this field based on some local knowledge (e.g., configuration, CoRIM's notAfter, signing certificate\u2019s notAfter, etc.).\nIn the context of a full-blown API, this needs to be syncrhonised with any cache-control signals (e.g., HTTP and CoAP).",
+          "createdAt": "2025-05-13T09:36:28Z",
+          "updatedAt": "2025-05-13T09:36:28Z"
         }
       ]
     },
@@ -136,7 +143,7 @@
       "labels": [],
       "body": "We need to clearly explain CoSERV's query semantics, i.e.:\n\n* The entries in the class/istance/group array represent alternatives (`OR`)\n* In a given class:\n    * All fields that are set must match (`AND`)\n    * Any unset fields are wildcards (`*`)\n\nTo illustrate the concepts, we can use the `ToSQL` examples in [`coserv/environmentselector_test.go`](https://github.com/veraison/corim/blob/coserv/coserv/environmentselector_test.go)\n",
       "createdAt": "2025-03-26T20:42:42Z",
-      "updatedAt": "2025-04-15T15:29:28Z",
+      "updatedAt": "2025-05-14T11:53:03Z",
       "closedAt": null,
       "comments": [
         {
@@ -145,6 +152,13 @@
           "body": "I think that a new query language and associated semantics is uncalled for unless it's a CBOR expression of Meta's GraphQL which is /then/ specialized down to selecting CoRIMs or individual tags like the evident single supported tags that have environment-map as a primary key (i.e., CoMID and CoTS).",
           "createdAt": "2025-04-15T15:29:27Z",
           "updatedAt": "2025-04-15T15:29:27Z"
+        },
+        {
+          "author": "paulhowardarm",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Blend this into the prose for information model on queries.",
+          "createdAt": "2025-05-14T11:53:02Z",
+          "updatedAt": "2025-05-14T11:53:02Z"
         }
       ]
     },
@@ -255,6 +269,38 @@
       "body": "In earlier discussions around Endorsement API endpoints, we theorised two trust models:\n\n- The \"shallow\" trust model, where the endorsement service alone is trusted to aggregate and convey on behalf of the whole supply chain.\n- The \"deep\" trust model, where the client trusts the endorsement service in the first instance, but may also need access to the original resources that were aggregated from primary supply chain entities.\n\nCoSERV as currently written caters quite well for the shallow model, but we need to think about how it could adopt the deep model (even if our PoC activities exclude that model for now).\n\n",
       "createdAt": "2025-04-22T10:29:35Z",
       "updatedAt": "2025-04-22T10:29:35Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 26,
+      "id": "I_kwDOOAZd1M62ju9n",
+      "title": "Describe authority delegation in the result set",
+      "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/issues/26",
+      "state": "OPEN",
+      "author": "paulhowardarm",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "We have an existing description of the result set data model, which includes the \"quad\" concept (the per-triple trust authority), but there is no discussion of how this should be used, particularly where there are inductive chains of authorities.",
+      "createdAt": "2025-05-14T11:40:54Z",
+      "updatedAt": "2025-05-14T11:40:54Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 27,
+      "id": "I_kwDOOAZd1M62jzKS",
+      "title": "Refactor prose from data model to information model",
+      "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/issues/27",
+      "state": "OPEN",
+      "author": "paulhowardarm",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "There's a big descriptive chunk on environments in the data model section, which probably needs to be hoisted into the information model section.\n",
+      "createdAt": "2025-05-14T11:47:38Z",
+      "updatedAt": "2025-05-14T11:47:38Z",
       "closedAt": null,
       "comments": []
     }
