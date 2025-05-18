@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-05-15T00:44:55.832035+00:00",
+  "timestamp": "2025-05-18T00:51:07.851793+00:00",
   "repo": "rats-endorsements-distribution/draft-howard-rats-coserv",
   "labels": [
     {
@@ -280,13 +280,31 @@
       "state": "OPEN",
       "author": "paulhowardarm",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "thomas-fossati",
+        "paulhowardarm"
+      ],
       "labels": [],
       "body": "We have an existing description of the result set data model, which includes the \"quad\" concept (the per-triple trust authority), but there is no discussion of how this should be used, particularly where there are inductive chains of authorities.",
       "createdAt": "2025-05-14T11:40:54Z",
-      "updatedAt": "2025-05-14T11:40:54Z",
+      "updatedAt": "2025-05-15T10:53:56Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "thomas-fossati",
+          "authorAssociation": "COLLABORATOR",
+          "body": "The limitation of the current syntax is that it only allows delegation chains of depth 1.  If the delegation chain we need to model is deeper than that \u2014 e.g., $$A_1 \\rightarrow A_2 \\rightarrow \u2026 \\rightarrow A_n$$ \u2014  our current syntax produces an ambiguity: what authority is the quad referring to?  Is it the most upstream supply chain actor ($$A_1$$), or the last ($$A_n$$)?\n\nThis situation may be remediated by allowing the explicit delegation chain:\n\n> $$A_1$$ said that $$A_2$$ said that \u2026 said that $$A_n$$ said the $$E$$ has refvals $$R$$.\n\nmoving from:\n```\nrefval-quad = {\n  &(authority: 1) => $crypto-key-type-choice\n  &(rv-triple: 2) => reference-triple-record\n}\n```\nto:\n```\nrefval-quad = {\n  &(authorities: 1) => [ + $crypto-key-type-choice ]\n  &(rv-triple: 2) => reference-triple-record\n}\n```\n\nwhere the `authorities` array encodes the ordered delegation chain \u2014 lower values correspond to entities located further upstream.\n\n(If we take this approach, it\u2019s probably worth considering renaming `refval-quad` & friends.)",
+          "createdAt": "2025-05-15T09:06:57Z",
+          "updatedAt": "2025-05-15T09:32:44Z"
+        },
+        {
+          "author": "paulhowardarm",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Dual-assigned to Thomas and Paul - Thomas to act on the CDDL changes, and Paul to do the write-up in the draft.",
+          "createdAt": "2025-05-15T10:53:55Z",
+          "updatedAt": "2025-05-15T10:53:55Z"
+        }
+      ]
     },
     {
       "number": 27,
@@ -296,11 +314,49 @@
       "state": "OPEN",
       "author": "paulhowardarm",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
+      "assignees": [
+        "paulhowardarm"
+      ],
       "labels": [],
       "body": "There's a big descriptive chunk on environments in the data model section, which probably needs to be hoisted into the information model section.\n",
       "createdAt": "2025-05-14T11:47:38Z",
-      "updatedAt": "2025-05-14T11:47:38Z",
+      "updatedAt": "2025-05-15T10:52:30Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 28,
+      "id": "I_kwDOOAZd1M62vJVJ",
+      "title": "Add a query timestamp to the CoSERV query",
+      "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/issues/28",
+      "state": "OPEN",
+      "author": "paulhowardarm",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "thomas-fossati"
+      ],
+      "labels": [],
+      "body": "Rationale is that a combination of the serialised query and the timestamp would make an excellent lookup key into a transparency log.\n\nThe purpose of a transparency log would be to capture all of the data that resulted in the set of artefacts delivered by the producer. This allows an alternative audit mechanism where the \"deep\" model is implemented in a log for retrospective discovery, rather than passed directly to the consumer.",
+      "createdAt": "2025-05-15T10:48:48Z",
+      "updatedAt": "2025-05-15T10:52:22Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 29,
+      "id": "I_kwDOOAZd1M62vLF7",
+      "title": "Add a shallow/deep switch into the CoSERV query",
+      "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/issues/29",
+      "state": "OPEN",
+      "author": "paulhowardarm",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "thomas-fossati"
+      ],
+      "labels": [],
+      "body": "Add a binary shallow/deep selector into the CoSERV query, so that the client can exercise control over the amount of data that they receive.\n\nIn the shallow model, the client receives only the artefacts that the producer deduces from its downstream sources, along with signing authority information for those downstream sources. In the deep model, the client also receives duplicates of the downstream data directly.\n",
+      "createdAt": "2025-05-15T10:51:23Z",
+      "updatedAt": "2025-05-15T10:52:03Z",
       "closedAt": null,
       "comments": []
     }
