@@ -1437,6 +1437,7 @@ This convention is identical to how EAT profiles are identified using the <code>
 query = {
   &amp;(artifact-type: 0) =&gt; artifact-type
   &amp;(environment-selector: 1) =&gt; environment-selector-map
+  &amp;(timestamp: 2) =&gt; tdate ; RFC3339 date
 }
 
 artifact-type = &amp;(endorsed-values: 0)
@@ -1663,7 +1664,8 @@ Finally, the <code>environment-selector</code> uses the key 0 to select for clas
           / model /     2: "Example Model"
         }
       ]
-    }
+    },
+    / timestamp / 2: 0("2030-12-01T18:30:01Z")
   }
 }
 </pre><a href="#section-4.1-3" class="pilcrow">¶</a>
@@ -1687,7 +1689,8 @@ Finally, the <code>environment-selector</code> uses the key 0 to select for clas
             37(h'31FB5ABF023E4992AA4E95F9C1503BFA')  / UUID /
         }
       ]
-    }
+    },
+    / timestamp / 2: 0("2030-12-01T18:30:01Z")
   }
 }
 </pre><a href="#section-4.1-5" class="pilcrow">¶</a>
@@ -1705,7 +1708,8 @@ Again, the <code>artifact-type</code> is set to 2, and <code>profile</code> is g
         550(h'02DEADBEEFDEAD'), / UEID /
         560(h'8999786556')      / tagged-bytes /
       ]
-    }
+    },
+    / timestamp / 2: 0("2030-12-01T18:30:01Z")
   }
 }
 </pre><a href="#section-4.1-7" class="pilcrow">¶</a>
@@ -1736,7 +1740,8 @@ The rest of the structure is the <code>measurement-map</code> as defined in CoRI
           0: 560(h'8999786556')
         }
       ]
-    }
+    },
+    2: 0("2030-12-01T18:30:01Z")
   },
   / results / 2: {
     10: 0("2030-12-13T18:30:02Z"),
