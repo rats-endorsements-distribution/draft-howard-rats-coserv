@@ -1,6 +1,7 @@
 results = {
   result-set
   &(expiry: 10) => tdate ; RFC3339 date
+  ? &(source-material: 11) => [ + cmw-record ]
 }
 
 result-set //= reference-values
@@ -51,3 +52,7 @@ trust-anchors = (
 ; import CoTS
 ;
 cots = "TODO COTS"
+;
+; import CMW
+;
+cmw-record = "TODO CMW"
