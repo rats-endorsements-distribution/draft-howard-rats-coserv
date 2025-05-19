@@ -1,6 +1,7 @@
 query = {
   &(artifact-type: 0) => artifact-type
   &(environment-selector: 1) => environment-selector-map
+  &(timestamp: 2) => tdate ; RFC3339 date
 }
 
 artifact-type = &(endorsed-values: 0)
