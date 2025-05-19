@@ -9,7 +9,7 @@ result-set //= trust-anchors
 result-set //= $$result-set-extensions
 
 refval-quad = {
-  &(authority: 1) => $crypto-key-type-choice
+  &(authorities: 1) => [ + $crypto-key-type-choice ]
   &(rv-triple: 2) => reference-triple-record
 }
 
@@ -18,12 +18,12 @@ reference-values = (
 )
 
 endval-quad = {
-  &(authority: 1) => $crypto-key-type-choice
+  &(authorities: 1) => [ + $crypto-key-type-choice ]
   &(ev-triple: 2) => endorsed-triple-record
 }
 
 cond-endval-quad = {
-  &(authority: 1) => $crypto-key-type-choice
+  &(authorities: 1) => [ + $crypto-key-type-choice ]
   &(ce-triple: 2) => conditional-endorsement-triple-record
 }
 
@@ -33,12 +33,12 @@ endorsed-values = (
 )
 
 ak-quad = {
-  &(authority: 1) => $crypto-key-type-choice
+  &(authorities: 1) => [ + $crypto-key-type-choice ]
   &(ak-triple: 2) => attest-key-triple-record
 }
 
 cots-stmt = {
-  &(authority: 1) => $crypto-key-type-choice
+  &(authorities: 1) => [ + $crypto-key-type-choice ]
   &(cots: 2) => cots
 }
 
