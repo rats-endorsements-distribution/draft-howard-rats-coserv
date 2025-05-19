@@ -1,6 +1,7 @@
 results = {
   result-set
   &(expiry: 10) => tdate ; RFC3339 date
+  ? &(source-rims: 11) => [ + bytes ]
 }
 
 result-set //= reference-values
