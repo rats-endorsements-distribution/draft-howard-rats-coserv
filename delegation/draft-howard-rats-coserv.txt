@@ -5,8 +5,8 @@
 Remote ATtestation ProcedureS                                  P. Howard
 Internet-Draft                                                       Arm
 Intended status: Informational                                T. Fossati
-Expires: 3 October 2025                                           Linaro
-                                                            1 April 2025
+Expires: 20 November 2025                                         Linaro
+                                                             19 May 2025
 
 
          Concise Selector for Endorsements and Reference Values
@@ -18,10 +18,11 @@ Abstract
    require Endorsements and Reference Values to assess the
    trustworthiness of Attesters.  This document specifies the Concise
    Selector for Endorsements and Reference Values (CoSERV), a structured
-   query format designed to facilitate the discovery and retrieval of
-   these artifacts from various providers.  CoSERV defines a query
-   language using CDDL that can be serialized in CBOR format, enabling
-   interoperability across diverse systems.
+   query/result format designed to facilitate the discovery and
+   retrieval of these artifacts from various providers.  CoSERV defines
+   a query language and corresponding result structure using CDDL, which
+   can be serialized in CBOR format, enabling efficient interoperability
+   across diverse systems.
 
 About This Document
 
@@ -56,7 +57,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 3 October 2025.
+   This Internet-Draft will expire on 20 November 2025.
 
 Copyright Notice
 
@@ -76,25 +77,35 @@ Table of Contents
 
    1.  Introduction
      1.1.  Terminology and Requirements Language
-   2.  CoSERV Query Language
-     2.1.  Common Data Types
-     2.2.  Query Structure
-       2.2.1.  Artifact Type
-       2.2.2.  Profile
-       2.2.3.  Environment Selector
-     2.3.  Encoding Requirements
-   3.  Examples
-   4.  Implementation Status
-     4.1.  Veraison
-   5.  Security Considerations
-     5.1.  Forming Native Database Queries from CoSERV
-   6.  Privacy Considerations
-   7.  IANA Considerations
-     7.1.  Media Types Registrations
-       7.1.1.  application/coserv+cbor
-   8.  References
-     8.1.  Normative References
-     8.2.  Informative References
+   2.  CoSERV Information Model
+     2.1.  Overview
+     2.2.  Queries
+     2.3.  Result Sets
+   3.  CoSERV Data Model
+     3.1.  Common Data Types
+     3.2.  Profile
+     3.3.  Query Structure
+       3.3.1.  Artifact Type
+       3.3.2.  Environment Selector
+     3.4.  Result Set Structure
+     3.5.  Encoding Requirements
+     3.6.  Cryptographic Binding Between Query and Result Set
+   4.  Examples
+     4.1.  Query Data Examples
+     4.2.  Result Data Examples
+   5.  Implementation Status
+     5.1.  Veraison
+   6.  Security Considerations
+     6.1.  Forming Native Database Queries from CoSERV
+   7.  Privacy Considerations
+   8.  IANA Considerations
+     8.1.  Media Types Registrations
+       8.1.1.  application/coserv+cbor
+       8.1.2.  application/coserv+cose
+     8.2.  CoAP Content-Formats
+   9.  References
+     9.1.  Normative References
+     9.2.  Informative References
    Appendix A.  Collated CoSERV CDDL
    Acknowledgments
    Authors' Addresses
@@ -111,18 +122,31 @@ Table of Contents
    interoperability.
 
    The Concise Selector for Endorsements and Reference Values (CoSERV)
-   addresses this challenge by defining a query language that allows
-   Verifiers to specify the environment characteristics of the desired
-   artifacts.  This facilitates the efficient discovery and retrieval of
-   relevant Endorsements and Reference Values from providers.
+   addresses this challenge by defining a query language and a
+   corresponding result structure for the transaction of artifacts
+   between a provider and a consumer.  The query language format
+   provides Verifiers with a standard way to specify the environment
+   characteristics of Attesters, such that the relevant artifacts can be
+   obtained from Endorsers and Reference Value Providers.  In turn, the
+   result format allows those Endorsers and Reference Value Providers to
+   package the artifacts within a standard structure.  This facilitates
+   the efficient discovery and retrieval of relevant Endorsements and
+   Reference Values from providers, maximising the re-use of common
+   software tools and libraries within the transactions.
 
    The CoSERV query language is intended to form the input data type for
    tools and services that provide access to Endorsements and Reference
-   Values.  This document does not define the complete APIs or
-   interaction models for such tools and services.  Nor does this
-   document constrain the format of the output data that such tools and
-   services might produce.  The scope of this document is limited to the
-   definition of the query language only.
+   Values.  The CoSERV result set is intended to form the corresponding
+   output data type from those tools and services.  This document does
+   not define the complete APIs or interaction models for such tools and
+   services.  The scope of this document is limited to the definitions
+   of the query language and the result set only.
+
+   Both the query language and the result set are designed for
+   extensibility.  This addresses the need for a common baseline format
+   to optimise for interoperability and software reuse, while
+   maintaining the flexibility demanded by a dynamic and diverse
+   ecosystem.
 
    The environment characteristics of Endorsements and Reference Values
    are derived from the equivalent concepts in CoRIM
@@ -154,18 +178,86 @@ Table of Contents
    Section 8 of [STD94] and Appendix G of [RFC8610].  Terms and concepts
    are always referenced as proper nouns, i.e., with Capital Letters.
 
-2.  CoSERV Query Language
+2.  CoSERV Information Model
 
-   The CoSERV query language enables Verifiers to specify the desired
-   characteristics of Endorsements and Reference Values based on the
-   environment in which they are applicable.  This section presents the
-   CBOR data model for CoSERV queries.
+2.1.  Overview
+
+   CoSERV is designed to facilitate query-response transactions between
+   a producer and a consumer.  In the RATS model, the producer is either
+   an Endorser or a Reference Value Provider, and the consumer is a
+   Verifier.  CoSERV defines a single top-level data type that can be
+   used for both queries and result sets.  Queries are authored by the
+   consumer (Verifier), while result sets are authored by the producer
+   (Endorser or Reference Value Provider) in response to the query.  A
+   CoSERV data object always contains a query.  When CoSERV is used to
+   express a result set, the query is retained alongside the result set
+   that was yielded by that query.  This allows consumers to verify a
+   match between the query that was sent to the producer, and the query
+   that was subsequently returned with the result set.  Such
+   verification is useful because it mitigates security threats arising
+   from any untrusted infrastructure or intermediaries that might reside
+   between the producer and the consumer.  An example of this is caching
+   in HTTP [STD98] and CoAP [RFC7252].  It might be expensive to compute
+   the result set for a query, which would make caching desirable.
+   However, if caching is managed by an untrusted intermediary, then
+   there is a risk that such an untrusted intermediary might return
+   incorrect results, either accidentally or maliciously.  Pairing the
+   original query with each result set provides an end-to-end contract
+   between the consumer and producer, mitigating such risks.  The
+   transactional pattern between the producer and the consumer would be
+   that the consumer begins the transaction by authoring a query and
+   sending it to the producer as a CoSERV object.  The producer receives
+   the query, computes results, and returns a new CoSERV object formed
+   from the results along with the original query.  Notionally, the
+   producer is "adding" the results to the query before sending it back
+   to the consumer.
+
+2.2.  Queries
+
+   The purpose of a query is to allow the consumer (Verifier) to specify
+   the artifacts (Endorsements and Reference Values) that it needs.
+   Consequently, a query corresponds to the environmental
+   characteristics of one or more Attesters.  Such environmental
+   characteristics are identical to those used in the information model
+   of CoRIM [I-D.ietf-rats-corim].  In summary, they can include the
+   following:
+
+   *  An individual Attester instance.
+
+   *  A group (identifiable collection) of Attester instances.
+
+   *  A class of Attester, defined by characteristics such as the vendor
+      or model, of which there may be an arbitrary number of instances.
+
+   To facilitate efficient transactions, a single query can specify
+   either multiple instances, multiple groups or multiple classes.
+
+2.3.  Result Sets
+
+   The result set contains the Endorsements and Reference Values that
+   are needed by the Verifier in order to verify and appraise Evidence
+   from one or more Attesters.
+
+3.  CoSERV Data Model
+
+   This section specifies the CBOR data model for CoSERV queries and
+   result sets.
 
    CDDL is used to express rules and constraints of the data model for
    CBOR.  These rules must be strictly followed when creating or
    validating CoSERV data objects.
 
-2.1.  Common Data Types
+   The top-level CoSERV data structure is given by the following CDDL:
+
+   coserv = {
+     &(profile: 0) => profile
+     &(query: 1) => query
+     ? &(results: 2) => results
+   }
+
+   profile = oid-type / ~uri
+
+3.1.  Common Data Types
 
    CoSERV inherits the following types from the CoRIM data model class-
    map, $class-id-type-choice, $instance-id-type-choice and $group-id-
@@ -173,23 +265,41 @@ Table of Contents
 
    The collated CDDL is in Appendix A.
 
-2.2.  Query Structure
+3.2.  Profile
+
+   In common with EAT and CoRIM, CoSERV supports the notion of profiles.
+   As with EAT and CoRIM, profiles are a way to extend or specialize the
+   structure of a generic CoSERV query in order to cater for a specific
+   use case or environment.
+
+   In a CoSERV query, the profile can be identified by either a Uniform
+   Resource Identifier (URI) or an Object Identifier (OID).  This
+   convention is identical to how EAT profiles are identified using the
+   eat_profile claim as described in Section 4.3.2 of
+   [I-D.ietf-rats-eat].
+
+3.3.  Query Structure
+
+   The CoSERV query language enables Verifiers to specify the desired
+   characteristics of Endorsements and Reference Values based on the
+   environment in which they are applicable.
 
    The top-level structure of a CoSERV query is given by the following
    CDDL:
 
-   coserv = {
-     &(profile: 0) => profile
-     &(query: 1) => query
-     ? result-set
+   query = {
+     &(artifact-type: 0) => artifact-type
+     &(environment-selector: 1) => environment-selector-map
    }
 
-   profile = oid-type / ~uri
+   artifact-type = &(endorsed-values: 0)
+                   / &(trust-anchors: 1)
+                   / &(reference-values: 2)
 
    The meanings of these fields are detailed in the following
    subsections.
 
-2.2.1.  Artifact Type
+3.3.1.  Artifact Type
 
    The artifact-type field is the foremost discriminator of the query.
    It is a top-level category selector.  Its three permissible values
@@ -226,29 +336,16 @@ Table of Contents
    for the consumer, resulting in an efficiency gain by avoiding the
    transfer of unwanted data items.
 
-2.2.2.  Profile
-
-   In common with EAT and CoRIM, CoSERV supports the notion of profiles.
-   As with EAT and CoRIM, profiles are a way to extend or specialize the
-   structure of a generic CoSERV query in order to cater for a specific
-   use case or environment.
-
-   In a CoSERV query, the profile can be identified by either a Uniform
-   Resource Identifier (URI) or an Object Identifier (OID).  This
-   convention is identical to how EAT profiles are identified using the
-   eat_profile claim as described in Section 4.3.2 of
-   [I-D.ietf-rats-eat].
-
-2.2.3.  Environment Selector
+3.3.2.  Environment Selector
 
    The environment selector forms the main body of the query, and its
    CDDL is given below:
 
    environment-selector-map = { selector }
 
-   selector //= ( &(class: 0) => [ * class-map ] )
-   selector //= ( &(instance: 1) => [ * $instance-id-type-choice ] )
-   selector //= ( &(group: 2) => [ * $group-id-type-choice ] )
+   selector //= ( &(class: 0) => [ + class-map ] )
+   selector //= ( &(instance: 1) => [ + $instance-id-type-choice ] )
+   selector //= ( &(group: 2) => [ + $group-id-type-choice ] )
 
    The environment defines the scope (or scopes) in which the
    endorsement artifacts are applicable.  Given that the consumer of
@@ -291,7 +388,65 @@ Table of Contents
    class-level and instance-level artifacts in a single CoSERV
    transaction.
 
-2.3.  Encoding Requirements
+3.4.  Result Set Structure
+
+   The result set structure is given by the following CDDL:
+
+   results = {
+     result-set
+     &(expiry: 10) => tdate ; RFC3339 date
+   }
+
+   result-set //= reference-values
+   result-set //= endorsed-values
+   result-set //= trust-anchors
+   result-set //= $$result-set-extensions
+
+   refval-quad = {
+     &(authorities: 1) => [ + $crypto-key-type-choice ]
+     &(rv-triple: 2) => reference-triple-record
+   }
+
+   reference-values = (
+     &(rvq: 0) => [ * refval-quad ]
+   )
+
+   endval-quad = {
+     &(authorities: 1) => [ + $crypto-key-type-choice ]
+     &(ev-triple: 2) => endorsed-triple-record
+   }
+
+   cond-endval-quad = {
+     &(authorities: 1) => [ + $crypto-key-type-choice ]
+     &(ce-triple: 2) => conditional-endorsement-triple-record
+   }
+
+   endorsed-values = (
+     &(evq: 1) => [ * endval-quad ]
+     &(ceq: 2) => [ * cond-endval-quad ]
+   )
+
+   ak-quad = {
+     &(authorities: 1) => [ + $crypto-key-type-choice ]
+     &(ak-triple: 2) => attest-key-triple-record
+   }
+
+   cots-stmt = {
+     &(authorities: 1) => [ + $crypto-key-type-choice ]
+     &(cots: 2) => cots
+   }
+
+   trust-anchors = (
+     &(akq: 3) => [ * ak-quad ]
+     &(tas: 4) => [ * cots-stmt ]
+   )
+
+   ;
+   ; import CoTS
+   ;
+   cots = "TODO COTS"
+
+3.5.  Encoding Requirements
 
    Implementations may wish to use serialized CoSERV queries as
    canonical identifiers for artifact collections.  For example, a
@@ -303,7 +458,53 @@ Table of Contents
    deterministic encoding as specified in Section 4.2 of [STD94].
    Further, CoSERV queries MUST use CBOR definite-length encoding.
 
-3.  Examples
+3.6.  Cryptographic Binding Between Query and Result Set
+
+   CoSERV is designed to ensure that any result set passed from a
+   producer to a consumer is precisely the result set that corresponds
+   to the consumer's original query.  This is the reason why the
+   original query is always included along with the result set in the
+   data model.  However, this measure is only sufficient in cases where
+   the conveyance protocol guarantees that CoSERV result sets are always
+   transacted over an end-to-end secure channel without any
+   intermediaries.  Wherever this is not the case, producers MUST create
+   an additional cryptographic binding between the query and the result.
+   This is achieved by transacting the result set within a cryptographic
+   envelope, with a signature added by the producer, which is verified
+   by the consumer.  A CoSERV data object can be signed using COSE
+   [STD96].  A signed-coserv is a COSE_Sign1 with the following layout:
+
+   signed-coserv = [
+     protected: bytes .cbor signed-coserv-protected-hdr
+     unprotected: signed-coserv-unprotected-hdr
+     payload: bytes .cbor coserv
+     signature: bytes
+   ]
+
+   The payload MUST be the CBOR-encoded CoSERV.
+
+   signed-coserv-protected-hdr = {
+     1 => int                            ; alg
+     2 => "application/coserv+cbor" / 10000 ; cty
+     * cose.label => cose.values
+   }
+
+   signed-coserv-unprotected-hdr = {
+     * cose.label => cose.values
+   }
+
+   cose.label = int / text
+   cose.values = any
+
+   The protected header MUST include the signature algorithm identifier.
+   The protected header MUST include either the content type
+   application/coserv+cbor or the CoAP Content-Format TBD1.  Other
+   header parameters MAY be added to the header buckets, for example a
+   kid that identifies the signing key.
+
+4.  Examples
+
+4.1.  Query Data Examples
 
    This section provides some illustrative examples of valid CoSERV
    query objects.
@@ -375,7 +576,67 @@ Table of Contents
      }
    }
 
-4.  Implementation Status
+4.2.  Result Data Examples
+
+   This section provides some illustrative examples of valid CoSERV
+   queries with their corresponding result sets.
+
+   In this next example, the query is a reference value query based on
+   class.
+
+   The top-level structure is a map with three entries: profile
+   (codepoint 0), query (codepoint 1) and results (codepoint 2).
+
+   The profile and query structures are the same as in the previous
+   examples.  The result structure is a map with two entries: expiry
+   (codepoint 10) and reference-value triples (codepoint 0).  A single
+   reference-value triple is shown in this example.  Its environment-
+   map, as expected, is the same as the environment-map that was
+   supplied in the query.  The rest of the structure is the measurement-
+   map as defined in CoRIM [I-D.ietf-rats-corim].
+
+   {
+     / profile / 0: "tag:example.com,2025:cc-platform#1.0.0",
+     / query / 1: {
+       0: 2,
+       1: {
+         0: [
+           {
+             0: 560(h'8999786556')
+           }
+         ]
+       }
+     },
+     / results / 2: {
+       10: 0("2030-12-13T18:30:02Z"),
+       0: [
+         {
+           1: [ 560(h'abcdef') ],
+           2: [
+             {
+               0: {
+                 0: 560(h'8999786556')
+               }
+             },
+             [
+               {
+                 0: 37(h'31FB5ABF023E4992AA4E95F9C1503BFA'),
+                 1: {
+                   / version / 0: {
+                     0: "1.2.3",
+                     1: 16384
+                   },
+                   / svn / 1: 553(2)
+                 }
+               }
+             ]
+           ]
+         }
+       ]
+     }
+   }
+
+5.  Implementation Status
 
 
    // RFC Editor: please remove this section prior to publication.
@@ -400,7 +661,7 @@ Table of Contents
    It is up to the individual working groups to use this information as
    they see fit".
 
-4.1.  Veraison
+5.1.  Veraison
 
    Responsible Organisation: Veraison (open source project within the
    Confidential Computing Consortium).
@@ -425,7 +686,7 @@ Table of Contents
 
    Contact: Thomas Fossati, Thomas.Fossati@linaro.org
 
-5.  Security Considerations
+6.  Security Considerations
 
    The CoSERV data type serves an auxiliary function in the RATS
    architecture.  It does not directly convey Evidence, Endorsements,
@@ -452,7 +713,7 @@ Table of Contents
       entity that is interposed between the Verifier and the Endorser or
       Reference Value Provider.
 
-5.1.  Forming Native Database Queries from CoSERV
+6.1.  Forming Native Database Queries from CoSERV
 
    Implementations should take care when transforming CoSERV queries
    into native query types that are compatible with their underlying
@@ -462,7 +723,7 @@ Table of Contents
    sanitization procedures are in place when performing such
    translations.
 
-6.  Privacy Considerations
+7.  Privacy Considerations
 
    A CoSERV query can potentially contain privacy-sensitive information.
    Specifically, the environment-selector field of the query may
@@ -479,33 +740,36 @@ Table of Contents
    *  Collating Attester instances into anonymity groups, and
       referencing the groups rather than the individual instances.
 
-7.  IANA Considerations
+8.  IANA Considerations
 
 
    // RFC Editor: replace "RFCthis" with the RFC number assigned to this
    document.
 
-7.1.  Media Types Registrations
+8.1.  Media Types Registrations
 
    IANA is requested to add the following media types to the "Media
    Types" registry [IANA.media-types].
 
-           +=============+=========================+===========+
-           | Name        | Template                | Reference |
-           +=============+=========================+===========+
-           | coserv+cbor | application/coserv+cbor | RFCthis   |
-           +-------------+-------------------------+-----------+
+    +=============+=========================+========================+
+    | Name        | Template                | Reference              |
+    +=============+=========================+========================+
+    | coserv+cbor | application/coserv+cbor | Section 3 of RFCthis   |
+    +-------------+-------------------------+------------------------+
+    | coserv+cose | application/coserv+cose | Section 3.6 of RFCthis |
+    +-------------+-------------------------+------------------------+
 
-                        Table 1: CoSERV Media Types
+                       Table 1: CoSERV Media Types
 
-7.1.1.  application/coserv+cbor
+8.1.1.  application/coserv+cbor
 
    Type name:  application
    Subtype name:  coserv+cbor
    Required parameters:  n/a
-   Optional parameters:  n/a
+   Optional parameters:  "profile" (CoSERV profile in string format.
+      OIDs must use the dotted-decimal notation.)
    Encoding considerations:  binary (CBOR)
-   Security considerations:  Section 5 of RFCthis
+   Security considerations:  Section 6 of RFCthis
    Interoperability considerations:  n/a
    Published specification:  RFCthis
    Applications that use this media type:  Verifiers, Endorsers,
@@ -521,9 +785,66 @@ Table of Contents
    Author/Change controller:  IETF
    Provisional registration:  no
 
-8.  References
+8.1.2.  application/coserv+cose
 
-8.1.  Normative References
+   Type name:  application
+   Subtype name:  coserv+cose
+   Required parameters:  n/a (cose-type is explicitly not supported, as
+      it is understood to be "cose-sign1")
+   Optional parameters:  "profile" CoSERV profile in string format.
+      OIDs must use the dotted-decimal notation.  Note that the cose-
+      type parameter is explicitly not supported, as it is understood to
+      be "cose-sign1".
+   Encoding considerations:  binary
+   Security considerations:  Section 6 of RFCthis
+   Interoperability considerations:  n/a
+   Published specification:  RFCthis
+   Applications that use this media type:  Verifiers, Endorsers,
+      Reference Value Providers
+   Fragment identifier considerations:  n/a
+   Person and email address to contact for further information:  RATS WG
+      mailing list (rats@ietf.org)
+   Intended usage:  COMMON
+   Restrictions on usage:  none
+   Author/Change controller:  IETF
+   Provisional registration?  no
+
+8.2.  CoAP Content-Formats
+
+   IANA is requested to register the following Content-Format IDs in the
+   "CoAP Content-Formats" registry, within the "Constrained RESTful
+   Environments (CoRE) Parameters" registry group
+   [IANA.core-parameters]:
+
+   +=========================+================+======+=============+
+   | Content-Type            | Content Coding | ID   | Reference   |
+   +=========================+================+======+=============+
+   | application/coserv+cbor | -              | TBD1 | Section 3   |
+   |                         |                |      | of RFCthis  |
+   +-------------------------+----------------+------+-------------+
+   | application/coserv+cose | -              | TBD2 | Section 3.6 |
+   |                         |                |      | of RFCthis  |
+   +-------------------------+----------------+------+-------------+
+
+                   Table 2: New CoAP Content Formats
+
+   If possible, TBD1 and TBD2 should be assigned in the 256..9999 range.
+
+9.  References
+
+9.1.  Normative References
+
+   [I-D.ietf-rats-corim]
+              Birkholz, H., Fossati, T., Deshpande, Y., Smith, N., and
+              W. Pan, "Concise Reference Integrity Manifest", Work in
+              Progress, Internet-Draft, draft-ietf-rats-corim-07, 3
+              March 2025, <https://datatracker.ietf.org/doc/html/draft-
+              ietf-rats-corim-07>.
+
+   [IANA.core-parameters]
+              IANA, "Constrained RESTful Environments (CoRE)
+              Parameters",
+              <https://www.iana.org/assignments/core-parameters>.
 
    [IANA.media-types]
               IANA, "Media Types",
@@ -564,14 +885,7 @@ Table of Contents
               DOI 10.17487/RFC9052, August 2022,
               <https://www.rfc-editor.org/rfc/rfc9052>.
 
-8.2.  Informative References
-
-   [I-D.ietf-rats-corim]
-              Birkholz, H., Fossati, T., Deshpande, Y., Smith, N., and
-              W. Pan, "Concise Reference Integrity Manifest", Work in
-              Progress, Internet-Draft, draft-ietf-rats-corim-07, 3
-              March 2025, <https://datatracker.ietf.org/doc/html/draft-
-              ietf-rats-corim-07>.
+9.2.  Informative References
 
    [I-D.ietf-rats-eat]
               Lundblade, L., Mandyam, G., O'Donoghue, J., and C.
@@ -591,26 +905,40 @@ Table of Contents
               Requirements", RFC 6024, DOI 10.17487/RFC6024, October
               2010, <https://www.rfc-editor.org/rfc/rfc6024>.
 
+   [RFC7252]  Shelby, Z., Hartke, K., and C. Bormann, "The Constrained
+              Application Protocol (CoAP)", RFC 7252,
+              DOI 10.17487/RFC7252, June 2014,
+              <https://www.rfc-editor.org/rfc/rfc7252>.
+
    [RFC7942]  Sheffer, Y. and A. Farrel, "Improving Awareness of Running
               Code: The Implementation Status Section", BCP 205,
               RFC 7942, DOI 10.17487/RFC7942, July 2016,
               <https://www.rfc-editor.org/rfc/rfc7942>.
+
+   [STD98]    Internet Standard 98,
+              <https://www.rfc-editor.org/info/std98>.
+              At the time of writing, this STD comprises the following:
+
+              Fielding, R., Ed., Nottingham, M., Ed., and J. Reschke,
+              Ed., "HTTP Caching", STD 98, RFC 9111,
+              DOI 10.17487/RFC9111, June 2022,
+              <https://www.rfc-editor.org/info/rfc9111>.
 
 Appendix A.  Collated CoSERV CDDL
 
    coserv = {
      &(profile: 0) => profile
      &(query: 1) => query
-     ? result-set
+     ? &(results: 2) => results
    }
 
    profile = oid-type / ~uri
 
    environment-selector-map = { selector }
 
-   selector //= ( &(class: 0) => [ * class-map ] )
-   selector //= ( &(instance: 1) => [ * $instance-id-type-choice ] )
-   selector //= ( &(group: 2) => [ * $group-id-type-choice ] )
+   selector //= ( &(class: 0) => [ + class-map ] )
+   selector //= ( &(instance: 1) => [ + $instance-id-type-choice ] )
+   selector //= ( &(group: 2) => [ + $group-id-type-choice ] )
 
    concise-mid-tag = {
      ? &(language: 0) => text
