@@ -1438,7 +1438,7 @@ query = {
   &amp;(artifact-type: 0) =&gt; artifact-type
   &amp;(environment-selector: 1) =&gt; environment-selector-map
   &amp;(timestamp: 2) =&gt; tdate ; RFC3339 date
-  ? &amp;(include-rims: 3) =&gt; bool .default false
+  ? &amp;(include-source-material: 3) =&gt; bool .default false
 }
 
 artifact-type = &amp;(endorsed-values: 0)
@@ -1524,7 +1524,7 @@ For example, it would not be possible to query for both class-level and instance
 results = {
   result-set
   &amp;(expiry: 10) =&gt; tdate ; RFC3339 date
-  ? &amp;(source-rims: 11) =&gt; [ + bytes ]
+  ? &amp;(source-material: 11) =&gt; [ + cmw-record ]
 }
 
 result-set //= reference-values
@@ -1575,6 +1575,10 @@ trust-anchors = (
 ; import CoTS
 ;
 cots = "TODO COTS"
+;
+; import CMW
+;
+cmw-record = "TODO CMW"
 </pre><a href="#section-3.4-2" class="pilcrow">¶</a>
 </div>
 </section>

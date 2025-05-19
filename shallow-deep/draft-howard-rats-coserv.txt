@@ -291,7 +291,7 @@ Table of Contents
      &(artifact-type: 0) => artifact-type
      &(environment-selector: 1) => environment-selector-map
      &(timestamp: 2) => tdate ; RFC3339 date
-     ? &(include-rims: 3) => bool .default false
+     ? &(include-source-material: 3) => bool .default false
    }
 
    artifact-type = &(endorsed-values: 0)
@@ -397,7 +397,7 @@ Table of Contents
    results = {
      result-set
      &(expiry: 10) => tdate ; RFC3339 date
-     ? &(source-rims: 11) => [ + bytes ]
+     ? &(source-material: 11) => [ + cmw-record ]
    }
 
    result-set //= reference-values
@@ -448,6 +448,10 @@ Table of Contents
    ; import CoTS
    ;
    cots = "TODO COTS"
+   ;
+   ; import CMW
+   ;
+   cmw-record = "TODO CMW"
 
 3.5.  Encoding Requirements
 
