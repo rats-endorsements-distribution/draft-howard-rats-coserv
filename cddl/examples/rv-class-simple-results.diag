@@ -10,7 +10,8 @@
           / model /     2: "Example Model"
         }
       ]
-    }
+    },
+    / timestamp / 2: 0("2030-12-01T18:30:01Z")
   },
   / results / 2: {
     / expiry / 10: 0("2030-12-13T18:30:02Z"),

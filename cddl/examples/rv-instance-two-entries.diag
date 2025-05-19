@@ -7,6 +7,7 @@
         550(h'02DEADBEEFDEAD'), / UEID /
         560(h'8999786556')      / tagged-bytes /
       ]
-    }
+    },
+    / timestamp / 2: 0("2030-12-01T18:30:01Z")
   }
 }
