@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-05-18T00:51:07.851793+00:00",
+  "timestamp": "2025-05-20T00:47:41.555951+00:00",
   "repo": "rats-endorsements-distribution/draft-howard-rats-coserv",
   "labels": [
     {
@@ -357,6 +357,24 @@
       "body": "Add a binary shallow/deep selector into the CoSERV query, so that the client can exercise control over the amount of data that they receive.\n\nIn the shallow model, the client receives only the artefacts that the producer deduces from its downstream sources, along with signing authority information for those downstream sources. In the deep model, the client also receives duplicates of the downstream data directly.\n",
       "createdAt": "2025-05-15T10:51:23Z",
       "updatedAt": "2025-05-15T10:52:03Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 33,
+      "id": "I_kwDOOAZd1M63OVDf",
+      "title": "add CMW CDDL",
+      "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/issues/33",
+      "state": "OPEN",
+      "author": "thomas-fossati",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "thomas-fossati"
+      ],
+      "labels": [],
+      "body": "Currently, in the CDDL, `cmw-record` is just a stub.\n\nWe need to add \u201cthe real thing.\u201d",
+      "createdAt": "2025-05-19T14:09:38Z",
+      "updatedAt": "2025-05-19T14:09:41Z",
       "closedAt": null,
       "comments": []
     }
@@ -1093,6 +1111,198 @@
           "body": "awesome, thansk!",
           "createdAt": "2025-05-01T11:26:36Z",
           "updatedAt": "2025-05-01T11:26:36Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 30,
+      "id": "PR_kwDOOAZd1M6WsJZe",
+      "title": "feat(cddl): allow multiple quad authorities",
+      "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/pull/30",
+      "state": "MERGED",
+      "author": "thomas-fossati",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Allow more than one authority in the quads to model the delegation chain.  (CDDL only.)\r\n\r\nPartially addresses #26",
+      "createdAt": "2025-05-19T09:35:28Z",
+      "updatedAt": "2025-05-19T14:10:00Z",
+      "baseRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
+      "baseRefName": "main",
+      "baseRefOid": "1dc0d7eaca90ce8a3f527dc1424485697dc66d15",
+      "headRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
+      "headRefName": "delegation",
+      "headRefOid": "7e3424ef8a4062b836cbcf9bc9af3c4965a8b858",
+      "closedAt": "2025-05-19T14:09:57Z",
+      "mergedAt": "2025-05-19T14:09:56Z",
+      "mergedBy": "thomas-fossati",
+      "mergeCommit": {
+        "oid": "1d3b6b9fcbf824d8ce0368af14a4c335963c1ac7"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOOAZd1M6p4t0u",
+          "commit": {
+            "abbreviatedOid": "7e3424e"
+          },
+          "author": "paulhowardarm",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Thanks for this - I think it matches what we discussed.",
+          "createdAt": "2025-05-19T10:12:19Z",
+          "updatedAt": "2025-05-19T10:12:19Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 31,
+      "id": "PR_kwDOOAZd1M6WsWdx",
+      "title": "feat(cddl): Add a timestamp to the query",
+      "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/pull/31",
+      "state": "MERGED",
+      "author": "thomas-fossati",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Add a query timestamp to the CoSERV query.\r\n\r\nPartially addresses #28 ",
+      "createdAt": "2025-05-19T09:55:13Z",
+      "updatedAt": "2025-05-19T14:10:14Z",
+      "baseRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
+      "baseRefName": "main",
+      "baseRefOid": "1dc0d7eaca90ce8a3f527dc1424485697dc66d15",
+      "headRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
+      "headRefName": "query-timestamp",
+      "headRefOid": "a0ae353c43d803ee5e8a3206866025ee57dc0824",
+      "closedAt": "2025-05-19T14:10:11Z",
+      "mergedAt": "2025-05-19T14:10:11Z",
+      "mergedBy": "thomas-fossati",
+      "mergeCommit": {
+        "oid": "8f6ca798e2bdccce21600e8633cee22db2148c22"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOOAZd1M6p4_Cw",
+          "commit": {
+            "abbreviatedOid": "a0ae353"
+          },
+          "author": "paulhowardarm",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "LGTM - thank you!",
+          "createdAt": "2025-05-19T10:37:31Z",
+          "updatedAt": "2025-05-19T10:37:31Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 32,
+      "id": "PR_kwDOOAZd1M6WsanJ",
+      "title": "feat(cddl): shallow/deep switch",
+      "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/pull/32",
+      "state": "MERGED",
+      "author": "thomas-fossati",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Add a shallow/deep switch into the CoSERV query and a corresponding\r\nentry in the result set to stash the source RIMs.\r\n\r\nPartially addresses #29\r\n",
+      "createdAt": "2025-05-19T10:01:47Z",
+      "updatedAt": "2025-05-19T14:10:50Z",
+      "baseRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
+      "baseRefName": "main",
+      "baseRefOid": "1dc0d7eaca90ce8a3f527dc1424485697dc66d15",
+      "headRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
+      "headRefName": "shallow-deep",
+      "headRefOid": "732e42218db37f66cbc145c32afcc93ffedbe10d",
+      "closedAt": "2025-05-19T14:10:46Z",
+      "mergedAt": "2025-05-19T14:10:46Z",
+      "mergedBy": "thomas-fossati",
+      "mergeCommit": {
+        "oid": "d1a5b51826c15f85012e61a1085a83f14740fcbe"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOOAZd1M6p48By",
+          "commit": {
+            "abbreviatedOid": "236a90f"
+          },
+          "author": "paulhowardarm",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "Some suggestions/questions.",
+          "createdAt": "2025-05-19T10:33:08Z",
+          "updatedAt": "2025-05-19T10:35:45Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "Can we call this `include-audit` rather than `include-rims`. Or at least choose a slightly more agnostic term than `rims`, because I'm worried that it might be implying more about the structure of the audit data than we can reasonably know. \"Audit\" might not be the best term, either, because that somewhat implies a whole process rather than just raw data. Maybe `include-audit-material` or `include-source-material` or something similarly evocative?",
+              "createdAt": "2025-05-19T10:33:08Z",
+              "updatedAt": "2025-05-19T10:35:45Z"
+            },
+            {
+              "originalPosition": 4,
+              "body": "Again, `rims` feels too knowledgeable about the data. Perhaps if we call this field `source-material` in the result set, then the switch can be `include-source-material` and we have aligned the names.\r\n\r\nOn a related note, do we need to label these source blobs with any media type information?",
+              "createdAt": "2025-05-19T10:35:13Z",
+              "updatedAt": "2025-05-19T10:35:45Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOOAZd1M6p6XxO",
+          "commit": {
+            "abbreviatedOid": "236a90f"
+          },
+          "author": "thomas-fossati",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-19T12:49:47Z",
+          "updatedAt": "2025-05-19T12:49:47Z",
+          "comments": [
+            {
+              "originalPosition": 4,
+              "body": "> Again, `rims` feels too knowledgeable about the data. Perhaps if we call this field `source-material` in the result set, then the switch can be `include-source-material` and we have aligned the names.\r\n\r\nSounds like a good improvement.\r\n\r\n> On a related note, do we need to label these source blobs with any media type information?\r\n\r\nAlso this one.  It seems like a good use of CMWs.\r\n",
+              "createdAt": "2025-05-19T12:49:47Z",
+              "updatedAt": "2025-05-19T12:49:47Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOOAZd1M6p6YbK",
+          "commit": {
+            "abbreviatedOid": "236a90f"
+          },
+          "author": "thomas-fossati",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-05-19T12:50:39Z",
+          "updatedAt": "2025-05-19T12:50:39Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "OK.  I\u2019d go with `include-source-material`.",
+              "createdAt": "2025-05-19T12:50:39Z",
+              "updatedAt": "2025-05-19T12:50:40Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOOAZd1M6p6one",
+          "commit": {
+            "abbreviatedOid": "8fac51d"
+          },
+          "author": "paulhowardarm",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Excellent - looks good!",
+          "createdAt": "2025-05-19T13:11:01Z",
+          "updatedAt": "2025-05-19T13:11:01Z",
           "comments": []
         }
       ]
