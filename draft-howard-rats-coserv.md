@@ -139,7 +139,29 @@ To facilitate efficient transactions, a single query can specify either multiple
 
 ## Result Sets
 
-The result set contains the Endorsements and Reference Values that are needed by the Verifier in order to verify and appraise Evidence from one or more Attesters.
+The result set contains the artifacts that were collected by the producer in response to the query.
+The top-level structure of the result set consists of the following three items:
+
+- A collection of one or more result entries.
+This will be a collection of either reference values, endorsed values, trust anchors, or extensions.
+Artifact types are never mixed in any single CoSERV result set.
+The artifacts in the result collection therefore MUST match the single artifact type that was specified in the original CoSERV query.
+- A timestamp indicating the expiry time of the entire result set.
+Consumers MUST NOT consider any part of the result set to be valid after this expiry time.
+- A collection of the original source materials from which the producer derived the correct artifacts to include in the result set.
+These source materials are optional, and their intended purpose is auditing.
+They are included only when requested by the original CoSERV query.
+Source materials would typically be requested in cases where the consumer is not willing to place sole trust in the producer, and therefore needs an audit trail to enable additional verifications.
+
+Each individual result entry combines a CoMID triple with an authority delegation chain.
+CoMID triples are exactly as defined in {{Section 5.1.4 of -rats-corim}}.
+Each CoMID triple will demonstrate the association between an environment matching that of the CoSERV query, and a single artifact such as a reference value, trust anchor or endorsed value.
+The authority delegation chain is composed of one or more authority delegates.
+Each authority delegate is represented by a public key or key identifier, which the consumer can check against its own set of trusted authorities.
+The authority delegation chain serves to establish the provenance of the result entry, and enables the Verifier to evaluate the trustworthiness of the associated artifact.
+The purpose of the authority delegation chain is to allow CoSERV responses to support decentralized trust models, where Verifiers may apply their own policy to determine which authorities are acceptable for different classes of artifact.
+
+Because each result entry combines a CoMID triple with an authority delegation chain, the entries are consequently known as quadruples (or "quads" for short).
 
 # CoSERV Data Model {#secdatamodel}
 
