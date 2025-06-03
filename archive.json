@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-05-20T00:47:41.555951+00:00",
+  "timestamp": "2025-06-03T00:48:26.202977+00:00",
   "repo": "rats-endorsements-distribution/draft-howard-rats-coserv",
   "labels": [
     {
@@ -1306,6 +1306,32 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 34,
+      "id": "PR_kwDOOAZd1M6Yqhbo",
+      "title": "Flesh out the result set description",
+      "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/pull/34",
+      "state": "OPEN",
+      "author": "paulhowardarm",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Add a more comprehensive description of the result set, inclusive of the recent CDDL changes to allow for audit bundles and multiple authority delegates.\r\n\r\nSigned-off-by: Paul Howard <paul.howard@arm.com>",
+      "createdAt": "2025-06-02T16:40:29Z",
+      "updatedAt": "2025-06-02T16:40:29Z",
+      "baseRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
+      "baseRefName": "main",
+      "baseRefOid": "d1a5b51826c15f85012e61a1085a83f14740fcbe",
+      "headRepository": "paulhowardarm/draft-howard-rats-coserv",
+      "headRefName": "phProseCatchups",
+      "headRefOid": "dd8efd21be1bdf9ae222fb3f839d16915eca5d1e",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
