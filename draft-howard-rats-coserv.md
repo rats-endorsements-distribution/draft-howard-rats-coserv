@@ -139,7 +139,7 @@ To facilitate efficient transactions, a single query can specify either multiple
 
 ## Result Sets
 
-The result set contains the artifacts that were collected by the producer in response to the query.
+The result set contains the artifacts that the producer collected in response to the query.
 The top-level structure of the result set consists of the following three items:
 
 - A collection of one or more result entries.
