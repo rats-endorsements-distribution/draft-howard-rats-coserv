@@ -143,7 +143,8 @@ The result set contains the artifacts that the producer collected in response to
 The top-level structure of the result set consists of the following three items:
 
 - A collection of one or more result entries.
-This will be a collection of either reference values, endorsed values, trust anchors, or extensions.
+This will be a collection of either reference values, endorsed values or trust anchors.
+In the future, it may be possible to support additional artifact types via an extension mechanism.
 Artifact types are never mixed in any single CoSERV result set.
 The artifacts in the result collection therefore MUST match the single artifact type specified in the original CoSERV query.
 - A timestamp indicating the expiry time of the entire result set.
