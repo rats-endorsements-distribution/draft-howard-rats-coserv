@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-06-03T00:48:26.202977+00:00",
+  "timestamp": "2025-06-05T00:47:00.919479+00:00",
   "repo": "rats-endorsements-distribution/draft-howard-rats-coserv",
   "labels": [
     {
@@ -375,6 +375,25 @@
       "body": "Currently, in the CDDL, `cmw-record` is just a stub.\n\nWe need to add \u201cthe real thing.\u201d",
       "createdAt": "2025-05-19T14:09:38Z",
       "updatedAt": "2025-05-19T14:09:41Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 35,
+      "id": "I_kwDOOAZd1M65jVJr",
+      "title": "Support selection by stateful environments",
+      "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/issues/35",
+      "state": "OPEN",
+      "author": "paulhowardarm",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "thomas-fossati",
+        "paulhowardarm"
+      ],
+      "labels": [],
+      "body": "Experiments with existing services such as the [AMD Key Distribution Service](https://wiki.ietf.org/group/rats/referencevalues/amd-key-distribution-service) have shown that endorsement resources sometimes need to be selected by more than just an instance/group/class environment look-up. Additional information about the environment state might also be need to be conveyed in the query. In the case of the AMD KDS, this state would include things like the security revision numbers of the TCB components, which are needed to compute the correct attestation public key and hence provide the correct certificate as endorsement.\n\nStateful environments are already modelled in CoRIM, so it may be possible to enhance the CoSERV query such that a stateful environment can be expressed in the query.\n",
+      "createdAt": "2025-06-03T08:49:55Z",
+      "updatedAt": "2025-06-03T08:50:10Z",
       "closedAt": null,
       "comments": []
     }
@@ -1312,26 +1331,61 @@
       "id": "PR_kwDOOAZd1M6Yqhbo",
       "title": "Flesh out the result set description",
       "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/pull/34",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "paulhowardarm",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Add a more comprehensive description of the result set, inclusive of the recent CDDL changes to allow for audit bundles and multiple authority delegates.\r\n\r\nSigned-off-by: Paul Howard <paul.howard@arm.com>",
       "createdAt": "2025-06-02T16:40:29Z",
-      "updatedAt": "2025-06-02T16:40:29Z",
+      "updatedAt": "2025-06-03T15:28:56Z",
       "baseRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
       "baseRefName": "main",
       "baseRefOid": "d1a5b51826c15f85012e61a1085a83f14740fcbe",
       "headRepository": "paulhowardarm/draft-howard-rats-coserv",
       "headRefName": "phProseCatchups",
-      "headRefOid": "dd8efd21be1bdf9ae222fb3f839d16915eca5d1e",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "66d45ac6bb3df0107fe90b291533196184d05da9",
+      "closedAt": "2025-06-03T15:28:56Z",
+      "mergedAt": "2025-06-03T15:28:56Z",
+      "mergedBy": "paulhowardarm",
+      "mergeCommit": {
+        "oid": "a84d5f666c2b4ae64c72fa5a9aa282c7e49840c9"
+      },
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOOAZd1M6sVqJA",
+          "commit": {
+            "abbreviatedOid": "dd8efd2"
+          },
+          "author": "thomas-fossati",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Awesome, thanks.  I have inlined a couple of editorial suggestion for your consideration.  (Since I am a bit less English than you are, feel free to chuck them in the bin!)",
+          "createdAt": "2025-06-03T08:51:36Z",
+          "updatedAt": "2025-06-03T09:00:38Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "I have been told a few times that the active form is preferable.  (Feel free to ditch this suggestion.)\r\n\r\n```suggestion\r\nThe result set contains the artifacts that the producer collected in response to the query.\r\n```",
+              "createdAt": "2025-06-03T08:51:36Z",
+              "updatedAt": "2025-06-03T09:00:38Z"
+            },
+            {
+              "originalPosition": 9,
+              "body": "Rather than \u201cor extensions\u201d, I would put a full stop right after \u201ctrust anchors\u201d and add a separate sentence that says something like \u201cIn the future, the result entry types can be extended\u201d (or simialr)",
+              "createdAt": "2025-06-03T08:55:12Z",
+              "updatedAt": "2025-06-03T09:00:38Z"
+            },
+            {
+              "originalPosition": 11,
+              "body": "suggest removing some redundancy\r\n\r\n```suggestion\r\nThe artifacts in the result collection therefore MUST match the single artifact type specified in the original CoSERV query.\r\n```",
+              "createdAt": "2025-06-03T08:56:19Z",
+              "updatedAt": "2025-06-03T09:00:38Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
