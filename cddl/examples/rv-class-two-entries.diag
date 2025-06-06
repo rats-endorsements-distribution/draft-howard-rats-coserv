@@ -15,6 +15,7 @@
         }
       ]
     },
-    / timestamp / 2: 0("2030-12-01T18:30:01Z")
+    / timestamp /   2: 0("2030-12-01T18:30:01Z"),
+    / result-type / 3: 2 / both collected and source material /
   }
 }
