@@ -2,9 +2,13 @@ query = {
   &(artifact-type: 0) => artifact-type
   &(environment-selector: 1) => environment-selector-map
   &(timestamp: 2) => tdate ; RFC3339 date
-  ? &(include-source-material: 3) => bool .default false
+  &(result-type: 3) => result-type
 }
 
 artifact-type = &(endorsed-values: 0)
                 / &(trust-anchors: 1)
                 / &(reference-values: 2)
+
+result-type = &(collected-material: 0)
+              / &(source-material: 1)
+              / &(both: 2)
