@@ -5,8 +5,8 @@
 Remote ATtestation ProcedureS                                  P. Howard
 Internet-Draft                                                       Arm
 Intended status: Informational                                T. Fossati
-Expires: 5 December 2025                                          Linaro
-                                                             3 June 2025
+Expires: 8 December 2025                                          Linaro
+                                                             6 June 2025
 
 
          Concise Selector for Endorsements and Reference Values
@@ -57,7 +57,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 5 December 2025.
+   This Internet-Draft will expire on 8 December 2025.
 
 Copyright Notice
 
@@ -332,12 +332,16 @@ Table of Contents
      &(artifact-type: 0) => artifact-type
      &(environment-selector: 1) => environment-selector-map
      &(timestamp: 2) => tdate ; RFC3339 date
-     ? &(include-source-material: 3) => bool .default false
+     &(result-type: 3) => result-type
    }
 
    artifact-type = &(endorsed-values: 0)
                    / &(trust-anchors: 1)
                    / &(reference-values: 2)
+
+   result-type = &(collected-material: 0)
+                 / &(source-material: 1)
+                 / &(both: 2)
 
    The meanings of these fields are detailed in the following
    subsections.
@@ -578,7 +582,8 @@ Table of Contents
            }
          ]
        },
-       / timestamp / 2: 0("2030-12-01T18:30:01Z")
+       / timestamp /   2: 0("2030-12-01T18:30:01Z"),
+       / result-type / 3: 1 / source-material /
      }
    }
 
@@ -603,7 +608,8 @@ Table of Contents
            }
          ]
        },
-       / timestamp / 2: 0("2030-12-01T18:30:01Z")
+       / timestamp /   2: 0("2030-12-01T18:30:01Z"),
+       / result-type / 3: 2 / both collected and source material /
      }
    }
 
@@ -623,7 +629,8 @@ Table of Contents
            560(h'8999786556')      / tagged-bytes /
          ]
        },
-       / timestamp / 2: 0("2030-12-01T18:30:01Z")
+       / timestamp /   2: 0("2030-12-01T18:30:01Z"),
+       / result-type / 3: 0 / collected material /
      }
    }
 
@@ -657,7 +664,8 @@ Table of Contents
            }
          ]
        },
-       2: 0("2030-12-01T18:30:01Z")
+       2: 0("2030-12-01T18:30:01Z"),
+       3: 0
      },
      / results / 2: {
        10: 0("2030-12-13T18:30:02Z"),
