@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-06-05T00:47:00.919479+00:00",
+  "timestamp": "2025-06-08T00:53:25.661435+00:00",
   "repo": "rats-endorsements-distribution/draft-howard-rats-coserv",
   "labels": [
     {
@@ -1384,6 +1384,48 @@
               "updatedAt": "2025-06-03T09:00:38Z"
             }
           ]
+        }
+      ]
+    },
+    {
+      "number": 36,
+      "id": "PR_kwDOOAZd1M6ZXcH7",
+      "title": "allow requesting deep and/or shallow mode",
+      "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/pull/36",
+      "state": "MERGED",
+      "author": "thomas-fossati",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-06-06T10:04:34Z",
+      "updatedAt": "2025-06-06T11:02:31Z",
+      "baseRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
+      "baseRefName": "main",
+      "baseRefOid": "a84d5f666c2b4ae64c72fa5a9aa282c7e49840c9",
+      "headRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
+      "headRefName": "deep-and-or-shallow",
+      "headRefOid": "8220aba2aad5a8e3599a2a1179e8f69b1111600e",
+      "closedAt": "2025-06-06T11:02:31Z",
+      "mergedAt": "2025-06-06T11:02:31Z",
+      "mergedBy": "thomas-fossati",
+      "mergeCommit": {
+        "oid": "ac704f796344b96c96285cd65f8c44fcb08ca412"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOOAZd1M6tH1eq",
+          "commit": {
+            "abbreviatedOid": "8220aba"
+          },
+          "author": "paulhowardarm",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Looks winning to me. Thank you.",
+          "createdAt": "2025-06-06T10:29:55Z",
+          "updatedAt": "2025-06-06T10:29:55Z",
+          "comments": []
         }
       ]
     }
