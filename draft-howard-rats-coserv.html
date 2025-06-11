@@ -1473,8 +1473,8 @@ artifact-type = &amp;(endorsed-values: 0)
                 / &amp;(trust-anchors: 1)
                 / &amp;(reference-values: 2)
 
-result-type = &amp;(collected-material: 0)
-              / &amp;(source-material: 1)
+result-type = &amp;(collected-artifacts: 0)
+              / &amp;(source-artifacts: 1)
               / &amp;(both: 2)
 </pre><a href="#section-3.3-3" class="pilcrow">¶</a>
 </div>
@@ -1556,7 +1556,7 @@ For example, it would not be possible to query for both class-level and instance
 results = {
   result-set
   &amp;(expiry: 10) =&gt; tdate ; RFC3339 date
-  ? &amp;(source-material: 11) =&gt; [ + cmw-record ]
+  ? &amp;(source-artifacts: 11) =&gt; [ + cmw-record ]
 }
 
 result-set //= reference-values

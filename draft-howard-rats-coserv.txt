@@ -339,8 +339,8 @@ Table of Contents
                    / &(trust-anchors: 1)
                    / &(reference-values: 2)
 
-   result-type = &(collected-material: 0)
-                 / &(source-material: 1)
+   result-type = &(collected-artifacts: 0)
+                 / &(source-artifacts: 1)
                  / &(both: 2)
 
    The meanings of these fields are detailed in the following
@@ -442,7 +442,7 @@ Table of Contents
    results = {
      result-set
      &(expiry: 10) => tdate ; RFC3339 date
-     ? &(source-material: 11) => [ + cmw-record ]
+     ? &(source-artifacts: 11) => [ + cmw-record ]
    }
 
    result-set //= reference-values
