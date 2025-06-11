@@ -9,6 +9,6 @@ artifact-type = &(endorsed-values: 0)
                 / &(trust-anchors: 1)
                 / &(reference-values: 2)
 
-result-type = &(collected-material: 0)
-              / &(source-material: 1)
+result-type = &(collected-artifacts: 0)
+              / &(source-artifacts: 1)
               / &(both: 2)

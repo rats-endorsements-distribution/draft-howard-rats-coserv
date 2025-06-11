@@ -1,7 +1,7 @@
 results = {
   result-set
   &(expiry: 10) => tdate ; RFC3339 date
-  ? &(source-material: 11) => [ + cmw-record ]
+  ? &(source-artifacts: 11) => [ + cmw-record ]
 }
 
 result-set //= reference-values
