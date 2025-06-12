@@ -37,7 +37,6 @@ author:
 normative:
   RFC8610: cddl
   RFC8259: json
-  RFC3339: datetime
   STD96:
     -: cose
     =: RFC9052
@@ -111,15 +110,15 @@ The roles of Endorser or Reference Value Provider might sometimes be fulfilled b
 The notion of such an aggregator is not explicit in the RATS architecture.
 In practice, however, supply chains are complex and multi-layered.
 Supply chain sources can include silicon manufacturers, device manufacturers, firmware houses, system integrators, service providers and more.
-In practical terms, an Attester is likely to be a composite entity, formed of components from across such supply chains.
+In practical terms, an Attester is likely to be a complex entity, formed of components from across such supply chains.
 Evidence would be likewise structured, with contributions from different segments of the Attester's overall anatomy.
-A Verifier for such Evidence may find it convenient to contact an aggregator as a single source of truth for endorsements.
+A Verifier for such Evidence may find it convenient to contact an aggregator as a single source of truth for Endorsements and Reference Values.
 An aggregator would have intelligence about the Attester's complete anatomy and supply chain.
 It would have the ability to contact all contributing supply chain actors for their individual Endorsements and Reference Values, before collecting them into a cohesive set, and delivering them to the Verifier as a single, ergonomic package.
 In pure RATS terms, an aggregator is still an Endorser or a Reference Value Provider - or, more likely, both.
 It is not a distinct role, and so there is no distinctly-modeled conveyance between an aggregator and a Verifier.
 However, when consuming from an aggregator, the Verifier may need visibility of the aggregation process, possibly to the extent of needing to audit the results by inspecting the individual inputs that came from the original supply chain actors.
-CoSERV addresses this need, and caters equally for both aggregating and non-aggregating supply chain sources.
+CoSERV addresses this need, catering equally for both aggregating and non-aggregating supply chain sources.
 
 To support deployments with aggregators, CoSERV allows for flexible trust models as follows.
 
@@ -131,7 +130,7 @@ The consumer can still use the collected results from the aggregation process, w
 Any given CoSERV transaction can operate according to either model.
 The consumer decides which model to use when it forms a query.
 The CoSERV result payload can convey both the aggregated result and the audit trail as needed.
-The payload size is inevitably smaller when the shallow model is used, but the choice between the two models is a question for implementations and deployments.
+The payload size may be smaller when the shallow model is used, but the choice between the two models is a question for implementations and deployments.
 
 Although CoSERV is designed to support aggregation, it is not a requirement.
 When aggregation is not used, CoSERV still fulfills the need for a standard conveyance mechanism between Verifiers and Endorsers or Reference Value Providers.
@@ -219,6 +218,7 @@ This switch is especially relevant when the CoSERV query is fulfilled by an aggr
 The collected artifacts are intended for convenient consumption (according to the shallow trust model), while the source artifacts are principally useful for auditing (according to the deep trust model).
 It is possible for a query to select for source artifacts only, without the collected artifacts.
 This might happen when the consumer needs to inspect or audit artifacts from across the deep supply chain, while not requiring the convenience of the aggregated view.
+It could also happen when the consumer is acting as an intermediate broker, gathering artifacts for delivery to another aggregator.
 See {{secaggregation}} for details on aggregation, auditing and trust models.
 
 ## Result Sets
@@ -329,7 +329,7 @@ SELECT *
        ( instance-id = "iZl4ZVY=" )`
 ~~~
 
-The same applies for class-based selectors. However, since class selectors are themselves composed of multiple inner fields, the implementation of the artifact producer MUST use a logical `AND` operation in consideration of the inner fields for each class.
+The same applies for class-based selectors; however, since class selectors are themselves composed of multiple inner fields, the implementation of the artifact producer MUST use a logical `AND` operation in consideration of the inner fields for each class.
 
 Also, for class-based selectors, any unset fields in the class are assumed to be wildcard (`*`), and therefore match any value.
 
@@ -344,7 +344,7 @@ SELECT *
 
 ### Timestamp
 
-The `timestamp` field records the date and time at which the query was made, formatted according to {{RFC3339}}.
+The `timestamp` field records the date and time at which the query was made, formatted according to {{Section 3.4.1 of -cbor}}.
 Implementations SHOULD populate this field with the current date and time when forming a CoSERV query.
 
 ### Result Type
