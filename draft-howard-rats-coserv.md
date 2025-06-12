@@ -104,6 +104,37 @@ The terminology from CBOR {{-cbor}}, CDDL {{-cddl}} and COSE {{-cose}} applies;
 in particular, CBOR diagnostic notation is defined in {{Section 8 of -cbor}}
 and {{Section G of -cddl}}. Terms and concepts are always referenced as proper nouns, i.e., with Capital Letters.
 
+# Aggregation and Trust Models {#secaggregation}
+
+The roles of Endorser or Reference Value Provider might sometimes be fulfilled by aggregators, which collect from multiple supply chain sources, or even from other aggregators, in order to project a holistic view of the endorsed system.
+The notion of such an aggregator is not explicit in the RATS architecture.
+In practice, however, supply chains are complex and multi-layered.
+Supply chain sources can include silicon manufacturers, device manufacturers, firmware houses, system integrators, service providers and more.
+In practical terms, an Attester is likely to be a complex entity, formed of components from across such supply chains.
+Evidence would be likewise structured, with contributions from different segments of the Attester's overall anatomy.
+A Verifier for such Evidence may find it convenient to contact an aggregator as a single source of truth for Endorsements and Reference Values.
+An aggregator would have intelligence about the Attester's complete anatomy and supply chain.
+It would have the ability to contact all contributing supply chain actors for their individual Endorsements and Reference Values, before collecting them into a cohesive set, and delivering them to the Verifier as a single, ergonomic package.
+In pure RATS terms, an aggregator is still an Endorser or a Reference Value Provider - or, more likely, both.
+It is not a distinct role, and so there is no distinctly-modeled conveyance between an aggregator and a Verifier.
+However, when consuming from an aggregator, the Verifier may need visibility of the aggregation process, possibly to the extent of needing to audit the results by inspecting the individual inputs that came from the original supply chain actors.
+CoSERV addresses this need, catering equally for both aggregating and non-aggregating supply chain sources.
+
+To support deployments with aggregators, CoSERV allows for flexible trust models as follows.
+
+- **Shallow Trust**: in this model, the consumer trusts the aggregator, solely and completely, to provide authentic descriptions of the endorsed system.
+The consumer does not need to audit the results of the aggregation process.
+- **Deep Trust**: in this model, the consumer has a trust relationship with the aggregator, but does not deem this to be sufficient.
+The consumer can still use the collected results from the aggregation process, where it is convenient to do so, but also needs to audit those results.
+
+Any given CoSERV transaction can operate according to either model.
+The consumer decides which model to use when it forms a query.
+The CoSERV result payload can convey both the aggregated result and the audit trail as needed.
+The payload size may be smaller when the shallow model is used, but the choice between the two models is a question for implementations and deployments.
+
+Although CoSERV is designed to support aggregation, it is not a requirement.
+When aggregation is not used, CoSERV still fulfills the need for a standard conveyance mechanism between Verifiers and Endorsers or Reference Value Providers.
+
 # CoSERV Information Model {#secinfomodel}
 
 ## Overview
@@ -124,18 +155,71 @@ The transactional pattern between the producer and the consumer would be that th
 The producer receives the query, computes results, and returns a new CoSERV object formed from the results along with the original query.
 Notionally, the producer is "adding" the results to the query before sending it back to the consumer.
 
+## Artifacts {#secartifacts}
+
+Artifacts are what the consumer (Verifier) needs in order to verify and appraise Evidence from the Attester, and therefore they form the bulk of the response payload in a CoSERV transaction.
+The common CoSERV query language recognises three artifact types.
+These correspond to the three categories of endorsement artifact that can be identified natively in the RATS architecture:
+
+- **Trust Anchor**: A trust anchor is as defined in {{RFC6024}}.
+An example of a trust anchor would be the public part of the asymmetric signing key that is used by the Attester to sign Evidence, such that the Verifier can verify the cryptographic signature.
+- **Endorsed Value**: An endorsed value is as defined in {{Section 1.1.1 of -rats-corim}}.
+This represents a characteristic of the Attester that is not directly presented in the Evidence, such as certification data related to a hardware or firmware module.
+- **Reference Value**: A reference value is as defined in {{Section 1.1.1 of -rats-corim}}.
+A reference value specifies an individual aspect of the Attester's desired state.
+Reference values are sometimes informally called "golden values".
+An example of a reference value would be the expected hash or checksum of a binary firmware or software image running in the Attester's environment.
+Evidence from the Attester would then include claims about the Attester's actual state, which the Verifier can then compare with the reference values at Evidence appraisal time.
+
+When artifacts are produced by an aggregator (see {{secaggregation}}), the following additional classifications apply:
+
+- **Collected Artifacts**: these refer to artifacts that were derived by the aggregator by collecting and presenting data from original supply chain sources, or from other aggregators.
+Collected artifacts form a single holistic package, and provide the most ergonomic consumption experience for the Verifier.
+- **Source Arfifacts**: these refer to artifacts that were obtained directly from the original supply chain sources, and used as inputs into the aggregation process, allowing the aggregator to derive the collected artifacts.
+
+In the shallow trust model of aggregation, only the collected artifacts are used by the consumer.
+In the deep trust model, both the collected artifacts and the source artifacts are used.
+The source artifacts allow the consumer to audit the collected artifacts and operate the trust-but-verify principle.
+
+## Environments {#secenvironments}
+
+The environment defines the scope (or scopes) in which the endorsement artifacts are applicable.
+Given that the consumer of these artifacts is likely to be a Verifier in the RATS model, the typical interpretation of the environment would be that of an Attester that either has produced evidence, or is expected to produce evidence, that the Verifier needs to appraise.
+The Verifier consequently needs to query the Endorser or Reference Value Provider for artifacts that are applicable in that environment.
+There are three mutually-exclusive methods for defining the environment within a CoSERV query.
+Exactly one of these three methods MUST be used for the query to be valid.
+All three methods correspond to environments that are also defined within CoRIM {{-rats-corim}}.
+
+- **Class**: A class is an environment that is expected to be common to a group of similarly-constructed Attesters, who might therefore share the same set of endorsed characteristics.
+An example of this might be a fleet of computing devices of the same model and manufacturer.
+
+- **Instance**: An instance is an environment that is unique to an individual and identifiable Attester, such as a single computing device or component.
+
+- **Group**: A group is a collection of common Attester instances that are collected together based on some defined semantics.
+For example, Attesters may be put into groups for the purpose of anonymity.
+
 ## Queries
 
-The purpose of a query is to allow the consumer (Verifier) to specify the artifacts (Endorsements and Reference Values) that it needs.
-Consequently, a query corresponds to the environmental characteristics of one or more Attesters.
-Such environmental characteristics are identical to those used in the information model of CoRIM {{-rats-corim}}.
-In summary, they can include the following:
+The purpose of a query is to allow the consumer (Verifier) to specify the artifacts that it needs.
+The information that is conveyed in a CoSERV query includes the following:
 
-- An individual Attester instance.
-- A group (identifiable collection) of Attester instances.
-- A class of Attester, defined by characteristics such as the vendor or model, of which there may be an arbitrary number of instances.
-
+- A specification of the required artifact type: Reference Value, Endorsed Value or Trust Anchor.
+See {{secartifacts}} for definitions of artifact types.
+A single CoSERV query can only specify a single artifact type.
+- A specification of the Attester's environment.
+Environments can be selected according to Attester instance, group or class.
+See {{secenvironments}} for full definitions.
 To facilitate efficient transactions, a single query can specify either multiple instances, multiple groups or multiple classes.
+However, it is not possible to mix instance-based selectors, group-based selectors and class-based selectors in a single query.
+- A timestamp, denoting the time at which the CoSERV query was sent.
+- A switch to select the desired supply chain depth.
+A CoSERV query can request collected artifacts, source artifacts, or both.
+This switch is especially relevant when the CoSERV query is fulfilled by an aggregator.
+The collected artifacts are intended for convenient consumption (according to the shallow trust model), while the source artifacts are principally useful for auditing (according to the deep trust model).
+It is possible for a query to select for source artifacts only, without the collected artifacts.
+This might happen when the consumer needs to inspect or audit artifacts from across the deep supply chain, while not requiring the convenience of the aggregated view.
+It could also happen when the consumer is acting as an intermediate broker, gathering artifacts for delivery to another aggregator.
+See {{secaggregation}} for details on aggregation, auditing and trust models.
 
 ## Result Sets
 
@@ -144,6 +228,7 @@ The top-level structure of the result set consists of the following three items:
 
 - A collection of one or more result entries.
 This will be a collection of either reference values, endorsed values or trust anchors.
+See {{secartifacts}} for definitions of artifact types.
 In the future, it may be possible to support additional artifact types via an extension mechanism.
 Artifact types are never mixed in any single CoSERV result set.
 The artifacts in the result collection therefore MUST match the single artifact type specified in the original CoSERV query.
@@ -207,11 +292,8 @@ The meanings of these fields are detailed in the following subsections.
 
 The `artifact-type` field is the foremost discriminator of the query.
 It is a top-level category selector. Its three permissible values are `trust-anchors` (codepoint 1), `endorsed-values` (codepoint 0) and `reference-values` (codepoint 2).
-These correspond to the following three categories of endorsement artifact that can be identified in the RATS architecture:
 
-  - **Trust Anchor** (`trust-anchors`): A trust anchor is as defined in {{RFC6024}}. An example of a trust anchor would be the public part of the asymmetric signing key that is used by the Attester to sign Evidence, such that the Verifier is able to verify the cryptographic signature.
-  - **Endorsed Value** (`endorsed-values`): An endorsed value is as defined in {{Section 1.1.1 of -rats-corim}}.
-  - **Reference Value** (`reference-values`): A reference value is as defined in {{Section 1.1.1 of -rats-corim}}. A reference value specifies an individual aspect of the Attester's desired state. Reference values are sometimes informally called "golden values". An example of a reference value would be the expected hash or checksum of a binary firmware or software image running in the Attester's environment. Evidence from the Attester would then include claims about the Attester's actual state, which the Verifier can then compare with the reference values at Evidence appraisal time.
+See {{secartifacts}} for full definitions of artifact types.
 
 It is expected that implementations might choose to store these different categories of artifacts in different top-level stores or database tables.
 Where this is the case, the `artifact-type` field serves to narrow the query down to the correct store or table.
@@ -225,25 +307,50 @@ The environment selector forms the main body of the query, and its CDDL is given
 {::include cddl/environment-selector.cddl}
 ~~~
 
-The environment defines the scope (or scopes) in which the endorsement artifacts are applicable.
-Given that the consumer of these artifacts is likely to be a Verifier in the RATS model, the typical interpretation of the environment would be that of an Attester that either has produced evidence, or is expected to produce evidence, that the Verifier needs to appraise.
-The Verifier consequently needs to query the Endorser or Reference Value Provider for artifacts that are applicable in that environment.
-There are three mutually-exclusive methods for defining the environment within a CoSERV query.
-Exactly one of these three methods must be used for the query to be valid.
-All three methods correspond to environments that are also defined within CoRIM.
-
-- **Class**: A class is an environment that is expected to be common to a group of similarly-constructed Attesters, who might therefore share the same set of endorsed characteristics. An example of this might be a fleet of computing devices of the same model and manufacturer.
-
-- **Instance**: An instance is an environment that is unique to an individual and identifiable Attester, such as a single computing device or component.
-
-- **Group**: A group is a collection of common Attester instances that are collected together based on some defined semantics. For example, Attesters may be put into groups for the purpose of anonymity.
+Environments can be specified according to instance, group or class. See {{secenvironments}} for details.
 
 Although these three environment definitions are mutually-exclusive in a CoSERV query, all three support multiple entries.
-This is to gain efficiency by allowing the consumer (such as a Verifier) to query for multiple artifacts in a single transaction.
+This is to gain efficiency by allowing the consumer (Verifier) to query for multiple artifacts in a single transaction.
 For example, where artifacts are being indexed by instance, it would be possible to specify an arbitrary number of instances in a single query, and therefore obtain the artifacts for all of them in a single transaction.
 Likewise for classes and groups.
 However, it would not be possible for a single query to specify more than one kind of environment.
 For example, it would not be possible to query for both class-level and instance-level artifacts in a single CoSERV transaction.
+
+#### Selector Semantics
+
+When multiple environment selectors are present in a single query, such as multiple instances or multiple groups, the implementation of the artifact producer MUST consider these to be alternatives, and hence use a logical `OR` operation when applying the query to its internal data stores.
+
+Below is an illustrative example of how a CoSERV query for endorsed values, selecting for multiple Attester instances, might be transformed into a semantically-equivalent SQL database query:
+
+~~~sql
+SELECT *
+  FROM endorsed_values
+ WHERE ( instance-id = "At6tvu/erQ==" ) OR
+       ( instance-id = "iZl4ZVY=" )`
+~~~
+
+The same applies for class-based selectors; however, since class selectors are themselves composed of multiple inner fields, the implementation of the artifact producer MUST use a logical `AND` operation in consideration of the inner fields for each class.
+
+Also, for class-based selectors, any unset fields in the class are assumed to be wildcard (`*`), and therefore match any value.
+
+Below is an illustrative example of how a CoSERV query for reference values, selecting for multiple Attester classes, might be transformed into a semantically-equivalent SQL database query:
+
+~~~sql
+SELECT *
+  FROM reference_values
+ WHERE ( class-id = "iZl4ZVY=" AND class-vendor = "ACME Inc." ) OR
+       ( class-id = "31fb5abf-023e-4992-aa4e-95f9c1503bfa" )
+~~~
+
+### Timestamp
+
+The `timestamp` field records the date and time at which the query was made, formatted according to {{Section 3.4.1 of -cbor}}.
+Implementations SHOULD populate this field with the current date and time when forming a CoSERV query.
+
+### Result Type
+
+The `result-type` field selects for either `collected-artifacts` (codepoint 0), `source-artifacts` (codepoint 1) or `both` (codepoint 2).
+See {{secaggregation}} for definitions of source and collected artifacts.
 
 ## Result Set Structure
 
