@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-06-08T00:53:25.661435+00:00",
+  "timestamp": "2025-06-12T00:47:27.319444+00:00",
   "repo": "rats-endorsements-distribution/draft-howard-rats-coserv",
   "labels": [
     {
@@ -1428,6 +1428,116 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 37,
+      "id": "PR_kwDOOAZd1M6Z16Ws",
+      "title": "add a \"rolling slide deck\" in the materials",
+      "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/pull/37",
+      "state": "MERGED",
+      "author": "thomas-fossati",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-06-10T11:36:47Z",
+      "updatedAt": "2025-06-11T06:44:23Z",
+      "baseRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
+      "baseRefName": "main",
+      "baseRefOid": "ac704f796344b96c96285cd65f8c44fcb08ca412",
+      "headRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
+      "headRefName": "rolling-slide-deck",
+      "headRefOid": "8365d1c56f0cfd1ff77a9b8b7c9b8302e85d470d",
+      "closedAt": "2025-06-11T06:44:23Z",
+      "mergedAt": "2025-06-11T06:44:23Z",
+      "mergedBy": "paulhowardarm",
+      "mergeCommit": {
+        "oid": "0924c1db9191d3e9d8603823935a226f0d6d6f42"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOOAZd1M6tzFot",
+          "commit": {
+            "abbreviatedOid": "8365d1c"
+          },
+          "author": "paulhowardarm",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Excellent work, thanks!",
+          "createdAt": "2025-06-11T06:43:37Z",
+          "updatedAt": "2025-06-11T06:43:37Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 38,
+      "id": "PR_kwDOOAZd1M6aBcga",
+      "title": "`s/{source,collected}-material/{source,collected}-artifacts/`",
+      "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/pull/38",
+      "state": "MERGED",
+      "author": "thomas-fossati",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-06-11T12:21:09Z",
+      "updatedAt": "2025-06-11T13:02:48Z",
+      "baseRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
+      "baseRefName": "main",
+      "baseRefOid": "0924c1db9191d3e9d8603823935a226f0d6d6f42",
+      "headRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
+      "headRefName": "artifacts",
+      "headRefOid": "1fa38af923f836007bf7b4e1eaad878a65b6ad3b",
+      "closedAt": "2025-06-11T13:02:48Z",
+      "mergedAt": "2025-06-11T13:02:48Z",
+      "mergedBy": "paulhowardarm",
+      "mergeCommit": {
+        "oid": "9d2ede95a81291bddc4e8a5ba529cd8b2651da39"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOOAZd1M6t3rXR",
+          "commit": {
+            "abbreviatedOid": "1fa38af"
+          },
+          "author": "paulhowardarm",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "LGTM. Thanks.",
+          "createdAt": "2025-06-11T13:01:45Z",
+          "updatedAt": "2025-06-11T13:01:45Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 39,
+      "id": "PR_kwDOOAZd1M6aHfpB",
+      "title": "Document-wide refactoring and improvements",
+      "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/pull/39",
+      "state": "OPEN",
+      "author": "paulhowardarm",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "- Catch up the draft text to the latest data model\r\n- Assorted prose refactoring - move some verbosity out of the data model so that it's just CDDL and light descriptions\r\n- Describe aggregation and trust models\r\n- Define environment selector semantics\r\n\r\nSigned-off-by: Paul Howard <paul.howard@arm.com>",
+      "createdAt": "2025-06-11T23:57:45Z",
+      "updatedAt": "2025-06-11T23:57:45Z",
+      "baseRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
+      "baseRefName": "main",
+      "baseRefOid": "9d2ede95a81291bddc4e8a5ba529cd8b2651da39",
+      "headRepository": "paulhowardarm/draft-howard-rats-coserv",
+      "headRefName": "phHolisticEnhancement",
+      "headRefOid": "671836d0173670bb0ebfcfe41138837056fec337",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
