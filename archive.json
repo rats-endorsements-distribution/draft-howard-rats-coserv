@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-06-12T00:47:27.319444+00:00",
+  "timestamp": "2025-06-15T00:54:02.778467+00:00",
   "repo": "rats-endorsements-distribution/draft-howard-rats-coserv",
   "labels": [
     {
@@ -134,7 +134,7 @@
       "id": "I_kwDOOAZd1M6v4NrC",
       "title": "query semantics",
       "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/issues/9",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "thomas-fossati",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -143,8 +143,8 @@
       "labels": [],
       "body": "We need to clearly explain CoSERV's query semantics, i.e.:\n\n* The entries in the class/istance/group array represent alternatives (`OR`)\n* In a given class:\n    * All fields that are set must match (`AND`)\n    * Any unset fields are wildcards (`*`)\n\nTo illustrate the concepts, we can use the `ToSQL` examples in [`coserv/environmentselector_test.go`](https://github.com/veraison/corim/blob/coserv/coserv/environmentselector_test.go)\n",
       "createdAt": "2025-03-26T20:42:42Z",
-      "updatedAt": "2025-05-14T11:53:03Z",
-      "closedAt": null,
+      "updatedAt": "2025-06-12T11:42:24Z",
+      "closedAt": "2025-06-12T11:42:23Z",
       "comments": [
         {
           "author": "deeglaze",
@@ -159,6 +159,13 @@
           "body": "Blend this into the prose for information model on queries.",
           "createdAt": "2025-05-14T11:53:02Z",
           "updatedAt": "2025-05-14T11:53:02Z"
+        },
+        {
+          "author": "paulhowardarm",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Completed as of [#39](https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/pull/39)",
+          "createdAt": "2025-06-12T11:42:23Z",
+          "updatedAt": "2025-06-12T11:42:23Z"
         }
       ]
     },
@@ -261,23 +268,31 @@
       "id": "I_kwDOOAZd1M6zcvn5",
       "title": "Consider \"audit bundle\" payloads in responses",
       "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/issues/21",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "paulhowardarm",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "In earlier discussions around Endorsement API endpoints, we theorised two trust models:\n\n- The \"shallow\" trust model, where the endorsement service alone is trusted to aggregate and convey on behalf of the whole supply chain.\n- The \"deep\" trust model, where the client trusts the endorsement service in the first instance, but may also need access to the original resources that were aggregated from primary supply chain entities.\n\nCoSERV as currently written caters quite well for the shallow model, but we need to think about how it could adopt the deep model (even if our PoC activities exclude that model for now).\n\n",
       "createdAt": "2025-04-22T10:29:35Z",
-      "updatedAt": "2025-04-22T10:29:35Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2025-06-12T11:41:32Z",
+      "closedAt": "2025-06-12T11:41:32Z",
+      "comments": [
+        {
+          "author": "paulhowardarm",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Completed as of [#39](https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/pull/39)",
+          "createdAt": "2025-06-12T11:41:32Z",
+          "updatedAt": "2025-06-12T11:41:32Z"
+        }
+      ]
     },
     {
       "number": 26,
       "id": "I_kwDOOAZd1M62ju9n",
       "title": "Describe authority delegation in the result set",
       "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/issues/26",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "paulhowardarm",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -287,8 +302,8 @@
       "labels": [],
       "body": "We have an existing description of the result set data model, which includes the \"quad\" concept (the per-triple trust authority), but there is no discussion of how this should be used, particularly where there are inductive chains of authorities.",
       "createdAt": "2025-05-14T11:40:54Z",
-      "updatedAt": "2025-05-15T10:53:56Z",
-      "closedAt": null,
+      "updatedAt": "2025-06-12T11:40:55Z",
+      "closedAt": "2025-06-12T11:40:55Z",
       "comments": [
         {
           "author": "thomas-fossati",
@@ -303,6 +318,13 @@
           "body": "Dual-assigned to Thomas and Paul - Thomas to act on the CDDL changes, and Paul to do the write-up in the draft.",
           "createdAt": "2025-05-15T10:53:55Z",
           "updatedAt": "2025-05-15T10:53:55Z"
+        },
+        {
+          "author": "paulhowardarm",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Completed as of [#39](https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/pull/39)",
+          "createdAt": "2025-06-12T11:40:55Z",
+          "updatedAt": "2025-06-12T11:40:55Z"
         }
       ]
     },
@@ -311,7 +333,7 @@
       "id": "I_kwDOOAZd1M62jzKS",
       "title": "Refactor prose from data model to information model",
       "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/issues/27",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "paulhowardarm",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -320,16 +342,24 @@
       "labels": [],
       "body": "There's a big descriptive chunk on environments in the data model section, which probably needs to be hoisted into the information model section.\n",
       "createdAt": "2025-05-14T11:47:38Z",
-      "updatedAt": "2025-05-15T10:52:30Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2025-06-12T11:40:35Z",
+      "closedAt": "2025-06-12T11:40:34Z",
+      "comments": [
+        {
+          "author": "paulhowardarm",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Completed as of [#39](https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/pull/39)",
+          "createdAt": "2025-06-12T11:40:35Z",
+          "updatedAt": "2025-06-12T11:40:35Z"
+        }
+      ]
     },
     {
       "number": 28,
       "id": "I_kwDOOAZd1M62vJVJ",
       "title": "Add a query timestamp to the CoSERV query",
       "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/issues/28",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "paulhowardarm",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -338,16 +368,24 @@
       "labels": [],
       "body": "Rationale is that a combination of the serialised query and the timestamp would make an excellent lookup key into a transparency log.\n\nThe purpose of a transparency log would be to capture all of the data that resulted in the set of artefacts delivered by the producer. This allows an alternative audit mechanism where the \"deep\" model is implemented in a log for retrospective discovery, rather than passed directly to the consumer.",
       "createdAt": "2025-05-15T10:48:48Z",
-      "updatedAt": "2025-05-15T10:52:22Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2025-06-12T11:40:19Z",
+      "closedAt": "2025-06-12T11:40:19Z",
+      "comments": [
+        {
+          "author": "paulhowardarm",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Completed as of [#39](https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/pull/39)",
+          "createdAt": "2025-06-12T11:40:19Z",
+          "updatedAt": "2025-06-12T11:40:19Z"
+        }
+      ]
     },
     {
       "number": 29,
       "id": "I_kwDOOAZd1M62vLF7",
       "title": "Add a shallow/deep switch into the CoSERV query",
       "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/issues/29",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "paulhowardarm",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -356,9 +394,17 @@
       "labels": [],
       "body": "Add a binary shallow/deep selector into the CoSERV query, so that the client can exercise control over the amount of data that they receive.\n\nIn the shallow model, the client receives only the artefacts that the producer deduces from its downstream sources, along with signing authority information for those downstream sources. In the deep model, the client also receives duplicates of the downstream data directly.\n",
       "createdAt": "2025-05-15T10:51:23Z",
-      "updatedAt": "2025-05-15T10:52:03Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2025-06-12T11:39:57Z",
+      "closedAt": "2025-06-12T11:39:57Z",
+      "comments": [
+        {
+          "author": "paulhowardarm",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Completed as of [#39](https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/pull/39)",
+          "createdAt": "2025-06-12T11:39:57Z",
+          "updatedAt": "2025-06-12T11:39:57Z"
+        }
+      ]
     },
     {
       "number": 33,
@@ -1518,26 +1564,98 @@
       "id": "PR_kwDOOAZd1M6aHfpB",
       "title": "Document-wide refactoring and improvements",
       "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/pull/39",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "paulhowardarm",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "- Catch up the draft text to the latest data model\r\n- Assorted prose refactoring - move some verbosity out of the data model so that it's just CDDL and light descriptions\r\n- Describe aggregation and trust models\r\n- Define environment selector semantics\r\n\r\nSigned-off-by: Paul Howard <paul.howard@arm.com>",
       "createdAt": "2025-06-11T23:57:45Z",
-      "updatedAt": "2025-06-11T23:57:45Z",
+      "updatedAt": "2025-06-12T10:15:11Z",
       "baseRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
       "baseRefName": "main",
       "baseRefOid": "9d2ede95a81291bddc4e8a5ba529cd8b2651da39",
       "headRepository": "paulhowardarm/draft-howard-rats-coserv",
       "headRefName": "phHolisticEnhancement",
-      "headRefOid": "671836d0173670bb0ebfcfe41138837056fec337",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "62871c7eaaec7670a25d0090cab7deee81d9e9d5",
+      "closedAt": "2025-06-12T10:15:11Z",
+      "mergedAt": "2025-06-12T10:15:11Z",
+      "mergedBy": "thomas-fossati",
+      "mergeCommit": {
+        "oid": "e34850a8becd592f6901fc7ece700a1757f4d876"
+      },
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOOAZd1M6uA5RZ",
+          "commit": {
+            "abbreviatedOid": "671836d"
+          },
+          "author": "thomas-fossati",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "Looks great.  I have inlined a few comments.",
+          "createdAt": "2025-06-12T04:00:33Z",
+          "updatedAt": "2025-06-12T04:43:53Z",
+          "comments": [
+            {
+              "originalPosition": 18,
+              "body": "While the sentence is factually correct, I sense that using \u201cAttester\u201d and \u201ccomposite\u201d in the same sentence is going to create the wrong association in the RATS reader\u2019s mind.  Can we use \u201ccomplex\u201d instead?",
+              "createdAt": "2025-06-12T04:00:33Z",
+              "updatedAt": "2025-06-12T04:43:53Z"
+            },
+            {
+              "originalPosition": 20,
+              "body": "We seem to use \"Endorsement and Reference Values\u201d consistently throughout the document.\r\nUsing the term \u201cendorsements\" here may cause confusion.\r\nI suggest we do one of two things:\r\n1. Replace \"endorsements\" with \"Endorsement and Reference Values\", or\r\n2. Introduce lowercase \u201cendorsements\" as shorthand for \"Endorsement and Reference Values\u201d in the terminology section, and then perform a mass substitution.",
+              "createdAt": "2025-06-12T04:08:47Z",
+              "updatedAt": "2025-06-12T04:43:53Z"
+            },
+            {
+              "originalPosition": 26,
+              "body": "s/and caters/catering/ ?",
+              "createdAt": "2025-06-12T04:12:43Z",
+              "updatedAt": "2025-06-12T04:43:53Z"
+            },
+            {
+              "originalPosition": 38,
+              "body": "While I\u2019d expect this to be true in the vast majority of cases, there may be pathological situations where it may not hold.  I think it\u2019s safer to remove L134.  Alternatively, we could s/inevitably/typically/ , s/inevitably/quite possible/ or similar weasel words.",
+              "createdAt": "2025-06-12T04:20:18Z",
+              "updatedAt": "2025-06-12T06:57:07Z"
+            },
+            {
+              "originalPosition": 120,
+              "body": "Another use case for \u201csource-artifacts\u201d is that of a pure broker, pulling from multiple upstream sources for its downstream aggregators.",
+              "createdAt": "2025-06-12T04:34:55Z",
+              "updatedAt": "2025-06-12T04:43:53Z"
+            },
+            {
+              "originalPosition": 185,
+              "body": "Here comes the NSNL police! ;-)\r\n\r\n```suggestion\r\nThe same applies for class-based selectors.\r\nHowever, since class selectors are themselves composed of multiple inner fields, the implementation of the artifact producer MUST use a logical `AND` operation in consideration of the inner fields for each class.\r\n```\r\n\r\nAlternatively:\r\n\r\n```suggestion\r\nThe same applies for class-based selectors; however, since class selectors are themselves composed of multiple inner fields, the implementation of the artifact producer MUST use a logical `AND` operation in consideration of the inner fields for each class.\r\n```",
+              "createdAt": "2025-06-12T04:36:40Z",
+              "updatedAt": "2025-06-12T04:43:53Z"
+            },
+            {
+              "originalPosition": 200,
+              "body": "In this case, {{Section 3.4.1 of -cbor}} provides a more precise reference than {{RFC3339}}.",
+              "createdAt": "2025-06-12T04:43:03Z",
+              "updatedAt": "2025-06-12T04:43:53Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOOAZd1M6uEQ_w",
+          "commit": {
+            "abbreviatedOid": "62871c7"
+          },
+          "author": "thomas-fossati",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "ship it!",
+          "createdAt": "2025-06-12T09:52:00Z",
+          "updatedAt": "2025-06-12T09:52:00Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }
