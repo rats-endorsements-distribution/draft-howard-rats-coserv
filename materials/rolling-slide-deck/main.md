@@ -83,8 +83,8 @@ Basic building block for an "endorsement distribution API"
 query = {
   &(artifact-type: 0) => artifact-type
   &(environment-selector: 1) => environment-selector-map
-  &(timestamp: 2) => tdate
-  ? &(include-source-material: 3) => bool .default false
+  &(timestamp: 2) => tdate ; RFC3339 date
+  &(result-type: 3) => result-type
 }
 ```
 
@@ -92,7 +92,7 @@ What artifact you are interested in (RVs, TAs, etc.)?
 
 The attesters you are interested in?
 
-(Optionally,) provide the source objects too, please!
+What format would you like the results to be in (collected, source or both)?
 
 ---
 
@@ -136,7 +136,7 @@ SELECT *
 results = {
   result-set
   &(expiry: 10) => tdate ; RFC3339 date
-  ? &(source-material: 11) => [ + cmw-record ]
+  ? &(source-artifacts: 11) => [ + cmw-record ]
 }
 
 result-set //= reference-values
