@@ -6,6 +6,8 @@ Remote ATtestation ProcedureS                                  P. Howard
 Internet-Draft                                                       Arm
 Intended status: Informational                                T. Fossati
 Expires: 19 December 2025                                         Linaro
+                                                             H. Birkholz
+                                                          Fraunhofer SIT
                                                             17 June 2025
 
 
@@ -1751,3 +1753,8 @@ Authors' Addresses
    Thomas Fossati
    Linaro
    Email: Thomas.Fossati@linaro.org
+
+
+   Henk Birkholz
+   Fraunhofer SIT
+   Email: henk.birkholz@ietf.contact
