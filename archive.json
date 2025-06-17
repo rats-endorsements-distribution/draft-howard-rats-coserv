@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-06-15T00:54:02.778467+00:00",
+  "timestamp": "2025-06-17T00:48:04.759799+00:00",
   "repo": "rats-endorsements-distribution/draft-howard-rats-coserv",
   "labels": [
     {
@@ -1653,6 +1653,90 @@
           "body": "ship it!",
           "createdAt": "2025-06-12T09:52:00Z",
           "updatedAt": "2025-06-12T09:52:00Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 40,
+      "id": "PR_kwDOOAZd1M6arZfC",
+      "title": "fix(materials): align with draft-02",
+      "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/pull/40",
+      "state": "MERGED",
+      "author": "thomas-fossati",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-06-16T09:33:54Z",
+      "updatedAt": "2025-06-16T11:08:22Z",
+      "baseRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
+      "baseRefName": "main",
+      "baseRefOid": "e34850a8becd592f6901fc7ece700a1757f4d876",
+      "headRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
+      "headRefName": "materials-update",
+      "headRefOid": "f5e5b5541cb86e8033b01b6fcc44211c4d07695c",
+      "closedAt": "2025-06-16T09:40:10Z",
+      "mergedAt": "2025-06-16T09:40:10Z",
+      "mergedBy": "paulhowardarm",
+      "mergeCommit": {
+        "oid": "b4c28e26b571a517371808a40d7dbfa9a0aa9a3e"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOOAZd1M6uuRqP",
+          "commit": {
+            "abbreviatedOid": "f5e5b55"
+          },
+          "author": "paulhowardarm",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Looks good, thanks.",
+          "createdAt": "2025-06-16T09:39:24Z",
+          "updatedAt": "2025-06-16T09:39:24Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 41,
+      "id": "PR_kwDOOAZd1M6arpy_",
+      "title": "materials: add CCC attestation SIG preso",
+      "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/pull/41",
+      "state": "MERGED",
+      "author": "thomas-fossati",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-06-16T09:57:28Z",
+      "updatedAt": "2025-06-16T10:47:33Z",
+      "baseRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
+      "baseRefName": "main",
+      "baseRefOid": "b4c28e26b571a517371808a40d7dbfa9a0aa9a3e",
+      "headRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
+      "headRefName": "ccc-sig-slideware",
+      "headRefOid": "fa1e68d5937e26b6c6218cc6c5a950fcc78fb0b1",
+      "closedAt": "2025-06-16T10:23:05Z",
+      "mergedAt": "2025-06-16T10:23:05Z",
+      "mergedBy": "paulhowardarm",
+      "mergeCommit": {
+        "oid": "afa34ab713d945c764a037a0e02a072591d242d4"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOOAZd1M6uu2TD",
+          "commit": {
+            "abbreviatedOid": "fa1e68d"
+          },
+          "author": "paulhowardarm",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Nice!",
+          "createdAt": "2025-06-16T10:22:22Z",
+          "updatedAt": "2025-06-16T10:22:22Z",
           "comments": []
         }
       ]
