@@ -33,10 +33,6 @@ author:
   name: Thomas Fossati
   organization: Linaro
   email: Thomas.Fossati@linaro.org
-- ins: H.Birkholz 
-  name: Henk Birkholz
-  org: Fraunhofer SIT
-  email: henk.birkholz@ietf.contact
 
 
 normative:
