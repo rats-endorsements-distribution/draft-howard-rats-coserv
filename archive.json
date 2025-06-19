@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-06-17T00:48:04.759799+00:00",
+  "timestamp": "2025-06-19T00:48:13.522939+00:00",
   "repo": "rats-endorsements-distribution/draft-howard-rats-coserv",
   "labels": [
     {
@@ -1737,6 +1737,123 @@
           "body": "Nice!",
           "createdAt": "2025-06-16T10:22:22Z",
           "updatedAt": "2025-06-16T10:22:22Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 42,
+      "id": "PR_kwDOOAZd1M6a6v6h",
+      "title": "reafactor(examples): enforce ordering of map keys",
+      "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/pull/42",
+      "state": "MERGED",
+      "author": "thomas-fossati",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Deterministic encoding would order the map keys.  Unfortunately, the tooling we use to generate the examples can\u2019t be instructed to use det-enc.  Therefore, we need to force it in the EDN source.",
+      "createdAt": "2025-06-17T14:53:00Z",
+      "updatedAt": "2025-06-17T20:54:06Z",
+      "baseRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
+      "baseRefName": "main",
+      "baseRefOid": "afa34ab713d945c764a037a0e02a072591d242d4",
+      "headRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
+      "headRefName": "match-detenc",
+      "headRefOid": "9b09acf643b06b649f3235bed4ddd6c60d880939",
+      "closedAt": "2025-06-17T20:54:05Z",
+      "mergedAt": "2025-06-17T20:54:05Z",
+      "mergedBy": "paulhowardarm",
+      "mergeCommit": {
+        "oid": "aeeee8783f5645ba86e91f2959a5148ede494d21"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOOAZd1M6vEBFr",
+          "commit": {
+            "abbreviatedOid": "9b09acf"
+          },
+          "author": "paulhowardarm",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Good catch!",
+          "createdAt": "2025-06-17T20:53:21Z",
+          "updatedAt": "2025-06-17T20:53:21Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 43,
+      "id": "PR_kwDOOAZd1M6a7gh8",
+      "title": "Adding Henk",
+      "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/pull/43",
+      "state": "MERGED",
+      "author": "henkbirkholz",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "via a PR as @thomas-fossati thofos recommended",
+      "createdAt": "2025-06-17T16:05:21Z",
+      "updatedAt": "2025-06-17T20:51:57Z",
+      "baseRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
+      "baseRefName": "main",
+      "baseRefOid": "c082f8a1e3ca7884cb1a9c24f507b0f6ffe2b13d",
+      "headRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
+      "headRefName": "add-henk",
+      "headRefOid": "de7bfeae7ea21168997649604d4620a50d435b1f",
+      "closedAt": "2025-06-17T20:51:57Z",
+      "mergedAt": "2025-06-17T20:51:57Z",
+      "mergedBy": "paulhowardarm",
+      "mergeCommit": {
+        "oid": "2575c497df46481d5e1d39d037f92910952dad2e"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOOAZd1M6vDGAW",
+          "commit": {
+            "abbreviatedOid": "e24d060"
+          },
+          "author": "paulhowardarm",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Welcome aboard!",
+          "createdAt": "2025-06-17T19:17:57Z",
+          "updatedAt": "2025-06-17T19:17:57Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOOAZd1M6vDNr2",
+          "commit": {
+            "abbreviatedOid": "e24d060"
+          },
+          "author": "thomas-fossati",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-06-17T19:31:31Z",
+          "updatedAt": "2025-06-17T19:31:32Z",
+          "comments": [
+            {
+              "originalPosition": 4,
+              "body": "more oxygen!\r\n\r\n```suggestion\r\n- ins: H. Birkholz\r\n```",
+              "createdAt": "2025-06-17T19:31:31Z",
+              "updatedAt": "2025-06-17T19:31:32Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOOAZd1M6vDOBM",
+          "commit": {
+            "abbreviatedOid": "de7bfea"
+          },
+          "author": "thomas-fossati",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "\ud83d\udea2 it!",
+          "createdAt": "2025-06-17T19:32:06Z",
+          "updatedAt": "2025-06-17T19:32:06Z",
           "comments": []
         }
       ]
