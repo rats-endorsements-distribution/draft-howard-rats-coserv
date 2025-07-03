@@ -5,10 +5,10 @@
 Remote ATtestation ProcedureS                                  P. Howard
 Internet-Draft                                                       Arm
 Intended status: Informational                                T. Fossati
-Expires: 19 December 2025                                         Linaro
+Expires: 4 January 2026                                           Linaro
                                                              H. Birkholz
                                                           Fraunhofer SIT
-                                                            17 June 2025
+                                                             3 July 2025
 
 
          Concise Selector for Endorsements and Reference Values
@@ -59,7 +59,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 19 December 2025.
+   This Internet-Draft will expire on 4 January 2026.
 
 Copyright Notice
 
@@ -84,6 +84,7 @@ Table of Contents
      3.1.  Overview
      3.2.  Artifacts
      3.3.  Environments
+       3.3.1.  Stateful Environments
      3.4.  Queries
      3.5.  Result Sets
    4.  CoSERV Data Model
@@ -357,6 +358,33 @@ Table of Contents
       example, Attesters may be put into groups for the purpose of
       anonymity.
 
+3.3.1.  Stateful Environments
+
+   In addition to specifying the Attester environment by class,
+   instance, or group, it is sometimes necessary to constrain the target
+   environment further by specifying aspects of its state.  This is
+   because the applicability of Endorsements and Reference Values might
+   vary, depending on these stateful properties.  Consider, for example,
+   an Attester instance who signs Evidence using a derived attestation
+   key, where the derivation algorithm is dependent on one or more
+   aspects of the Attester's current state, such as the version number
+   of an upgradable firmware component.  This example Attester would, at
+   different points in its lifecycle, sign Evidence with different
+   attestation keys, since the keys would change upon any firmware
+   update.  To provide the correct public key to use as the trust anchor
+   for verification, the Endorser would need to know the configured
+   state of the Attester at the time the Evidence was produced.
+   Specifying such an Attester solely by its instance identifier is
+   therefore insufficient for the Endorser to supply the correct
+   artifact.  The environment specification would need to include these
+   critical stateful aspects as well.  In CoRIM [I-D.ietf-rats-corim],
+   stateful environments are modeled as an environment identifier plus a
+   collection of measurements, and CoSERV takes the same approach.
+   Therefore, any environment selector in a CoSERV query can optionally
+   be enhanced with a collection of one or more measurements, which
+   specify aspects of the target environment state that might materially
+   impact the selection of artifacts.
+
 3.4.  Queries
 
    The purpose of a query is to allow the consumer (Verifier) to specify
@@ -369,12 +397,14 @@ Table of Contents
       single artifact type.
 
    *  A specification of the Attester's environment.  Environments can
-      be selected according to Attester instance, group or class.  See
-      Section 3.3 for full definitions.  To facilitate efficient
-      transactions, a single query can specify either multiple
-      instances, multiple groups or multiple classes.  However, it is
-      not possible to mix instance-based selectors, group-based
-      selectors and class-based selectors in a single query.
+      be selected according to Attester instance, group or class.
+      Additional properties of the environment state can be specified by
+      adding one or more measurements to the selector.  See Section 3.3
+      for full definitions.  To facilitate efficient transactions, a
+      single query can specify either multiple instances, multiple
+      groups or multiple classes.  However, it is not possible to mix
+      instance-based selectors, group-based selectors and class-based
+      selectors in a single query.
 
    *  A timestamp, denoting the time at which the CoSERV query was sent.
 
@@ -532,9 +562,17 @@ Table of Contents
 
    environment-selector-map = { selector }
 
-   selector //= ( &(class: 0) => [ + class-map ] )
-   selector //= ( &(instance: 1) => [ + $instance-id-type-choice ] )
-   selector //= ( &(group: 2) => [ + $group-id-type-choice ] )
+   selector //= ( &(class: 0) => [
+     + ( class-map, ? [ + measurement-map ] )
+   ] )
+
+   selector //= ( &(instance: 1) => [
+     + ( $instance-id-type-choice, ? [ + measurement-map ] )
+   ] )
+
+   selector //= ( &(group: 2) => [
+     + ( $group-id-type-choice, ? [ + measurement-map ] )
+   ] )
 
    Environments can be specified according to instance, group or class.
    See Section 3.3 for details.
@@ -551,6 +589,11 @@ Table of Contents
    environment.  For example, it would not be possible to query for both
    class-level and instance-level artifacts in a single CoSERV
    transaction.
+
+   All three environment selector types can optionally be enhanced with
+   one or more measurement-map entries, which are used to express
+   aspects of the environment state.  See Section 3.3.1 for a
+   description of stateful environments.
 
 4.3.2.1.  Selector Semantics
 
@@ -1160,9 +1203,17 @@ Appendix A.  Collated CoSERV CDDL
 
    environment-selector-map = { selector }
 
-   selector //= ( &(class: 0) => [ + class-map ] )
-   selector //= ( &(instance: 1) => [ + $instance-id-type-choice ] )
-   selector //= ( &(group: 2) => [ + $group-id-type-choice ] )
+   selector //= ( &(class: 0) => [
+     + ( class-map, ? [ + measurement-map ] )
+   ] )
+
+   selector //= ( &(instance: 1) => [
+     + ( $instance-id-type-choice, ? [ + measurement-map ] )
+   ] )
+
+   selector //= ( &(group: 2) => [
+     + ( $group-id-type-choice, ? [ + measurement-map ] )
+   ] )
 
    concise-mid-tag = {
      ? &(language: 0) => text

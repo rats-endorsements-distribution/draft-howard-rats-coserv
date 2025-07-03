@@ -13,14 +13,14 @@
 This document specifies the Concise Selector for Endorsements and Reference Values (CoSERV), a structured query/result format designed to facilitate the discovery and retrieval of these artifacts from various providers.
 CoSERV defines a query language and corresponding result structure using CDDL, which can be serialized in CBOR format, enabling efficient interoperability across diverse systems. 
     " name="description">
-<meta content="xml2rfc 3.28.1" name="generator">
+<meta content="xml2rfc 3.29.0" name="generator">
 <meta content="RATS" name="keyword">
 <meta content="attestation" name="keyword">
 <meta content="endorsement" name="keyword">
 <meta content="reference value" name="keyword">
 <meta content="draft-howard-rats-coserv-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.28.1
+  xml2rfc 3.29.0
     Python 3.12.11
     ConfigArgParse 1.7
     google-i18n-address 3.1.1
@@ -1051,11 +1051,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">CoSERV</td>
-<td class="right">June 2025</td>
+<td class="right">July 2025</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Howard, et al.</td>
-<td class="center">Expires 19 December 2025</td>
+<td class="center">Expires 4 January 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1068,12 +1068,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-howard-rats-coserv-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-06-17" class="published">17 June 2025</time>
+<time datetime="2025-07-03" class="published">3 July 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-12-19">19 December 2025</time></dd>
+<dd class="expires"><time datetime="2026-01-04">4 January 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1133,7 +1133,7 @@ CoSERV defines a query language and corresponding result structure using CDDL, w
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 19 December 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 4 January 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1184,6 +1184,11 @@ CoSERV defines a query language and corresponding result structure using CDDL, w
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.3">
                 <p id="section-toc.1-1.3.2.3.1"><a href="#section-3.3" class="auto internal xref">3.3</a>.  <a href="#name-environments" class="internal xref">Environments</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.3.2.1">
+                    <p id="section-toc.1-1.3.2.3.2.1.1"><a href="#section-3.3.1" class="auto internal xref">3.3.1</a>.  <a href="#name-stateful-environments" class="internal xref">Stateful Environments</a></p>
+</li>
+                </ul>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.4">
                 <p id="section-toc.1-1.3.2.4.1"><a href="#section-3.4" class="auto internal xref">3.4</a>.  <a href="#name-queries" class="internal xref">Queries</a></p>
@@ -1473,6 +1478,22 @@ An example of this might be a fleet of computing devices of the same model and m
 For example, Attesters may be put into groups for the purpose of anonymity.<a href="#section-3.3-2.3.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
+<div id="secstateful">
+<section id="section-3.3.1">
+          <h4 id="name-stateful-environments">
+<a href="#section-3.3.1" class="section-number selfRef">3.3.1. </a><a href="#name-stateful-environments" class="section-name selfRef">Stateful Environments</a>
+          </h4>
+<p id="section-3.3.1-1">In addition to specifying the Attester environment by class, instance, or group, it is sometimes necessary to constrain the target environment further by specifying aspects of its state.
+This is because the applicability of Endorsements and Reference Values might vary, depending on these stateful properties.
+Consider, for example, an Attester instance who signs Evidence using a derived attestation key, where the derivation algorithm is dependent on one or more aspects of the Attester's current state, such as the version number of an upgradable firmware component.
+This example Attester would, at different points in its lifecycle, sign Evidence with different attestation keys, since the keys would change upon any firmware update.
+To provide the correct public key to use as the trust anchor for verification, the Endorser would need to know the configured state of the Attester at the time the Evidence was produced.
+Specifying such an Attester solely by its instance identifier is therefore insufficient for the Endorser to supply the correct artifact.
+The environment specification would need to include these critical stateful aspects as well.
+In CoRIM <span>[<a href="#I-D.ietf-rats-corim" class="cite xref">I-D.ietf-rats-corim</a>]</span>, stateful environments are modeled as an environment identifier plus a collection of measurements, and CoSERV takes the same approach.
+Therefore, any environment selector in a CoSERV query can optionally be enhanced with a collection of one or more measurements, which specify aspects of the target environment state that might materially impact the selection of artifacts.<a href="#section-3.3.1-1" class="pilcrow">¶</a></p>
+</section>
+</div>
 </section>
 </div>
 <div id="queries">
@@ -1491,6 +1512,7 @@ A single CoSERV query can only specify a single artifact type.<a href="#section-
           <li class="normal" id="section-3.4-2.2">
             <p id="section-3.4-2.2.1">A specification of the Attester's environment.
 Environments can be selected according to Attester instance, group or class.
+Additional properties of the environment state can be specified by adding one or more measurements to the selector.
 See <a href="#secenvironments" class="auto internal xref">Section 3.3</a> for full definitions.
 To facilitate efficient transactions, a single query can specify either multiple instances, multiple groups or multiple classes.
 However, it is not possible to mix instance-based selectors, group-based selectors and class-based selectors in a single query.<a href="#section-3.4-2.2.1" class="pilcrow">¶</a></p>
@@ -1639,9 +1661,17 @@ Even where this is not the case, the discriminator is useful as a filter for the
 <pre>
 environment-selector-map = { selector }
 
-selector //= ( &amp;(class: 0) =&gt; [ + class-map ] )
-selector //= ( &amp;(instance: 1) =&gt; [ + $instance-id-type-choice ] )
-selector //= ( &amp;(group: 2) =&gt; [ + $group-id-type-choice ] )
+selector //= ( &amp;(class: 0) =&gt; [
+  + ( class-map, ? [ + measurement-map ] )
+] )
+
+selector //= ( &amp;(instance: 1) =&gt; [
+  + ( $instance-id-type-choice, ? [ + measurement-map ] )
+] )
+
+selector //= ( &amp;(group: 2) =&gt; [
+  + ( $group-id-type-choice, ? [ + measurement-map ] )
+] )
 </pre><a href="#section-4.3.2-2" class="pilcrow">¶</a>
 </div>
 <p id="section-4.3.2-3">Environments can be specified according to instance, group or class. See <a href="#secenvironments" class="auto internal xref">Section 3.3</a> for details.<a href="#section-4.3.2-3" class="pilcrow">¶</a></p>
@@ -1651,6 +1681,8 @@ For example, where artifacts are being indexed by instance, it would be possible
 Likewise for classes and groups.
 However, it would not be possible for a single query to specify more than one kind of environment.
 For example, it would not be possible to query for both class-level and instance-level artifacts in a single CoSERV transaction.<a href="#section-4.3.2-4" class="pilcrow">¶</a></p>
+<p id="section-4.3.2-5">All three environment selector types can optionally be enhanced with one or more <code>measurement-map</code> entries, which are used to express aspects of the environment state.
+See <a href="#secstateful" class="auto internal xref">Section 3.3.1</a> for a description of stateful environments.<a href="#section-4.3.2-5" class="pilcrow">¶</a></p>
 <div id="selector-semantics">
 <section id="section-4.3.2.1">
             <h5 id="name-selector-semantics">
@@ -2435,9 +2467,17 @@ profile = oid-type / ~uri
 
 environment-selector-map = { selector }
 
-selector //= ( &amp;(class: 0) =&gt; [ + class-map ] )
-selector //= ( &amp;(instance: 1) =&gt; [ + $instance-id-type-choice ] )
-selector //= ( &amp;(group: 2) =&gt; [ + $group-id-type-choice ] )
+selector //= ( &amp;(class: 0) =&gt; [
+  + ( class-map, ? [ + measurement-map ] )
+] )
+
+selector //= ( &amp;(instance: 1) =&gt; [
+  + ( $instance-id-type-choice, ? [ + measurement-map ] )
+] )
+
+selector //= ( &amp;(group: 2) =&gt; [
+  + ( $group-id-type-choice, ? [ + measurement-map ] )
+] )
 
 concise-mid-tag = {
   ? &amp;(language: 0) =&gt; text
