@@ -203,6 +203,18 @@ An example of this might be a fleet of computing devices of the same model and m
 - **Group**: A group is a collection of common Attester instances that are collected together based on some defined semantics.
 For example, Attesters may be put into groups for the purpose of anonymity.
 
+### Stateful Environments {#secstateful}
+
+In addition to specifying the Attester environment by class, instance, or group, it is sometimes necessary to constrain the target environment further by specifying aspects of its state.
+This is because the applicability of Endorsements and Reference Values might vary, depending on these stateful properties.
+Consider, for example, an Attester instance who signs Evidence using a derived attestation key, where the derivation algorithm is dependent on one or more aspects of the Attester's current state, such as the version number of an upgradable firmware component.
+This example Attester would, at different points in its lifecycle, sign Evidence with different attestation keys, since the keys would change upon any firmware update.
+To provide the correct public key to use as the trust anchor for verification, the Endorser would need to know the configured state of the Attester at the time the Evidence was produced.
+Specifying such an Attester solely by its instance identifier is therefore insufficient for the Endorser to supply the correct artifact.
+The environment specification would need to include these critical stateful aspects as well.
+In CoRIM {{-rats-corim}}, stateful environments are modeled as an environment identifier plus a collection of measurements, and CoSERV takes the same approach.
+Therefore, any environment selector in a CoSERV query can optionally be enhanced with a collection of one or more measurements, which specify aspects of the target environment state that might materially impact the selection of artifacts.
+
 ## Queries
 
 The purpose of a query is to allow the consumer (Verifier) to specify the artifacts that it needs.
@@ -213,6 +225,7 @@ See {{secartifacts}} for definitions of artifact types.
 A single CoSERV query can only specify a single artifact type.
 - A specification of the Attester's environment.
 Environments can be selected according to Attester instance, group or class.
+Additional properties of the environment state can be specified by adding one or more measurements to the selector.
 See {{secenvironments}} for full definitions.
 To facilitate efficient transactions, a single query can specify either multiple instances, multiple groups or multiple classes.
 However, it is not possible to mix instance-based selectors, group-based selectors and class-based selectors in a single query.
@@ -320,6 +333,9 @@ For example, where artifacts are being indexed by instance, it would be possible
 Likewise for classes and groups.
 However, it would not be possible for a single query to specify more than one kind of environment.
 For example, it would not be possible to query for both class-level and instance-level artifacts in a single CoSERV transaction.
+
+All three environment selector types can optionally be enhanced with one or more `measurement-map` entries, which are used to express aspects of the environment state.
+See {{secstateful}} for a description of stateful environments.
 
 #### Selector Semantics
 
