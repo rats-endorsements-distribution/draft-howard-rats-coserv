@@ -7,30 +7,31 @@
 <title>Concise Selector for Endorsements and Reference Values</title>
 <meta content="Paul Howard" name="author">
 <meta content="Thomas Fossati" name="author">
+<meta content="Henk Birkholz" name="author">
 <meta content="
        In the Remote Attestation Procedures (RATS) architecture, Verifiers require Endorsements and Reference Values to assess the trustworthiness of Attesters.
 This document specifies the Concise Selector for Endorsements and Reference Values (CoSERV), a structured query/result format designed to facilitate the discovery and retrieval of these artifacts from various providers.
 CoSERV defines a query language and corresponding result structure using CDDL, which can be serialized in CBOR format, enabling efficient interoperability across diverse systems. 
     " name="description">
-<meta content="xml2rfc 3.28.1" name="generator">
+<meta content="xml2rfc 3.29.0" name="generator">
 <meta content="RATS" name="keyword">
 <meta content="attestation" name="keyword">
 <meta content="endorsement" name="keyword">
 <meta content="reference value" name="keyword">
 <meta content="draft-howard-rats-coserv-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.28.1
-    Python 3.12.10
+  xml2rfc 3.29.0
+    Python 3.12.11
     ConfigArgParse 1.7
     google-i18n-address 3.1.1
     intervaltree 3.1.0
     Jinja2 3.1.6
-    lxml 5.3.0
+    lxml 5.3.1
     platformdirs 4.3.8
     pycountry 24.6.1
     PyYAML 6.0.2
-    requests 2.32.3
-    setuptools 70.3.0
+    requests 2.32.4
+    setuptools 80.9.0
     wcwidth 0.2.13
 -->
 <link href="draft-howard-rats-coserv.xml" rel="alternate" type="application/rfc+xml">
@@ -1050,11 +1051,11 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">CoSERV</td>
-<td class="right">May 2025</td>
+<td class="right">July 2025</td>
 </tr></thead>
 <tfoot><tr>
-<td class="left">Howard &amp; Fossati</td>
-<td class="center">Expires 20 November 2025</td>
+<td class="left">Howard, et al.</td>
+<td class="center">Expires 4 January 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1067,12 +1068,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-howard-rats-coserv-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-05-19" class="published">19 May 2025</time>
+<time datetime="2025-07-03" class="published">3 July 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2025-11-20">20 November 2025</time></dd>
+<dd class="expires"><time datetime="2026-01-04">4 January 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1082,6 +1083,10 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <div class="author">
       <div class="author-name">T. Fossati</div>
 <div class="org">Linaro</div>
+</div>
+<div class="author">
+      <div class="author-name">H. Birkholz</div>
+<div class="org">Fraunhofer SIT</div>
 </div>
 </dd>
 </dl>
@@ -1128,7 +1133,7 @@ CoSERV defines a query language and corresponding result structure using CDDL, w
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 20 November 2025.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 4 January 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1166,118 +1171,133 @@ CoSERV defines a query language and corresponding result structure using CDDL, w
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2">
-            <p id="section-toc.1-1.2.1"><a href="#section-2" class="auto internal xref">2</a>.  <a href="#name-coserv-information-model" class="internal xref">CoSERV Information Model</a></p>
-<ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.1">
-                <p id="section-toc.1-1.2.2.1.1" class="keepWithNext"><a href="#section-2.1" class="auto internal xref">2.1</a>.  <a href="#name-overview" class="internal xref">Overview</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.2">
-                <p id="section-toc.1-1.2.2.2.1"><a href="#section-2.2" class="auto internal xref">2.2</a>.  <a href="#name-queries" class="internal xref">Queries</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.3">
-                <p id="section-toc.1-1.2.2.3.1"><a href="#section-2.3" class="auto internal xref">2.3</a>.  <a href="#name-result-sets" class="internal xref">Result Sets</a></p>
-</li>
-            </ul>
+            <p id="section-toc.1-1.2.1" class="keepWithNext"><a href="#section-2" class="auto internal xref">2</a>.  <a href="#name-aggregation-and-trust-model" class="internal xref">Aggregation and Trust Models</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3">
-            <p id="section-toc.1-1.3.1"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-coserv-data-model" class="internal xref">CoSERV Data Model</a></p>
+            <p id="section-toc.1-1.3.1"><a href="#section-3" class="auto internal xref">3</a>.  <a href="#name-coserv-information-model" class="internal xref">CoSERV Information Model</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.1">
-                <p id="section-toc.1-1.3.2.1.1"><a href="#section-3.1" class="auto internal xref">3.1</a>.  <a href="#name-common-data-types" class="internal xref">Common Data Types</a></p>
+                <p id="section-toc.1-1.3.2.1.1"><a href="#section-3.1" class="auto internal xref">3.1</a>.  <a href="#name-overview" class="internal xref">Overview</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.2">
-                <p id="section-toc.1-1.3.2.2.1"><a href="#section-3.2" class="auto internal xref">3.2</a>.  <a href="#name-profile" class="internal xref">Profile</a></p>
+                <p id="section-toc.1-1.3.2.2.1"><a href="#section-3.2" class="auto internal xref">3.2</a>.  <a href="#name-artifacts" class="internal xref">Artifacts</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.3">
-                <p id="section-toc.1-1.3.2.3.1"><a href="#section-3.3" class="auto internal xref">3.3</a>.  <a href="#name-query-structure" class="internal xref">Query Structure</a></p>
-<ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.3.2.1">
-                    <p id="section-toc.1-1.3.2.3.2.1.1"><a href="#section-3.3.1" class="auto internal xref">3.3.1</a>.  <a href="#name-artifact-type" class="internal xref">Artifact Type</a></p>
-</li>
-                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.3.2.2">
-                    <p id="section-toc.1-1.3.2.3.2.2.1"><a href="#section-3.3.2" class="auto internal xref">3.3.2</a>.  <a href="#name-environment-selector" class="internal xref">Environment Selector</a></p>
-</li>
-                </ul>
+                <p id="section-toc.1-1.3.2.3.1"><a href="#section-3.3" class="auto internal xref">3.3</a>.  <a href="#name-environments" class="internal xref">Environments</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.4">
-                <p id="section-toc.1-1.3.2.4.1"><a href="#section-3.4" class="auto internal xref">3.4</a>.  <a href="#name-result-set-structure" class="internal xref">Result Set Structure</a></p>
+                <p id="section-toc.1-1.3.2.4.1"><a href="#section-3.4" class="auto internal xref">3.4</a>.  <a href="#name-queries" class="internal xref">Queries</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.5">
-                <p id="section-toc.1-1.3.2.5.1"><a href="#section-3.5" class="auto internal xref">3.5</a>.  <a href="#name-encoding-requirements" class="internal xref">Encoding Requirements</a></p>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.6">
-                <p id="section-toc.1-1.3.2.6.1"><a href="#section-3.6" class="auto internal xref">3.6</a>.  <a href="#name-cryptographic-binding-betwe" class="internal xref">Cryptographic Binding Between Query and Result Set</a></p>
+                <p id="section-toc.1-1.3.2.5.1"><a href="#section-3.5" class="auto internal xref">3.5</a>.  <a href="#name-result-sets" class="internal xref">Result Sets</a></p>
 </li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4">
-            <p id="section-toc.1-1.4.1"><a href="#section-4" class="auto internal xref">4</a>.  <a href="#name-examples" class="internal xref">Examples</a></p>
+            <p id="section-toc.1-1.4.1"><a href="#section-4" class="auto internal xref">4</a>.  <a href="#name-coserv-data-model" class="internal xref">CoSERV Data Model</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.1">
-                <p id="section-toc.1-1.4.2.1.1"><a href="#section-4.1" class="auto internal xref">4.1</a>.  <a href="#name-query-data-examples" class="internal xref">Query Data Examples</a></p>
+                <p id="section-toc.1-1.4.2.1.1"><a href="#section-4.1" class="auto internal xref">4.1</a>.  <a href="#name-common-data-types" class="internal xref">Common Data Types</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.2">
-                <p id="section-toc.1-1.4.2.2.1"><a href="#section-4.2" class="auto internal xref">4.2</a>.  <a href="#name-result-data-examples" class="internal xref">Result Data Examples</a></p>
+                <p id="section-toc.1-1.4.2.2.1"><a href="#section-4.2" class="auto internal xref">4.2</a>.  <a href="#name-profile" class="internal xref">Profile</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.3">
+                <p id="section-toc.1-1.4.2.3.1"><a href="#section-4.3" class="auto internal xref">4.3</a>.  <a href="#name-query-structure" class="internal xref">Query Structure</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.3.2.1">
+                    <p id="section-toc.1-1.4.2.3.2.1.1"><a href="#section-4.3.1" class="auto internal xref">4.3.1</a>.  <a href="#name-artifact-type" class="internal xref">Artifact Type</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.3.2.2">
+                    <p id="section-toc.1-1.4.2.3.2.2.1"><a href="#section-4.3.2" class="auto internal xref">4.3.2</a>.  <a href="#name-environment-selector" class="internal xref">Environment Selector</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.3.2.3">
+                    <p id="section-toc.1-1.4.2.3.2.3.1"><a href="#section-4.3.3" class="auto internal xref">4.3.3</a>.  <a href="#name-timestamp" class="internal xref">Timestamp</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.3.2.4">
+                    <p id="section-toc.1-1.4.2.3.2.4.1"><a href="#section-4.3.4" class="auto internal xref">4.3.4</a>.  <a href="#name-result-type" class="internal xref">Result Type</a></p>
+</li>
+                </ul>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.4">
+                <p id="section-toc.1-1.4.2.4.1"><a href="#section-4.4" class="auto internal xref">4.4</a>.  <a href="#name-result-set-structure" class="internal xref">Result Set Structure</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.5">
+                <p id="section-toc.1-1.4.2.5.1"><a href="#section-4.5" class="auto internal xref">4.5</a>.  <a href="#name-encoding-requirements" class="internal xref">Encoding Requirements</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.4.2.6">
+                <p id="section-toc.1-1.4.2.6.1"><a href="#section-4.6" class="auto internal xref">4.6</a>.  <a href="#name-cryptographic-binding-betwe" class="internal xref">Cryptographic Binding Between Query and Result Set</a></p>
 </li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5">
-            <p id="section-toc.1-1.5.1"><a href="#section-5" class="auto internal xref">5</a>.  <a href="#name-implementation-status" class="internal xref">Implementation Status</a></p>
+            <p id="section-toc.1-1.5.1"><a href="#section-5" class="auto internal xref">5</a>.  <a href="#name-examples" class="internal xref">Examples</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.1">
-                <p id="section-toc.1-1.5.2.1.1"><a href="#section-5.1" class="auto internal xref">5.1</a>.  <a href="#name-veraison" class="internal xref">Veraison</a></p>
+                <p id="section-toc.1-1.5.2.1.1"><a href="#section-5.1" class="auto internal xref">5.1</a>.  <a href="#name-query-data-examples" class="internal xref">Query Data Examples</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.5.2.2">
+                <p id="section-toc.1-1.5.2.2.1"><a href="#section-5.2" class="auto internal xref">5.2</a>.  <a href="#name-result-data-examples" class="internal xref">Result Data Examples</a></p>
 </li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6">
-            <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-security-considerations" class="internal xref">Security Considerations</a></p>
+            <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-implementation-status" class="internal xref">Implementation Status</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.1">
-                <p id="section-toc.1-1.6.2.1.1"><a href="#section-6.1" class="auto internal xref">6.1</a>.  <a href="#name-forming-native-database-que" class="internal xref">Forming Native Database Queries from CoSERV</a></p>
+                <p id="section-toc.1-1.6.2.1.1"><a href="#section-6.1" class="auto internal xref">6.1</a>.  <a href="#name-veraison" class="internal xref">Veraison</a></p>
 </li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7">
-            <p id="section-toc.1-1.7.1"><a href="#section-7" class="auto internal xref">7</a>.  <a href="#name-privacy-considerations" class="internal xref">Privacy Considerations</a></p>
-</li>
-          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8">
-            <p id="section-toc.1-1.8.1"><a href="#section-8" class="auto internal xref">8</a>.  <a href="#name-iana-considerations" class="internal xref">IANA Considerations</a></p>
+            <p id="section-toc.1-1.7.1"><a href="#section-7" class="auto internal xref">7</a>.  <a href="#name-security-considerations" class="internal xref">Security Considerations</a></p>
 <ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.1">
-                <p id="section-toc.1-1.8.2.1.1"><a href="#section-8.1" class="auto internal xref">8.1</a>.  <a href="#name-media-types-registrations" class="internal xref">Media Types Registrations</a></p>
-<ul class="compact toc ulBare ulEmpty">
-<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.1.2.1">
-                    <p id="section-toc.1-1.8.2.1.2.1.1"><a href="#section-8.1.1" class="auto internal xref">8.1.1</a>.  <a href="#name-application-coservcbor" class="internal xref"><code>application/coserv+cbor</code></a></p>
-</li>
-                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.1.2.2">
-                    <p id="section-toc.1-1.8.2.1.2.2.1"><a href="#section-8.1.2" class="auto internal xref">8.1.2</a>.  <a href="#name-application-coservcose" class="internal xref"><code>application/coserv+cose</code></a></p>
-</li>
-                </ul>
-</li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8.2.2">
-                <p id="section-toc.1-1.8.2.2.1"><a href="#section-8.2" class="auto internal xref">8.2</a>.  <a href="#name-coap-content-formats" class="internal xref">CoAP Content-Formats</a></p>
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.7.2.1">
+                <p id="section-toc.1-1.7.2.1.1"><a href="#section-7.1" class="auto internal xref">7.1</a>.  <a href="#name-forming-native-database-que" class="internal xref">Forming Native Database Queries from CoSERV</a></p>
 </li>
             </ul>
 </li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.8">
+            <p id="section-toc.1-1.8.1"><a href="#section-8" class="auto internal xref">8</a>.  <a href="#name-privacy-considerations" class="internal xref">Privacy Considerations</a></p>
+</li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9">
-            <p id="section-toc.1-1.9.1"><a href="#section-9" class="auto internal xref">9</a>.  <a href="#name-references" class="internal xref">References</a></p>
+            <p id="section-toc.1-1.9.1"><a href="#section-9" class="auto internal xref">9</a>.  <a href="#name-iana-considerations" class="internal xref">IANA Considerations</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.1">
-                <p id="section-toc.1-1.9.2.1.1"><a href="#section-9.1" class="auto internal xref">9.1</a>.  <a href="#name-normative-references" class="internal xref">Normative References</a></p>
+                <p id="section-toc.1-1.9.2.1.1"><a href="#section-9.1" class="auto internal xref">9.1</a>.  <a href="#name-media-types-registrations" class="internal xref">Media Types Registrations</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.1.2.1">
+                    <p id="section-toc.1-1.9.2.1.2.1.1"><a href="#section-9.1.1" class="auto internal xref">9.1.1</a>.  <a href="#name-application-coservcbor" class="internal xref"><code>application/coserv+cbor</code></a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.1.2.2">
+                    <p id="section-toc.1-1.9.2.1.2.2.1"><a href="#section-9.1.2" class="auto internal xref">9.1.2</a>.  <a href="#name-application-coservcose" class="internal xref"><code>application/coserv+cose</code></a></p>
+</li>
+                </ul>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.9.2.2">
-                <p id="section-toc.1-1.9.2.2.1"><a href="#section-9.2" class="auto internal xref">9.2</a>.  <a href="#name-informative-references" class="internal xref">Informative References</a></p>
+                <p id="section-toc.1-1.9.2.2.1"><a href="#section-9.2" class="auto internal xref">9.2</a>.  <a href="#name-coap-content-formats" class="internal xref">CoAP Content-Formats</a></p>
 </li>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10">
-            <p id="section-toc.1-1.10.1"><a href="#appendix-A" class="auto internal xref">Appendix A</a>.  <a href="#name-collated-coserv-cddl" class="internal xref">Collated CoSERV CDDL</a></p>
+            <p id="section-toc.1-1.10.1"><a href="#section-10" class="auto internal xref">10</a>. <a href="#name-references" class="internal xref">References</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.1">
+                <p id="section-toc.1-1.10.2.1.1"><a href="#section-10.1" class="auto internal xref">10.1</a>.  <a href="#name-normative-references" class="internal xref">Normative References</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.2">
+                <p id="section-toc.1-1.10.2.2.1"><a href="#section-10.2" class="auto internal xref">10.2</a>.  <a href="#name-informative-references" class="internal xref">Informative References</a></p>
+</li>
+            </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.11">
-            <p id="section-toc.1-1.11.1"><a href="#appendix-B" class="auto internal xref"></a><a href="#name-acknowledgments" class="internal xref">Acknowledgments</a></p>
+            <p id="section-toc.1-1.11.1"><a href="#appendix-A" class="auto internal xref">Appendix A</a>.  <a href="#name-collated-coserv-cddl" class="internal xref">Collated CoSERV CDDL</a></p>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.12">
-            <p id="section-toc.1-1.12.1"><a href="#appendix-C" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
+            <p id="section-toc.1-1.12.1"><a href="#appendix-B" class="auto internal xref"></a><a href="#name-acknowledgments" class="internal xref">Acknowledgments</a></p>
+</li>
+          <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.13">
+            <p id="section-toc.1-1.13.1"><a href="#appendix-C" class="auto internal xref"></a><a href="#name-authors-addresses" class="internal xref">Authors' Addresses</a></p>
 </li>
         </ul>
 </nav>
@@ -1325,17 +1345,54 @@ and <span><a href="https://rfc-editor.org/rfc/rfc8610#appendix-G" class="relref"
 </div>
 </section>
 </div>
-<div id="secinfomodel">
+<div id="secaggregation">
 <section id="section-2">
+      <h2 id="name-aggregation-and-trust-model">
+<a href="#section-2" class="section-number selfRef">2. </a><a href="#name-aggregation-and-trust-model" class="section-name selfRef">Aggregation and Trust Models</a>
+      </h2>
+<p id="section-2-1">The roles of Endorser or Reference Value Provider might sometimes be fulfilled by aggregators, which collect from multiple supply chain sources, or even from other aggregators, in order to project a holistic view of the endorsed system.
+The notion of such an aggregator is not explicit in the RATS architecture.
+In practice, however, supply chains are complex and multi-layered.
+Supply chain sources can include silicon manufacturers, device manufacturers, firmware houses, system integrators, service providers and more.
+In practical terms, an Attester is likely to be a complex entity, formed of components from across such supply chains.
+Evidence would be likewise structured, with contributions from different segments of the Attester's overall anatomy.
+A Verifier for such Evidence may find it convenient to contact an aggregator as a single source of truth for Endorsements and Reference Values.
+An aggregator would have intelligence about the Attester's complete anatomy and supply chain.
+It would have the ability to contact all contributing supply chain actors for their individual Endorsements and Reference Values, before collecting them into a cohesive set, and delivering them to the Verifier as a single, ergonomic package.
+In pure RATS terms, an aggregator is still an Endorser or a Reference Value Provider - or, more likely, both.
+It is not a distinct role, and so there is no distinctly-modeled conveyance between an aggregator and a Verifier.
+However, when consuming from an aggregator, the Verifier may need visibility of the aggregation process, possibly to the extent of needing to audit the results by inspecting the individual inputs that came from the original supply chain actors.
+CoSERV addresses this need, catering equally for both aggregating and non-aggregating supply chain sources.<a href="#section-2-1" class="pilcrow">¶</a></p>
+<p id="section-2-2">To support deployments with aggregators, CoSERV allows for flexible trust models as follows.<a href="#section-2-2" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-2-3.1">
+          <p id="section-2-3.1.1"><strong>Shallow Trust</strong>: in this model, the consumer trusts the aggregator, solely and completely, to provide authentic descriptions of the endorsed system.
+The consumer does not need to audit the results of the aggregation process.<a href="#section-2-3.1.1" class="pilcrow">¶</a></p>
+</li>
+        <li class="normal" id="section-2-3.2">
+          <p id="section-2-3.2.1"><strong>Deep Trust</strong>: in this model, the consumer has a trust relationship with the aggregator, but does not deem this to be sufficient.
+The consumer can still use the collected results from the aggregation process, where it is convenient to do so, but also needs to audit those results.<a href="#section-2-3.2.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
+<p id="section-2-4">Any given CoSERV transaction can operate according to either model.
+The consumer decides which model to use when it forms a query.
+The CoSERV result payload can convey both the aggregated result and the audit trail as needed.
+The payload size may be smaller when the shallow model is used, but the choice between the two models is a question for implementations and deployments.<a href="#section-2-4" class="pilcrow">¶</a></p>
+<p id="section-2-5">Although CoSERV is designed to support aggregation, it is not a requirement.
+When aggregation is not used, CoSERV still fulfills the need for a standard conveyance mechanism between Verifiers and Endorsers or Reference Value Providers.<a href="#section-2-5" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="secinfomodel">
+<section id="section-3">
       <h2 id="name-coserv-information-model">
-<a href="#section-2" class="section-number selfRef">2. </a><a href="#name-coserv-information-model" class="section-name selfRef">CoSERV Information Model</a>
+<a href="#section-3" class="section-number selfRef">3. </a><a href="#name-coserv-information-model" class="section-name selfRef">CoSERV Information Model</a>
       </h2>
 <div id="overview">
-<section id="section-2.1">
+<section id="section-3.1">
         <h3 id="name-overview">
-<a href="#section-2.1" class="section-number selfRef">2.1. </a><a href="#name-overview" class="section-name selfRef">Overview</a>
+<a href="#section-3.1" class="section-number selfRef">3.1. </a><a href="#name-overview" class="section-name selfRef">Overview</a>
         </h3>
-<p id="section-2.1-1">CoSERV is designed to facilitate query-response transactions between a producer and a consumer.
+<p id="section-3.1-1">CoSERV is designed to facilitate query-response transactions between a producer and a consumer.
 In the RATS model, the producer is either an Endorser or a Reference Value Provider, and the consumer is a Verifier.
 CoSERV defines a single top-level data type that can be used for both queries and result sets.
 Queries are authored by the consumer (Verifier), while result sets are authored by the producer (Endorser or Reference Value Provider) in response to the query.
@@ -1349,52 +1406,160 @@ However, if caching is managed by an untrusted intermediary, then there is a ris
 Pairing the original query with each result set provides an end-to-end contract between the consumer and producer, mitigating such risks.
 The transactional pattern between the producer and the consumer would be that the consumer begins the transaction by authoring a query and sending it to the producer as a CoSERV object.
 The producer receives the query, computes results, and returns a new CoSERV object formed from the results along with the original query.
-Notionally, the producer is "adding" the results to the query before sending it back to the consumer.<a href="#section-2.1-1" class="pilcrow">¶</a></p>
+Notionally, the producer is "adding" the results to the query before sending it back to the consumer.<a href="#section-3.1-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="secartifacts">
+<section id="section-3.2">
+        <h3 id="name-artifacts">
+<a href="#section-3.2" class="section-number selfRef">3.2. </a><a href="#name-artifacts" class="section-name selfRef">Artifacts</a>
+        </h3>
+<p id="section-3.2-1">Artifacts are what the consumer (Verifier) needs in order to verify and appraise Evidence from the Attester, and therefore they form the bulk of the response payload in a CoSERV transaction.
+The common CoSERV query language recognises three artifact types.
+These correspond to the three categories of endorsement artifact that can be identified natively in the RATS architecture:<a href="#section-3.2-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-3.2-2.1">
+            <p id="section-3.2-2.1.1"><strong>Trust Anchor</strong>: A trust anchor is as defined in <span>[<a href="#RFC6024" class="cite xref">RFC6024</a>]</span>.
+An example of a trust anchor would be the public part of the asymmetric signing key that is used by the Attester to sign Evidence, such that the Verifier can verify the cryptographic signature.<a href="#section-3.2-2.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-3.2-2.2">
+            <p id="section-3.2-2.2.1"><strong>Endorsed Value</strong>: An endorsed value is as defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-rats-corim-07#section-1.1.1" class="relref">Section 1.1.1</a> of [<a href="#I-D.ietf-rats-corim" class="cite xref">I-D.ietf-rats-corim</a>]</span>.
+This represents a characteristic of the Attester that is not directly presented in the Evidence, such as certification data related to a hardware or firmware module.<a href="#section-3.2-2.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-3.2-2.3">
+            <p id="section-3.2-2.3.1"><strong>Reference Value</strong>: A reference value is as defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-rats-corim-07#section-1.1.1" class="relref">Section 1.1.1</a> of [<a href="#I-D.ietf-rats-corim" class="cite xref">I-D.ietf-rats-corim</a>]</span>.
+A reference value specifies an individual aspect of the Attester's desired state.
+Reference values are sometimes informally called "golden values".
+An example of a reference value would be the expected hash or checksum of a binary firmware or software image running in the Attester's environment.
+Evidence from the Attester would then include claims about the Attester's actual state, which the Verifier can then compare with the reference values at Evidence appraisal time.<a href="#section-3.2-2.3.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<p id="section-3.2-3">When artifacts are produced by an aggregator (see <a href="#secaggregation" class="auto internal xref">Section 2</a>), the following additional classifications apply:<a href="#section-3.2-3" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-3.2-4.1">
+            <p id="section-3.2-4.1.1"><strong>Collected Artifacts</strong>: these refer to artifacts that were derived by the aggregator by collecting and presenting data from original supply chain sources, or from other aggregators.
+Collected artifacts form a single holistic package, and provide the most ergonomic consumption experience for the Verifier.<a href="#section-3.2-4.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-3.2-4.2">
+            <p id="section-3.2-4.2.1"><strong>Source Arfifacts</strong>: these refer to artifacts that were obtained directly from the original supply chain sources, and used as inputs into the aggregation process, allowing the aggregator to derive the collected artifacts.<a href="#section-3.2-4.2.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<p id="section-3.2-5">In the shallow trust model of aggregation, only the collected artifacts are used by the consumer.
+In the deep trust model, both the collected artifacts and the source artifacts are used.
+The source artifacts allow the consumer to audit the collected artifacts and operate the trust-but-verify principle.<a href="#section-3.2-5" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="secenvironments">
+<section id="section-3.3">
+        <h3 id="name-environments">
+<a href="#section-3.3" class="section-number selfRef">3.3. </a><a href="#name-environments" class="section-name selfRef">Environments</a>
+        </h3>
+<p id="section-3.3-1">The environment defines the scope (or scopes) in which the endorsement artifacts are applicable.
+Given that the consumer of these artifacts is likely to be a Verifier in the RATS model, the typical interpretation of the environment would be that of an Attester that either has produced evidence, or is expected to produce evidence, that the Verifier needs to appraise.
+The Verifier consequently needs to query the Endorser or Reference Value Provider for artifacts that are applicable in that environment.
+There are three mutually-exclusive methods for defining the environment within a CoSERV query.
+Exactly one of these three methods <span class="bcp14">MUST</span> be used for the query to be valid.
+All three methods correspond to environments that are also defined within CoRIM <span>[<a href="#I-D.ietf-rats-corim" class="cite xref">I-D.ietf-rats-corim</a>]</span>.<a href="#section-3.3-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-3.3-2.1">
+            <p id="section-3.3-2.1.1"><strong>Class</strong>: A class is an environment that is expected to be common to a group of similarly-constructed Attesters, who might therefore share the same set of endorsed characteristics.
+An example of this might be a fleet of computing devices of the same model and manufacturer.<a href="#section-3.3-2.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-3.3-2.2">
+            <p id="section-3.3-2.2.1"><strong>Instance</strong>: An instance is an environment that is unique to an individual and identifiable Attester, such as a single computing device or component.<a href="#section-3.3-2.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-3.3-2.3">
+            <p id="section-3.3-2.3.1"><strong>Group</strong>: A group is a collection of common Attester instances that are collected together based on some defined semantics.
+For example, Attesters may be put into groups for the purpose of anonymity.<a href="#section-3.3-2.3.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
 </section>
 </div>
 <div id="queries">
-<section id="section-2.2">
+<section id="section-3.4">
         <h3 id="name-queries">
-<a href="#section-2.2" class="section-number selfRef">2.2. </a><a href="#name-queries" class="section-name selfRef">Queries</a>
+<a href="#section-3.4" class="section-number selfRef">3.4. </a><a href="#name-queries" class="section-name selfRef">Queries</a>
         </h3>
-<p id="section-2.2-1">The purpose of a query is to allow the consumer (Verifier) to specify the artifacts (Endorsements and Reference Values) that it needs.
-Consequently, a query corresponds to the environmental characteristics of one or more Attesters.
-Such environmental characteristics are identical to those used in the information model of CoRIM <span>[<a href="#I-D.ietf-rats-corim" class="cite xref">I-D.ietf-rats-corim</a>]</span>.
-In summary, they can include the following:<a href="#section-2.2-1" class="pilcrow">¶</a></p>
+<p id="section-3.4-1">The purpose of a query is to allow the consumer (Verifier) to specify the artifacts that it needs.
+The information that is conveyed in a CoSERV query includes the following:<a href="#section-3.4-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-2.2-2.1">
-            <p id="section-2.2-2.1.1">An individual Attester instance.<a href="#section-2.2-2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-3.4-2.1">
+            <p id="section-3.4-2.1.1">A specification of the required artifact type: Reference Value, Endorsed Value or Trust Anchor.
+See <a href="#secartifacts" class="auto internal xref">Section 3.2</a> for definitions of artifact types.
+A single CoSERV query can only specify a single artifact type.<a href="#section-3.4-2.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-2.2-2.2">
-            <p id="section-2.2-2.2.1">A group (identifiable collection) of Attester instances.<a href="#section-2.2-2.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-3.4-2.2">
+            <p id="section-3.4-2.2.1">A specification of the Attester's environment.
+Environments can be selected according to Attester instance, group or class.
+See <a href="#secenvironments" class="auto internal xref">Section 3.3</a> for full definitions.
+To facilitate efficient transactions, a single query can specify either multiple instances, multiple groups or multiple classes.
+However, it is not possible to mix instance-based selectors, group-based selectors and class-based selectors in a single query.<a href="#section-3.4-2.2.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-2.2-2.3">
-            <p id="section-2.2-2.3.1">A class of Attester, defined by characteristics such as the vendor or model, of which there may be an arbitrary number of instances.<a href="#section-2.2-2.3.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-3.4-2.3">
+            <p id="section-3.4-2.3.1">A timestamp, denoting the time at which the CoSERV query was sent.<a href="#section-3.4-2.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-3.4-2.4">
+            <p id="section-3.4-2.4.1">A switch to select the desired supply chain depth.
+A CoSERV query can request collected artifacts, source artifacts, or both.
+This switch is especially relevant when the CoSERV query is fulfilled by an aggregator.
+The collected artifacts are intended for convenient consumption (according to the shallow trust model), while the source artifacts are principally useful for auditing (according to the deep trust model).
+It is possible for a query to select for source artifacts only, without the collected artifacts.
+This might happen when the consumer needs to inspect or audit artifacts from across the deep supply chain, while not requiring the convenience of the aggregated view.
+It could also happen when the consumer is acting as an intermediate broker, gathering artifacts for delivery to another aggregator.
+See <a href="#secaggregation" class="auto internal xref">Section 2</a> for details on aggregation, auditing and trust models.<a href="#section-3.4-2.4.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-2.2-3">To facilitate efficient transactions, a single query can specify either multiple instances, multiple groups or multiple classes.<a href="#section-2.2-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="result-sets">
-<section id="section-2.3">
+<section id="section-3.5">
         <h3 id="name-result-sets">
-<a href="#section-2.3" class="section-number selfRef">2.3. </a><a href="#name-result-sets" class="section-name selfRef">Result Sets</a>
+<a href="#section-3.5" class="section-number selfRef">3.5. </a><a href="#name-result-sets" class="section-name selfRef">Result Sets</a>
         </h3>
-<p id="section-2.3-1">The result set contains the Endorsements and Reference Values that are needed by the Verifier in order to verify and appraise Evidence from one or more Attesters.<a href="#section-2.3-1" class="pilcrow">¶</a></p>
+<p id="section-3.5-1">The result set contains the artifacts that the producer collected in response to the query.
+The top-level structure of the result set consists of the following three items:<a href="#section-3.5-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-3.5-2.1">
+            <p id="section-3.5-2.1.1">A collection of one or more result entries.
+This will be a collection of either reference values, endorsed values or trust anchors.
+See <a href="#secartifacts" class="auto internal xref">Section 3.2</a> for definitions of artifact types.
+In the future, it may be possible to support additional artifact types via an extension mechanism.
+Artifact types are never mixed in any single CoSERV result set.
+The artifacts in the result collection therefore <span class="bcp14">MUST</span> match the single artifact type specified in the original CoSERV query.<a href="#section-3.5-2.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-3.5-2.2">
+            <p id="section-3.5-2.2.1">A timestamp indicating the expiry time of the entire result set.
+Consumers <span class="bcp14">MUST NOT</span> consider any part of the result set to be valid after this expiry time.<a href="#section-3.5-2.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-3.5-2.3">
+            <p id="section-3.5-2.3.1">A collection of the original source materials from which the producer derived the correct artifacts to include in the result set.
+These source materials are optional, and their intended purpose is auditing.
+They are included only when requested by the original CoSERV query.
+Source materials would typically be requested in cases where the consumer is not willing to place sole trust in the producer, and therefore needs an audit trail to enable additional verifications.<a href="#section-3.5-2.3.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<p id="section-3.5-3">Each individual result entry combines a CoMID triple with an authority delegation chain.
+CoMID triples are exactly as defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-rats-corim-07#section-5.1.4" class="relref">Section 5.1.4</a> of [<a href="#I-D.ietf-rats-corim" class="cite xref">I-D.ietf-rats-corim</a>]</span>.
+Each CoMID triple will demonstrate the association between an environment matching that of the CoSERV query, and a single artifact such as a reference value, trust anchor or endorsed value.
+The authority delegation chain is composed of one or more authority delegates.
+Each authority delegate is represented by a public key or key identifier, which the consumer can check against its own set of trusted authorities.
+The authority delegation chain serves to establish the provenance of the result entry, and enables the Verifier to evaluate the trustworthiness of the associated artifact.
+The purpose of the authority delegation chain is to allow CoSERV responses to support decentralized trust models, where Verifiers may apply their own policy to determine which authorities are acceptable for different classes of artifact.<a href="#section-3.5-3" class="pilcrow">¶</a></p>
+<p id="section-3.5-4">Because each result entry combines a CoMID triple with an authority delegation chain, the entries are consequently known as quadruples (or "quads" for short).<a href="#section-3.5-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
 </div>
 <div id="secdatamodel">
-<section id="section-3">
+<section id="section-4">
       <h2 id="name-coserv-data-model">
-<a href="#section-3" class="section-number selfRef">3. </a><a href="#name-coserv-data-model" class="section-name selfRef">CoSERV Data Model</a>
+<a href="#section-4" class="section-number selfRef">4. </a><a href="#name-coserv-data-model" class="section-name selfRef">CoSERV Data Model</a>
       </h2>
-<p id="section-3-1">This section specifies the CBOR data model for CoSERV queries and result sets.<a href="#section-3-1" class="pilcrow">¶</a></p>
-<p id="section-3-2">CDDL is used to express rules and constraints of the data model for CBOR.
-These rules must be strictly followed when creating or validating CoSERV data objects.<a href="#section-3-2" class="pilcrow">¶</a></p>
-<p id="section-3-3">The top-level CoSERV data structure is given by the following CDDL:<a href="#section-3-3" class="pilcrow">¶</a></p>
-<div class="lang-cddl sourcecode" id="section-3-4">
+<p id="section-4-1">This section specifies the CBOR data model for CoSERV queries and result sets.<a href="#section-4-1" class="pilcrow">¶</a></p>
+<p id="section-4-2">CDDL is used to express rules and constraints of the data model for CBOR.
+These rules must be strictly followed when creating or validating CoSERV data objects.<a href="#section-4-2" class="pilcrow">¶</a></p>
+<p id="section-4-3">The top-level CoSERV data structure is given by the following CDDL:<a href="#section-4-3" class="pilcrow">¶</a></p>
+<div class="lang-cddl sourcecode" id="section-4-4">
 <pre>
 coserv = {
   &amp;(profile: 0) =&gt; profile
@@ -1403,125 +1568,159 @@ coserv = {
 }
 
 profile = oid-type / ~uri
-</pre><a href="#section-3-4" class="pilcrow">¶</a>
+</pre><a href="#section-4-4" class="pilcrow">¶</a>
 </div>
 <div id="common-data-types">
-<section id="section-3.1">
+<section id="section-4.1">
         <h3 id="name-common-data-types">
-<a href="#section-3.1" class="section-number selfRef">3.1. </a><a href="#name-common-data-types" class="section-name selfRef">Common Data Types</a>
+<a href="#section-4.1" class="section-number selfRef">4.1. </a><a href="#name-common-data-types" class="section-name selfRef">Common Data Types</a>
         </h3>
-<p id="section-3.1-1">CoSERV inherits the following types from the CoRIM data model <code>class-map</code>, <code>$class-id-type-choice</code>, <code>$instance-id-type-choice</code> and <code>$group-id-type-choice</code>.<a href="#section-3.1-1" class="pilcrow">¶</a></p>
-<p id="section-3.1-2">The collated CDDL is in <a href="#collated-cddl" class="auto internal xref">Appendix A</a>.<a href="#section-3.1-2" class="pilcrow">¶</a></p>
+<p id="section-4.1-1">CoSERV inherits the following types from the CoRIM data model <code>class-map</code>, <code>$class-id-type-choice</code>, <code>$instance-id-type-choice</code> and <code>$group-id-type-choice</code>.<a href="#section-4.1-1" class="pilcrow">¶</a></p>
+<p id="section-4.1-2">The collated CDDL is in <a href="#collated-cddl" class="auto internal xref">Appendix A</a>.<a href="#section-4.1-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="profile">
-<section id="section-3.2">
+<section id="section-4.2">
         <h3 id="name-profile">
-<a href="#section-3.2" class="section-number selfRef">3.2. </a><a href="#name-profile" class="section-name selfRef">Profile</a>
+<a href="#section-4.2" class="section-number selfRef">4.2. </a><a href="#name-profile" class="section-name selfRef">Profile</a>
         </h3>
-<p id="section-3.2-1">In common with EAT and CoRIM, CoSERV supports the notion of profiles.
-As with EAT and CoRIM, profiles are a way to extend or specialize the structure of a generic CoSERV query in order to cater for a specific use case or environment.<a href="#section-3.2-1" class="pilcrow">¶</a></p>
-<p id="section-3.2-2">In a CoSERV query, the profile can be identified by either a Uniform Resource Identifier (URI) or an Object Identifier (OID).
-This convention is identical to how EAT profiles are identified using the <code>eat_profile</code> claim as described in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-rats-eat-31#section-4.3.2" class="relref">Section 4.3.2</a> of [<a href="#I-D.ietf-rats-eat" class="cite xref">I-D.ietf-rats-eat</a>]</span>.<a href="#section-3.2-2" class="pilcrow">¶</a></p>
+<p id="section-4.2-1">In common with EAT and CoRIM, CoSERV supports the notion of profiles.
+As with EAT and CoRIM, profiles are a way to extend or specialize the structure of a generic CoSERV query in order to cater for a specific use case or environment.<a href="#section-4.2-1" class="pilcrow">¶</a></p>
+<p id="section-4.2-2">In a CoSERV query, the profile can be identified by either a Uniform Resource Identifier (URI) or an Object Identifier (OID).
+This convention is identical to how EAT profiles are identified using the <code>eat_profile</code> claim as described in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-rats-eat-31#section-4.3.2" class="relref">Section 4.3.2</a> of [<a href="#I-D.ietf-rats-eat" class="cite xref">I-D.ietf-rats-eat</a>]</span>.<a href="#section-4.2-2" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="query-structure">
-<section id="section-3.3">
+<section id="section-4.3">
         <h3 id="name-query-structure">
-<a href="#section-3.3" class="section-number selfRef">3.3. </a><a href="#name-query-structure" class="section-name selfRef">Query Structure</a>
+<a href="#section-4.3" class="section-number selfRef">4.3. </a><a href="#name-query-structure" class="section-name selfRef">Query Structure</a>
         </h3>
-<p id="section-3.3-1">The CoSERV query language enables Verifiers to specify the desired characteristics of Endorsements and Reference Values based on the environment in which they are applicable.<a href="#section-3.3-1" class="pilcrow">¶</a></p>
-<p id="section-3.3-2">The top-level structure of a CoSERV query is given by the following CDDL:<a href="#section-3.3-2" class="pilcrow">¶</a></p>
-<div class="lang-cddl sourcecode" id="section-3.3-3">
+<p id="section-4.3-1">The CoSERV query language enables Verifiers to specify the desired characteristics of Endorsements and Reference Values based on the environment in which they are applicable.<a href="#section-4.3-1" class="pilcrow">¶</a></p>
+<p id="section-4.3-2">The top-level structure of a CoSERV query is given by the following CDDL:<a href="#section-4.3-2" class="pilcrow">¶</a></p>
+<div class="lang-cddl sourcecode" id="section-4.3-3">
 <pre>
 query = {
   &amp;(artifact-type: 0) =&gt; artifact-type
   &amp;(environment-selector: 1) =&gt; environment-selector-map
+  &amp;(timestamp: 2) =&gt; tdate ; RFC3339 date
+  &amp;(result-type: 3) =&gt; result-type
 }
 
 artifact-type = &amp;(endorsed-values: 0)
                 / &amp;(trust-anchors: 1)
                 / &amp;(reference-values: 2)
-</pre><a href="#section-3.3-3" class="pilcrow">¶</a>
+
+result-type = &amp;(collected-artifacts: 0)
+              / &amp;(source-artifacts: 1)
+              / &amp;(both: 2)
+</pre><a href="#section-4.3-3" class="pilcrow">¶</a>
 </div>
-<p id="section-3.3-4">The meanings of these fields are detailed in the following subsections.<a href="#section-3.3-4" class="pilcrow">¶</a></p>
+<p id="section-4.3-4">The meanings of these fields are detailed in the following subsections.<a href="#section-4.3-4" class="pilcrow">¶</a></p>
 <div id="artifact-type">
-<section id="section-3.3.1">
+<section id="section-4.3.1">
           <h4 id="name-artifact-type">
-<a href="#section-3.3.1" class="section-number selfRef">3.3.1. </a><a href="#name-artifact-type" class="section-name selfRef">Artifact Type</a>
+<a href="#section-4.3.1" class="section-number selfRef">4.3.1. </a><a href="#name-artifact-type" class="section-name selfRef">Artifact Type</a>
           </h4>
-<p id="section-3.3.1-1">The <code>artifact-type</code> field is the foremost discriminator of the query.
-It is a top-level category selector. Its three permissible values are <code>trust-anchors</code> (codepoint 1), <code>endorsed-values</code> (codepoint 0) and <code>reference-values</code> (codepoint 2).
-These correspond to the following three categories of endorsement artifact that can be identified in the RATS architecture:<a href="#section-3.3.1-1" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-3.3.1-2.1">
-              <p id="section-3.3.1-2.1.1"><strong>Trust Anchor</strong> (<code>trust-anchors</code>): A trust anchor is as defined in <span>[<a href="#RFC6024" class="cite xref">RFC6024</a>]</span>. An example of a trust anchor would be the public part of the asymmetric signing key that is used by the Attester to sign Evidence, such that the Verifier is able to verify the cryptographic signature.<a href="#section-3.3.1-2.1.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-3.3.1-2.2">
-              <p id="section-3.3.1-2.2.1"><strong>Endorsed Value</strong> (<code>endorsed-values</code>): An endorsed value is as defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-rats-corim-07#section-1.1.1" class="relref">Section 1.1.1</a> of [<a href="#I-D.ietf-rats-corim" class="cite xref">I-D.ietf-rats-corim</a>]</span>.<a href="#section-3.3.1-2.2.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-3.3.1-2.3">
-              <p id="section-3.3.1-2.3.1"><strong>Reference Value</strong> (<code>reference-values</code>): A reference value is as defined in <span><a href="https://datatracker.ietf.org/doc/html/draft-ietf-rats-corim-07#section-1.1.1" class="relref">Section 1.1.1</a> of [<a href="#I-D.ietf-rats-corim" class="cite xref">I-D.ietf-rats-corim</a>]</span>. A reference value specifies an individual aspect of the Attester's desired state. Reference values are sometimes informally called "golden values". An example of a reference value would be the expected hash or checksum of a binary firmware or software image running in the Attester's environment. Evidence from the Attester would then include claims about the Attester's actual state, which the Verifier can then compare with the reference values at Evidence appraisal time.<a href="#section-3.3.1-2.3.1" class="pilcrow">¶</a></p>
-</li>
-          </ul>
-<p id="section-3.3.1-3">It is expected that implementations might choose to store these different categories of artifacts in different top-level stores or database tables.
+<p id="section-4.3.1-1">The <code>artifact-type</code> field is the foremost discriminator of the query.
+It is a top-level category selector. Its three permissible values are <code>trust-anchors</code> (codepoint 1), <code>endorsed-values</code> (codepoint 0) and <code>reference-values</code> (codepoint 2).<a href="#section-4.3.1-1" class="pilcrow">¶</a></p>
+<p id="section-4.3.1-2">See <a href="#secartifacts" class="auto internal xref">Section 3.2</a> for full definitions of artifact types.<a href="#section-4.3.1-2" class="pilcrow">¶</a></p>
+<p id="section-4.3.1-3">It is expected that implementations might choose to store these different categories of artifacts in different top-level stores or database tables.
 Where this is the case, the <code>artifact-type</code> field serves to narrow the query down to the correct store or table.
-Even where this is not the case, the discriminator is useful as a filter for the consumer, resulting in an efficiency gain by avoiding the transfer of unwanted data items.<a href="#section-3.3.1-3" class="pilcrow">¶</a></p>
+Even where this is not the case, the discriminator is useful as a filter for the consumer, resulting in an efficiency gain by avoiding the transfer of unwanted data items.<a href="#section-4.3.1-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="environment-selector">
-<section id="section-3.3.2">
+<section id="section-4.3.2">
           <h4 id="name-environment-selector">
-<a href="#section-3.3.2" class="section-number selfRef">3.3.2. </a><a href="#name-environment-selector" class="section-name selfRef">Environment Selector</a>
+<a href="#section-4.3.2" class="section-number selfRef">4.3.2. </a><a href="#name-environment-selector" class="section-name selfRef">Environment Selector</a>
           </h4>
-<p id="section-3.3.2-1">The environment selector forms the main body of the query, and its CDDL is given below:<a href="#section-3.3.2-1" class="pilcrow">¶</a></p>
-<div class="lang-cddl sourcecode" id="section-3.3.2-2">
+<p id="section-4.3.2-1">The environment selector forms the main body of the query, and its CDDL is given below:<a href="#section-4.3.2-1" class="pilcrow">¶</a></p>
+<div class="lang-cddl sourcecode" id="section-4.3.2-2">
 <pre>
 environment-selector-map = { selector }
 
-selector //= ( &amp;(class: 0) =&gt; [ + class-map ] )
-selector //= ( &amp;(instance: 1) =&gt; [ + $instance-id-type-choice ] )
-selector //= ( &amp;(group: 2) =&gt; [ + $group-id-type-choice ] )
-</pre><a href="#section-3.3.2-2" class="pilcrow">¶</a>
+selector //= ( &amp;(class: 0) =&gt; [
+  + ( class-map, ? [ + measurement-map ] )
+] )
+
+selector //= ( &amp;(instance: 1) =&gt; [
+  + ( $instance-id-type-choice, ? [ + measurement-map ] )
+] )
+
+selector //= ( &amp;(group: 2) =&gt; [
+  + ( $group-id-type-choice, ? [ + measurement-map ] )
+] )
+</pre><a href="#section-4.3.2-2" class="pilcrow">¶</a>
 </div>
-<p id="section-3.3.2-3">The environment defines the scope (or scopes) in which the endorsement artifacts are applicable.
-Given that the consumer of these artifacts is likely to be a Verifier in the RATS model, the typical interpretation of the environment would be that of an Attester that either has produced evidence, or is expected to produce evidence, that the Verifier needs to appraise.
-The Verifier consequently needs to query the Endorser or Reference Value Provider for artifacts that are applicable in that environment.
-There are three mutually-exclusive methods for defining the environment within a CoSERV query.
-Exactly one of these three methods must be used for the query to be valid.
-All three methods correspond to environments that are also defined within CoRIM.<a href="#section-3.3.2-3" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-3.3.2-4.1">
-              <p id="section-3.3.2-4.1.1"><strong>Class</strong>: A class is an environment that is expected to be common to a group of similarly-constructed Attesters, who might therefore share the same set of endorsed characteristics. An example of this might be a fleet of computing devices of the same model and manufacturer.<a href="#section-3.3.2-4.1.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-3.3.2-4.2">
-              <p id="section-3.3.2-4.2.1"><strong>Instance</strong>: An instance is an environment that is unique to an individual and identifiable Attester, such as a single computing device or component.<a href="#section-3.3.2-4.2.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-3.3.2-4.3">
-              <p id="section-3.3.2-4.3.1"><strong>Group</strong>: A group is a collection of common Attester instances that are collected together based on some defined semantics. For example, Attesters may be put into groups for the purpose of anonymity.<a href="#section-3.3.2-4.3.1" class="pilcrow">¶</a></p>
-</li>
-          </ul>
-<p id="section-3.3.2-5">Although these three environment definitions are mutually-exclusive in a CoSERV query, all three support multiple entries.
-This is to gain efficiency by allowing the consumer (such as a Verifier) to query for multiple artifacts in a single transaction.
+<p id="section-4.3.2-3">Environments can be specified according to instance, group or class. See <a href="#secenvironments" class="auto internal xref">Section 3.3</a> for details.<a href="#section-4.3.2-3" class="pilcrow">¶</a></p>
+<p id="section-4.3.2-4">Although these three environment definitions are mutually-exclusive in a CoSERV query, all three support multiple entries.
+This is to gain efficiency by allowing the consumer (Verifier) to query for multiple artifacts in a single transaction.
 For example, where artifacts are being indexed by instance, it would be possible to specify an arbitrary number of instances in a single query, and therefore obtain the artifacts for all of them in a single transaction.
 Likewise for classes and groups.
 However, it would not be possible for a single query to specify more than one kind of environment.
-For example, it would not be possible to query for both class-level and instance-level artifacts in a single CoSERV transaction.<a href="#section-3.3.2-5" class="pilcrow">¶</a></p>
+For example, it would not be possible to query for both class-level and instance-level artifacts in a single CoSERV transaction.<a href="#section-4.3.2-4" class="pilcrow">¶</a></p>
+<div id="selector-semantics">
+<section id="section-4.3.2.1">
+            <h5 id="name-selector-semantics">
+<a href="#section-4.3.2.1" class="section-number selfRef">4.3.2.1. </a><a href="#name-selector-semantics" class="section-name selfRef">Selector Semantics</a>
+            </h5>
+<p id="section-4.3.2.1-1">When multiple environment selectors are present in a single query, such as multiple instances or multiple groups, the implementation of the artifact producer <span class="bcp14">MUST</span> consider these to be alternatives, and hence use a logical <code>OR</code> operation when applying the query to its internal data stores.<a href="#section-4.3.2.1-1" class="pilcrow">¶</a></p>
+<p id="section-4.3.2.1-2">Below is an illustrative example of how a CoSERV query for endorsed values, selecting for multiple Attester instances, might be transformed into a semantically-equivalent SQL database query:<a href="#section-4.3.2.1-2" class="pilcrow">¶</a></p>
+<div class="lang-sql sourcecode" id="section-4.3.2.1-3">
+<pre>
+SELECT *
+  FROM endorsed_values
+ WHERE ( instance-id = "At6tvu/erQ==" ) OR
+       ( instance-id = "iZl4ZVY=" )`
+</pre><a href="#section-4.3.2.1-3" class="pilcrow">¶</a>
+</div>
+<p id="section-4.3.2.1-4">The same applies for class-based selectors; however, since class selectors are themselves composed of multiple inner fields, the implementation of the artifact producer <span class="bcp14">MUST</span> use a logical <code>AND</code> operation in consideration of the inner fields for each class.<a href="#section-4.3.2.1-4" class="pilcrow">¶</a></p>
+<p id="section-4.3.2.1-5">Also, for class-based selectors, any unset fields in the class are assumed to be wildcard (<code>*</code>), and therefore match any value.<a href="#section-4.3.2.1-5" class="pilcrow">¶</a></p>
+<p id="section-4.3.2.1-6">Below is an illustrative example of how a CoSERV query for reference values, selecting for multiple Attester classes, might be transformed into a semantically-equivalent SQL database query:<a href="#section-4.3.2.1-6" class="pilcrow">¶</a></p>
+<div class="lang-sql sourcecode" id="section-4.3.2.1-7">
+<pre>
+SELECT *
+  FROM reference_values
+ WHERE ( class-id = "iZl4ZVY=" AND class-vendor = "ACME Inc." ) OR
+       ( class-id = "31fb5abf-023e-4992-aa4e-95f9c1503bfa" )
+</pre><a href="#section-4.3.2.1-7" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+</section>
+</div>
+<div id="timestamp">
+<section id="section-4.3.3">
+          <h4 id="name-timestamp">
+<a href="#section-4.3.3" class="section-number selfRef">4.3.3. </a><a href="#name-timestamp" class="section-name selfRef">Timestamp</a>
+          </h4>
+<p id="section-4.3.3-1">The <code>timestamp</code> field records the date and time at which the query was made, formatted according to <span><a href="https://rfc-editor.org/rfc/rfc8949#section-3.4.1" class="relref">Section 3.4.1</a> of [<a href="#STD94" class="cite xref">STD94</a>]</span>.
+Implementations <span class="bcp14">SHOULD</span> populate this field with the current date and time when forming a CoSERV query.<a href="#section-4.3.3-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="result-type">
+<section id="section-4.3.4">
+          <h4 id="name-result-type">
+<a href="#section-4.3.4" class="section-number selfRef">4.3.4. </a><a href="#name-result-type" class="section-name selfRef">Result Type</a>
+          </h4>
+<p id="section-4.3.4-1">The <code>result-type</code> field selects for either <code>collected-artifacts</code> (codepoint 0), <code>source-artifacts</code> (codepoint 1) or <code>both</code> (codepoint 2).
+See <a href="#secaggregation" class="auto internal xref">Section 2</a> for definitions of source and collected artifacts.<a href="#section-4.3.4-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
 </div>
 <div id="result-set-structure">
-<section id="section-3.4">
+<section id="section-4.4">
         <h3 id="name-result-set-structure">
-<a href="#section-3.4" class="section-number selfRef">3.4. </a><a href="#name-result-set-structure" class="section-name selfRef">Result Set Structure</a>
+<a href="#section-4.4" class="section-number selfRef">4.4. </a><a href="#name-result-set-structure" class="section-name selfRef">Result Set Structure</a>
         </h3>
-<p id="section-3.4-1">The result set structure is given by the following CDDL:<a href="#section-3.4-1" class="pilcrow">¶</a></p>
-<div class="breakable lang-cddl sourcecode" id="section-3.4-2">
+<p id="section-4.4-1">The result set structure is given by the following CDDL:<a href="#section-4.4-1" class="pilcrow">¶</a></p>
+<div class="breakable lang-cddl sourcecode" id="section-4.4-2">
 <pre>
 results = {
   result-set
   &amp;(expiry: 10) =&gt; tdate ; RFC3339 date
+  ? &amp;(source-artifacts: 11) =&gt; [ + cmw-record ]
 }
 
 result-set //= reference-values
@@ -1572,35 +1771,39 @@ trust-anchors = (
 ; import CoTS
 ;
 cots = "TODO COTS"
-</pre><a href="#section-3.4-2" class="pilcrow">¶</a>
+;
+; import CMW
+;
+cmw-record = "TODO CMW"
+</pre><a href="#section-4.4-2" class="pilcrow">¶</a>
 </div>
 </section>
 </div>
 <div id="encoding-requirements">
-<section id="section-3.5">
+<section id="section-4.5">
         <h3 id="name-encoding-requirements">
-<a href="#section-3.5" class="section-number selfRef">3.5. </a><a href="#name-encoding-requirements" class="section-name selfRef">Encoding Requirements</a>
+<a href="#section-4.5" class="section-number selfRef">4.5. </a><a href="#name-encoding-requirements" class="section-name selfRef">Encoding Requirements</a>
         </h3>
-<p id="section-3.5-1">Implementations may wish to use serialized CoSERV queries as canonical identifiers for artifact collections.
+<p id="section-4.5-1">Implementations may wish to use serialized CoSERV queries as canonical identifiers for artifact collections.
 For example, a Reference Value Provider service may wish the cache the results of a CoSERV query to gain efficiency when responding to a future identical query.
 For these use cases to be effective, it is essential that any given CoSERV query is always serialized to the same fixed sequence of CBOR bytes.
 Therefore, CoSERV queries <span class="bcp14">MUST</span> always use CBOR deterministic encoding as specified in <span><a href="https://rfc-editor.org/rfc/rfc8949#section-4.2" class="relref">Section 4.2</a> of [<a href="#STD94" class="cite xref">STD94</a>]</span>.
-Further, CoSERV queries <span class="bcp14">MUST</span> use CBOR definite-length encoding.<a href="#section-3.5-1" class="pilcrow">¶</a></p>
+Further, CoSERV queries <span class="bcp14">MUST</span> use CBOR definite-length encoding.<a href="#section-4.5-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="signed-coserv">
-<section id="section-3.6">
+<section id="section-4.6">
         <h3 id="name-cryptographic-binding-betwe">
-<a href="#section-3.6" class="section-number selfRef">3.6. </a><a href="#name-cryptographic-binding-betwe" class="section-name selfRef">Cryptographic Binding Between Query and Result Set</a>
+<a href="#section-4.6" class="section-number selfRef">4.6. </a><a href="#name-cryptographic-binding-betwe" class="section-name selfRef">Cryptographic Binding Between Query and Result Set</a>
         </h3>
-<p id="section-3.6-1">CoSERV is designed to ensure that any result set passed from a producer to a consumer is precisely the result set that corresponds to the consumer's original query.
+<p id="section-4.6-1">CoSERV is designed to ensure that any result set passed from a producer to a consumer is precisely the result set that corresponds to the consumer's original query.
 This is the reason why the original query is always included along with the result set in the data model.
 However, this measure is only sufficient in cases where the conveyance protocol guarantees that CoSERV result sets are always transacted over an end-to-end secure channel without any intermediaries.
 Wherever this is not the case, producers <span class="bcp14">MUST</span> create an additional cryptographic binding between the query and the result.
 This is achieved by transacting the result set within a cryptographic envelope, with a signature added by the producer, which is verified by the consumer.
 A CoSERV data object can be signed using COSE <span>[<a href="#STD96" class="cite xref">STD96</a>]</span>.
-A <code>signed-coserv</code> is a <code>COSE_Sign1</code> with the following layout:<a href="#section-3.6-1" class="pilcrow">¶</a></p>
-<div class="lang-cddl sourcecode" id="section-3.6-2">
+A <code>signed-coserv</code> is a <code>COSE_Sign1</code> with the following layout:<a href="#section-4.6-1" class="pilcrow">¶</a></p>
+<div class="lang-cddl sourcecode" id="section-4.6-2">
 <pre>
 signed-coserv = [
   protected: bytes .cbor signed-coserv-protected-hdr
@@ -1608,10 +1811,10 @@ signed-coserv = [
   payload: bytes .cbor coserv
   signature: bytes
 ]
-</pre><a href="#section-3.6-2" class="pilcrow">¶</a>
+</pre><a href="#section-4.6-2" class="pilcrow">¶</a>
 </div>
-<p id="section-3.6-3">The payload <span class="bcp14">MUST</span> be the CBOR-encoded CoSERV.<a href="#section-3.6-3" class="pilcrow">¶</a></p>
-<div class="lang-cddl sourcecode" id="section-3.6-4">
+<p id="section-4.6-3">The payload <span class="bcp14">MUST</span> be the CBOR-encoded CoSERV.<a href="#section-4.6-3" class="pilcrow">¶</a></p>
+<div class="lang-cddl sourcecode" id="section-4.6-4">
 <pre>
 signed-coserv-protected-hdr = {
   1 =&gt; int                            ; alg
@@ -1625,31 +1828,31 @@ signed-coserv-unprotected-hdr = {
 
 cose.label = int / text
 cose.values = any
-</pre><a href="#section-3.6-4" class="pilcrow">¶</a>
+</pre><a href="#section-4.6-4" class="pilcrow">¶</a>
 </div>
-<p id="section-3.6-5">The protected header <span class="bcp14">MUST</span> include the signature algorithm identifier.
+<p id="section-4.6-5">The protected header <span class="bcp14">MUST</span> include the signature algorithm identifier.
 The protected header <span class="bcp14">MUST</span> include either the content type <code>application/coserv+cbor</code> or the CoAP Content-Format TBD1.
-Other header parameters <span class="bcp14">MAY</span> be added to the header buckets, for example a <code>kid</code> that identifies the signing key.<a href="#section-3.6-5" class="pilcrow">¶</a></p>
+Other header parameters <span class="bcp14">MAY</span> be added to the header buckets, for example a <code>kid</code> that identifies the signing key.<a href="#section-4.6-5" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
 </div>
 <div id="examples">
-<section id="section-4">
+<section id="section-5">
       <h2 id="name-examples">
-<a href="#section-4" class="section-number selfRef">4. </a><a href="#name-examples" class="section-name selfRef">Examples</a>
+<a href="#section-5" class="section-number selfRef">5. </a><a href="#name-examples" class="section-name selfRef">Examples</a>
       </h2>
 <div id="query-data-examples">
-<section id="section-4.1">
+<section id="section-5.1">
         <h3 id="name-query-data-examples">
-<a href="#section-4.1" class="section-number selfRef">4.1. </a><a href="#name-query-data-examples" class="section-name selfRef">Query Data Examples</a>
+<a href="#section-5.1" class="section-number selfRef">5.1. </a><a href="#name-query-data-examples" class="section-name selfRef">Query Data Examples</a>
         </h3>
-<p id="section-4.1-1">This section provides some illustrative examples of valid CoSERV query objects.<a href="#section-4.1-1" class="pilcrow">¶</a></p>
-<p id="section-4.1-2">The following example shows a query for Reference Values scoped by a single class.
+<p id="section-5.1-1">This section provides some illustrative examples of valid CoSERV query objects.<a href="#section-5.1-1" class="pilcrow">¶</a></p>
+<p id="section-5.1-2">The following example shows a query for Reference Values scoped by a single class.
 The <code>artifact-type</code> is set to 2 (<code>reference-values</code>), indicating a query for Reference Values.
 The <code>profile</code> is given the example value of <code>tag:example.com,2025:cc-platform#1.0.0</code>.
-Finally, the <code>environment-selector</code> uses the key 0 to select for class, and the value contains a single entry with illustrative settings for the identifier, vendor and model.<a href="#section-4.1-2" class="pilcrow">¶</a></p>
-<div class="lang-edn sourcecode" id="section-4.1-3">
+Finally, the <code>environment-selector</code> uses the key 0 to select for class, and the value contains a single entry with illustrative settings for the identifier, vendor and model.<a href="#section-5.1-2" class="pilcrow">¶</a></p>
+<div class="lang-edn sourcecode" id="section-5.1-3">
 <pre>
 {
   / profile / 0: "tag:example.com,2025:cc-platform#1.0.0",
@@ -1663,13 +1866,15 @@ Finally, the <code>environment-selector</code> uses the key 0 to select for clas
           / model /     2: "Example Model"
         }
       ]
-    }
+    },
+    / timestamp /   2: 0("2030-12-01T18:30:01Z"),
+    / result-type / 3: 1 / source-material /
   }
 }
-</pre><a href="#section-4.1-3" class="pilcrow">¶</a>
+</pre><a href="#section-5.1-3" class="pilcrow">¶</a>
 </div>
-<p id="section-4.1-4">The next example is similar, but adds a second entry to the set of classes in the <code>environment-map</code>, showing how multiple classes can be queried at the same time.<a href="#section-4.1-4" class="pilcrow">¶</a></p>
-<div class="lang-edn sourcecode" id="section-4.1-5">
+<p id="section-5.1-4">The next example is similar, but adds a second entry to the set of classes in the <code>environment-map</code>, showing how multiple classes can be queried at the same time.<a href="#section-5.1-4" class="pilcrow">¶</a></p>
+<div class="lang-edn sourcecode" id="section-5.1-5">
 <pre>
 {
   / profile / 0: "tag:example.com,2025:cc-platform#1.0.0",
@@ -1687,14 +1892,16 @@ Finally, the <code>environment-selector</code> uses the key 0 to select for clas
             37(h'31FB5ABF023E4992AA4E95F9C1503BFA')  / UUID /
         }
       ]
-    }
+    },
+    / timestamp /   2: 0("2030-12-01T18:30:01Z"),
+    / result-type / 3: 2 / both collected and source material /
   }
 }
-</pre><a href="#section-4.1-5" class="pilcrow">¶</a>
+</pre><a href="#section-5.1-5" class="pilcrow">¶</a>
 </div>
-<p id="section-4.1-6">The following example shows a query for Reference Values scoped by instance.
-Again, the <code>artifact-type</code> is set to 2, and <code>profile</code> is given a demonstration value. The <code>environment-selector</code> now uses the key 1 to select for instances, and the value contains two entries with example instance identifiers.<a href="#section-4.1-6" class="pilcrow">¶</a></p>
-<div class="lang-edn sourcecode" id="section-4.1-7">
+<p id="section-5.1-6">The following example shows a query for Reference Values scoped by instance.
+Again, the <code>artifact-type</code> is set to 2, and <code>profile</code> is given a demonstration value. The <code>environment-selector</code> now uses the key 1 to select for instances, and the value contains two entries with example instance identifiers.<a href="#section-5.1-6" class="pilcrow">¶</a></p>
+<div class="lang-edn sourcecode" id="section-5.1-7">
 <pre>
 {
   / profile / 0: "tag:example.com,2025:cc-platform#1.0.0",
@@ -1705,26 +1912,28 @@ Again, the <code>artifact-type</code> is set to 2, and <code>profile</code> is g
         550(h'02DEADBEEFDEAD'), / UEID /
         560(h'8999786556')      / tagged-bytes /
       ]
-    }
+    },
+    / timestamp /   2: 0("2030-12-01T18:30:01Z"),
+    / result-type / 3: 0 / collected material /
   }
 }
-</pre><a href="#section-4.1-7" class="pilcrow">¶</a>
+</pre><a href="#section-5.1-7" class="pilcrow">¶</a>
 </div>
 </section>
 </div>
 <div id="result-data-examples">
-<section id="section-4.2">
+<section id="section-5.2">
         <h3 id="name-result-data-examples">
-<a href="#section-4.2" class="section-number selfRef">4.2. </a><a href="#name-result-data-examples" class="section-name selfRef">Result Data Examples</a>
+<a href="#section-5.2" class="section-number selfRef">5.2. </a><a href="#name-result-data-examples" class="section-name selfRef">Result Data Examples</a>
         </h3>
-<p id="section-4.2-1">This section provides some illustrative examples of valid CoSERV queries with their corresponding result sets.<a href="#section-4.2-1" class="pilcrow">¶</a></p>
-<p id="section-4.2-2">In this next example, the query is a reference value query based on class.<a href="#section-4.2-2" class="pilcrow">¶</a></p>
-<p id="section-4.2-3">The top-level structure is a map with three entries: <code>profile</code> (codepoint 0), <code>query</code> (codepoint 1) and <code>results</code> (codepoint 2).<a href="#section-4.2-3" class="pilcrow">¶</a></p>
-<p id="section-4.2-4">The profile and query structures are the same as in the previous examples.
+<p id="section-5.2-1">This section provides some illustrative examples of valid CoSERV queries with their corresponding result sets.<a href="#section-5.2-1" class="pilcrow">¶</a></p>
+<p id="section-5.2-2">In this next example, the query is a reference value query based on class.<a href="#section-5.2-2" class="pilcrow">¶</a></p>
+<p id="section-5.2-3">The top-level structure is a map with three entries: <code>profile</code> (codepoint 0), <code>query</code> (codepoint 1) and <code>results</code> (codepoint 2).<a href="#section-5.2-3" class="pilcrow">¶</a></p>
+<p id="section-5.2-4">The profile and query structures are the same as in the previous examples.
 The result structure is a map with two entries: <code>expiry</code> (codepoint 10) and <code>reference-value triples</code> (codepoint 0).
 A single reference-value triple is shown in this example. Its <code>environment-map</code>, as expected, is the same as the <code>environment-map</code> that was supplied in the query.
-The rest of the structure is the <code>measurement-map</code> as defined in CoRIM <span>[<a href="#I-D.ietf-rats-corim" class="cite xref">I-D.ietf-rats-corim</a>]</span>.<a href="#section-4.2-4" class="pilcrow">¶</a></p>
-<div class="lang-edn sourcecode" id="section-4.2-5">
+The rest of the structure is the <code>measurement-map</code> as defined in CoRIM <span>[<a href="#I-D.ietf-rats-corim" class="cite xref">I-D.ietf-rats-corim</a>]</span>.<a href="#section-5.2-4" class="pilcrow">¶</a></p>
+<div class="lang-edn sourcecode" id="section-5.2-5">
 <pre>
 {
   / profile / 0: "tag:example.com,2025:cc-platform#1.0.0",
@@ -1736,10 +1945,11 @@ The rest of the structure is the <code>measurement-map</code> as defined in CoRI
           0: 560(h'8999786556')
         }
       ]
-    }
+    },
+    2: 0("2030-12-01T18:30:01Z"),
+    3: 0
   },
   / results / 2: {
-    10: 0("2030-12-13T18:30:02Z"),
     0: [
       {
         1: [ 560(h'abcdef') ],
@@ -1763,115 +1973,116 @@ The rest of the structure is the <code>measurement-map</code> as defined in CoRI
           ]
         ]
       }
-    ]
+    ],
+    10: 0("2030-12-13T18:30:02Z")
   }
 }
-</pre><a href="#section-4.2-5" class="pilcrow">¶</a>
+</pre><a href="#section-5.2-5" class="pilcrow">¶</a>
 </div>
 </section>
 </div>
 </section>
 </div>
 <div id="implementation-status">
-<section id="section-5">
+<section id="section-6">
       <h2 id="name-implementation-status">
-<a href="#section-5" class="section-number selfRef">5. </a><a href="#name-implementation-status" class="section-name selfRef">Implementation Status</a>
+<a href="#section-6" class="section-number selfRef">6. </a><a href="#name-implementation-status" class="section-name selfRef">Implementation Status</a>
       </h2>
-<p id="section-5-1"><span class="cref" id="rfced">RFC Editor:</span> please remove this section prior to publication.<a href="#section-5-1" class="pilcrow">¶</a></p>
-<p id="section-5-2">This section records the status of known implementations of the protocol defined by this specification at the time of posting of this Internet-Draft, and is based on a proposal described in <span>[<a href="#RFC7942" class="cite xref">RFC7942</a>]</span>.
+<p id="section-6-1"><span class="cref" id="rfced">RFC Editor:</span> please remove this section prior to publication.<a href="#section-6-1" class="pilcrow">¶</a></p>
+<p id="section-6-2">This section records the status of known implementations of the protocol defined by this specification at the time of posting of this Internet-Draft, and is based on a proposal described in <span>[<a href="#RFC7942" class="cite xref">RFC7942</a>]</span>.
 The description of implementations in this section is intended to assist the IETF in its decision processes in progressing drafts to RFCs.
 Please note that the listing of any individual implementation here does not imply endorsement by the IETF.
 Furthermore, no effort has been spent to verify the information presented here that was supplied by IETF contributors.
 This is not intended as, and must not be construed to be, a catalog of available implementations or their features.
-Readers are advised to note that other implementations may exist.<a href="#section-5-2" class="pilcrow">¶</a></p>
-<p id="section-5-3">According to <span>[<a href="#RFC7942" class="cite xref">RFC7942</a>]</span>, "this will allow reviewers and working groups to assign due consideration to documents that have the benefit of running code, which may serve as evidence of valuable experimentation and feedback that have made the implemented protocols more mature.
-It is up to the individual working groups to use this information as they see fit".<a href="#section-5-3" class="pilcrow">¶</a></p>
+Readers are advised to note that other implementations may exist.<a href="#section-6-2" class="pilcrow">¶</a></p>
+<p id="section-6-3">According to <span>[<a href="#RFC7942" class="cite xref">RFC7942</a>]</span>, "this will allow reviewers and working groups to assign due consideration to documents that have the benefit of running code, which may serve as evidence of valuable experimentation and feedback that have made the implemented protocols more mature.
+It is up to the individual working groups to use this information as they see fit".<a href="#section-6-3" class="pilcrow">¶</a></p>
 <div id="veraison">
-<section id="section-5.1">
+<section id="section-6.1">
         <h3 id="name-veraison">
-<a href="#section-5.1" class="section-number selfRef">5.1. </a><a href="#name-veraison" class="section-name selfRef">Veraison</a>
+<a href="#section-6.1" class="section-number selfRef">6.1. </a><a href="#name-veraison" class="section-name selfRef">Veraison</a>
         </h3>
-<p id="section-5.1-1">Responsible Organisation: Veraison (open source project within the Confidential Computing Consortium).<a href="#section-5.1-1" class="pilcrow">¶</a></p>
-<p id="section-5.1-2">Location: https://github.com/veraison<a href="#section-5.1-2" class="pilcrow">¶</a></p>
-<p id="section-5.1-3">Description: Veraison provides components that can be used to build a Verifier, and also exemplifies adjacent RATS roles such as the Relying Party.
+<p id="section-6.1-1">Responsible Organisation: Veraison (open source project within the Confidential Computing Consortium).<a href="#section-6.1-1" class="pilcrow">¶</a></p>
+<p id="section-6.1-2">Location: https://github.com/veraison<a href="#section-6.1-2" class="pilcrow">¶</a></p>
+<p id="section-6.1-3">Description: Veraison provides components that can be used to build a Verifier, and also exemplifies adjacent RATS roles such as the Relying Party.
 There is an active effort to extend Veraison so that it can act in the capacity of an Endorser or Reference Value Provider, showing how CoSERV can be used as a query language for such services.
-This includes library code to assist with the creation, parsing and manipulation of CoSERV queries.<a href="#section-5.1-3" class="pilcrow">¶</a></p>
-<p id="section-5.1-4">Level of Maturity: This is a proof-of-concept prototype implementation.<a href="#section-5.1-4" class="pilcrow">¶</a></p>
-<p id="section-5.1-5">License: Apache-2.0.<a href="#section-5.1-5" class="pilcrow">¶</a></p>
-<p id="section-5.1-6">Coverage: This implementation covers all aspects of the CoSERV query language.<a href="#section-5.1-6" class="pilcrow">¶</a></p>
-<p id="section-5.1-7">Contact: Thomas Fossati, Thomas.Fossati@linaro.org<a href="#section-5.1-7" class="pilcrow">¶</a></p>
+This includes library code to assist with the creation, parsing and manipulation of CoSERV queries.<a href="#section-6.1-3" class="pilcrow">¶</a></p>
+<p id="section-6.1-4">Level of Maturity: This is a proof-of-concept prototype implementation.<a href="#section-6.1-4" class="pilcrow">¶</a></p>
+<p id="section-6.1-5">License: Apache-2.0.<a href="#section-6.1-5" class="pilcrow">¶</a></p>
+<p id="section-6.1-6">Coverage: This implementation covers all aspects of the CoSERV query language.<a href="#section-6.1-6" class="pilcrow">¶</a></p>
+<p id="section-6.1-7">Contact: Thomas Fossati, Thomas.Fossati@linaro.org<a href="#section-6.1-7" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
 </div>
 <div id="seccons">
-<section id="section-6">
+<section id="section-7">
       <h2 id="name-security-considerations">
-<a href="#section-6" class="section-number selfRef">6. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
+<a href="#section-7" class="section-number selfRef">7. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
       </h2>
-<p id="section-6-1">The CoSERV data type serves an auxiliary function in the RATS architecture.
+<p id="section-7-1">The CoSERV data type serves an auxiliary function in the RATS architecture.
 It does not directly convey Evidence, Endorsements, Reference Values, Policies or Attestation Results.
 CoSERV exists only to facilitate the interactions between the Verifier and the Endorser or Reference Value Provider roles.
-Consequently, there are fewer security considerations for CoSERV, particularly when compared with data objects such as EAT or CoRIM.<a href="#section-6-1" class="pilcrow">¶</a></p>
-<p id="section-6-2">Certain security characteristics are desirable for interactions between the Verifier and the Endorser or Reference Value Provider.
+Consequently, there are fewer security considerations for CoSERV, particularly when compared with data objects such as EAT or CoRIM.<a href="#section-7-1" class="pilcrow">¶</a></p>
+<p id="section-7-2">Certain security characteristics are desirable for interactions between the Verifier and the Endorser or Reference Value Provider.
 However, these characteristics would be the province of the specific implementations of these roles, and of the transport protocols in between them.
 They would not be the province of the CoSERV data object itself.
-Examples of such desirable characteristics might be:<a href="#section-6-2" class="pilcrow">¶</a></p>
+Examples of such desirable characteristics might be:<a href="#section-7-2" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-6-3.1">
-          <p id="section-6-3.1.1">The Endorser or Reference Value Provider is available to the Verifier when needed.<a href="#section-6-3.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-7-3.1">
+          <p id="section-7-3.1.1">The Endorser or Reference Value Provider is available to the Verifier when needed.<a href="#section-7-3.1.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="section-6-3.2">
-          <p id="section-6-3.2.1">The Verifier is authorised to query data from the Endorser or Reference Value Provider.<a href="#section-6-3.2.1" class="pilcrow">¶</a></p>
+        <li class="normal" id="section-7-3.2">
+          <p id="section-7-3.2.1">The Verifier is authorised to query data from the Endorser or Reference Value Provider.<a href="#section-7-3.2.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="section-6-3.3">
-          <p id="section-6-3.3.1">Queries cannot be intercepted or undetectably modified by an entity that is interposed between the Verifier and the Endorser or Reference Value Provider.<a href="#section-6-3.3.1" class="pilcrow">¶</a></p>
+        <li class="normal" id="section-7-3.3">
+          <p id="section-7-3.3.1">Queries cannot be intercepted or undetectably modified by an entity that is interposed between the Verifier and the Endorser or Reference Value Provider.<a href="#section-7-3.3.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <div id="forming-native-database-queries-from-coserv">
-<section id="section-6.1">
+<section id="section-7.1">
         <h3 id="name-forming-native-database-que">
-<a href="#section-6.1" class="section-number selfRef">6.1. </a><a href="#name-forming-native-database-que" class="section-name selfRef">Forming Native Database Queries from CoSERV</a>
+<a href="#section-7.1" class="section-number selfRef">7.1. </a><a href="#name-forming-native-database-que" class="section-name selfRef">Forming Native Database Queries from CoSERV</a>
         </h3>
-<p id="section-6.1-1">Implementations should take care when transforming CoSERV queries into native query types that are compatible with their underlying storage technology (such as SQL queries).
+<p id="section-7.1-1">Implementations should take care when transforming CoSERV queries into native query types that are compatible with their underlying storage technology (such as SQL queries).
 There is a risk of injection attacks arising from poorly-formed or maliciously-formed CoSERV queries.
-Implementations must ensure that suitable sanitization procedures are in place when performing such translations.<a href="#section-6.1-1" class="pilcrow">¶</a></p>
+Implementations must ensure that suitable sanitization procedures are in place when performing such translations.<a href="#section-7.1-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
 </div>
 <div id="privacy-considerations">
-<section id="section-7">
+<section id="section-8">
       <h2 id="name-privacy-considerations">
-<a href="#section-7" class="section-number selfRef">7. </a><a href="#name-privacy-considerations" class="section-name selfRef">Privacy Considerations</a>
+<a href="#section-8" class="section-number selfRef">8. </a><a href="#name-privacy-considerations" class="section-name selfRef">Privacy Considerations</a>
       </h2>
-<p id="section-7-1">A CoSERV query can potentially contain privacy-sensitive information.
+<p id="section-8-1">A CoSERV query can potentially contain privacy-sensitive information.
 Specifically, the <code>environment-selector</code> field of the query may reference identifiable Attester instances in some cases.
 This concern naturally also extends to the data objects that might be returned to the consumer in response to the query, although the specifications of such data objects are beyond the scope of this document.
 Implementations should ensure that appropriate attention is paid to this.
-Suitable mitigations include the following:<a href="#section-7-1" class="pilcrow">¶</a></p>
+Suitable mitigations include the following:<a href="#section-8-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-7-2.1">
-          <p id="section-7-2.1.1">The use of authenticated secure channels between the producers and the consumers of CoSERV queries and returned artifacts.<a href="#section-7-2.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-8-2.1">
+          <p id="section-8-2.1.1">The use of authenticated secure channels between the producers and the consumers of CoSERV queries and returned artifacts.<a href="#section-8-2.1.1" class="pilcrow">¶</a></p>
 </li>
-        <li class="normal" id="section-7-2.2">
-          <p id="section-7-2.2.1">Collating Attester instances into anonymity groups, and referencing the groups rather than the individual instances.<a href="#section-7-2.2.1" class="pilcrow">¶</a></p>
+        <li class="normal" id="section-8-2.2">
+          <p id="section-8-2.2.1">Collating Attester instances into anonymity groups, and referencing the groups rather than the individual instances.<a href="#section-8-2.2.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 </section>
 </div>
 <div id="iana-considerations">
-<section id="section-8">
+<section id="section-9">
       <h2 id="name-iana-considerations">
-<a href="#section-8" class="section-number selfRef">8. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
+<a href="#section-9" class="section-number selfRef">9. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
       </h2>
-<p id="section-8-1"><span class="cref" id="rfced_1">RFC Editor:</span> replace "RFCthis" with the RFC number assigned to this document.<a href="#section-8-1" class="pilcrow">¶</a></p>
+<p id="section-9-1"><span class="cref" id="rfced_1">RFC Editor:</span> replace "RFCthis" with the RFC number assigned to this document.<a href="#section-9-1" class="pilcrow">¶</a></p>
 <div id="media-types-registrations">
-<section id="section-8.1">
+<section id="section-9.1">
         <h3 id="name-media-types-registrations">
-<a href="#section-8.1" class="section-number selfRef">8.1. </a><a href="#name-media-types-registrations" class="section-name selfRef">Media Types Registrations</a>
+<a href="#section-9.1" class="section-number selfRef">9.1. </a><a href="#name-media-types-registrations" class="section-name selfRef">Media Types Registrations</a>
         </h3>
-<p id="section-8.1-1">IANA is requested to add the following media types to the "Media Types" registry <span>[<a href="#IANA.media-types" class="cite xref">IANA.media-types</a>]</span>.<a href="#section-8.1-1" class="pilcrow">¶</a></p>
+<p id="section-9.1-1">IANA is requested to add the following media types to the "Media Types" registry <span>[<a href="#IANA.media-types" class="cite xref">IANA.media-types</a>]</span>.<a href="#section-9.1-1" class="pilcrow">¶</a></p>
 <span id="name-coserv-media-types"></span><div id="tab-mc-regs">
 <table class="center" id="table-1">
           <caption>
@@ -1894,7 +2105,7 @@ Suitable mitigations include the following:<a href="#section-7-1" class="pilcrow
                 <code>application/coserv+cbor</code>
 </td>
               <td class="text-left" rowspan="1" colspan="1">
-                <a href="#secdatamodel" class="auto internal xref">Section 3</a> of RFCthis</td>
+                <a href="#secdatamodel" class="auto internal xref">Section 4</a> of RFCthis</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">
@@ -1904,176 +2115,176 @@ Suitable mitigations include the following:<a href="#section-7-1" class="pilcrow
                 <code>application/coserv+cose</code>
 </td>
               <td class="text-left" rowspan="1" colspan="1">
-                <a href="#signed-coserv" class="auto internal xref">Section 3.6</a> of RFCthis</td>
+                <a href="#signed-coserv" class="auto internal xref">Section 4.6</a> of RFCthis</td>
             </tr>
           </tbody>
         </table>
 </div>
 <div id="applicationcoservcbor">
-<section id="section-8.1.1">
+<section id="section-9.1.1">
           <h4 id="name-application-coservcbor">
-<a href="#section-8.1.1" class="section-number selfRef">8.1.1. </a><a href="#name-application-coservcbor" class="section-name selfRef"><code>application/coserv+cbor</code></a>
+<a href="#section-9.1.1" class="section-number selfRef">9.1.1. </a><a href="#name-application-coservcbor" class="section-name selfRef"><code>application/coserv+cbor</code></a>
           </h4>
-<span class="break"></span><dl class="dlCompact dlParallel" id="section-8.1.1-1">
-            <dt id="section-8.1.1-1.1">Type name:</dt>
-            <dd style="margin-left: 1.5em" id="section-8.1.1-1.2">
-              <p id="section-8.1.1-1.2.1">application<a href="#section-8.1.1-1.2.1" class="pilcrow">¶</a></p>
+<span class="break"></span><dl class="dlCompact dlParallel" id="section-9.1.1-1">
+            <dt id="section-9.1.1-1.1">Type name:</dt>
+            <dd style="margin-left: 1.5em" id="section-9.1.1-1.2">
+              <p id="section-9.1.1-1.2.1">application<a href="#section-9.1.1-1.2.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-8.1.1-1.3">Subtype name:</dt>
-            <dd style="margin-left: 1.5em" id="section-8.1.1-1.4">
-              <p id="section-8.1.1-1.4.1">coserv+cbor<a href="#section-8.1.1-1.4.1" class="pilcrow">¶</a></p>
+<dt id="section-9.1.1-1.3">Subtype name:</dt>
+            <dd style="margin-left: 1.5em" id="section-9.1.1-1.4">
+              <p id="section-9.1.1-1.4.1">coserv+cbor<a href="#section-9.1.1-1.4.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-8.1.1-1.5">Required parameters:</dt>
-            <dd style="margin-left: 1.5em" id="section-8.1.1-1.6">
-              <p id="section-8.1.1-1.6.1">n/a<a href="#section-8.1.1-1.6.1" class="pilcrow">¶</a></p>
+<dt id="section-9.1.1-1.5">Required parameters:</dt>
+            <dd style="margin-left: 1.5em" id="section-9.1.1-1.6">
+              <p id="section-9.1.1-1.6.1">n/a<a href="#section-9.1.1-1.6.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-8.1.1-1.7">Optional parameters:</dt>
-            <dd style="margin-left: 1.5em" id="section-8.1.1-1.8">
-              <p id="section-8.1.1-1.8.1">"profile" (CoSERV profile in string format.  OIDs must use the dotted-decimal notation.)<a href="#section-8.1.1-1.8.1" class="pilcrow">¶</a></p>
+<dt id="section-9.1.1-1.7">Optional parameters:</dt>
+            <dd style="margin-left: 1.5em" id="section-9.1.1-1.8">
+              <p id="section-9.1.1-1.8.1">"profile" (CoSERV profile in string format.  OIDs must use the dotted-decimal notation.)<a href="#section-9.1.1-1.8.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-8.1.1-1.9">Encoding considerations:</dt>
-            <dd style="margin-left: 1.5em" id="section-8.1.1-1.10">
-              <p id="section-8.1.1-1.10.1">binary (CBOR)<a href="#section-8.1.1-1.10.1" class="pilcrow">¶</a></p>
+<dt id="section-9.1.1-1.9">Encoding considerations:</dt>
+            <dd style="margin-left: 1.5em" id="section-9.1.1-1.10">
+              <p id="section-9.1.1-1.10.1">binary (CBOR)<a href="#section-9.1.1-1.10.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-8.1.1-1.11">Security considerations:</dt>
-            <dd style="margin-left: 1.5em" id="section-8.1.1-1.12">
-              <p id="section-8.1.1-1.12.1"><a href="#seccons" class="auto internal xref">Section 6</a> of RFCthis<a href="#section-8.1.1-1.12.1" class="pilcrow">¶</a></p>
+<dt id="section-9.1.1-1.11">Security considerations:</dt>
+            <dd style="margin-left: 1.5em" id="section-9.1.1-1.12">
+              <p id="section-9.1.1-1.12.1"><a href="#seccons" class="auto internal xref">Section 7</a> of RFCthis<a href="#section-9.1.1-1.12.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-8.1.1-1.13">Interoperability considerations:</dt>
-            <dd style="margin-left: 1.5em" id="section-8.1.1-1.14">
-              <p id="section-8.1.1-1.14.1">n/a<a href="#section-8.1.1-1.14.1" class="pilcrow">¶</a></p>
+<dt id="section-9.1.1-1.13">Interoperability considerations:</dt>
+            <dd style="margin-left: 1.5em" id="section-9.1.1-1.14">
+              <p id="section-9.1.1-1.14.1">n/a<a href="#section-9.1.1-1.14.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-8.1.1-1.15">Published specification:</dt>
-            <dd style="margin-left: 1.5em" id="section-8.1.1-1.16">
-              <p id="section-8.1.1-1.16.1">RFCthis<a href="#section-8.1.1-1.16.1" class="pilcrow">¶</a></p>
+<dt id="section-9.1.1-1.15">Published specification:</dt>
+            <dd style="margin-left: 1.5em" id="section-9.1.1-1.16">
+              <p id="section-9.1.1-1.16.1">RFCthis<a href="#section-9.1.1-1.16.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-8.1.1-1.17">Applications that use this media type:</dt>
-            <dd style="margin-left: 1.5em" id="section-8.1.1-1.18">
-              <p id="section-8.1.1-1.18.1">Verifiers, Endorsers, Reference Value Providers<a href="#section-8.1.1-1.18.1" class="pilcrow">¶</a></p>
+<dt id="section-9.1.1-1.17">Applications that use this media type:</dt>
+            <dd style="margin-left: 1.5em" id="section-9.1.1-1.18">
+              <p id="section-9.1.1-1.18.1">Verifiers, Endorsers, Reference Value Providers<a href="#section-9.1.1-1.18.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-8.1.1-1.19">Fragment identifier considerations:</dt>
-            <dd style="margin-left: 1.5em" id="section-8.1.1-1.20">
-              <p id="section-8.1.1-1.20.1">The syntax and semantics of fragment identifiers are as specified for "application/cbor". (No fragment identification syntax is currently defined for "application/cbor".)<a href="#section-8.1.1-1.20.1" class="pilcrow">¶</a></p>
+<dt id="section-9.1.1-1.19">Fragment identifier considerations:</dt>
+            <dd style="margin-left: 1.5em" id="section-9.1.1-1.20">
+              <p id="section-9.1.1-1.20.1">The syntax and semantics of fragment identifiers are as specified for "application/cbor". (No fragment identification syntax is currently defined for "application/cbor".)<a href="#section-9.1.1-1.20.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-8.1.1-1.21">Person &amp; email address to contact for further information:</dt>
-            <dd style="margin-left: 1.5em" id="section-8.1.1-1.22">
-              <p id="section-8.1.1-1.22.1">RATS WG mailing list (rats@ietf.org)<a href="#section-8.1.1-1.22.1" class="pilcrow">¶</a></p>
+<dt id="section-9.1.1-1.21">Person &amp; email address to contact for further information:</dt>
+            <dd style="margin-left: 1.5em" id="section-9.1.1-1.22">
+              <p id="section-9.1.1-1.22.1">RATS WG mailing list (rats@ietf.org)<a href="#section-9.1.1-1.22.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-8.1.1-1.23">Intended usage:</dt>
-            <dd style="margin-left: 1.5em" id="section-8.1.1-1.24">
-              <p id="section-8.1.1-1.24.1">COMMON<a href="#section-8.1.1-1.24.1" class="pilcrow">¶</a></p>
+<dt id="section-9.1.1-1.23">Intended usage:</dt>
+            <dd style="margin-left: 1.5em" id="section-9.1.1-1.24">
+              <p id="section-9.1.1-1.24.1">COMMON<a href="#section-9.1.1-1.24.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-8.1.1-1.25">Restrictions on usage:</dt>
-            <dd style="margin-left: 1.5em" id="section-8.1.1-1.26">
-              <p id="section-8.1.1-1.26.1">none<a href="#section-8.1.1-1.26.1" class="pilcrow">¶</a></p>
+<dt id="section-9.1.1-1.25">Restrictions on usage:</dt>
+            <dd style="margin-left: 1.5em" id="section-9.1.1-1.26">
+              <p id="section-9.1.1-1.26.1">none<a href="#section-9.1.1-1.26.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-8.1.1-1.27">Author/Change controller:</dt>
-            <dd style="margin-left: 1.5em" id="section-8.1.1-1.28">
-              <p id="section-8.1.1-1.28.1">IETF<a href="#section-8.1.1-1.28.1" class="pilcrow">¶</a></p>
+<dt id="section-9.1.1-1.27">Author/Change controller:</dt>
+            <dd style="margin-left: 1.5em" id="section-9.1.1-1.28">
+              <p id="section-9.1.1-1.28.1">IETF<a href="#section-9.1.1-1.28.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-8.1.1-1.29">Provisional registration:</dt>
-            <dd style="margin-left: 1.5em" id="section-8.1.1-1.30">
-              <p id="section-8.1.1-1.30.1">no<a href="#section-8.1.1-1.30.1" class="pilcrow">¶</a></p>
+<dt id="section-9.1.1-1.29">Provisional registration:</dt>
+            <dd style="margin-left: 1.5em" id="section-9.1.1-1.30">
+              <p id="section-9.1.1-1.30.1">no<a href="#section-9.1.1-1.30.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 </dl>
 </section>
 </div>
 <div id="applicationcoservcose">
-<section id="section-8.1.2">
+<section id="section-9.1.2">
           <h4 id="name-application-coservcose">
-<a href="#section-8.1.2" class="section-number selfRef">8.1.2. </a><a href="#name-application-coservcose" class="section-name selfRef"><code>application/coserv+cose</code></a>
+<a href="#section-9.1.2" class="section-number selfRef">9.1.2. </a><a href="#name-application-coservcose" class="section-name selfRef"><code>application/coserv+cose</code></a>
           </h4>
-<span class="break"></span><dl class="dlCompact dlParallel" id="section-8.1.2-1">
-            <dt id="section-8.1.2-1.1">Type name:</dt>
-            <dd style="margin-left: 1.5em" id="section-8.1.2-1.2">
-              <p id="section-8.1.2-1.2.1"><code>application</code><a href="#section-8.1.2-1.2.1" class="pilcrow">¶</a></p>
+<span class="break"></span><dl class="dlCompact dlParallel" id="section-9.1.2-1">
+            <dt id="section-9.1.2-1.1">Type name:</dt>
+            <dd style="margin-left: 1.5em" id="section-9.1.2-1.2">
+              <p id="section-9.1.2-1.2.1"><code>application</code><a href="#section-9.1.2-1.2.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-8.1.2-1.3">Subtype name:</dt>
-            <dd style="margin-left: 1.5em" id="section-8.1.2-1.4">
-              <p id="section-8.1.2-1.4.1"><code>coserv+cose</code><a href="#section-8.1.2-1.4.1" class="pilcrow">¶</a></p>
+<dt id="section-9.1.2-1.3">Subtype name:</dt>
+            <dd style="margin-left: 1.5em" id="section-9.1.2-1.4">
+              <p id="section-9.1.2-1.4.1"><code>coserv+cose</code><a href="#section-9.1.2-1.4.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-8.1.2-1.5">Required parameters:</dt>
-            <dd style="margin-left: 1.5em" id="section-8.1.2-1.6">
-              <p id="section-8.1.2-1.6.1">n/a (cose-type is explicitly not supported, as it is understood to be "cose-sign1")<a href="#section-8.1.2-1.6.1" class="pilcrow">¶</a></p>
+<dt id="section-9.1.2-1.5">Required parameters:</dt>
+            <dd style="margin-left: 1.5em" id="section-9.1.2-1.6">
+              <p id="section-9.1.2-1.6.1">n/a (cose-type is explicitly not supported, as it is understood to be "cose-sign1")<a href="#section-9.1.2-1.6.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-8.1.2-1.7">Optional parameters:</dt>
-            <dd style="margin-left: 1.5em" id="section-8.1.2-1.8">
-              <p id="section-8.1.2-1.8.1">"profile" CoSERV profile in string format.
+<dt id="section-9.1.2-1.7">Optional parameters:</dt>
+            <dd style="margin-left: 1.5em" id="section-9.1.2-1.8">
+              <p id="section-9.1.2-1.8.1">"profile" CoSERV profile in string format.
 OIDs must use the dotted-decimal notation.
-Note that the <code>cose-type</code> parameter is explicitly not supported, as it is understood to be <code>"cose-sign1"</code>.<a href="#section-8.1.2-1.8.1" class="pilcrow">¶</a></p>
+Note that the <code>cose-type</code> parameter is explicitly not supported, as it is understood to be <code>"cose-sign1"</code>.<a href="#section-9.1.2-1.8.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-8.1.2-1.9">Encoding considerations:</dt>
-            <dd style="margin-left: 1.5em" id="section-8.1.2-1.10">
-              <p id="section-8.1.2-1.10.1">binary<a href="#section-8.1.2-1.10.1" class="pilcrow">¶</a></p>
+<dt id="section-9.1.2-1.9">Encoding considerations:</dt>
+            <dd style="margin-left: 1.5em" id="section-9.1.2-1.10">
+              <p id="section-9.1.2-1.10.1">binary<a href="#section-9.1.2-1.10.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-8.1.2-1.11">Security considerations:</dt>
-            <dd style="margin-left: 1.5em" id="section-8.1.2-1.12">
-              <p id="section-8.1.2-1.12.1"><a href="#seccons" class="auto internal xref">Section 6</a> of RFCthis<a href="#section-8.1.2-1.12.1" class="pilcrow">¶</a></p>
+<dt id="section-9.1.2-1.11">Security considerations:</dt>
+            <dd style="margin-left: 1.5em" id="section-9.1.2-1.12">
+              <p id="section-9.1.2-1.12.1"><a href="#seccons" class="auto internal xref">Section 7</a> of RFCthis<a href="#section-9.1.2-1.12.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-8.1.2-1.13">Interoperability considerations:</dt>
-            <dd style="margin-left: 1.5em" id="section-8.1.2-1.14">
-              <p id="section-8.1.2-1.14.1">n/a<a href="#section-8.1.2-1.14.1" class="pilcrow">¶</a></p>
+<dt id="section-9.1.2-1.13">Interoperability considerations:</dt>
+            <dd style="margin-left: 1.5em" id="section-9.1.2-1.14">
+              <p id="section-9.1.2-1.14.1">n/a<a href="#section-9.1.2-1.14.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-8.1.2-1.15">Published specification:</dt>
-            <dd style="margin-left: 1.5em" id="section-8.1.2-1.16">
-              <p id="section-8.1.2-1.16.1">RFCthis<a href="#section-8.1.2-1.16.1" class="pilcrow">¶</a></p>
+<dt id="section-9.1.2-1.15">Published specification:</dt>
+            <dd style="margin-left: 1.5em" id="section-9.1.2-1.16">
+              <p id="section-9.1.2-1.16.1">RFCthis<a href="#section-9.1.2-1.16.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-8.1.2-1.17">Applications that use this media type:</dt>
-            <dd style="margin-left: 1.5em" id="section-8.1.2-1.18">
-              <p id="section-8.1.2-1.18.1">Verifiers, Endorsers, Reference Value Providers<a href="#section-8.1.2-1.18.1" class="pilcrow">¶</a></p>
+<dt id="section-9.1.2-1.17">Applications that use this media type:</dt>
+            <dd style="margin-left: 1.5em" id="section-9.1.2-1.18">
+              <p id="section-9.1.2-1.18.1">Verifiers, Endorsers, Reference Value Providers<a href="#section-9.1.2-1.18.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-8.1.2-1.19">Fragment identifier considerations:</dt>
-            <dd style="margin-left: 1.5em" id="section-8.1.2-1.20">
-              <p id="section-8.1.2-1.20.1">n/a<a href="#section-8.1.2-1.20.1" class="pilcrow">¶</a></p>
+<dt id="section-9.1.2-1.19">Fragment identifier considerations:</dt>
+            <dd style="margin-left: 1.5em" id="section-9.1.2-1.20">
+              <p id="section-9.1.2-1.20.1">n/a<a href="#section-9.1.2-1.20.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-8.1.2-1.21">Person and email address to contact for further information:</dt>
-            <dd style="margin-left: 1.5em" id="section-8.1.2-1.22">
-              <p id="section-8.1.2-1.22.1">RATS WG mailing list (rats@ietf.org)<a href="#section-8.1.2-1.22.1" class="pilcrow">¶</a></p>
+<dt id="section-9.1.2-1.21">Person and email address to contact for further information:</dt>
+            <dd style="margin-left: 1.5em" id="section-9.1.2-1.22">
+              <p id="section-9.1.2-1.22.1">RATS WG mailing list (rats@ietf.org)<a href="#section-9.1.2-1.22.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-8.1.2-1.23">Intended usage:</dt>
-            <dd style="margin-left: 1.5em" id="section-8.1.2-1.24">
-              <p id="section-8.1.2-1.24.1">COMMON<a href="#section-8.1.2-1.24.1" class="pilcrow">¶</a></p>
+<dt id="section-9.1.2-1.23">Intended usage:</dt>
+            <dd style="margin-left: 1.5em" id="section-9.1.2-1.24">
+              <p id="section-9.1.2-1.24.1">COMMON<a href="#section-9.1.2-1.24.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-8.1.2-1.25">Restrictions on usage:</dt>
-            <dd style="margin-left: 1.5em" id="section-8.1.2-1.26">
-              <p id="section-8.1.2-1.26.1">none<a href="#section-8.1.2-1.26.1" class="pilcrow">¶</a></p>
+<dt id="section-9.1.2-1.25">Restrictions on usage:</dt>
+            <dd style="margin-left: 1.5em" id="section-9.1.2-1.26">
+              <p id="section-9.1.2-1.26.1">none<a href="#section-9.1.2-1.26.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-8.1.2-1.27">Author/Change controller:</dt>
-            <dd style="margin-left: 1.5em" id="section-8.1.2-1.28">
-              <p id="section-8.1.2-1.28.1">IETF<a href="#section-8.1.2-1.28.1" class="pilcrow">¶</a></p>
+<dt id="section-9.1.2-1.27">Author/Change controller:</dt>
+            <dd style="margin-left: 1.5em" id="section-9.1.2-1.28">
+              <p id="section-9.1.2-1.28.1">IETF<a href="#section-9.1.2-1.28.1" class="pilcrow">¶</a></p>
 </dd>
             <dd class="break"></dd>
-<dt id="section-8.1.2-1.29">Provisional registration?</dt>
-            <dd style="margin-left: 1.5em" id="section-8.1.2-1.30">
-              <p id="section-8.1.2-1.30.1">no<a href="#section-8.1.2-1.30.1" class="pilcrow">¶</a></p>
+<dt id="section-9.1.2-1.29">Provisional registration?</dt>
+            <dd style="margin-left: 1.5em" id="section-9.1.2-1.30">
+              <p id="section-9.1.2-1.30.1">no<a href="#section-9.1.2-1.30.1" class="pilcrow">¶</a></p>
 </dd>
           <dd class="break"></dd>
 </dl>
@@ -2082,11 +2293,11 @@ Note that the <code>cose-type</code> parameter is explicitly not supported, as i
 </section>
 </div>
 <div id="coap-content-formats">
-<section id="section-8.2">
+<section id="section-9.2">
         <h3 id="name-coap-content-formats">
-<a href="#section-8.2" class="section-number selfRef">8.2. </a><a href="#name-coap-content-formats" class="section-name selfRef">CoAP Content-Formats</a>
+<a href="#section-9.2" class="section-number selfRef">9.2. </a><a href="#name-coap-content-formats" class="section-name selfRef">CoAP Content-Formats</a>
         </h3>
-<p id="section-8.2-1">IANA is requested to register the following Content-Format IDs in the "CoAP Content-Formats" registry, within the "Constrained RESTful Environments (CoRE) Parameters" registry group <span>[<a href="#IANA.core-parameters" class="cite xref">IANA.core-parameters</a>]</span>:<a href="#section-8.2-1" class="pilcrow">¶</a></p>
+<p id="section-9.2-1">IANA is requested to register the following Content-Format IDs in the "CoAP Content-Formats" registry, within the "Constrained RESTful Environments (CoRE) Parameters" registry group <span>[<a href="#IANA.core-parameters" class="cite xref">IANA.core-parameters</a>]</span>:<a href="#section-9.2-1" class="pilcrow">¶</a></p>
 <span id="name-new-coap-content-formats"></span><table class="left" id="table-2">
           <caption>
 <a href="#table-2" class="selfRef">Table 2</a>:
@@ -2106,31 +2317,31 @@ Note that the <code>cose-type</code> parameter is explicitly not supported, as i
               <td class="text-left" rowspan="1" colspan="1">-</td>
               <td class="text-left" rowspan="1" colspan="1">TBD1</td>
               <td class="text-left" rowspan="1" colspan="1">
-                <a href="#secdatamodel" class="auto internal xref">Section 3</a> of RFCthis</td>
+                <a href="#secdatamodel" class="auto internal xref">Section 4</a> of RFCthis</td>
             </tr>
             <tr>
               <td class="text-left" rowspan="1" colspan="1">application/coserv+cose</td>
               <td class="text-left" rowspan="1" colspan="1">-</td>
               <td class="text-left" rowspan="1" colspan="1">TBD2</td>
               <td class="text-left" rowspan="1" colspan="1">
-                <a href="#signed-coserv" class="auto internal xref">Section 3.6</a> of RFCthis</td>
+                <a href="#signed-coserv" class="auto internal xref">Section 4.6</a> of RFCthis</td>
             </tr>
           </tbody>
         </table>
-<p id="section-8.2-3">If possible, TBD1 and TBD2 should be assigned in the 256..9999 range.<a href="#section-8.2-3" class="pilcrow">¶</a></p>
+<p id="section-9.2-3">If possible, TBD1 and TBD2 should be assigned in the 256..9999 range.<a href="#section-9.2-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
 </div>
 <div id="sec-combined-references">
-<section id="section-9">
+<section id="section-10">
       <h2 id="name-references">
-<a href="#section-9" class="section-number selfRef">9. </a><a href="#name-references" class="section-name selfRef">References</a>
+<a href="#section-10" class="section-number selfRef">10. </a><a href="#name-references" class="section-name selfRef">References</a>
       </h2>
 <div id="sec-normative-references">
-<section id="section-9.1">
+<section id="section-10.1">
         <h3 id="name-normative-references">
-<a href="#section-9.1" class="section-number selfRef">9.1. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
+<a href="#section-10.1" class="section-number selfRef">10.1. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
         </h3>
 <dl class="references">
 <dt id="I-D.ietf-rats-corim">[I-D.ietf-rats-corim]</dt>
@@ -2177,9 +2388,9 @@ Note that the <code>cose-type</code> parameter is explicitly not supported, as i
 </section>
 </div>
 <div id="sec-informative-references">
-<section id="section-9.2">
+<section id="section-10.2">
         <h3 id="name-informative-references">
-<a href="#section-9.2" class="section-number selfRef">9.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
+<a href="#section-10.2" class="section-number selfRef">10.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
         </h3>
 <dl class="references">
 <dt id="I-D.ietf-rats-eat">[I-D.ietf-rats-eat]</dt>
@@ -2232,9 +2443,17 @@ profile = oid-type / ~uri
 
 environment-selector-map = { selector }
 
-selector //= ( &amp;(class: 0) =&gt; [ + class-map ] )
-selector //= ( &amp;(instance: 1) =&gt; [ + $instance-id-type-choice ] )
-selector //= ( &amp;(group: 2) =&gt; [ + $group-id-type-choice ] )
+selector //= ( &amp;(class: 0) =&gt; [
+  + ( class-map, ? [ + measurement-map ] )
+] )
+
+selector //= ( &amp;(instance: 1) =&gt; [
+  + ( $instance-id-type-choice, ? [ + measurement-map ] )
+] )
+
+selector //= ( &amp;(group: 2) =&gt; [
+  + ( $group-id-type-choice, ? [ + measurement-map ] )
+] )
 
 concise-mid-tag = {
   ? &amp;(language: 0) =&gt; text
@@ -2842,6 +3061,14 @@ recommended=3
 <div class="email">
 <span>Email:</span>
 <a href="mailto:Thomas.Fossati@linaro.org" class="email">Thomas.Fossati@linaro.org</a>
+</div>
+</address>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Henk Birkholz</span></div>
+<div dir="auto" class="left"><span class="org">Fraunhofer SIT</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:henk.birkholz@ietf.contact" class="email">henk.birkholz@ietf.contact</a>
 </div>
 </address>
 </section>
