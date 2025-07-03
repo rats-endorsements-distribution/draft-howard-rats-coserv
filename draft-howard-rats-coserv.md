@@ -212,7 +212,7 @@ This example Attester would, at different points in its lifecycle, sign Evidence
 To provide the correct public key to use as the trust anchor for verification, the Endorser would need to know the configured state of the Attester at the time the Evidence was produced.
 Specifying such an Attester solely by its instance identifier is therefore insufficient for the Endorser to supply the correct artifact.
 The environment specification would need to include these critical stateful aspects as well.
-In CoRIM {{-rats-corim}}, stateful environments are modeled as collections of measurements, and CoSERV takes the same approach.
+In CoRIM {{-rats-corim}}, stateful environments are modeled as an environment identifier plus a collection of measurements, and CoSERV takes the same approach.
 Therefore, any environment selector in a CoSERV query can optionally be enhanced with a collection of one or more measurements, which specify aspects of the target environment state that might materially impact the selection of artifacts.
 
 ## Queries
