@@ -482,13 +482,15 @@ Table of Contents
 
    The top-level CoSERV data structure is given by the following CDDL:
 
+   ;# import comid-autogen
+
    coserv = {
      &(profile: 0) => profile
      &(query: 1) => query
      ? &(results: 2) => results
    }
 
-   profile = oid-type / ~uri
+   profile = comid.oid-type / ~uri
 
 4.1.  Common Data Types
 
@@ -560,18 +562,20 @@ Table of Contents
    The environment selector forms the main body of the query, and its
    CDDL is given below:
 
+   ;# import comid-autogen
+
    environment-selector-map = { selector }
 
    selector //= ( &(class: 0) => [
-     + ( class-map, ? [ + measurement-map ] )
+     + ( comid.class-map, ? [ + comid.measurement-map ] )
    ] )
 
    selector //= ( &(instance: 1) => [
-     + ( $instance-id-type-choice, ? [ + measurement-map ] )
+     + ( comid.$instance-id-type-choice, ? [ + comid.measurement-map ] )
    ] )
 
    selector //= ( &(group: 2) => [
-     + ( $group-id-type-choice, ? [ + measurement-map ] )
+     + ( comid.$group-id-type-choice, ? [ + comid.measurement-map ] )
    ] )
 
    Environments can be specified according to instance, group or class.
@@ -646,10 +650,13 @@ Table of Contents
 
    The result set structure is given by the following CDDL:
 
+   ;# import cmw-autogen
+   ;# import comid-autogen
+
    results = {
      result-set
      &(expiry: 10) => tdate ; RFC3339 date
-     ? &(source-artifacts: 11) => [ + cmw-record ]
+     ? &(source-artifacts: 11) => [ + cmw.cbor-record ]
    }
 
    result-set //= reference-values
@@ -658,8 +665,8 @@ Table of Contents
    result-set //= $$result-set-extensions
 
    refval-quad = {
-     &(authorities: 1) => [ + $crypto-key-type-choice ]
-     &(rv-triple: 2) => reference-triple-record
+     &(authorities: 1) => [ + comid.$crypto-key-type-choice ]
+     &(rv-triple: 2) => comid.reference-triple-record
    }
 
    reference-values = (
@@ -667,13 +674,13 @@ Table of Contents
    )
 
    endval-quad = {
-     &(authorities: 1) => [ + $crypto-key-type-choice ]
-     &(ev-triple: 2) => endorsed-triple-record
+     &(authorities: 1) => [ + comid.$crypto-key-type-choice ]
+     &(ev-triple: 2) => comid.endorsed-triple-record
    }
 
    cond-endval-quad = {
-     &(authorities: 1) => [ + $crypto-key-type-choice ]
-     &(ce-triple: 2) => conditional-endorsement-triple-record
+     &(authorities: 1) => [ + comid.$crypto-key-type-choice ]
+     &(ce-triple: 2) => comid.conditional-endorsement-triple-record
    }
 
    endorsed-values = (
@@ -682,12 +689,12 @@ Table of Contents
    )
 
    ak-quad = {
-     &(authorities: 1) => [ + $crypto-key-type-choice ]
-     &(ak-triple: 2) => attest-key-triple-record
+     &(authorities: 1) => [ + comid.$crypto-key-type-choice ]
+     &(ak-triple: 2) => comid.attest-key-triple-record
    }
 
    cots-stmt = {
-     &(authorities: 1) => [ + $crypto-key-type-choice ]
+     &(authorities: 1) => [ + comid.$crypto-key-type-choice ]
      &(cots: 2) => cots
    }
 
@@ -700,10 +707,6 @@ Table of Contents
    ; import CoTS
    ;
    cots = "TODO COTS"
-   ;
-   ; import CMW
-   ;
-   cmw-record = "TODO CMW"
 
 4.5.  Encoding Requirements
 
@@ -854,11 +857,12 @@ Table of Contents
 
    The profile and query structures are the same as in the previous
    examples.  The result structure is a map with two entries: expiry
-   (codepoint 10) and reference-value triples (codepoint 0).  A single
-   reference-value triple is shown in this example.  Its environment-
-   map, as expected, is the same as the environment-map that was
-   supplied in the query.  The rest of the structure is the measurement-
-   map as defined in CoRIM [I-D.ietf-rats-corim].
+   (codepoint 10) and rvq (codepoint 0).  The rvq (reference value quad)
+   entry comprises the asserting authority and the asserted triples.  A
+   single reference-value triple is shown in this example.  Its
+   environment-map, as expected, is the same as the environment-map that
+   was supplied in the query.  The rest of the structure is the
+   measurement-map as defined in CoRIM [I-D.ietf-rats-corim].
 
    {
      / profile / 0: "tag:example.com,2025:cc-platform#1.0.0",
@@ -900,6 +904,42 @@ Table of Contents
          }
        ],
        10: 0("2030-12-13T18:30:02Z")
+     }
+   }
+
+   The following example is for a query that requested the results be
+   provided in the "source artifacts" format.  This means one or more
+   original signed manifests containing information that satisfies the
+   query criteria.
+
+   Compared with the previous example, the rvq entry is empty, while the
+   source-artifacts (codepoint 11) contain two CMW records
+   [I-D.ietf-rats-msg-wrap], each of which contains a (made up) manifest
+   with the type "application/vnd.example.refvals".
+
+   {
+     / profile / 0: "tag:example.com,2025:cc-platform#1.0.0",
+     / query /   1: {
+       / artifact-type /         0: 2, / reference-values /
+       / environment-selector /  1: {
+         / class / 0: [
+           {
+             / class-id /  0: 560(h'00112233'),  / tagged-bytes /
+             / vendor /    1: "Example Vendor",
+             / model /     2: "Example Model"
+           }
+         ]
+       },
+       / timestamp /   2: 0("2030-12-01T18:30:01Z"),
+       / result-type / 3: 1 / source-artifacts /
+     },
+     / results / 2: {
+       / rvq / 0: [ ],
+       / expiry / 10: 0("2030-12-13T18:30:02Z"),
+       / source artifacts / 11: [
+         [ "application/vnd.example.refvals", h'afaeadac' ],
+         [ "application/vnd.example.refvals", h'adacabaa' ]
+       ]
      }
    }
 
@@ -1108,6 +1148,13 @@ Table of Contents
               March 2025, <https://datatracker.ietf.org/doc/html/draft-
               ietf-rats-corim-07>.
 
+   [I-D.ietf-rats-msg-wrap]
+              Birkholz, H., Smith, N., Fossati, T., Tschofenig, H., and
+              D. Glaze, "RATS Conceptual Messages Wrapper (CMW)", Work
+              in Progress, Internet-Draft, draft-ietf-rats-msg-wrap-16,
+              3 July 2025, <https://datatracker.ietf.org/doc/html/draft-
+              ietf-rats-msg-wrap-16>.
+
    [IANA.core-parameters]
               IANA, "Constrained RESTful Environments (CoRE)
               Parameters",
@@ -1193,26 +1240,30 @@ Table of Contents
 
 Appendix A.  Collated CoSERV CDDL
 
+   ;# import comid-autogen
+
    coserv = {
      &(profile: 0) => profile
      &(query: 1) => query
      ? &(results: 2) => results
    }
 
-   profile = oid-type / ~uri
+   profile = comid.oid-type / ~uri
+
+   ;# import comid-autogen
 
    environment-selector-map = { selector }
 
    selector //= ( &(class: 0) => [
-     + ( class-map, ? [ + measurement-map ] )
+     + ( comid.class-map, ? [ + comid.measurement-map ] )
    ] )
 
    selector //= ( &(instance: 1) => [
-     + ( $instance-id-type-choice, ? [ + measurement-map ] )
+     + ( comid.$instance-id-type-choice, ? [ + comid.measurement-map ] )
    ] )
 
    selector //= ( &(group: 2) => [
-     + ( $group-id-type-choice, ? [ + measurement-map ] )
+     + ( comid.$group-id-type-choice, ? [ + comid.measurement-map ] )
    ] )
 
    concise-mid-tag = {
