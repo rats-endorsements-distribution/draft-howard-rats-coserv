@@ -3,6 +3,7 @@
 # $1: label
 # $2: cddl fragments
 # $3: diag test files
+# $4: imports (namespace=basename ...)
 define cddl_check_template
 
 check-$(1): $(1)-autogen.cddl
@@ -10,8 +11,11 @@ check-$(1): $(1)-autogen.cddl
 
 .PHONY: check-$(1)
 
-$(1)-autogen.cddl: $(2)
-	$$(cddlc) -t cddl -2 $$^ > $$@
+import_files := $(foreach i,$(4),$(lastword $(subst =, ,$(i)).cddl))
+import_opts = $(foreach i,$(4),-I $(i))
+
+$(1)-autogen.cddl: $(2) $$(import_files)
+	$$(cddlc) $$(import_opts) -t cddl -2 $(2) > $$@
 
 CLEANFILES += $(1)-autogen.cddl
 
