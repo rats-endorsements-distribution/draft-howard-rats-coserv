@@ -8,6 +8,8 @@ Intended status: Informational                                T. Fossati
 Expires: 5 January 2026                                           Linaro
                                                              H. Birkholz
                                                           Fraunhofer SIT
+                                                                S. Kamal
+                                                                 Fujitsu
                                                              4 July 2025
 
 
@@ -1860,3 +1862,8 @@ Authors' Addresses
    Henk Birkholz
    Fraunhofer SIT
    Email: henk.birkholz@ietf.contact
+
+
+   Shefali Kamal
+   Fujitsu
+   Email: Shefali.Kamal@fujitsu.com
