@@ -393,7 +393,7 @@ Further, CoSERV queries MUST use CBOR definite-length encoding.
 
 CoSERV is designed to ensure that any result set passed from a producer to a consumer is precisely the result set that corresponds to the consumer's original query.
 This is the reason why the original query is always included along with the result set in the data model.
-However, this measure is only sufficient in cases where the conveyance protocol guarantees that CoSERV result sets are always transacted over an end-to-end secure channel without any intermediaries.
+However, this measure is only sufficient in cases where the conveyance protocol guarantees that CoSERV result sets are always transacted over a secure channel without any untrusted intermediaries.
 Wherever this is not the case, producers MUST create an additional cryptographic binding between the query and the result.
 This is achieved by transacting the result set within a cryptographic envelope, with a signature added by the producer, which is verified by the consumer.
 A CoSERV data object can be signed using COSE {{-cose}}.
