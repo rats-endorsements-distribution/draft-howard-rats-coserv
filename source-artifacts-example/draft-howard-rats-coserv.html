@@ -1957,8 +1957,10 @@ Again, the <code>artifact-type</code> is set to 2, and <code>profile</code> is g
 <p id="section-5.2-2">In this next example, the query is a reference value query based on class.<a href="#section-5.2-2" class="pilcrow">¶</a></p>
 <p id="section-5.2-3">The top-level structure is a map with three entries: <code>profile</code> (codepoint 0), <code>query</code> (codepoint 1) and <code>results</code> (codepoint 2).<a href="#section-5.2-3" class="pilcrow">¶</a></p>
 <p id="section-5.2-4">The profile and query structures are the same as in the previous examples.
-The result structure is a map with two entries: <code>expiry</code> (codepoint 10) and <code>reference-value triples</code> (codepoint 0).
-A single reference-value triple is shown in this example. Its <code>environment-map</code>, as expected, is the same as the <code>environment-map</code> that was supplied in the query.
+The result structure is a map with two entries: <code>expiry</code> (codepoint 10) and <code>rvq</code> (codepoint 0).
+The <code>rvq</code> (reference value quad) entry comprises the asserting authority and the asserted triples.
+A single reference-value triple is shown in this example.
+Its <code>environment-map</code>, as expected, is the same as the <code>environment-map</code> that was supplied in the query.
 The rest of the structure is the <code>measurement-map</code> as defined in CoRIM <span>[<a href="#I-D.ietf-rats-corim" class="cite xref">I-D.ietf-rats-corim</a>]</span>.<a href="#section-5.2-4" class="pilcrow">¶</a></p>
 <div class="lang-edn sourcecode" id="section-5.2-5">
 <pre>
@@ -2005,6 +2007,38 @@ The rest of the structure is the <code>measurement-map</code> as defined in CoRI
   }
 }
 </pre><a href="#section-5.2-5" class="pilcrow">¶</a>
+</div>
+<p id="section-5.2-6">The following example is for a query that requested the results be provided in the "source artefacts" format.
+This means one or more original signed manifests containing information that satisfies the query criteria.<a href="#section-5.2-6" class="pilcrow">¶</a></p>
+<p id="section-5.2-7">Compared with the previous example, the <code>rvq</code> entry is empty, while the <code>source-artefacts</code> (codepoint 11) contain two CMW records <span>[<a href="#I-D.ietf-rats-msg-wrap" class="cite xref">I-D.ietf-rats-msg-wrap</a>]</span>, each of which contains a (made up) manifest with the type "application/vnd.example.refvals".<a href="#section-5.2-7" class="pilcrow">¶</a></p>
+<div class="lang-edn sourcecode" id="section-5.2-8">
+<pre>
+{
+  / profile / 0: "tag:example.com,2025:cc-platform#1.0.0",
+  / query /   1: {
+    / artifact-type /         0: 2, / reference-values /
+    / environment-selector /  1: {
+      / class / 0: [
+        {
+          / class-id /  0: 560(h'00112233'),  / tagged-bytes /
+          / vendor /    1: "Example Vendor",
+          / model /     2: "Example Model"
+        }
+      ]
+    },
+    / timestamp /   2: 0("2030-12-01T18:30:01Z"),
+    / result-type / 3: 1 / source-artifacts /
+  },
+  / results / 2: {
+    / rvq / 0: [ ],
+    / expiry / 10: 0("2030-12-13T18:30:02Z"),
+    / source artifacts / 11: [
+      [ "application/vnd.example.refvals", h'afaeadac' ],
+      [ "application/vnd.example.refvals", h'adacabaa' ]
+    ]
+  }
+}
+</pre><a href="#section-5.2-8" class="pilcrow">¶</a>
 </div>
 </section>
 </div>
@@ -2374,6 +2408,10 @@ Note that the <code>cose-type</code> parameter is explicitly not supported, as i
 <dt id="I-D.ietf-rats-corim">[I-D.ietf-rats-corim]</dt>
         <dd>
 <span class="refAuthor">Birkholz, H.</span>, <span class="refAuthor">Fossati, T.</span>, <span class="refAuthor">Deshpande, Y.</span>, <span class="refAuthor">Smith, N.</span>, and <span class="refAuthor">W. Pan</span>, <span class="refTitle">"Concise Reference Integrity Manifest"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-rats-corim-07</span>, <time datetime="2025-03-03" class="refDate">3 March 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-rats-corim-07">https://datatracker.ietf.org/doc/html/draft-ietf-rats-corim-07</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="I-D.ietf-rats-msg-wrap">[I-D.ietf-rats-msg-wrap]</dt>
+        <dd>
+<span class="refAuthor">Birkholz, H.</span>, <span class="refAuthor">Smith, N.</span>, <span class="refAuthor">Fossati, T.</span>, <span class="refAuthor">Tschofenig, H.</span>, and <span class="refAuthor">D. Glaze</span>, <span class="refTitle">"RATS Conceptual Messages Wrapper (CMW)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-rats-msg-wrap-16</span>, <time datetime="2025-07-03" class="refDate">3 July 2025</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-rats-msg-wrap-16">https://datatracker.ietf.org/doc/html/draft-ietf-rats-msg-wrap-16</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="IANA.core-parameters">[IANA.core-parameters]</dt>
         <dd>
