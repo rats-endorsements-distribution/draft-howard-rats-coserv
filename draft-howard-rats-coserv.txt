@@ -5,10 +5,10 @@
 Remote ATtestation ProcedureS                                  P. Howard
 Internet-Draft                                                       Arm
 Intended status: Informational                                T. Fossati
-Expires: 4 January 2026                                           Linaro
+Expires: 5 January 2026                                           Linaro
                                                              H. Birkholz
                                                           Fraunhofer SIT
-                                                             3 July 2025
+                                                             4 July 2025
 
 
          Concise Selector for Endorsements and Reference Values
@@ -59,7 +59,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 4 January 2026.
+   This Internet-Draft will expire on 5 January 2026.
 
 Copyright Notice
 
@@ -725,7 +725,7 @@ Table of Contents
    original query is always included along with the result set in the
    data model.  However, this measure is only sufficient in cases where
    the conveyance protocol guarantees that CoSERV result sets are always
-   transacted over an end-to-end secure channel without any
+   transacted over a secure channel without any untrusted
    intermediaries.  Wherever this is not the case, producers MUST create
    an additional cryptographic binding between the query and the result.
    This is achieved by transacting the result set within a cryptographic
