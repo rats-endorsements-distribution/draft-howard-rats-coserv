@@ -908,12 +908,12 @@ Table of Contents
    }
 
    The following example is for a query that requested the results be
-   provided in the "source artefacts" format.  This means one or more
+   provided in the "source artifacts" format.  This means one or more
    original signed manifests containing information that satisfies the
    query criteria.
 
    Compared with the previous example, the rvq entry is empty, while the
-   source-artefacts (codepoint 11) contain two CMW records
+   source-artifacts (codepoint 11) contain two CMW records
    [I-D.ietf-rats-msg-wrap], each of which contains a (made up) manifest
    with the type "application/vnd.example.refvals".
 
