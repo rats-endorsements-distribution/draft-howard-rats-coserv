@@ -38,9 +38,9 @@ author:
   org: Fraunhofer SIT
   email: henk.birkholz@ietf.contact
 - ins: S. Kamal
-  name: Shefali Kamal 
+  name: Shefali Kamal
   org: Fujitsu
-  email: Shefali.Kamal@fujitsu.com 
+  email: Shefali.Kamal@fujitsu.com
 
 
 normative:
