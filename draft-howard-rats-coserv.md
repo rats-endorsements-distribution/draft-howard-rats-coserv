@@ -461,10 +461,10 @@ The rest of the structure is the `measurement-map` as defined in CoRIM {{-rats-c
 {::include-fold cddl/examples/rv-results.diag}
 ~~~
 
-The following example is for a query that requested the results be provided in the "source artefacts" format.
+The following example is for a query that requested the results be provided in the "source artifacts" format.
 This means one or more original signed manifests containing information that satisfies the query criteria.
 
-Compared with the previous example, the `rvq` entry is empty, while the `source-artefacts` (codepoint 11) contain two CMW records {{-rats-cmw}}, each of which contains a (made up) manifest with the type "application/vnd.example.refvals".
+Compared with the previous example, the `rvq` entry is empty, while the `source-artifacts` (codepoint 11) contain two CMW records {{-rats-cmw}}, each of which contains a (made up) manifest with the type "application/vnd.example.refvals".
 
 ~~~edn
 {::include-fold cddl/examples/rv-class-simple-results-source-artifacts.diag}
