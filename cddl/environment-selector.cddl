@@ -1,13 +1,15 @@
+;# import comid-autogen
+
 environment-selector-map = { selector }
 
 selector //= ( &(class: 0) => [
-  + ( class-map, ? [ + measurement-map ] )
+  + ( comid.class-map, ? [ + comid.measurement-map ] )
 ] )
 
 selector //= ( &(instance: 1) => [
-  + ( $instance-id-type-choice, ? [ + measurement-map ] )
+  + ( comid.$instance-id-type-choice, ? [ + comid.measurement-map ] )
 ] )
 
 selector //= ( &(group: 2) => [
-  + ( $group-id-type-choice, ? [ + measurement-map ] )
+  + ( comid.$group-id-type-choice, ? [ + comid.measurement-map ] )
 ] )

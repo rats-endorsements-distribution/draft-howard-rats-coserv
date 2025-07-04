@@ -1,7 +1,10 @@
+;# import cmw-autogen
+;# import comid-autogen
+
 results = {
   result-set
   &(expiry: 10) => tdate ; RFC3339 date
-  ? &(source-artifacts: 11) => [ + cmw-record ]
+  ? &(source-artifacts: 11) => [ + cmw.cbor-record ]
 }
 
 result-set //= reference-values
@@ -10,8 +13,8 @@ result-set //= trust-anchors
 result-set //= $$result-set-extensions
 
 refval-quad = {
-  &(authorities: 1) => [ + $crypto-key-type-choice ]
-  &(rv-triple: 2) => reference-triple-record
+  &(authorities: 1) => [ + comid.$crypto-key-type-choice ]
+  &(rv-triple: 2) => comid.reference-triple-record
 }
 
 reference-values = (
@@ -19,13 +22,13 @@ reference-values = (
 )
 
 endval-quad = {
-  &(authorities: 1) => [ + $crypto-key-type-choice ]
-  &(ev-triple: 2) => endorsed-triple-record
+  &(authorities: 1) => [ + comid.$crypto-key-type-choice ]
+  &(ev-triple: 2) => comid.endorsed-triple-record
 }
 
 cond-endval-quad = {
-  &(authorities: 1) => [ + $crypto-key-type-choice ]
-  &(ce-triple: 2) => conditional-endorsement-triple-record
+  &(authorities: 1) => [ + comid.$crypto-key-type-choice ]
+  &(ce-triple: 2) => comid.conditional-endorsement-triple-record
 }
 
 endorsed-values = (
@@ -34,12 +37,12 @@ endorsed-values = (
 )
 
 ak-quad = {
-  &(authorities: 1) => [ + $crypto-key-type-choice ]
-  &(ak-triple: 2) => attest-key-triple-record
+  &(authorities: 1) => [ + comid.$crypto-key-type-choice ]
+  &(ak-triple: 2) => comid.attest-key-triple-record
 }
 
 cots-stmt = {
-  &(authorities: 1) => [ + $crypto-key-type-choice ]
+  &(authorities: 1) => [ + comid.$crypto-key-type-choice ]
   &(cots: 2) => cots
 }
 
@@ -52,7 +55,3 @@ trust-anchors = (
 ; import CoTS
 ;
 cots = "TODO COTS"
-;
-; import CMW
-;
-cmw-record = "TODO CMW"
