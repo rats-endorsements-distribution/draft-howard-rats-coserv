@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-06-19T00:48:13.522939+00:00",
+  "timestamp": "2025-07-06T00:54:17.691370+00:00",
   "repo": "rats-endorsements-distribution/draft-howard-rats-coserv",
   "labels": [
     {
@@ -429,7 +429,7 @@
       "id": "I_kwDOOAZd1M65jVJr",
       "title": "Support selection by stateful environments",
       "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/issues/35",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "paulhowardarm",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -439,9 +439,17 @@
       "labels": [],
       "body": "Experiments with existing services such as the [AMD Key Distribution Service](https://wiki.ietf.org/group/rats/referencevalues/amd-key-distribution-service) have shown that endorsement resources sometimes need to be selected by more than just an instance/group/class environment look-up. Additional information about the environment state might also be need to be conveyed in the query. In the case of the AMD KDS, this state would include things like the security revision numbers of the TCB components, which are needed to compute the correct attestation public key and hence provide the correct certificate as endorsement.\n\nStateful environments are already modelled in CoRIM, so it may be possible to enhance the CoSERV query such that a stateful environment can be expressed in the query.\n",
       "createdAt": "2025-06-03T08:49:55Z",
-      "updatedAt": "2025-06-03T08:50:10Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2025-07-04T09:05:07Z",
+      "closedAt": "2025-07-04T09:05:07Z",
+      "comments": [
+        {
+          "author": "paulhowardarm",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Addressed in [#44](https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/pull/44)",
+          "createdAt": "2025-07-04T09:05:07Z",
+          "updatedAt": "2025-07-04T09:05:07Z"
+        }
+      ]
     }
   ],
   "pulls": [
@@ -1854,6 +1862,289 @@
           "body": "\ud83d\udea2 it!",
           "createdAt": "2025-06-17T19:32:06Z",
           "updatedAt": "2025-06-17T19:32:06Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 44,
+      "id": "PR_kwDOOAZd1M6dOXRK",
+      "title": "add ability to query a \"stateful\" environment",
+      "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/pull/44",
+      "state": "MERGED",
+      "author": "thomas-fossati",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-07-03T08:33:19Z",
+      "updatedAt": "2025-07-03T20:57:58Z",
+      "baseRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
+      "baseRefName": "main",
+      "baseRefOid": "aeeee8783f5645ba86e91f2959a5148ede494d21",
+      "headRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
+      "headRefName": "stateful",
+      "headRefOid": "dd795e6826daae0fe4f09a746c0115736efb4182",
+      "closedAt": "2025-07-03T20:57:50Z",
+      "mergedAt": "2025-07-03T20:57:50Z",
+      "mergedBy": "thomas-fossati",
+      "mergeCommit": {
+        "oid": "c98c316f400fe1898f8f65a193afb89bfc33e879"
+      },
+      "comments": [
+        {
+          "author": "thomas-fossati",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Approving Paul's changes.",
+          "createdAt": "2025-07-03T20:57:11Z",
+          "updatedAt": "2025-07-03T20:57:11Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOOAZd1M6x3qb0",
+          "commit": {
+            "abbreviatedOid": "c151bc5"
+          },
+          "author": "paulhowardarm",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Approving the data model (CDDL) changes.",
+          "createdAt": "2025-07-03T18:01:51Z",
+          "updatedAt": "2025-07-03T18:01:51Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOOAZd1M6x3_pg",
+          "commit": {
+            "abbreviatedOid": "c151bc5"
+          },
+          "author": "thomas-fossati",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "awesome, thansk!",
+          "createdAt": "2025-07-03T18:27:00Z",
+          "updatedAt": "2025-07-03T18:28:59Z",
+          "comments": [
+            {
+              "originalPosition": 13,
+              "body": "```suggestion\r\nIn CoRIM {{-rats-corim}}, stateful environments are modeled as an environment identifier plus a collection of measurements, and CoSERV takes the same approach.\r\n```",
+              "createdAt": "2025-07-03T18:27:00Z",
+              "updatedAt": "2025-07-03T18:28:59Z"
+            },
+            {
+              "originalPosition": 8,
+              "body": "Just as a data point: another example would be a PSA certification, which comprises both the immutable PRoT and \u201csome\u201d of the mutable PRoT components.",
+              "createdAt": "2025-07-03T18:28:30Z",
+              "updatedAt": "2025-07-03T18:28:59Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOOAZd1M6x44EH",
+          "commit": {
+            "abbreviatedOid": "c151bc5"
+          },
+          "author": "paulhowardarm",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-07-03T19:47:35Z",
+          "updatedAt": "2025-07-03T19:47:35Z",
+          "comments": [
+            {
+              "originalPosition": 8,
+              "body": "That would be an interesting thing to explore - using CoSERV to query for PSA endorsements.",
+              "createdAt": "2025-07-03T19:47:35Z",
+              "updatedAt": "2025-07-03T19:47:35Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOOAZd1M6x5koz",
+          "commit": {
+            "abbreviatedOid": "c151bc5"
+          },
+          "author": "thomas-fossati",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-07-03T20:57:44Z",
+          "updatedAt": "2025-07-03T20:57:44Z",
+          "comments": [
+            {
+              "originalPosition": 8,
+              "body": "Sure, let\u2019s keep that in mind.",
+              "createdAt": "2025-07-03T20:57:44Z",
+              "updatedAt": "2025-07-03T20:57:44Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 45,
+      "id": "PR_kwDOOAZd1M6dZZLW",
+      "title": "Adjust query/result cryptographic binding rules",
+      "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/pull/45",
+      "state": "MERGED",
+      "author": "paulhowardarm",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Small tweak to the trust model based on some use case research.\r\n\r\nSigned-off-by: Paul Howard <paul.howard@arm.com>",
+      "createdAt": "2025-07-04T08:35:53Z",
+      "updatedAt": "2025-07-04T08:53:12Z",
+      "baseRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
+      "baseRefName": "main",
+      "baseRefOid": "c98c316f400fe1898f8f65a193afb89bfc33e879",
+      "headRepository": "paulhowardarm/draft-howard-rats-coserv",
+      "headRefName": "phTrustModelTweak",
+      "headRefOid": "77fbf8d936843d43c64f8af2cda43db7adf4925d",
+      "closedAt": "2025-07-04T08:53:12Z",
+      "mergedAt": "2025-07-04T08:53:12Z",
+      "mergedBy": "thomas-fossati",
+      "mergeCommit": {
+        "oid": "c551bc6dd39e4868b3bd75a28b5a1bb882b461e8"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOOAZd1M6x_SZd",
+          "commit": {
+            "abbreviatedOid": "77fbf8d"
+          },
+          "author": "thomas-fossati",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "thanks!",
+          "createdAt": "2025-07-04T08:53:06Z",
+          "updatedAt": "2025-07-04T08:53:06Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 46,
+      "id": "PR_kwDOOAZd1M6da4V6",
+      "title": "add example of result with source artefact",
+      "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/pull/46",
+      "state": "MERGED",
+      "author": "thomas-fossati",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Also, use CDDL import directive to include cmw and comid",
+      "createdAt": "2025-07-04T10:56:20Z",
+      "updatedAt": "2025-07-04T12:26:07Z",
+      "baseRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
+      "baseRefName": "main",
+      "baseRefOid": "c551bc6dd39e4868b3bd75a28b5a1bb882b461e8",
+      "headRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
+      "headRefName": "source-artifacts-example",
+      "headRefOid": "d918633c322c018ab220225397478df76ca5f76e",
+      "closedAt": "2025-07-04T12:26:07Z",
+      "mergedAt": "2025-07-04T12:26:07Z",
+      "mergedBy": "paulhowardarm",
+      "mergeCommit": {
+        "oid": "682036719254b3139cb544b0523e27c09a53dbde"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOOAZd1M6yCgUL",
+          "commit": {
+            "abbreviatedOid": "d918633"
+          },
+          "author": "paulhowardarm",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Excellent stuff. Thank you.",
+          "createdAt": "2025-07-04T12:24:33Z",
+          "updatedAt": "2025-07-04T12:24:33Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 47,
+      "id": "PR_kwDOOAZd1M6dc-81",
+      "title": "Adding contributors from Fujitsu",
+      "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/pull/47",
+      "state": "MERGED",
+      "author": "shefali-kamal",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-07-04T14:04:56Z",
+      "updatedAt": "2025-07-04T14:37:30Z",
+      "baseRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
+      "baseRefName": "main",
+      "baseRefOid": "682036719254b3139cb544b0523e27c09a53dbde",
+      "headRepository": "shefali-kamal/draft-howard-rats-coserv",
+      "headRefName": "main",
+      "headRefOid": "835da7d8db71c1013a1a5af2567bfe08267b1704",
+      "closedAt": "2025-07-04T14:37:30Z",
+      "mergedAt": "2025-07-04T14:37:30Z",
+      "mergedBy": "paulhowardarm",
+      "mergeCommit": {
+        "oid": "739a0c75793ff3de759a5765bf6887c34fe70efb"
+      },
+      "comments": [
+        {
+          "author": "thomas-fossati",
+          "authorAssociation": "COLLABORATOR",
+          "body": "BTW, I added you as a collaborator for this repository.  The invite from GitHub should be in your inbox.\r\n\r\nOnce you do it, you can clone this repo directly instead of working on a fork.  This has some advantages: for example, it allows to see the rendered preview of your changes/PRs (i.e., the so-called \u201ceditor copy\u201d).",
+          "createdAt": "2025-07-04T14:16:12Z",
+          "updatedAt": "2025-07-04T14:19:08Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOOAZd1M6yEDa4",
+          "commit": {
+            "abbreviatedOid": "bea0e01"
+          },
+          "author": "thomas-fossati",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Welcome on board, Shefali!",
+          "createdAt": "2025-07-04T14:12:25Z",
+          "updatedAt": "2025-07-04T14:12:25Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOOAZd1M6yED-f",
+          "commit": {
+            "abbreviatedOid": "bea0e01"
+          },
+          "author": "thomas-fossati",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-07-04T14:13:04Z",
+          "updatedAt": "2025-07-04T14:13:05Z",
+          "comments": [
+            {
+              "originalPosition": 7,
+              "body": "```suggestion\r\n- ins: S. Kamal\r\n  name: Shefali Kamal\r\n  org: Fujitsu\r\n  email: Shefali.Kamal@fujitsu.com\r\n```",
+              "createdAt": "2025-07-04T14:13:04Z",
+              "updatedAt": "2025-07-04T14:13:05Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOOAZd1M6yEOkO",
+          "commit": {
+            "abbreviatedOid": "835da7d"
+          },
+          "author": "paulhowardarm",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Fantastic to see Fujitsu joining this effort. Welcome!",
+          "createdAt": "2025-07-04T14:29:06Z",
+          "updatedAt": "2025-07-04T14:29:06Z",
           "comments": []
         }
       ]
