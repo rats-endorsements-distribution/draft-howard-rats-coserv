@@ -5,8 +5,12 @@
 Remote ATtestation ProcedureS                                  P. Howard
 Internet-Draft                                                       Arm
 Intended status: Informational                                T. Fossati
-Expires: 12 December 2025                                         Linaro
-                                                            10 June 2025
+Expires: 12 January 2026                                          Linaro
+                                                             H. Birkholz
+                                                          Fraunhofer SIT
+                                                                S. Kamal
+                                                                 Fujitsu
+                                                            11 July 2025
 
 
          Concise Selector for Endorsements and Reference Values
@@ -57,7 +61,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 12 December 2025.
+   This Internet-Draft will expire on 12 January 2026.
 
 Copyright Notice
 
@@ -77,35 +81,41 @@ Table of Contents
 
    1.  Introduction
      1.1.  Terminology and Requirements Language
-   2.  CoSERV Information Model
-     2.1.  Overview
-     2.2.  Queries
-     2.3.  Result Sets
-   3.  CoSERV Data Model
-     3.1.  Common Data Types
-     3.2.  Profile
-     3.3.  Query Structure
-       3.3.1.  Artifact Type
-       3.3.2.  Environment Selector
-     3.4.  Result Set Structure
-     3.5.  Encoding Requirements
-     3.6.  Cryptographic Binding Between Query and Result Set
-   4.  Examples
-     4.1.  Query Data Examples
-     4.2.  Result Data Examples
-   5.  Implementation Status
-     5.1.  Veraison
-   6.  Security Considerations
-     6.1.  Forming Native Database Queries from CoSERV
-   7.  Privacy Considerations
-   8.  IANA Considerations
-     8.1.  Media Types Registrations
-       8.1.1.  application/coserv+cbor
-       8.1.2.  application/coserv+cose
-     8.2.  CoAP Content-Formats
-   9.  References
-     9.1.  Normative References
-     9.2.  Informative References
+   2.  Aggregation and Trust Models
+   3.  CoSERV Information Model
+     3.1.  Overview
+     3.2.  Artifacts
+     3.3.  Environments
+       3.3.1.  Stateful Environments
+     3.4.  Queries
+     3.5.  Result Sets
+   4.  CoSERV Data Model
+     4.1.  Common Data Types
+     4.2.  Profile
+     4.3.  Query Structure
+       4.3.1.  Artifact Type
+       4.3.2.  Environment Selector
+       4.3.3.  Timestamp
+       4.3.4.  Result Type
+     4.4.  Result Set Structure
+     4.5.  Encoding Requirements
+     4.6.  Cryptographic Binding Between Query and Result Set
+   5.  Examples
+     5.1.  Query Data Examples
+     5.2.  Result Data Examples
+   6.  Implementation Status
+     6.1.  Veraison
+   7.  Security Considerations
+     7.1.  Forming Native Database Queries from CoSERV
+   8.  Privacy Considerations
+   9.  IANA Considerations
+     9.1.  Media Types Registrations
+       9.1.1.  application/coserv+cbor
+       9.1.2.  application/coserv+cose
+     9.2.  CoAP Content-Formats
+   10. References
+     10.1.  Normative References
+     10.2.  Informative References
    Appendix A.  Collated CoSERV CDDL
    Acknowledgments
    Authors' Addresses
@@ -178,9 +188,66 @@ Table of Contents
    Section 8 of [STD94] and Appendix G of [RFC8610].  Terms and concepts
    are always referenced as proper nouns, i.e., with Capital Letters.
 
-2.  CoSERV Information Model
+2.  Aggregation and Trust Models
 
-2.1.  Overview
+   The roles of Endorser or Reference Value Provider might sometimes be
+   fulfilled by aggregators, which collect from multiple supply chain
+   sources, or even from other aggregators, in order to project a
+   holistic view of the endorsed system.  The notion of such an
+   aggregator is not explicit in the RATS architecture.  In practice,
+   however, supply chains are complex and multi-layered.  Supply chain
+   sources can include silicon manufacturers, device manufacturers,
+   firmware houses, system integrators, service providers and more.  In
+   practical terms, an Attester is likely to be a complex entity, formed
+   of components from across such supply chains.  Evidence would be
+   likewise structured, with contributions from different segments of
+   the Attester's overall anatomy.  A Verifier for such Evidence may
+   find it convenient to contact an aggregator as a single source of
+   truth for Endorsements and Reference Values.  An aggregator would
+   have intelligence about the Attester's complete anatomy and supply
+   chain.  It would have the ability to contact all contributing supply
+   chain actors for their individual Endorsements and Reference Values,
+   before collecting them into a cohesive set, and delivering them to
+   the Verifier as a single, ergonomic package.  In pure RATS terms, an
+   aggregator is still an Endorser or a Reference Value Provider - or,
+   more likely, both.  It is not a distinct role, and so there is no
+   distinctly-modeled conveyance between an aggregator and a Verifier.
+   However, when consuming from an aggregator, the Verifier may need
+   visibility of the aggregation process, possibly to the extent of
+   needing to audit the results by inspecting the individual inputs that
+   came from the original supply chain actors.  CoSERV addresses this
+   need, catering equally for both aggregating and non-aggregating
+   supply chain sources.
+
+   To support deployments with aggregators, CoSERV allows for flexible
+   trust models as follows.
+
+   *  *Shallow Trust*: in this model, the consumer trusts the
+      aggregator, solely and completely, to provide authentic
+      descriptions of the endorsed system.  The consumer does not need
+      to audit the results of the aggregation process.
+
+   *  *Deep Trust*: in this model, the consumer has a trust relationship
+      with the aggregator, but does not deem this to be sufficient.  The
+      consumer can still use the collected results from the aggregation
+      process, where it is convenient to do so, but also needs to audit
+      those results.
+
+   Any given CoSERV transaction can operate according to either model.
+   The consumer decides which model to use when it forms a query.  The
+   CoSERV result payload can convey both the aggregated result and the
+   audit trail as needed.  The payload size may be smaller when the
+   shallow model is used, but the choice between the two models is a
+   question for implementations and deployments.
+
+   Although CoSERV is designed to support aggregation, it is not a
+   requirement.  When aggregation is not used, CoSERV still fulfills the
+   need for a standard conveyance mechanism between Verifiers and
+   Endorsers or Reference Value Providers.
+
+3.  CoSERV Information Model
+
+3.1.  Overview
 
    CoSERV is designed to facilitate query-response transactions between
    a producer and a consumer.  In the RATS model, the producer is either
@@ -212,27 +279,153 @@ Table of Contents
    producer is "adding" the results to the query before sending it back
    to the consumer.
 
-2.2.  Queries
+3.2.  Artifacts
+
+   Artifacts are what the consumer (Verifier) needs in order to verify
+   and appraise Evidence from the Attester, and therefore they form the
+   bulk of the response payload in a CoSERV transaction.  The common
+   CoSERV query language recognises three artifact types.  These
+   correspond to the three categories of endorsement artifact that can
+   be identified natively in the RATS architecture:
+
+   *  *Trust Anchor*: A trust anchor is as defined in [RFC6024].  An
+      example of a trust anchor would be the public part of the
+      asymmetric signing key that is used by the Attester to sign
+      Evidence, such that the Verifier can verify the cryptographic
+      signature.
+
+   *  *Endorsed Value*: An endorsed value is as defined in Section 1.1.1
+      of [I-D.ietf-rats-corim].  This represents a characteristic of the
+      Attester that is not directly presented in the Evidence, such as
+      certification data related to a hardware or firmware module.
+
+   *  *Reference Value*: A reference value is as defined in
+      Section 1.1.1 of [I-D.ietf-rats-corim].  A reference value
+      specifies an individual aspect of the Attester's desired state.
+      Reference values are sometimes informally called "golden values".
+      An example of a reference value would be the expected hash or
+      checksum of a binary firmware or software image running in the
+      Attester's environment.  Evidence from the Attester would then
+      include claims about the Attester's actual state, which the
+      Verifier can then compare with the reference values at Evidence
+      appraisal time.
+
+   When artifacts are produced by an aggregator (see Section 2), the
+   following additional classifications apply:
+
+   *  *Collected Artifacts*: these refer to artifacts that were derived
+      by the aggregator by collecting and presenting data from original
+      supply chain sources, or from other aggregators.  Collected
+      artifacts form a single holistic package, and provide the most
+      ergonomic consumption experience for the Verifier.
+
+   *  *Source Arfifacts*: these refer to artifacts that were obtained
+      directly from the original supply chain sources, and used as
+      inputs into the aggregation process, allowing the aggregator to
+      derive the collected artifacts.
+
+   In the shallow trust model of aggregation, only the collected
+   artifacts are used by the consumer.  In the deep trust model, both
+   the collected artifacts and the source artifacts are used.  The
+   source artifacts allow the consumer to audit the collected artifacts
+   and operate the trust-but-verify principle.
+
+3.3.  Environments
+
+   The environment defines the scope (or scopes) in which the
+   endorsement artifacts are applicable.  Given that the consumer of
+   these artifacts is likely to be a Verifier in the RATS model, the
+   typical interpretation of the environment would be that of an
+   Attester that either has produced evidence, or is expected to produce
+   evidence, that the Verifier needs to appraise.  The Verifier
+   consequently needs to query the Endorser or Reference Value Provider
+   for artifacts that are applicable in that environment.  There are
+   three mutually-exclusive methods for defining the environment within
+   a CoSERV query.  Exactly one of these three methods MUST be used for
+   the query to be valid.  All three methods correspond to environments
+   that are also defined within CoRIM [I-D.ietf-rats-corim].
+
+   *  *Class*: A class is an environment that is expected to be common
+      to a group of similarly-constructed Attesters, who might therefore
+      share the same set of endorsed characteristics.  An example of
+      this might be a fleet of computing devices of the same model and
+      manufacturer.
+
+   *  *Instance*: An instance is an environment that is unique to an
+      individual and identifiable Attester, such as a single computing
+      device or component.
+
+   *  *Group*: A group is a collection of common Attester instances that
+      are collected together based on some defined semantics.  For
+      example, Attesters may be put into groups for the purpose of
+      anonymity.
+
+3.3.1.  Stateful Environments
+
+   In addition to specifying the Attester environment by class,
+   instance, or group, it is sometimes necessary to constrain the target
+   environment further by specifying aspects of its state.  This is
+   because the applicability of Endorsements and Reference Values might
+   vary, depending on these stateful properties.  Consider, for example,
+   an Attester instance who signs Evidence using a derived attestation
+   key, where the derivation algorithm is dependent on one or more
+   aspects of the Attester's current state, such as the version number
+   of an upgradable firmware component.  This example Attester would, at
+   different points in its lifecycle, sign Evidence with different
+   attestation keys, since the keys would change upon any firmware
+   update.  To provide the correct public key to use as the trust anchor
+   for verification, the Endorser would need to know the configured
+   state of the Attester at the time the Evidence was produced.
+   Specifying such an Attester solely by its instance identifier is
+   therefore insufficient for the Endorser to supply the correct
+   artifact.  The environment specification would need to include these
+   critical stateful aspects as well.  In CoRIM [I-D.ietf-rats-corim],
+   stateful environments are modeled as an environment identifier plus a
+   collection of measurements, and CoSERV takes the same approach.
+   Therefore, any environment selector in a CoSERV query can optionally
+   be enhanced with a collection of one or more measurements, which
+   specify aspects of the target environment state that might materially
+   impact the selection of artifacts.
+
+3.4.  Queries
 
    The purpose of a query is to allow the consumer (Verifier) to specify
-   the artifacts (Endorsements and Reference Values) that it needs.
-   Consequently, a query corresponds to the environmental
-   characteristics of one or more Attesters.  Such environmental
-   characteristics are identical to those used in the information model
-   of CoRIM [I-D.ietf-rats-corim].  In summary, they can include the
-   following:
+   the artifacts that it needs.  The information that is conveyed in a
+   CoSERV query includes the following:
 
-   *  An individual Attester instance.
+   *  A specification of the required artifact type: Reference Value,
+      Endorsed Value or Trust Anchor.  See Section 3.2 for definitions
+      of artifact types.  A single CoSERV query can only specify a
+      single artifact type.
 
-   *  A group (identifiable collection) of Attester instances.
+   *  A specification of the Attester's environment.  Environments can
+      be selected according to Attester instance, group or class.
+      Additional properties of the environment state can be specified by
+      adding one or more measurements to the selector.  See Section 3.3
+      for full definitions.  To facilitate efficient transactions, a
+      single query can specify either multiple instances, multiple
+      groups or multiple classes.  However, it is not possible to mix
+      instance-based selectors, group-based selectors and class-based
+      selectors in a single query.
 
-   *  A class of Attester, defined by characteristics such as the vendor
-      or model, of which there may be an arbitrary number of instances.
+   *  A timestamp, denoting the time at which the CoSERV query was sent.
 
-   To facilitate efficient transactions, a single query can specify
-   either multiple instances, multiple groups or multiple classes.
+   *  A switch to select the desired supply chain depth.  A CoSERV query
+      can request collected artifacts, source artifacts, or both.  This
+      switch is especially relevant when the CoSERV query is fulfilled
+      by an aggregator.  The collected artifacts are intended for
+      convenient consumption (according to the shallow trust model),
+      while the source artifacts are principally useful for auditing
+      (according to the deep trust model).  It is possible for a query
+      to select for source artifacts only, without the collected
+      artifacts.  This might happen when the consumer needs to inspect
+      or audit artifacts from across the deep supply chain, while not
+      requiring the convenience of the aggregated view.  It could also
+      happen when the consumer is acting as an intermediate broker,
+      gathering artifacts for delivery to another aggregator.  See
+      Section 2 for details on aggregation, auditing and trust models.
 
-2.3.  Result Sets
+3.5.  Result Sets
 
    The result set contains the artifacts that the producer collected in
    response to the query.  The top-level structure of the result set
@@ -240,11 +433,12 @@ Table of Contents
 
    *  A collection of one or more result entries.  This will be a
       collection of either reference values, endorsed values or trust
-      anchors.  In the future, it may be possible to support additional
-      artifact types via an extension mechanism.  Artifact types are
-      never mixed in any single CoSERV result set.  The artifacts in the
-      result collection therefore MUST match the single artifact type
-      specified in the original CoSERV query.
+      anchors.  See Section 3.2 for definitions of artifact types.  In
+      the future, it may be possible to support additional artifact
+      types via an extension mechanism.  Artifact types are never mixed
+      in any single CoSERV result set.  The artifacts in the result
+      collection therefore MUST match the single artifact type specified
+      in the original CoSERV query.
 
    *  A timestamp indicating the expiry time of the entire result set.
       Consumers MUST NOT consider any part of the result set to be valid
@@ -279,7 +473,7 @@ Table of Contents
    delegation chain, the entries are consequently known as quadruples
    (or "quads" for short).
 
-3.  CoSERV Data Model
+4.  CoSERV Data Model
 
    This section specifies the CBOR data model for CoSERV queries and
    result sets.
@@ -290,15 +484,17 @@ Table of Contents
 
    The top-level CoSERV data structure is given by the following CDDL:
 
+   ;# import comid-autogen
+
    coserv = {
      &(profile: 0) => profile
      &(query: 1) => query
      ? &(results: 2) => results
    }
 
-   profile = oid-type / ~uri
+   profile = comid.oid-type / ~uri
 
-3.1.  Common Data Types
+4.1.  Common Data Types
 
    CoSERV inherits the following types from the CoRIM data model class-
    map, $class-id-type-choice, $instance-id-type-choice and $group-id-
@@ -306,7 +502,7 @@ Table of Contents
 
    The collated CDDL is in Appendix A.
 
-3.2.  Profile
+4.2.  Profile
 
    In common with EAT and CoRIM, CoSERV supports the notion of profiles.
    As with EAT and CoRIM, profiles are a way to extend or specialize the
@@ -319,7 +515,7 @@ Table of Contents
    eat_profile claim as described in Section 4.3.2 of
    [I-D.ietf-rats-eat].
 
-3.3.  Query Structure
+4.3.  Query Structure
 
    The CoSERV query language enables Verifiers to specify the desired
    characteristics of Endorsements and Reference Values based on the
@@ -339,41 +535,21 @@ Table of Contents
                    / &(trust-anchors: 1)
                    / &(reference-values: 2)
 
-   result-type = &(collected-material: 0)
-                 / &(source-material: 1)
+   result-type = &(collected-artifacts: 0)
+                 / &(source-artifacts: 1)
                  / &(both: 2)
 
    The meanings of these fields are detailed in the following
    subsections.
 
-3.3.1.  Artifact Type
+4.3.1.  Artifact Type
 
    The artifact-type field is the foremost discriminator of the query.
    It is a top-level category selector.  Its three permissible values
    are trust-anchors (codepoint 1), endorsed-values (codepoint 0) and
-   reference-values (codepoint 2).  These correspond to the following
-   three categories of endorsement artifact that can be identified in
-   the RATS architecture:
+   reference-values (codepoint 2).
 
-   *  *Trust Anchor* (trust-anchors): A trust anchor is as defined in
-      [RFC6024].  An example of a trust anchor would be the public part
-      of the asymmetric signing key that is used by the Attester to sign
-      Evidence, such that the Verifier is able to verify the
-      cryptographic signature.
-
-   *  *Endorsed Value* (endorsed-values): An endorsed value is as
-      defined in Section 1.1.1 of [I-D.ietf-rats-corim].
-
-   *  *Reference Value* (reference-values): A reference value is as
-      defined in Section 1.1.1 of [I-D.ietf-rats-corim].  A reference
-      value specifies an individual aspect of the Attester's desired
-      state.  Reference values are sometimes informally called "golden
-      values".  An example of a reference value would be the expected
-      hash or checksum of a binary firmware or software image running in
-      the Attester's environment.  Evidence from the Attester would then
-      include claims about the Attester's actual state, which the
-      Verifier can then compare with the reference values at Evidence
-      appraisal time.
+   See Section 3.2 for full definitions of artifact types.
 
    It is expected that implementations might choose to store these
    different categories of artifacts in different top-level stores or
@@ -383,51 +559,51 @@ Table of Contents
    for the consumer, resulting in an efficiency gain by avoiding the
    transfer of unwanted data items.
 
-3.3.2.  Environment Selector
+4.3.2.  Environment Selector
 
    The environment selector forms the main body of the query, and its
    CDDL is given below:
 
+   ;# import comid-autogen
+
    environment-selector-map = { selector }
 
-   selector //= ( &(class: 0) => [ + class-map ] )
-   selector //= ( &(instance: 1) => [ + $instance-id-type-choice ] )
-   selector //= ( &(group: 2) => [ + $group-id-type-choice ] )
+   stateful-class = [
+     class: comid.class-map
+     ? measurements: [ + comid.measurement-map ]
+   ]
 
-   The environment defines the scope (or scopes) in which the
-   endorsement artifacts are applicable.  Given that the consumer of
-   these artifacts is likely to be a Verifier in the RATS model, the
-   typical interpretation of the environment would be that of an
-   Attester that either has produced evidence, or is expected to produce
-   evidence, that the Verifier needs to appraise.  The Verifier
-   consequently needs to query the Endorser or Reference Value Provider
-   for artifacts that are applicable in that environment.  There are
-   three mutually-exclusive methods for defining the environment within
-   a CoSERV query.  Exactly one of these three methods must be used for
-   the query to be valid.  All three methods correspond to environments
-   that are also defined within CoRIM.
+   selector //= ( &(class: 0) => [
+     + stateful-class
+   ] )
 
-   *  *Class*: A class is an environment that is expected to be common
-      to a group of similarly-constructed Attesters, who might therefore
-      share the same set of endorsed characteristics.  An example of
-      this might be a fleet of computing devices of the same model and
-      manufacturer.
+   stateful-instance = [
+     instance: comid.$instance-id-type-choice
+     ? measurements: [ + comid.measurement-map ]
+   ]
 
-   *  *Instance*: An instance is an environment that is unique to an
-      individual and identifiable Attester, such as a single computing
-      device or component.
+   selector //= ( &(instance: 1) => [
+     + stateful-instance
+   ] )
 
-   *  *Group*: A group is a collection of common Attester instances that
-      are collected together based on some defined semantics.  For
-      example, Attesters may be put into groups for the purpose of
-      anonymity.
+   stateful-group = [
+     group: comid.$group-id-type-choice
+     ? measurements: [ + comid.measurement-map ]
+   ]
+
+   selector //= ( &(group: 2) => [
+     + stateful-group
+   ] )
+
+   Environments can be specified according to instance, group or class.
+   See Section 3.3 for details.
 
    Although these three environment definitions are mutually-exclusive
    in a CoSERV query, all three support multiple entries.  This is to
-   gain efficiency by allowing the consumer (such as a Verifier) to
-   query for multiple artifacts in a single transaction.  For example,
-   where artifacts are being indexed by instance, it would be possible
-   to specify an arbitrary number of instances in a single query, and
+   gain efficiency by allowing the consumer (Verifier) to query for
+   multiple artifacts in a single transaction.  For example, where
+   artifacts are being indexed by instance, it would be possible to
+   specify an arbitrary number of instances in a single query, and
    therefore obtain the artifacts for all of them in a single
    transaction.  Likewise for classes and groups.  However, it would not
    be possible for a single query to specify more than one kind of
@@ -435,14 +611,69 @@ Table of Contents
    class-level and instance-level artifacts in a single CoSERV
    transaction.
 
-3.4.  Result Set Structure
+   All three environment selector types can optionally be enhanced with
+   one or more measurement-map entries, which are used to express
+   aspects of the environment state.  See Section 3.3.1 for a
+   description of stateful environments.
+
+4.3.2.1.  Selector Semantics
+
+   When multiple environment selectors are present in a single query,
+   such as multiple instances or multiple groups, the implementation of
+   the artifact producer MUST consider these to be alternatives, and
+   hence use a logical OR operation when applying the query to its
+   internal data stores.
+
+   Below is an illustrative example of how a CoSERV query for endorsed
+   values, selecting for multiple Attester instances, might be
+   transformed into a semantically-equivalent SQL database query:
+
+   SELECT *
+     FROM endorsed_values
+    WHERE ( instance-id = "At6tvu/erQ==" ) OR
+          ( instance-id = "iZl4ZVY=" )`
+
+   The same applies for class-based selectors; however, since class
+   selectors are themselves composed of multiple inner fields, the
+   implementation of the artifact producer MUST use a logical AND
+   operation in consideration of the inner fields for each class.
+
+   Also, for class-based selectors, any unset fields in the class are
+   assumed to be wildcard (*), and therefore match any value.
+
+   Below is an illustrative example of how a CoSERV query for reference
+   values, selecting for multiple Attester classes, might be transformed
+   into a semantically-equivalent SQL database query:
+
+   SELECT *
+     FROM reference_values
+    WHERE ( class-id = "iZl4ZVY=" AND class-vendor = "ACME Inc." ) OR
+          ( class-id = "31fb5abf-023e-4992-aa4e-95f9c1503bfa" )
+
+4.3.3.  Timestamp
+
+   The timestamp field records the date and time at which the query was
+   made, formatted according to Section 3.4.1 of [STD94].
+   Implementations SHOULD populate this field with the current date and
+   time when forming a CoSERV query.
+
+4.3.4.  Result Type
+
+   The result-type field selects for either collected-artifacts
+   (codepoint 0), source-artifacts (codepoint 1) or both (codepoint 2).
+   See Section 2 for definitions of source and collected artifacts.
+
+4.4.  Result Set Structure
 
    The result set structure is given by the following CDDL:
+
+   ;# import cmw-autogen
+   ;# import comid-autogen
 
    results = {
      result-set
      &(expiry: 10) => tdate ; RFC3339 date
-     ? &(source-material: 11) => [ + cmw-record ]
+     ? &(source-artifacts: 11) => [ + cmw.cbor-record ]
    }
 
    result-set //= reference-values
@@ -451,8 +682,8 @@ Table of Contents
    result-set //= $$result-set-extensions
 
    refval-quad = {
-     &(authorities: 1) => [ + $crypto-key-type-choice ]
-     &(rv-triple: 2) => reference-triple-record
+     &(authorities: 1) => [ + comid.$crypto-key-type-choice ]
+     &(rv-triple: 2) => comid.reference-triple-record
    }
 
    reference-values = (
@@ -460,13 +691,13 @@ Table of Contents
    )
 
    endval-quad = {
-     &(authorities: 1) => [ + $crypto-key-type-choice ]
-     &(ev-triple: 2) => endorsed-triple-record
+     &(authorities: 1) => [ + comid.$crypto-key-type-choice ]
+     &(ev-triple: 2) => comid.endorsed-triple-record
    }
 
    cond-endval-quad = {
-     &(authorities: 1) => [ + $crypto-key-type-choice ]
-     &(ce-triple: 2) => conditional-endorsement-triple-record
+     &(authorities: 1) => [ + comid.$crypto-key-type-choice ]
+     &(ce-triple: 2) => comid.conditional-endorsement-triple-record
    }
 
    endorsed-values = (
@@ -475,12 +706,12 @@ Table of Contents
    )
 
    ak-quad = {
-     &(authorities: 1) => [ + $crypto-key-type-choice ]
-     &(ak-triple: 2) => attest-key-triple-record
+     &(authorities: 1) => [ + comid.$crypto-key-type-choice ]
+     &(ak-triple: 2) => comid.attest-key-triple-record
    }
 
    cots-stmt = {
-     &(authorities: 1) => [ + $crypto-key-type-choice ]
+     &(authorities: 1) => [ + comid.$crypto-key-type-choice ]
      &(cots: 2) => cots
    }
 
@@ -493,12 +724,8 @@ Table of Contents
    ; import CoTS
    ;
    cots = "TODO COTS"
-   ;
-   ; import CMW
-   ;
-   cmw-record = "TODO CMW"
 
-3.5.  Encoding Requirements
+4.5.  Encoding Requirements
 
    Implementations may wish to use serialized CoSERV queries as
    canonical identifiers for artifact collections.  For example, a
@@ -510,7 +737,7 @@ Table of Contents
    deterministic encoding as specified in Section 4.2 of [STD94].
    Further, CoSERV queries MUST use CBOR definite-length encoding.
 
-3.6.  Cryptographic Binding Between Query and Result Set
+4.6.  Cryptographic Binding Between Query and Result Set
 
    CoSERV is designed to ensure that any result set passed from a
    producer to a consumer is precisely the result set that corresponds
@@ -518,7 +745,7 @@ Table of Contents
    original query is always included along with the result set in the
    data model.  However, this measure is only sufficient in cases where
    the conveyance protocol guarantees that CoSERV result sets are always
-   transacted over an end-to-end secure channel without any
+   transacted over a secure channel without any untrusted
    intermediaries.  Wherever this is not the case, producers MUST create
    an additional cryptographic binding between the query and the result.
    This is achieved by transacting the result set within a cryptographic
@@ -554,9 +781,9 @@ Table of Contents
    header parameters MAY be added to the header buckets, for example a
    kid that identifies the signing key.
 
-4.  Examples
+5.  Examples
 
-4.1.  Query Data Examples
+5.1.  Query Data Examples
 
    This section provides some illustrative examples of valid CoSERV
    query objects.
@@ -574,13 +801,13 @@ Table of Contents
      / query /   1: {
        / artifact-type /         0: 2, / reference-values /
        / environment-selector /  1: {
-         / class / 0: [
+         / class / 0: [ [
            {
              / class-id /  0: 560(h'00112233'),  / tagged-bytes /
              / vendor /    1: "Example Vendor",
              / model /     2: "Example Model"
            }
-         ]
+         ] ]
        },
        / timestamp /   2: 0("2030-12-01T18:30:01Z"),
        / result-type / 3: 1 / source-material /
@@ -597,15 +824,15 @@ Table of Contents
        / artifact-type /         0: 2, / reference-values /
        / environment-selector /  1: {
          / class / 0: [
-           {
+           [ {
              / class-id /  0: 560(h'8999786556'),  / tagged-bytes /
              / vendor /    1: "Example Vendor",
              / model /     2: "Example Model"
-           },
-           {
+           } ],
+           [ {
              / class-id /  0:
                37(h'31FB5ABF023E4992AA4E95F9C1503BFA')  / UUID /
-           }
+           } ]
          ]
        },
        / timestamp /   2: 0("2030-12-01T18:30:01Z"),
@@ -625,8 +852,8 @@ Table of Contents
        / artifact-type / 0: 2, / reference-values /
        / environment-selector /  1: {
          / instance / 1: [
-           550(h'02DEADBEEFDEAD'), / UEID /
-           560(h'8999786556')      / tagged-bytes /
+           [ 550(h'02DEADBEEFDEAD') ], / UEID /
+           [ 560(h'8999786556') ]      / tagged-bytes /
          ]
        },
        / timestamp /   2: 0("2030-12-01T18:30:01Z"),
@@ -634,7 +861,7 @@ Table of Contents
      }
    }
 
-4.2.  Result Data Examples
+5.2.  Result Data Examples
 
    This section provides some illustrative examples of valid CoSERV
    queries with their corresponding result sets.
@@ -647,28 +874,28 @@ Table of Contents
 
    The profile and query structures are the same as in the previous
    examples.  The result structure is a map with two entries: expiry
-   (codepoint 10) and reference-value triples (codepoint 0).  A single
-   reference-value triple is shown in this example.  Its environment-
-   map, as expected, is the same as the environment-map that was
-   supplied in the query.  The rest of the structure is the measurement-
-   map as defined in CoRIM [I-D.ietf-rats-corim].
+   (codepoint 10) and rvq (codepoint 0).  The rvq (reference value quad)
+   entry comprises the asserting authority and the asserted triples.  A
+   single reference-value triple is shown in this example.  Its
+   environment-map, as expected, is the same as the environment-map that
+   was supplied in the query.  The rest of the structure is the
+   measurement-map as defined in CoRIM [I-D.ietf-rats-corim].
 
    {
      / profile / 0: "tag:example.com,2025:cc-platform#1.0.0",
      / query / 1: {
        0: 2,
        1: {
-         0: [
+         0: [ [
            {
              0: 560(h'8999786556')
            }
-         ]
+         ] ]
        },
        2: 0("2030-12-01T18:30:01Z"),
        3: 0
      },
      / results / 2: {
-       10: 0("2030-12-13T18:30:02Z"),
        0: [
          {
            1: [ 560(h'abcdef') ],
@@ -692,11 +919,48 @@ Table of Contents
              ]
            ]
          }
+       ],
+       10: 0("2030-12-13T18:30:02Z")
+     }
+   }
+
+   The following example is for a query that requested the results be
+   provided in the "source artifacts" format.  This means one or more
+   original signed manifests containing information that satisfies the
+   query criteria.
+
+   Compared with the previous example, the rvq entry is empty, while the
+   source-artifacts (codepoint 11) contain two CMW records
+   [I-D.ietf-rats-msg-wrap], each of which contains a (made up) manifest
+   with the type "application/vnd.example.refvals".
+
+   {
+     / profile / 0: "tag:example.com,2025:cc-platform#1.0.0",
+     / query /   1: {
+       / artifact-type /         0: 2, / reference-values /
+       / environment-selector /  1: {
+         / class / 0: [ [
+           {
+             / class-id /  0: 560(h'00112233'),  / tagged-bytes /
+             / vendor /    1: "Example Vendor",
+             / model /     2: "Example Model"
+           }
+         ] ]
+       },
+       / timestamp /   2: 0("2030-12-01T18:30:01Z"),
+       / result-type / 3: 1 / source-artifacts /
+     },
+     / results / 2: {
+       / rvq / 0: [ ],
+       / expiry / 10: 0("2030-12-13T18:30:02Z"),
+       / source artifacts / 11: [
+         [ "application/vnd.example.refvals", h'afaeadac' ],
+         [ "application/vnd.example.refvals", h'adacabaa' ]
        ]
      }
    }
 
-5.  Implementation Status
+6.  Implementation Status
 
 
    // RFC Editor: please remove this section prior to publication.
@@ -721,7 +985,7 @@ Table of Contents
    It is up to the individual working groups to use this information as
    they see fit".
 
-5.1.  Veraison
+6.1.  Veraison
 
    Responsible Organisation: Veraison (open source project within the
    Confidential Computing Consortium).
@@ -746,7 +1010,7 @@ Table of Contents
 
    Contact: Thomas Fossati, Thomas.Fossati@linaro.org
 
-6.  Security Considerations
+7.  Security Considerations
 
    The CoSERV data type serves an auxiliary function in the RATS
    architecture.  It does not directly convey Evidence, Endorsements,
@@ -773,7 +1037,7 @@ Table of Contents
       entity that is interposed between the Verifier and the Endorser or
       Reference Value Provider.
 
-6.1.  Forming Native Database Queries from CoSERV
+7.1.  Forming Native Database Queries from CoSERV
 
    Implementations should take care when transforming CoSERV queries
    into native query types that are compatible with their underlying
@@ -783,7 +1047,7 @@ Table of Contents
    sanitization procedures are in place when performing such
    translations.
 
-7.  Privacy Considerations
+8.  Privacy Considerations
 
    A CoSERV query can potentially contain privacy-sensitive information.
    Specifically, the environment-selector field of the query may
@@ -800,13 +1064,13 @@ Table of Contents
    *  Collating Attester instances into anonymity groups, and
       referencing the groups rather than the individual instances.
 
-8.  IANA Considerations
+9.  IANA Considerations
 
 
    // RFC Editor: replace "RFCthis" with the RFC number assigned to this
    document.
 
-8.1.  Media Types Registrations
+9.1.  Media Types Registrations
 
    IANA is requested to add the following media types to the "Media
    Types" registry [IANA.media-types].
@@ -814,14 +1078,14 @@ Table of Contents
     +=============+=========================+========================+
     | Name        | Template                | Reference              |
     +=============+=========================+========================+
-    | coserv+cbor | application/coserv+cbor | Section 3 of RFCthis   |
+    | coserv+cbor | application/coserv+cbor | Section 4 of RFCthis   |
     +-------------+-------------------------+------------------------+
-    | coserv+cose | application/coserv+cose | Section 3.6 of RFCthis |
+    | coserv+cose | application/coserv+cose | Section 4.6 of RFCthis |
     +-------------+-------------------------+------------------------+
 
                        Table 1: CoSERV Media Types
 
-8.1.1.  application/coserv+cbor
+9.1.1.  application/coserv+cbor
 
    Type name:  application
    Subtype name:  coserv+cbor
@@ -829,7 +1093,7 @@ Table of Contents
    Optional parameters:  "profile" (CoSERV profile in string format.
       OIDs must use the dotted-decimal notation.)
    Encoding considerations:  binary (CBOR)
-   Security considerations:  Section 6 of RFCthis
+   Security considerations:  Section 7 of RFCthis
    Interoperability considerations:  n/a
    Published specification:  RFCthis
    Applications that use this media type:  Verifiers, Endorsers,
@@ -845,7 +1109,7 @@ Table of Contents
    Author/Change controller:  IETF
    Provisional registration:  no
 
-8.1.2.  application/coserv+cose
+9.1.2.  application/coserv+cose
 
    Type name:  application
    Subtype name:  coserv+cose
@@ -856,7 +1120,7 @@ Table of Contents
       type parameter is explicitly not supported, as it is understood to
       be "cose-sign1".
    Encoding considerations:  binary
-   Security considerations:  Section 6 of RFCthis
+   Security considerations:  Section 7 of RFCthis
    Interoperability considerations:  n/a
    Published specification:  RFCthis
    Applications that use this media type:  Verifiers, Endorsers,
@@ -869,7 +1133,7 @@ Table of Contents
    Author/Change controller:  IETF
    Provisional registration?  no
 
-8.2.  CoAP Content-Formats
+9.2.  CoAP Content-Formats
 
    IANA is requested to register the following Content-Format IDs in the
    "CoAP Content-Formats" registry, within the "Constrained RESTful
@@ -879,10 +1143,10 @@ Table of Contents
    +=========================+================+======+=============+
    | Content-Type            | Content Coding | ID   | Reference   |
    +=========================+================+======+=============+
-   | application/coserv+cbor | -              | TBD1 | Section 3   |
+   | application/coserv+cbor | -              | TBD1 | Section 4   |
    |                         |                |      | of RFCthis  |
    +-------------------------+----------------+------+-------------+
-   | application/coserv+cose | -              | TBD2 | Section 3.6 |
+   | application/coserv+cose | -              | TBD2 | Section 4.6 |
    |                         |                |      | of RFCthis  |
    +-------------------------+----------------+------+-------------+
 
@@ -890,16 +1154,23 @@ Table of Contents
 
    If possible, TBD1 and TBD2 should be assigned in the 256..9999 range.
 
-9.  References
+10.  References
 
-9.1.  Normative References
+10.1.  Normative References
 
    [I-D.ietf-rats-corim]
               Birkholz, H., Fossati, T., Deshpande, Y., Smith, N., and
               W. Pan, "Concise Reference Integrity Manifest", Work in
-              Progress, Internet-Draft, draft-ietf-rats-corim-07, 3
-              March 2025, <https://datatracker.ietf.org/doc/html/draft-
-              ietf-rats-corim-07>.
+              Progress, Internet-Draft, draft-ietf-rats-corim-08, 7 July
+              2025, <https://datatracker.ietf.org/doc/html/draft-ietf-
+              rats-corim-08>.
+
+   [I-D.ietf-rats-msg-wrap]
+              Birkholz, H., Smith, N., Fossati, T., Tschofenig, H., and
+              D. Glaze, "RATS Conceptual Messages Wrapper (CMW)", Work
+              in Progress, Internet-Draft, draft-ietf-rats-msg-wrap-16,
+              3 July 2025, <https://datatracker.ietf.org/doc/html/draft-
+              ietf-rats-msg-wrap-16>.
 
    [IANA.core-parameters]
               IANA, "Constrained RESTful Environments (CoRE)
@@ -945,7 +1216,7 @@ Table of Contents
               DOI 10.17487/RFC9052, August 2022,
               <https://www.rfc-editor.org/rfc/rfc9052>.
 
-9.2.  Informative References
+10.2.  Informative References
 
    [I-D.ietf-rats-eat]
               Lundblade, L., Mandyam, G., O'Donoghue, J., and C.
@@ -986,19 +1257,46 @@ Table of Contents
 
 Appendix A.  Collated CoSERV CDDL
 
+   ;# import comid-autogen
+
    coserv = {
      &(profile: 0) => profile
      &(query: 1) => query
      ? &(results: 2) => results
    }
 
-   profile = oid-type / ~uri
+   profile = comid.oid-type / ~uri
+
+   ;# import comid-autogen
 
    environment-selector-map = { selector }
 
-   selector //= ( &(class: 0) => [ + class-map ] )
-   selector //= ( &(instance: 1) => [ + $instance-id-type-choice ] )
-   selector //= ( &(group: 2) => [ + $group-id-type-choice ] )
+   stateful-class = [
+     class: comid.class-map
+     ? measurements: [ + comid.measurement-map ]
+   ]
+
+   selector //= ( &(class: 0) => [
+     + stateful-class
+   ] )
+
+   stateful-instance = [
+     instance: comid.$instance-id-type-choice
+     ? measurements: [ + comid.measurement-map ]
+   ]
+
+   selector //= ( &(instance: 1) => [
+     + stateful-instance
+   ] )
+
+   stateful-group = [
+     group: comid.$group-id-type-choice
+     ? measurements: [ + comid.measurement-map ]
+   ]
+
+   selector //= ( &(group: 2) => [
+     + stateful-group
+   ] )
 
    concise-mid-tag = {
      ? &(language: 0) => text
@@ -1589,3 +1887,13 @@ Authors' Addresses
    Thomas Fossati
    Linaro
    Email: Thomas.Fossati@linaro.org
+
+
+   Henk Birkholz
+   Fraunhofer SIT
+   Email: henk.birkholz@ietf.contact
+
+
+   Shefali Kamal
+   Fujitsu
+   Email: Shefali.Kamal@fujitsu.com
