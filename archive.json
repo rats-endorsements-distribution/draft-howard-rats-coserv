@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-07-06T00:54:17.691370+00:00",
+  "timestamp": "2025-07-13T00:56:00.285087+00:00",
   "repo": "rats-endorsements-distribution/draft-howard-rats-coserv",
   "labels": [
     {
@@ -411,7 +411,7 @@
       "id": "I_kwDOOAZd1M63OVDf",
       "title": "add CMW CDDL",
       "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/issues/33",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "thomas-fossati",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -420,9 +420,17 @@
       "labels": [],
       "body": "Currently, in the CDDL, `cmw-record` is just a stub.\n\nWe need to add \u201cthe real thing.\u201d",
       "createdAt": "2025-05-19T14:09:38Z",
-      "updatedAt": "2025-05-19T14:09:41Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2025-07-11T08:35:39Z",
+      "closedAt": "2025-07-11T08:35:38Z",
+      "comments": [
+        {
+          "author": "thomas-fossati",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Fixed in #46 ",
+          "createdAt": "2025-07-11T08:35:38Z",
+          "updatedAt": "2025-07-11T08:35:38Z"
+        }
+      ]
     },
     {
       "number": 35,
@@ -450,6 +458,40 @@
           "updatedAt": "2025-07-04T09:05:07Z"
         }
       ]
+    },
+    {
+      "number": 49,
+      "id": "I_kwDOOAZd1M7ADGDa",
+      "title": "Using simple grouping in the stateful environment description complicates the implementation",
+      "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/issues/49",
+      "state": "OPEN",
+      "author": "thomas-fossati",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "thomas-fossati"
+      ],
+      "labels": [],
+      "body": "While working on the implementation, I realised we could make it a lot simpler if we used arrays to wrap the stateful class/instance/group rather than pure grouping.\nThat's not backwards compatible with -02, but we didn't make any promises in that sense, so I think it's entirely appropriate to slightly change the wire format.\nCDDL-wise, it\u2019s the same, the implementation is much easier though: casing the stateful stuff in an array simplifies encoding and decoding because each logical entry is dealt with in one go rather than doing two passes:\n1. Decode the outer array, leaving the array elements undecoded\n2. Iterate through the undecoded array elements, check CBOR type (since the measurements are optional, you can't just say that the odd entries are the measurements) and dispatch to the right item decoder ",
+      "createdAt": "2025-07-11T08:25:13Z",
+      "updatedAt": "2025-07-11T08:25:15Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 50,
+      "id": "I_kwDOOAZd1M7ADUmv",
+      "title": "Missing semantic mapping for stateful selector including measurements",
+      "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/issues/50",
+      "state": "OPEN",
+      "author": "thomas-fossati",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "In \u00a74.3.2.1 (Selector Semantics), we probably want to add an example that shows how a complete stateful environment (including measurements) is mapped into the query syntax.",
+      "createdAt": "2025-07-11T08:43:28Z",
+      "updatedAt": "2025-07-11T08:43:28Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
@@ -2145,6 +2187,46 @@
           "body": "Fantastic to see Fujitsu joining this effort. Welcome!",
           "createdAt": "2025-07-04T14:29:06Z",
           "updatedAt": "2025-07-04T14:29:06Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 48,
+      "id": "PR_kwDOOAZd1M6ecthW",
+      "title": "Use arrays rather than groups to wrap the stateful selectors",
+      "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/pull/48",
+      "state": "OPEN",
+      "author": "thomas-fossati",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "The motivation behind this change is to make implementation simpler.\r\n\r\nFix #49",
+      "createdAt": "2025-07-11T08:19:54Z",
+      "updatedAt": "2025-07-11T13:59:11Z",
+      "baseRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
+      "baseRefName": "main",
+      "baseRefOid": "739a0c75793ff3de759a5765bf6887c34fe70efb",
+      "headRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
+      "headRefName": "stateful-adjustments",
+      "headRefOid": "48ed2233b19f47ec9e2abad49f2673aafc740f19",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOOAZd1M6zXeie",
+          "commit": {
+            "abbreviatedOid": "5120f55"
+          },
+          "author": "paulhowardarm",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Looks good. Agree this makes implementation simpler. Many thanks.",
+          "createdAt": "2025-07-11T08:35:47Z",
+          "updatedAt": "2025-07-11T08:35:47Z",
           "comments": []
         }
       ]
