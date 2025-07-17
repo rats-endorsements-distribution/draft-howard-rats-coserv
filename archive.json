@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-07-13T00:56:00.285087+00:00",
+  "timestamp": "2025-07-17T00:51:46.732219+00:00",
   "repo": "rats-endorsements-distribution/draft-howard-rats-coserv",
   "labels": [
     {
@@ -490,6 +490,22 @@
       "body": "In \u00a74.3.2.1 (Selector Semantics), we probably want to add an example that shows how a complete stateful environment (including measurements) is mapped into the query syntax.",
       "createdAt": "2025-07-11T08:43:28Z",
       "updatedAt": "2025-07-11T08:43:28Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 51,
+      "id": "I_kwDOOAZd1M7A7lH8",
+      "title": "Add section on API binding, starting with HTTP",
+      "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/issues/51",
+      "state": "OPEN",
+      "author": "paulhowardarm",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "CoSERV is payload-only, and is agnostic of transport or API definition. However, if we aspire to create industry standards for endorsement distribution, then we need to prescribe some endpoint behaviours as well, so that services can be built to a common API specification and support standard interactions.\n\nSuch API definitions _could_ be written as companion drafts, but this creates a profusion of documents. In the case of CoSERV, most of the semantics are in the payload, and the API is consequently very minimal: just a single method to execute a query and return the result. Companion drafts seem overkill for this purpose. The more pragmatic approach would be to have API behaviours described in a new section of the CoSERV draft itself.\n\nThis request is to add:\n\n- A new top-level section called \"API Bindings\" or similar\n- An initial sub-section of the new top-level section, which details the binding to HTTP, using the [PoC implementation in the Veraison project](https://github.com/veraison/services/tree/coserv) as the source of truth\n- An appendix containing an [OpenAPI](https://swagger.io/specification/) document for the HTTP API, which can be referenced from the sub-section\n\nFuture sub-sections could then be added for CoAP or other bindings.\n",
+      "createdAt": "2025-07-16T17:55:40Z",
+      "updatedAt": "2025-07-16T17:55:40Z",
       "closedAt": null,
       "comments": []
     }
