@@ -2,14 +2,29 @@
 
 environment-selector-map = { selector }
 
+stateful-class = [
+  class: comid.class-map
+  ? measurements: [ + comid.measurement-map ]
+]
+
 selector //= ( &(class: 0) => [
-  + ( comid.class-map, ? [ + comid.measurement-map ] )
+  + stateful-class
 ] )
+
+stateful-instance = [
+  instance: comid.$instance-id-type-choice
+  ? measurements: [ + comid.measurement-map ]
+]
 
 selector //= ( &(instance: 1) => [
-  + ( comid.$instance-id-type-choice, ? [ + comid.measurement-map ] )
+  + stateful-instance
 ] )
 
+stateful-group = [
+  group: comid.$group-id-type-choice
+  ? measurements: [ + comid.measurement-map ]
+]
+
 selector //= ( &(group: 2) => [
-  + ( comid.$group-id-type-choice, ? [ + comid.measurement-map ] )
+  + stateful-group
 ] )

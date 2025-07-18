@@ -4,8 +4,8 @@
     / artifact-type / 0: 2, / reference-values /
     / environment-selector /  1: {
       / instance / 1: [
-        550(h'02DEADBEEFDEAD'), / UEID /
-        560(h'8999786556')      / tagged-bytes /
+        [ 550(h'02DEADBEEFDEAD') ], / UEID /
+        [ 560(h'8999786556') ]      / tagged-bytes /
       ]
     },
     / timestamp /   2: 0("2030-12-01T18:30:01Z"),
