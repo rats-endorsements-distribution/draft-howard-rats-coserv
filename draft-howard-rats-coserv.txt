@@ -5,12 +5,12 @@
 Remote ATtestation ProcedureS                                  P. Howard
 Internet-Draft                                                       Arm
 Intended status: Informational                                T. Fossati
-Expires: 5 January 2026                                           Linaro
+Expires: 19 January 2026                                          Linaro
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                                 S. Kamal
                                                                  Fujitsu
-                                                             4 July 2025
+                                                            18 July 2025
 
 
          Concise Selector for Endorsements and Reference Values
@@ -61,7 +61,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 5 January 2026.
+   This Internet-Draft will expire on 19 January 2026.
 
 Copyright Notice
 
@@ -568,16 +568,31 @@ Table of Contents
 
    environment-selector-map = { selector }
 
+   stateful-class = [
+     class: comid.class-map
+     ? measurements: [ + comid.measurement-map ]
+   ]
+
    selector //= ( &(class: 0) => [
-     + ( comid.class-map, ? [ + comid.measurement-map ] )
+     + stateful-class
    ] )
+
+   stateful-instance = [
+     instance: comid.$instance-id-type-choice
+     ? measurements: [ + comid.measurement-map ]
+   ]
 
    selector //= ( &(instance: 1) => [
-     + ( comid.$instance-id-type-choice, ? [ + comid.measurement-map ] )
+     + stateful-instance
    ] )
 
+   stateful-group = [
+     group: comid.$group-id-type-choice
+     ? measurements: [ + comid.measurement-map ]
+   ]
+
    selector //= ( &(group: 2) => [
-     + ( comid.$group-id-type-choice, ? [ + comid.measurement-map ] )
+     + stateful-group
    ] )
 
    Environments can be specified according to instance, group or class.
@@ -786,13 +801,13 @@ Table of Contents
      / query /   1: {
        / artifact-type /         0: 2, / reference-values /
        / environment-selector /  1: {
-         / class / 0: [
+         / class / 0: [ [
            {
              / class-id /  0: 560(h'00112233'),  / tagged-bytes /
              / vendor /    1: "Example Vendor",
              / model /     2: "Example Model"
            }
-         ]
+         ] ]
        },
        / timestamp /   2: 0("2030-12-01T18:30:01Z"),
        / result-type / 3: 1 / source-material /
@@ -809,15 +824,15 @@ Table of Contents
        / artifact-type /         0: 2, / reference-values /
        / environment-selector /  1: {
          / class / 0: [
-           {
+           [ {
              / class-id /  0: 560(h'8999786556'),  / tagged-bytes /
              / vendor /    1: "Example Vendor",
              / model /     2: "Example Model"
-           },
-           {
+           } ],
+           [ {
              / class-id /  0:
                37(h'31FB5ABF023E4992AA4E95F9C1503BFA')  / UUID /
-           }
+           } ]
          ]
        },
        / timestamp /   2: 0("2030-12-01T18:30:01Z"),
@@ -837,8 +852,8 @@ Table of Contents
        / artifact-type / 0: 2, / reference-values /
        / environment-selector /  1: {
          / instance / 1: [
-           550(h'02DEADBEEFDEAD'), / UEID /
-           560(h'8999786556')      / tagged-bytes /
+           [ 550(h'02DEADBEEFDEAD') ], / UEID /
+           [ 560(h'8999786556') ]      / tagged-bytes /
          ]
        },
        / timestamp /   2: 0("2030-12-01T18:30:01Z"),
@@ -871,11 +886,11 @@ Table of Contents
      / query / 1: {
        0: 2,
        1: {
-         0: [
+         0: [ [
            {
              0: 560(h'8999786556')
            }
-         ]
+         ] ]
        },
        2: 0("2030-12-01T18:30:01Z"),
        3: 0
@@ -924,13 +939,13 @@ Table of Contents
      / query /   1: {
        / artifact-type /         0: 2, / reference-values /
        / environment-selector /  1: {
-         / class / 0: [
+         / class / 0: [ [
            {
              / class-id /  0: 560(h'00112233'),  / tagged-bytes /
              / vendor /    1: "Example Vendor",
              / model /     2: "Example Model"
            }
-         ]
+         ] ]
        },
        / timestamp /   2: 0("2030-12-01T18:30:01Z"),
        / result-type / 3: 1 / source-artifacts /
@@ -1146,9 +1161,9 @@ Table of Contents
    [I-D.ietf-rats-corim]
               Birkholz, H., Fossati, T., Deshpande, Y., Smith, N., and
               W. Pan, "Concise Reference Integrity Manifest", Work in
-              Progress, Internet-Draft, draft-ietf-rats-corim-07, 3
-              March 2025, <https://datatracker.ietf.org/doc/html/draft-
-              ietf-rats-corim-07>.
+              Progress, Internet-Draft, draft-ietf-rats-corim-08, 7 July
+              2025, <https://datatracker.ietf.org/doc/html/draft-ietf-
+              rats-corim-08>.
 
    [I-D.ietf-rats-msg-wrap]
               Birkholz, H., Smith, N., Fossati, T., Tschofenig, H., and
@@ -1256,16 +1271,31 @@ Appendix A.  Collated CoSERV CDDL
 
    environment-selector-map = { selector }
 
+   stateful-class = [
+     class: comid.class-map
+     ? measurements: [ + comid.measurement-map ]
+   ]
+
    selector //= ( &(class: 0) => [
-     + ( comid.class-map, ? [ + comid.measurement-map ] )
+     + stateful-class
    ] )
+
+   stateful-instance = [
+     instance: comid.$instance-id-type-choice
+     ? measurements: [ + comid.measurement-map ]
+   ]
 
    selector //= ( &(instance: 1) => [
-     + ( comid.$instance-id-type-choice, ? [ + comid.measurement-map ] )
+     + stateful-instance
    ] )
 
+   stateful-group = [
+     group: comid.$group-id-type-choice
+     ? measurements: [ + comid.measurement-map ]
+   ]
+
    selector //= ( &(group: 2) => [
-     + ( comid.$group-id-type-choice, ? [ + comid.measurement-map ] )
+     + stateful-group
    ] )
 
    concise-mid-tag = {
