@@ -1875,7 +1875,7 @@ Appendix A.  Collated CoSERV CDDL
 
 Acknowledgments
 
-   The participants to the "Staircase meeting" at FOSDEM 25:
+   The participants in the "Staircase meeting" at FOSDEM '25:
 
  @@@@#=+++==+=+++++==+++++++++=========-========================-=======
  @@@@@@@@#+*++++=+++****#########+====================================-=
