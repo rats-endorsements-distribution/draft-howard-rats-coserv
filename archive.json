@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-07-17T00:51:46.732219+00:00",
+  "timestamp": "2025-07-20T00:57:00.991312+00:00",
   "repo": "rats-endorsements-distribution/draft-howard-rats-coserv",
   "labels": [
     {
@@ -62,7 +62,7 @@
       "labels": [],
       "body": "Hi, I am excited to see this standard work on \"How to identify reference value\" as a confidential computing developer. I have some questions about this\n\n1. This standard specifies how to calibrate reference values. Do we have plans to standardize the reference value return format or the protocol interaction process being queried? The context is that different hardware architectures currently do not have a unified reference value query API, and the APIs for distributing reference values \u200b\u200bin the software ecosystem are also different. If we standardized this process, it would benefit the confidential computing ecosystem.\n\n2. In the Query Structure of the reference value query, is it necessary to add the \"time\" optional parameter, which means the reference value that meets other conditions as of a certain time.\n\nThanks!",
       "createdAt": "2025-03-20T09:15:11Z",
-      "updatedAt": "2025-05-13T09:36:29Z",
+      "updatedAt": "2025-07-17T12:38:09Z",
       "closedAt": null,
       "comments": [
         {
@@ -78,6 +78,27 @@
           "body": "> For question [2], this isn't something I had considered. What would be the expected use case for this? It's certainly expected that RV sets might change over time (due to such things as firmware image upgrade, for instance). But I would expect that latest/current values are the most useful thing to a consumer at any given point.\n\nQuick note: in #20 we added an \u201cexpiration date\u201d field to the result set.  The idea is that the endorsement distributor sets this field based on some local knowledge (e.g., configuration, CoRIM's notAfter, signing certificate\u2019s notAfter, etc.).\nIn the context of a full-blown API, this needs to be syncrhonised with any cache-control signals (e.g., HTTP and CoAP).",
           "createdAt": "2025-05-13T09:36:28Z",
           "updatedAt": "2025-05-13T09:36:28Z"
+        },
+        {
+          "author": "paulhowardarm",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> For your question [1], the intention of this draft is deliberately only scoped to the query language, not the output format.\n\nJust quoting my own comment above. But I need to update on this, because it's no longer true. This was the original intention, but we pivoted on this when we realised that queries and result sets needed to be crypto-bound together in some cases. In the end, we decided to fully define the output format as well, essentially by using a thin wrapper around CoRIM's data model. This means that the design is now somewhat more constrained. But this should have the effect of making CoSERV more useful as a standard, because there will be less inherent variability in what the consumers receive in response to a query. There is still space in the design for carrying non-CoRIM artifacts as CMWs with media type labels.\n\nSee also issue [#51](https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/issues/51), which will enhance the CoSERV draft to define standard API interaction patterns as well, such as how to transact CoSERV queries over HTTP. This will allow all CoSERV-enabled distributor endpoints to behave according to a common spec, so that a single client library could be developed to talk to all of them.",
+          "createdAt": "2025-07-17T07:00:06Z",
+          "updatedAt": "2025-07-17T07:00:06Z"
+        },
+        {
+          "author": "Xynnn007",
+          "authorAssociation": "NONE",
+          "body": "Another observation is that the reference value providers can include the hardware vendors, but also software delivers (a simple case is a github action which will build the artefact running inside TEE and to be measured)\n\nThe latter case is somehow easier to implement.",
+          "createdAt": "2025-07-17T07:06:52Z",
+          "updatedAt": "2025-07-17T07:06:52Z"
+        },
+        {
+          "author": "paulhowardarm",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Our aim is for CoSERV to be applicable across the entire supply chain: hardware, firmware, software. We also support aggregation models, whereby an intelligent service could construct a whole body of endorsement/RV artifacts by combining pieces from different contributing parts of the supply chain, creating a readily-packaged bundle that could be used to appraise an entire system.",
+          "createdAt": "2025-07-17T12:38:09Z",
+          "updatedAt": "2025-07-17T12:38:09Z"
         }
       ]
     },
@@ -464,7 +485,7 @@
       "id": "I_kwDOOAZd1M7ADGDa",
       "title": "Using simple grouping in the stateful environment description complicates the implementation",
       "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/issues/49",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "thomas-fossati",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -473,8 +494,8 @@
       "labels": [],
       "body": "While working on the implementation, I realised we could make it a lot simpler if we used arrays to wrap the stateful class/instance/group rather than pure grouping.\nThat's not backwards compatible with -02, but we didn't make any promises in that sense, so I think it's entirely appropriate to slightly change the wire format.\nCDDL-wise, it\u2019s the same, the implementation is much easier though: casing the stateful stuff in an array simplifies encoding and decoding because each logical entry is dealt with in one go rather than doing two passes:\n1. Decode the outer array, leaving the array elements undecoded\n2. Iterate through the undecoded array elements, check CBOR type (since the measurements are optional, you can't just say that the odd entries are the measurements) and dispatch to the right item decoder ",
       "createdAt": "2025-07-11T08:25:13Z",
-      "updatedAt": "2025-07-11T08:25:15Z",
-      "closedAt": null,
+      "updatedAt": "2025-07-18T06:37:47Z",
+      "closedAt": "2025-07-18T06:37:47Z",
       "comments": []
     },
     {
@@ -506,6 +527,22 @@
       "body": "CoSERV is payload-only, and is agnostic of transport or API definition. However, if we aspire to create industry standards for endorsement distribution, then we need to prescribe some endpoint behaviours as well, so that services can be built to a common API specification and support standard interactions.\n\nSuch API definitions _could_ be written as companion drafts, but this creates a profusion of documents. In the case of CoSERV, most of the semantics are in the payload, and the API is consequently very minimal: just a single method to execute a query and return the result. Companion drafts seem overkill for this purpose. The more pragmatic approach would be to have API behaviours described in a new section of the CoSERV draft itself.\n\nThis request is to add:\n\n- A new top-level section called \"API Bindings\" or similar\n- An initial sub-section of the new top-level section, which details the binding to HTTP, using the [PoC implementation in the Veraison project](https://github.com/veraison/services/tree/coserv) as the source of truth\n- An appendix containing an [OpenAPI](https://swagger.io/specification/) document for the HTTP API, which can be referenced from the sub-section\n\nFuture sub-sections could then be added for CoAP or other bindings.\n",
       "createdAt": "2025-07-16T17:55:40Z",
       "updatedAt": "2025-07-16T17:55:40Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 52,
+      "id": "I_kwDOOAZd1M7BBvgZ",
+      "title": "Add example of a \u201cstateful\u201d query",
+      "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/issues/52",
+      "state": "OPEN",
+      "author": "thomas-fossati",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Since #44, the ability to query using a stateful environment has been a CoSERV feature.\n\nThe examples section may benefit from a practical illustration of the concept.\n\n(Noting that this could build on the `rv-class-stateful.diag` test vector introduced in #48.)",
+      "createdAt": "2025-07-17T07:27:39Z",
+      "updatedAt": "2025-07-17T07:27:39Z",
       "closedAt": null,
       "comments": []
     }
@@ -2212,25 +2249,35 @@
       "id": "PR_kwDOOAZd1M6ecthW",
       "title": "Use arrays rather than groups to wrap the stateful selectors",
       "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/pull/48",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "thomas-fossati",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "The motivation behind this change is to make implementation simpler.\r\n\r\nFix #49",
       "createdAt": "2025-07-11T08:19:54Z",
-      "updatedAt": "2025-07-11T13:59:11Z",
+      "updatedAt": "2025-07-18T06:37:46Z",
       "baseRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
       "baseRefName": "main",
       "baseRefOid": "739a0c75793ff3de759a5765bf6887c34fe70efb",
       "headRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
       "headRefName": "stateful-adjustments",
       "headRefOid": "48ed2233b19f47ec9e2abad49f2673aafc740f19",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
-      "comments": [],
+      "closedAt": "2025-07-18T06:37:46Z",
+      "mergedAt": "2025-07-18T06:37:46Z",
+      "mergedBy": "thomas-fossati",
+      "mergeCommit": {
+        "oid": "d4d6dacad21ba62330e3085cd58800cfb53e0ca2"
+      },
+      "comments": [
+        {
+          "author": "thomas-fossati",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@shefali-kamal @henkbirkholz: If you don\u2019t have any more comments, we\u2019d like to merge this soon.",
+          "createdAt": "2025-07-17T07:20:42Z",
+          "updatedAt": "2025-07-17T07:20:42Z"
+        }
+      ],
       "reviews": [
         {
           "id": "PRR_kwDOOAZd1M6zXeie",
@@ -2243,6 +2290,19 @@
           "body": "Looks good. Agree this makes implementation simpler. Many thanks.",
           "createdAt": "2025-07-11T08:35:47Z",
           "updatedAt": "2025-07-11T08:35:47Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOOAZd1M60tjoc",
+          "commit": {
+            "abbreviatedOid": "48ed223"
+          },
+          "author": "shefalikamal",
+          "authorAssociation": "NONE",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2025-07-18T05:16:45Z",
+          "updatedAt": "2025-07-18T05:16:45Z",
           "comments": []
         }
       ]
