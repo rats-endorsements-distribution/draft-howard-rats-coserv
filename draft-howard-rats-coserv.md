@@ -672,7 +672,7 @@ If possible, TBD1 and TBD2 should be assigned in the 256..9999 range.
 # Acknowledgments
 {:numbered="false"}
 
-The participants to the "Staircase meeting" at FOSDEM 25:
+The participants in the "Staircase meeting" at FOSDEM '25:
 
 ~~~
 @@@@#=+++==+=+++++==+++++++++=========-========================-=======
