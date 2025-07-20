@@ -747,6 +747,6 @@ The participants to the "Staircase meeting" at FOSDEM 25:
 ++++++++====++@#%#===================================  Dionna Glaze ===
 ~~~
 
-For mysterious reasons Henk Birkholz and Jag Raman are not in the frame, but they were there with us!
+Henk Birkholz and Jag Raman are puppeteering in the shadows.
 
 [^rfced]: RFC Editor:
