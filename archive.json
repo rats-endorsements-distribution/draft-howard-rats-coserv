@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-07-20T00:57:00.991312+00:00",
+  "timestamp": "2025-07-22T00:51:38.379202+00:00",
   "repo": "rats-endorsements-distribution/draft-howard-rats-coserv",
   "labels": [
     {
@@ -2303,6 +2303,119 @@
           "body": "",
           "createdAt": "2025-07-18T05:16:45Z",
           "updatedAt": "2025-07-18T05:16:45Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 53,
+      "id": "PR_kwDOOAZd1M6fvCYI",
+      "title": "ascii art acknowledgements",
+      "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/pull/53",
+      "state": "OPEN",
+      "author": "thomas-fossati",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "IETF 123 hackathon side-project",
+      "createdAt": "2025-07-20T13:28:17Z",
+      "updatedAt": "2025-07-20T13:44:53Z",
+      "baseRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
+      "baseRefName": "main",
+      "baseRefOid": "d4d6dacad21ba62330e3085cd58800cfb53e0ca2",
+      "headRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
+      "headRefName": "visual-acks",
+      "headRefOid": "dd611a63ef6417d55e26482de246144352defbd0",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOOAZd1M609fhg",
+          "commit": {
+            "abbreviatedOid": "b684d2b"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-07-20T13:31:18Z",
+          "updatedAt": "2025-07-20T13:31:18Z",
+          "comments": [
+            {
+              "originalPosition": 80,
+              "body": "```suggestion\r\nHenk Birkholz and Jag Raman are puppeteering in the shadows.\r\n```",
+              "createdAt": "2025-07-20T13:31:18Z",
+              "updatedAt": "2025-07-20T13:31:40Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOOAZd1M609gE_",
+          "commit": {
+            "abbreviatedOid": "2be70a8"
+          },
+          "author": "paulhowardarm",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-07-20T13:39:23Z",
+          "updatedAt": "2025-07-20T13:39:24Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "This should be \"in\" or \"at\" or \"of\" rather than \"to\".",
+              "createdAt": "2025-07-20T13:39:23Z",
+              "updatedAt": "2025-07-20T13:39:24Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOOAZd1M609gVh",
+          "commit": {
+            "abbreviatedOid": "dd611a6"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "lgtm now",
+          "createdAt": "2025-07-20T13:43:13Z",
+          "updatedAt": "2025-07-20T13:43:13Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOOAZd1M609gYf",
+          "commit": {
+            "abbreviatedOid": "2be70a8"
+          },
+          "author": "thomas-fossati",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-07-20T13:43:56Z",
+          "updatedAt": "2025-07-20T13:43:56Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "Fixed in [dd611a6](https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/pull/53/commits/dd611a63ef6417d55e26482de246144352defbd0), thanks!",
+              "createdAt": "2025-07-20T13:43:56Z",
+              "updatedAt": "2025-07-20T13:43:56Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOOAZd1M609gcw",
+          "commit": {
+            "abbreviatedOid": "dd611a6"
+          },
+          "author": "paulhowardarm",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Fantastic - a very lovely and quirky way to present the acknowledgements. Great hackathon side-project.",
+          "createdAt": "2025-07-20T13:44:53Z",
+          "updatedAt": "2025-07-20T13:44:53Z",
           "comments": []
         }
       ]
