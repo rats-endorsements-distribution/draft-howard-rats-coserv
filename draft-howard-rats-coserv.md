@@ -474,9 +474,42 @@ Compared with the previous example, the `rvq` entry is empty, while the `source-
 {::include-fold cddl/examples/rv-class-simple-results-source-artifacts.diag}
 ~~~
 
-# API
+# API Bindings {#secapibindings}
 
 ## Request Response over HTTP {#secrrapi}
+
+### Discovery {#secrrapidisco}
+
+* body text
+* request and response example
+* CDDL model for the discovery payload (+ media type)
+
+### Execute Query {#secrrapiquery}
+
+* body text
+
+#### Responses
+
+##### Successful Transaction (200)
+
+* example request
+* example response
+
+##### Failure to Validate Query (400)
+
+* example request
+* example response
+
+##### Failure to Negotiate Profile (406)
+
+* example request
+* example response
+
+#### Caching {#secrrapicaching}
+
+* body text
+* example request
+* example response
 
 ~~~ http-message
 # NOTE: '\' line wrapping per RFC 8792
@@ -486,8 +519,6 @@ Host: coserv.example
 Accept: application/coserv+cbor; \
         profile="tag:example.com,2025:cc-platform#1.0.0"
 Content-Type: application/coserv+cbor
-
-[ CBOR-encoded CoSERV profile="tag:example.com,2025:cc-platform#1.0.0" ]
 ~~~
 {: #fig-rest-req title="Request CoSERV"}
 
