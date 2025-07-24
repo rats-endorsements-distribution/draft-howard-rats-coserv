@@ -1,0 +1,2 @@
+openapi-spec-validator >= 0.7.2
+rfc-http-validate >= 0.3.4

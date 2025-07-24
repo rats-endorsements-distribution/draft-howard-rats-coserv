@@ -1,0 +1,27 @@
+openapi: '3.0.0'
+
+info:
+  title: RR HTTP API
+  description: Request-Response API over HTTP
+  version: '1.0.0alpha'
+paths:
+  /coserv/{query}:
+    get:
+      summary: Query the CoSERV endpoint.
+      parameters:
+        - in: path
+          name: query
+          schema:
+            type: string
+            format: base64url
+          required: true
+          description: base64url-encoded CoSERV query
+      responses:
+        '200':
+          description: >
+            A CoSERV result set has been successfully computed.
+          content:
+            application/coserv+cbor:
+              schema:
+                type: string
+                format: binary

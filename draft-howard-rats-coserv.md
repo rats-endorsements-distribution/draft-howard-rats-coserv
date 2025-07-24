@@ -474,6 +474,23 @@ Compared with the previous example, the `rvq` entry is empty, while the `source-
 {::include-fold cddl/examples/rv-class-simple-results-source-artifacts.diag}
 ~~~
 
+# API
+
+## Request Response over HTTP {#secrrapi}
+
+~~~ http-message
+# NOTE: '\' line wrapping per RFC 8792
+
+GET coserv/ogB4I3RhZ... HTTP/1.1
+Host: coserv.example
+Accept: application/coserv+cbor; \
+        profile="tag:example.com,2025:cc-platform#1.0.0"
+Content-Type: application/coserv+cbor
+
+[ CBOR-encoded CoSERV profile="tag:example.com,2025:cc-platform#1.0.0" ]
+~~~
+{: #fig-rest-req title="Request CoSERV"}
+
 # Implementation Status
 [^rfced] please remove this section prior to publication.
 
@@ -667,6 +684,15 @@ If possible, TBD1 and TBD2 should be assigned in the 256..9999 range.
 {::include-fold cddl/environment-selector.cddl}
 
 {::include-fold cddl/comid-autogen.cddl}
+~~~
+
+# OpenAPI Schema
+{: #openapi-schema}
+
+The OpenAPI schema for the request/response HTTP API described in {{secrrapi}} is provided below.
+
+~~~
+{::include openapi/rr.yaml}
 ~~~
 
 # Acknowledgments
