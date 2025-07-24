@@ -5,12 +5,12 @@
 Remote ATtestation ProcedureS                                  P. Howard
 Internet-Draft                                                       Arm
 Intended status: Informational                                T. Fossati
-Expires: 19 January 2026                                          Linaro
+Expires: 25 January 2026                                          Linaro
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                                 S. Kamal
                                                                  Fujitsu
-                                                            18 July 2025
+                                                            24 July 2025
 
 
          Concise Selector for Endorsements and Reference Values
@@ -61,7 +61,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 19 January 2026.
+   This Internet-Draft will expire on 25 January 2026.
 
 Copyright Notice
 
@@ -103,20 +103,23 @@ Table of Contents
    5.  Examples
      5.1.  Query Data Examples
      5.2.  Result Data Examples
-   6.  Implementation Status
-     6.1.  Veraison
-   7.  Security Considerations
-     7.1.  Forming Native Database Queries from CoSERV
-   8.  Privacy Considerations
-   9.  IANA Considerations
-     9.1.  Media Types Registrations
-       9.1.1.  application/coserv+cbor
-       9.1.2.  application/coserv+cose
-     9.2.  CoAP Content-Formats
-   10. References
-     10.1.  Normative References
-     10.2.  Informative References
+   6.  API
+     6.1.  Request Response over HTTP
+   7.  Implementation Status
+     7.1.  Veraison
+   8.  Security Considerations
+     8.1.  Forming Native Database Queries from CoSERV
+   9.  Privacy Considerations
+   10. IANA Considerations
+     10.1.  Media Types Registrations
+       10.1.1.  application/coserv+cbor
+       10.1.2.  application/coserv+cose
+     10.2.  CoAP Content-Formats
+   11. References
+     11.1.  Normative References
+     11.2.  Informative References
    Appendix A.  Collated CoSERV CDDL
+   Appendix B.  OpenAPI Schema
    Acknowledgments
    Authors' Addresses
 
@@ -960,7 +963,23 @@ Table of Contents
      }
    }
 
-6.  Implementation Status
+6.  API
+
+6.1.  Request Response over HTTP
+
+   # NOTE: '\' line wrapping per RFC 8792
+
+   GET coserv/ogB4I3RhZ... HTTP/1.1
+   Host: coserv.example
+   Accept: application/coserv+cbor; \
+           profile="tag:example.com,2025:cc-platform#1.0.0"
+   Content-Type: application/coserv+cbor
+
+   [ CBOR-encoded CoSERV profile="tag:example.com,2025:cc-platform#1.0.0" ]
+
+                          Figure 1: Request CoSERV
+
+7.  Implementation Status
 
 
    // RFC Editor: please remove this section prior to publication.
@@ -985,7 +1004,7 @@ Table of Contents
    It is up to the individual working groups to use this information as
    they see fit".
 
-6.1.  Veraison
+7.1.  Veraison
 
    Responsible Organisation: Veraison (open source project within the
    Confidential Computing Consortium).
@@ -1010,7 +1029,7 @@ Table of Contents
 
    Contact: Thomas Fossati, Thomas.Fossati@linaro.org
 
-7.  Security Considerations
+8.  Security Considerations
 
    The CoSERV data type serves an auxiliary function in the RATS
    architecture.  It does not directly convey Evidence, Endorsements,
@@ -1037,7 +1056,7 @@ Table of Contents
       entity that is interposed between the Verifier and the Endorser or
       Reference Value Provider.
 
-7.1.  Forming Native Database Queries from CoSERV
+8.1.  Forming Native Database Queries from CoSERV
 
    Implementations should take care when transforming CoSERV queries
    into native query types that are compatible with their underlying
@@ -1047,7 +1066,7 @@ Table of Contents
    sanitization procedures are in place when performing such
    translations.
 
-8.  Privacy Considerations
+9.  Privacy Considerations
 
    A CoSERV query can potentially contain privacy-sensitive information.
    Specifically, the environment-selector field of the query may
@@ -1064,13 +1083,13 @@ Table of Contents
    *  Collating Attester instances into anonymity groups, and
       referencing the groups rather than the individual instances.
 
-9.  IANA Considerations
+10.  IANA Considerations
 
 
    // RFC Editor: replace "RFCthis" with the RFC number assigned to this
    document.
 
-9.1.  Media Types Registrations
+10.1.  Media Types Registrations
 
    IANA is requested to add the following media types to the "Media
    Types" registry [IANA.media-types].
@@ -1085,7 +1104,7 @@ Table of Contents
 
                        Table 1: CoSERV Media Types
 
-9.1.1.  application/coserv+cbor
+10.1.1.  application/coserv+cbor
 
    Type name:  application
    Subtype name:  coserv+cbor
@@ -1093,7 +1112,7 @@ Table of Contents
    Optional parameters:  "profile" (CoSERV profile in string format.
       OIDs must use the dotted-decimal notation.)
    Encoding considerations:  binary (CBOR)
-   Security considerations:  Section 7 of RFCthis
+   Security considerations:  Section 8 of RFCthis
    Interoperability considerations:  n/a
    Published specification:  RFCthis
    Applications that use this media type:  Verifiers, Endorsers,
@@ -1109,7 +1128,7 @@ Table of Contents
    Author/Change controller:  IETF
    Provisional registration:  no
 
-9.1.2.  application/coserv+cose
+10.1.2.  application/coserv+cose
 
    Type name:  application
    Subtype name:  coserv+cose
@@ -1120,7 +1139,7 @@ Table of Contents
       type parameter is explicitly not supported, as it is understood to
       be "cose-sign1".
    Encoding considerations:  binary
-   Security considerations:  Section 7 of RFCthis
+   Security considerations:  Section 8 of RFCthis
    Interoperability considerations:  n/a
    Published specification:  RFCthis
    Applications that use this media type:  Verifiers, Endorsers,
@@ -1133,7 +1152,7 @@ Table of Contents
    Author/Change controller:  IETF
    Provisional registration?  no
 
-9.2.  CoAP Content-Formats
+10.2.  CoAP Content-Formats
 
    IANA is requested to register the following Content-Format IDs in the
    "CoAP Content-Formats" registry, within the "Constrained RESTful
@@ -1154,9 +1173,9 @@ Table of Contents
 
    If possible, TBD1 and TBD2 should be assigned in the 256..9999 range.
 
-10.  References
+11.  References
 
-10.1.  Normative References
+11.1.  Normative References
 
    [I-D.ietf-rats-corim]
               Birkholz, H., Fossati, T., Deshpande, Y., Smith, N., and
@@ -1216,7 +1235,7 @@ Table of Contents
               DOI 10.17487/RFC9052, August 2022,
               <https://www.rfc-editor.org/rfc/rfc9052>.
 
-10.2.  Informative References
+11.2.  Informative References
 
    [I-D.ietf-rats-eat]
               Lundblade, L., Mandyam, G., O'Donoghue, J., and C.
@@ -1872,6 +1891,39 @@ Appendix A.  Collated CoSERV CDDL
    optional=1
    required=2
    recommended=3
+
+Appendix B.  OpenAPI Schema
+
+   The OpenAPI schema for the request/response HTTP API described in
+   Section 6.1 is provided below.
+
+   openapi: '3.0.0'
+
+   info:
+     title: RR HTTP API
+     description: Request-Response API over HTTP
+     version: '1.0.0alpha'
+   paths:
+     /coserv/{query}:
+       get:
+         summary: Query the CoSERV endpoint.
+         parameters:
+           - in: path
+             name: query
+             schema:
+               type: string
+               format: base64url
+             required: true
+             description: base64url-encoded CoSERV query
+         responses:
+           '200':
+             description: >
+               A CoSERV result set has been successfully computed.
+             content:
+               application/coserv+cbor:
+                 schema:
+                   type: string
+                   format: binary
 
 Acknowledgments
 
