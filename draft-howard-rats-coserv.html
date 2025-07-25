@@ -1056,7 +1056,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Howard, et al.</td>
-<td class="center">Expires 25 January 2026</td>
+<td class="center">Expires 26 January 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1069,12 +1069,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-howard-rats-coserv-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-07-24" class="published">24 July 2025</time>
+<time datetime="2025-07-25" class="published">25 July 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-01-25">25 January 2026</time></dd>
+<dd class="expires"><time datetime="2026-01-26">26 January 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1138,7 +1138,7 @@ CoSERV defines a query language and corresponding result structure using CDDL, w
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 25 January 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 26 January 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1252,10 +1252,18 @@ CoSERV defines a query language and corresponding result structure using CDDL, w
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6">
-            <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-api" class="internal xref">API</a></p>
+            <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-api-bindings" class="internal xref">API Bindings</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.1">
                 <p id="section-toc.1-1.6.2.1.1"><a href="#section-6.1" class="auto internal xref">6.1</a>.  <a href="#name-request-response-over-http" class="internal xref">Request Response over HTTP</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.1.2.1">
+                    <p id="section-toc.1-1.6.2.1.2.1.1"><a href="#section-6.1.1" class="auto internal xref">6.1.1</a>.  <a href="#name-discovery" class="internal xref">Discovery</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.1.2.2">
+                    <p id="section-toc.1-1.6.2.1.2.2.1"><a href="#section-6.1.2" class="auto internal xref">6.1.2</a>.  <a href="#name-execute-query" class="internal xref">Execute Query</a></p>
+</li>
+                </ul>
 </li>
             </ul>
 </li>
@@ -2075,19 +2083,115 @@ This means one or more original signed manifests containing information that sat
 </div>
 </section>
 </div>
-<div id="api">
+<div id="secapibindings">
 <section id="section-6">
-      <h2 id="name-api">
-<a href="#section-6" class="section-number selfRef">6. </a><a href="#name-api" class="section-name selfRef">API</a>
+      <h2 id="name-api-bindings">
+<a href="#section-6" class="section-number selfRef">6. </a><a href="#name-api-bindings" class="section-name selfRef">API Bindings</a>
       </h2>
 <div id="secrrapi">
 <section id="section-6.1">
         <h3 id="name-request-response-over-http">
 <a href="#section-6.1" class="section-number selfRef">6.1. </a><a href="#name-request-response-over-http" class="section-name selfRef">Request Response over HTTP</a>
         </h3>
+<div id="secrrapidisco">
+<section id="section-6.1.1">
+          <h4 id="name-discovery">
+<a href="#section-6.1.1" class="section-number selfRef">6.1.1. </a><a href="#name-discovery" class="section-name selfRef">Discovery</a>
+          </h4>
+<ul class="normal">
+<li class="normal" id="section-6.1.1-1.1">
+              <p id="section-6.1.1-1.1.1">body text<a href="#section-6.1.1-1.1.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-6.1.1-1.2">
+              <p id="section-6.1.1-1.2.1">request and response example<a href="#section-6.1.1-1.2.1" class="pilcrow">¶</a></p>
+</li>
+            <li class="normal" id="section-6.1.1-1.3">
+              <p id="section-6.1.1-1.3.1">CDDL model for the discovery payload (+ media type)<a href="#section-6.1.1-1.3.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
+</section>
+</div>
+<div id="secrrapiquery">
+<section id="section-6.1.2">
+          <h4 id="name-execute-query">
+<a href="#section-6.1.2" class="section-number selfRef">6.1.2. </a><a href="#name-execute-query" class="section-name selfRef">Execute Query</a>
+          </h4>
+<ul class="normal">
+<li class="normal" id="section-6.1.2-1.1">
+              <p id="section-6.1.2-1.1.1">body text<a href="#section-6.1.2-1.1.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
+<div id="responses">
+<section id="section-6.1.2.1">
+            <h5 id="name-responses">
+<a href="#section-6.1.2.1" class="section-number selfRef">6.1.2.1. </a><a href="#name-responses" class="section-name selfRef">Responses</a>
+            </h5>
+<div id="successful-transaction-200">
+<section id="section-6.1.2.1.1">
+              <h6 id="name-successful-transaction-200">
+<a href="#section-6.1.2.1.1" class="section-number selfRef">6.1.2.1.1. </a><a href="#name-successful-transaction-200" class="section-name selfRef">Successful Transaction (200)</a>
+              </h6>
+<ul class="normal">
+<li class="normal" id="section-6.1.2.1.1-1.1">
+                  <p id="section-6.1.2.1.1-1.1.1">example request<a href="#section-6.1.2.1.1-1.1.1" class="pilcrow">¶</a></p>
+</li>
+                <li class="normal" id="section-6.1.2.1.1-1.2">
+                  <p id="section-6.1.2.1.1-1.2.1">example response<a href="#section-6.1.2.1.1-1.2.1" class="pilcrow">¶</a></p>
+</li>
+              </ul>
+</section>
+</div>
+<div id="failure-to-validate-query-400">
+<section id="section-6.1.2.1.2">
+              <h6 id="name-failure-to-validate-query-4">
+<a href="#section-6.1.2.1.2" class="section-number selfRef">6.1.2.1.2. </a><a href="#name-failure-to-validate-query-4" class="section-name selfRef">Failure to Validate Query (400)</a>
+              </h6>
+<ul class="normal">
+<li class="normal" id="section-6.1.2.1.2-1.1">
+                  <p id="section-6.1.2.1.2-1.1.1">example request<a href="#section-6.1.2.1.2-1.1.1" class="pilcrow">¶</a></p>
+</li>
+                <li class="normal" id="section-6.1.2.1.2-1.2">
+                  <p id="section-6.1.2.1.2-1.2.1">example response<a href="#section-6.1.2.1.2-1.2.1" class="pilcrow">¶</a></p>
+</li>
+              </ul>
+</section>
+</div>
+<div id="failure-to-negotiate-profile-406">
+<section id="section-6.1.2.1.3">
+              <h6 id="name-failure-to-negotiate-profil">
+<a href="#section-6.1.2.1.3" class="section-number selfRef">6.1.2.1.3. </a><a href="#name-failure-to-negotiate-profil" class="section-name selfRef">Failure to Negotiate Profile (406)</a>
+              </h6>
+<ul class="normal">
+<li class="normal" id="section-6.1.2.1.3-1.1">
+                  <p id="section-6.1.2.1.3-1.1.1">example request<a href="#section-6.1.2.1.3-1.1.1" class="pilcrow">¶</a></p>
+</li>
+                <li class="normal" id="section-6.1.2.1.3-1.2">
+                  <p id="section-6.1.2.1.3-1.2.1">example response<a href="#section-6.1.2.1.3-1.2.1" class="pilcrow">¶</a></p>
+</li>
+              </ul>
+</section>
+</div>
+</section>
+</div>
+<div id="secrrapicaching">
+<section id="section-6.1.2.2">
+            <h5 id="name-caching">
+<a href="#section-6.1.2.2" class="section-number selfRef">6.1.2.2. </a><a href="#name-caching" class="section-name selfRef">Caching</a>
+            </h5>
+<ul class="normal">
+<li class="normal" id="section-6.1.2.2-1.1">
+                <p id="section-6.1.2.2-1.1.1">body text<a href="#section-6.1.2.2-1.1.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-6.1.2.2-1.2">
+                <p id="section-6.1.2.2-1.2.1">example request<a href="#section-6.1.2.2-1.2.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-6.1.2.2-1.3">
+                <p id="section-6.1.2.2-1.3.1">example response<a href="#section-6.1.2.2-1.3.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
 <span id="name-request-coserv"></span><div id="fig-rest-req">
 <figure id="figure-1">
-          <div class="lang-http-message sourcecode" id="section-6.1-1.1">
+              <div class="lang-http-message sourcecode" id="section-6.1.2.2-2.1">
 <pre>
 # NOTE: '\' line wrapping per RFC 8792
 
@@ -2096,13 +2200,15 @@ Host: coserv.example
 Accept: application/coserv+cbor; \
         profile="tag:example.com,2025:cc-platform#1.0.0"
 Content-Type: application/coserv+cbor
-
-[ CBOR-encoded CoSERV profile="tag:example.com,2025:cc-platform#1.0.0" ]
 </pre>
 </div>
 <figcaption><a href="#figure-1" class="selfRef">Figure 1</a>:
 <a href="#name-request-coserv" class="selfRef">Request CoSERV</a>
-          </figcaption></figure>
+              </figcaption></figure>
+</div>
+</section>
+</div>
+</section>
 </div>
 </section>
 </div>

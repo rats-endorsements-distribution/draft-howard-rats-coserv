@@ -5,12 +5,12 @@
 Remote ATtestation ProcedureS                                  P. Howard
 Internet-Draft                                                       Arm
 Intended status: Informational                                T. Fossati
-Expires: 25 January 2026                                          Linaro
+Expires: 26 January 2026                                          Linaro
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                                 S. Kamal
                                                                  Fujitsu
-                                                            24 July 2025
+                                                            25 July 2025
 
 
          Concise Selector for Endorsements and Reference Values
@@ -61,7 +61,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 25 January 2026.
+   This Internet-Draft will expire on 26 January 2026.
 
 Copyright Notice
 
@@ -103,8 +103,10 @@ Table of Contents
    5.  Examples
      5.1.  Query Data Examples
      5.2.  Result Data Examples
-   6.  API
+   6.  API Bindings
      6.1.  Request Response over HTTP
+       6.1.1.  Discovery
+       6.1.2.  Execute Query
    7.  Implementation Status
      7.1.  Veraison
    8.  Security Considerations
@@ -963,9 +965,49 @@ Table of Contents
      }
    }
 
-6.  API
+6.  API Bindings
 
 6.1.  Request Response over HTTP
+
+6.1.1.  Discovery
+
+   *  body text
+
+   *  request and response example
+
+   *  CDDL model for the discovery payload (+ media type)
+
+6.1.2.  Execute Query
+
+   *  body text
+
+6.1.2.1.  Responses
+
+6.1.2.1.1.  Successful Transaction (200)
+
+   *  example request
+
+   *  example response
+
+6.1.2.1.2.  Failure to Validate Query (400)
+
+   *  example request
+
+   *  example response
+
+6.1.2.1.3.  Failure to Negotiate Profile (406)
+
+   *  example request
+
+   *  example response
+
+6.1.2.2.  Caching
+
+   *  body text
+
+   *  example request
+
+   *  example response
 
    # NOTE: '\' line wrapping per RFC 8792
 
@@ -974,8 +1016,6 @@ Table of Contents
    Accept: application/coserv+cbor; \
            profile="tag:example.com,2025:cc-platform#1.0.0"
    Content-Type: application/coserv+cbor
-
-   [ CBOR-encoded CoSERV profile="tag:example.com,2025:cc-platform#1.0.0" ]
 
                           Figure 1: Request CoSERV
 
