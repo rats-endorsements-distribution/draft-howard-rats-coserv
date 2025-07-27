@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-07-22T00:51:38.379202+00:00",
+  "timestamp": "2025-07-27T00:57:12.282716+00:00",
   "repo": "rats-endorsements-distribution/draft-howard-rats-coserv",
   "labels": [
     {
@@ -543,6 +543,76 @@
       "body": "Since #44, the ability to query using a stateful environment has been a CoSERV feature.\n\nThe examples section may benefit from a practical illustration of the concept.\n\n(Noting that this could build on the `rv-class-stateful.diag` test vector introduced in #48.)",
       "createdAt": "2025-07-17T07:27:39Z",
       "updatedAt": "2025-07-17T07:27:39Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 56,
+      "id": "I_kwDOOAZd1M7Cd3XN",
+      "title": "Query timestamp removal",
+      "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/issues/56",
+      "state": "OPEN",
+      "author": "thomas-fossati",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Queries have a non-optional RFC3339 timestamp attached.\n\nThe rationale is captured in #28.\n\nAt the time, we overlooked the fact that this field may adversely affect the caching properties that the coserv payloads require.\n\nLong story short: we should remove the field and add something SCITT-y, instead.\n",
+      "createdAt": "2025-07-25T09:33:26Z",
+      "updatedAt": "2025-07-25T09:33:41Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 57,
+      "id": "I_kwDOOAZd1M7CeEMT",
+      "title": "Populate Discovery section",
+      "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/issues/57",
+      "state": "OPEN",
+      "author": "paulhowardarm",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "paulhowardarm"
+      ],
+      "labels": [],
+      "body": "Body text, CDDL model and examples for the Discovery sub-section.\nCDDL needs to support both JSON and CBOR\nMedia types need to be added for both\n",
+      "createdAt": "2025-07-25T09:53:12Z",
+      "updatedAt": "2025-07-25T09:53:12Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 58,
+      "id": "I_kwDOOAZd1M7CeEzw",
+      "title": "Body text for all API sections",
+      "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/issues/58",
+      "state": "OPEN",
+      "author": "paulhowardarm",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "paulhowardarm"
+      ],
+      "labels": [],
+      "body": "Write all of the normative body text for the API chapter.\n",
+      "createdAt": "2025-07-25T09:54:13Z",
+      "updatedAt": "2025-07-25T09:54:13Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 59,
+      "id": "I_kwDOOAZd1M7CeFch",
+      "title": "Example HTTP request/response transactions",
+      "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/issues/59",
+      "state": "OPEN",
+      "author": "paulhowardarm",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "thomas-fossati"
+      ],
+      "labels": [],
+      "body": "Add HTTP example requests and responses for each of the documented HTTP status codes, plus some examples of caching.\n",
+      "createdAt": "2025-07-25T09:55:16Z",
+      "updatedAt": "2025-07-25T09:55:16Z",
       "closedAt": null,
       "comments": []
     }
@@ -2416,6 +2486,90 @@
           "body": "Fantastic - a very lovely and quirky way to present the acknowledgements. Great hackathon side-project.",
           "createdAt": "2025-07-20T13:44:53Z",
           "updatedAt": "2025-07-20T13:44:53Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 54,
+      "id": "PR_kwDOOAZd1M6gatrr",
+      "title": "API scaffolding",
+      "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/pull/54",
+      "state": "MERGED",
+      "author": "thomas-fossati",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Prep work for #51",
+      "createdAt": "2025-07-24T09:23:44Z",
+      "updatedAt": "2025-07-24T09:52:11Z",
+      "baseRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
+      "baseRefName": "main",
+      "baseRefOid": "d4d6dacad21ba62330e3085cd58800cfb53e0ca2",
+      "headRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
+      "headRefName": "rest",
+      "headRefOid": "0893fd20c4f0f564b8ceb6c7c190db9ab7ea44a1",
+      "closedAt": "2025-07-24T09:52:08Z",
+      "mergedAt": "2025-07-24T09:52:08Z",
+      "mergedBy": "thomas-fossati",
+      "mergeCommit": {
+        "oid": "80e2bffa409e607b68a0946bde2e1f18fd70c757"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOOAZd1M612LG2",
+          "commit": {
+            "abbreviatedOid": "0893fd2"
+          },
+          "author": "paulhowardarm",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Looks perfect. Thank you.",
+          "createdAt": "2025-07-24T09:32:59Z",
+          "updatedAt": "2025-07-24T09:32:59Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 55,
+      "id": "PR_kwDOOAZd1M6gcswz",
+      "title": "API bindings layout",
+      "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/pull/55",
+      "state": "MERGED",
+      "author": "thomas-fossati",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Partly address #51 ",
+      "createdAt": "2025-07-24T12:37:10Z",
+      "updatedAt": "2025-07-25T09:16:04Z",
+      "baseRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
+      "baseRefName": "main",
+      "baseRefOid": "80e2bffa409e607b68a0946bde2e1f18fd70c757",
+      "headRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
+      "headRefName": "rest-api-structure",
+      "headRefOid": "7689d77014b96c2a3a45e0243a6f3458f2c53f91",
+      "closedAt": "2025-07-25T09:16:01Z",
+      "mergedAt": "2025-07-25T09:16:01Z",
+      "mergedBy": "thomas-fossati",
+      "mergeCommit": {
+        "oid": "6b64063bf80988407d43aea1f19f3503f3689aa2"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOOAZd1M615JTz",
+          "commit": {
+            "abbreviatedOid": "7689d77"
+          },
+          "author": "paulhowardarm",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Looks good.",
+          "createdAt": "2025-07-24T13:19:59Z",
+          "updatedAt": "2025-07-24T13:19:59Z",
           "comments": []
         }
       ]
