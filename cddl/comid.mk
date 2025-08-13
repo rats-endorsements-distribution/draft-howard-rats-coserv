@@ -1,5 +1,3 @@
-include tools.mk
-
 # CoMID CDDL
 github := https://github.com/ietf-rats-wg/
 comid_rel_dl := draft-ietf-rats-corim/releases/download/

@@ -29,3 +29,8 @@ curl ?= $(shell command -v curl)
 ifeq ($(strip $(curl)),)
   $(error curl not found.)
 endif
+
+sed ?= sed
+ifeq ($(shell uname -s),Darwin)
+  sed := gsed
+endif
