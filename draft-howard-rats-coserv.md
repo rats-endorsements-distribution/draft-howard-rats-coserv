@@ -492,18 +492,89 @@ Compared with the previous example, the `rvq` entry is empty, while the `source-
 
 ##### Successful Transaction (200)
 
-* example request
-* example response
+* Request:
+
+~~~ http-message
+# NOTE: '\' line wrapping per RFC 8792
+
+GET /coserv/ogB4I3R... HTTP/1.1
+Host: endorsements-distributor.example
+Accept: application/coserv+cose; \
+        profile="tag:vendor.com,2025:cc_platform#1.0.0"
+~~~
+
+* Response:
+
+~~~ http-message
+# NOTE: '\' line wrapping per RFC 8792
+
+HTTP/1.1 200 OK
+Content-Type: application/coserv+cose; \
+              profile="tag:vendor.com,2025:cc-platform#1.0.0"
+
+Body (in CBOR Extended Diagnostic Notation (EDN))
+
+{::include-fold cddl/examples/signed-rv-class-simple-results.diag}
+~~~
 
 ##### Failure to Validate Query (400)
 
-* example request
-* example response
+* Request:
+
+~~~ http-message
+# NOTE: '\' line wrapping per RFC 8792
+
+GET /coserv/badquery... HTTP/1.1
+Host: endorsements-distributor.example
+Accept: application/coserv+cose; \
+        profile="tag:vendor.com,2025:cc_platform#1.0.0"
+~~~
+
+* Response:
+
+~~~ http-message
+# NOTE: '\' line wrapping per RFC 8792
+
+HTTP/1.1 400 Bad Request
+Content-Type: application/concise-problem-details+cbor
+
+Body (in CBOR Extended Diagnostic Notation (EDN))
+
+{
+  / title /  -1: "Query validation failed",
+  / detail / -2: "The query payload is not in CBOR format"
+}
+~~~
 
 ##### Failure to Negotiate Profile (406)
 
-* example request
-* example response
+* Request:
+
+~~~ http-message
+# NOTE: '\' line wrapping per RFC 8792
+
+GET /coserv/ogB4I3R... HTTP/1.1
+Host: endorsements-distributor.example
+Accept: application/coserv+cose; \
+        profile="tag:vendor.com,2025:cc_platform#2.0.0"
+~~~
+
+* Response:
+
+~~~ http-message
+# NOTE: '\' line wrapping per RFC 8792
+
+HTTP/1.1 406 Not Acceptable
+Content-Type: application/concise-problem-details+cbor
+
+Body (in CBOR Extended Diagnostic Notation (EDN))
+
+{
+  / title /  -1: "Unsupported profile",
+  / detail / -2: "Profile tag:vendor.com,2025:cc_platform#2.0.0 \
+                  not supported",
+}
+~~~
 
 #### Caching {#secrrapicaching}
 
