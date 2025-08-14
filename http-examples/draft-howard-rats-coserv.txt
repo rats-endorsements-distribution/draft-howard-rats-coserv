@@ -1000,7 +1000,7 @@ Table of Contents
 
    HTTP/1.1 200 OK
    Content-Type: application/coserv+cose; \
-                 profile="tag:vendor.com,2025:cc-platform#1.0.0"
+                 profile="tag:vendor.com,2025:cc_platform#1.0.0"
 
    Body (in CBOR Extended Diagnostic Notation (EDN))
 
