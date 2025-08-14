@@ -16,6 +16,7 @@ endif
 
 cddl_deps := cddl/coserv-autogen.cddl
 cddl_deps += cddl/comid-autogen.cddl
+cddl_deps += cddl/signed-coserv-autogen.cddl
 
 $(drafts_xml): $(cddl_deps)
 
