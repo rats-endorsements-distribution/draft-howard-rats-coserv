@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-07-27T00:57:12.282716+00:00",
+  "timestamp": "2025-08-14T00:49:35.584207+00:00",
   "repo": "rats-endorsements-distribution/draft-howard-rats-coserv",
   "labels": [
     {
@@ -2573,6 +2573,32 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 60,
+      "id": "PR_kwDOOAZd1M6jgbj-",
+      "title": "validation of signed coserv",
+      "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/pull/60",
+      "state": "OPEN",
+      "author": "thomas-fossati",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-08-13T15:06:09Z",
+      "updatedAt": "2025-08-13T15:06:09Z",
+      "baseRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
+      "baseRefName": "main",
+      "baseRefOid": "6b64063bf80988407d43aea1f19f3503f3689aa2",
+      "headRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
+      "headRefName": "http-examples",
+      "headRefOid": "718ea7e63e030b8d8f50ed1c15384921c75617a4",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
