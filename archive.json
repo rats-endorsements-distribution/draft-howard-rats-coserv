@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-08-14T00:49:35.584207+00:00",
+  "timestamp": "2025-08-17T00:53:29.299270+00:00",
   "repo": "rats-endorsements-distribution/draft-howard-rats-coserv",
   "labels": [
     {
@@ -615,6 +615,66 @@
       "updatedAt": "2025-07-25T09:55:16Z",
       "closedAt": null,
       "comments": []
+    },
+    {
+      "number": 61,
+      "id": "I_kwDOOAZd1M7F-thQ",
+      "title": "Add HTTP example requests and responses for each of the documented HTTP status codes",
+      "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/issues/61",
+      "state": "CLOSED",
+      "author": "thomas-fossati",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "thomas-fossati"
+      ],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-08-14T09:41:01Z",
+      "updatedAt": "2025-08-14T11:16:26Z",
+      "closedAt": "2025-08-14T11:16:26Z",
+      "comments": []
+    },
+    {
+      "number": 62,
+      "id": "I_kwDOOAZd1M7F-t8p",
+      "title": "Add HTTP example requests and responses with caching headers",
+      "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/issues/62",
+      "state": "OPEN",
+      "author": "thomas-fossati",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "thomas-fossati"
+      ],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-08-14T09:41:33Z",
+      "updatedAt": "2025-08-14T09:41:33Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 63,
+      "id": "I_kwDOOAZd1M7GFCWI",
+      "title": "CoSERV lacks mechanism for Target Environment completeness verification",
+      "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/issues/63",
+      "state": "OPEN",
+      "author": "fdamato",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "**Description**: \nCoSERV enables querying Reference Values for individual Target Environments but provides no mechanism for a Verifier to determine the complete set of Target Environments that an Attester should report in Evidence. This creates a security vulnerability where compromised Attesters can omit measurements from Target Environments in poor state.\n**Problem Statement:**\n\n- Per RFC 9334, an Attester contains multiple Target Environments\n- A compromised Attester could selectively omit Target Environment claims\n- Verifiers need authoritative information about expected Target Environment inventory\n- CoSERV queries are environment-specific but don't address environment set completeness\n\n**Proposed Solution:**\nAdd a new CoSERV query type for \"Expected Target Environment Inventory\" that returns the complete set of Target Environments that should be measured by a given Attester class/instance.\n**Implementation Considerations:**\n\n- Requires Attester identification scheme (proposed: vendor/model tuple)\n- The minimum set of Target Environments that must be verified should be derived from the collection of all Target Environments present across all available CoRIMs for that Attester\n\n**Open Design Question:** Should this be a **new CoSERV query type** or an **extension to existing environment queries**?",
+      "createdAt": "2025-08-14T18:35:34Z",
+      "updatedAt": "2025-08-15T13:40:37Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "thomas-fossati",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Hi @fdamato, thanks for bringing this up!\n\nAs briefly discussed in the related email thread, CoRIM shares the same problem, which we are trying to address using [Domain Membership Triples](https://www.ietf.org/archive/id/draft-ietf-rats-corim-08.html#name-domain-membership-triple) (DMT).\n\nCurrently, CoSERV does not support DMTs, but this could easily be added if needed.  Note that the DMT subject (`domain-type`) is an `environment-map` and is therefore perfectly aligned with CoSERV\u2019s query machinery.\n",
+          "createdAt": "2025-08-15T13:38:24Z",
+          "updatedAt": "2025-08-15T13:40:37Z"
+        }
+      ]
     }
   ],
   "pulls": [
@@ -2577,28 +2637,77 @@
     {
       "number": 60,
       "id": "PR_kwDOOAZd1M6jgbj-",
-      "title": "validation of signed coserv",
+      "title": "Add API examples",
       "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/pull/60",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "thomas-fossati",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
-      "body": "",
+      "body": "See commits for the details.",
       "createdAt": "2025-08-13T15:06:09Z",
-      "updatedAt": "2025-08-13T15:06:09Z",
+      "updatedAt": "2025-08-14T11:16:32Z",
       "baseRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
       "baseRefName": "main",
       "baseRefOid": "6b64063bf80988407d43aea1f19f3503f3689aa2",
       "headRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
       "headRefName": "http-examples",
-      "headRefOid": "718ea7e63e030b8d8f50ed1c15384921c75617a4",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "5ab9373556190d1a7151de1a0c6c91666677c90c",
+      "closedAt": "2025-08-14T11:16:24Z",
+      "mergedAt": "2025-08-14T11:16:24Z",
+      "mergedBy": "thomas-fossati",
+      "mergeCommit": {
+        "oid": "89d4ddd872fa52494ce5667c16312371fcc73e20"
+      },
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOOAZd1M6591vE",
+          "commit": {
+            "abbreviatedOid": "b3dea21"
+          },
+          "author": "paulhowardarm",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Great stuff. Looks as expected to me.",
+          "createdAt": "2025-08-14T10:15:32Z",
+          "updatedAt": "2025-08-14T10:15:32Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOOAZd1M65-OZf",
+          "commit": {
+            "abbreviatedOid": "b3dea21"
+          },
+          "author": "thomas-fossati",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-08-14T10:50:11Z",
+          "updatedAt": "2025-08-14T10:50:12Z",
+          "comments": [
+            {
+              "originalPosition": 24,
+              "body": "```suggestion\r\n              profile=\"tag:vendor.com,2025:cc_platform#1.0.0\"\r\n```",
+              "createdAt": "2025-08-14T10:50:11Z",
+              "updatedAt": "2025-08-14T10:50:12Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOOAZd1M65-eps",
+          "commit": {
+            "abbreviatedOid": "5ab9373"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "I checked the CDDL and problem-details contents mainly (not the CI parts!)\r\n\r\nlgtm",
+          "createdAt": "2025-08-14T11:11:17Z",
+          "updatedAt": "2025-08-14T11:11:17Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }
