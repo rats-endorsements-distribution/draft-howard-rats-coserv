@@ -511,7 +511,6 @@ Further details are provided in the subsections below.
 
 Authentication is out of scope for this document.
 Implementations MAY authenticate clients, for example for authorization or for preventing denial of service attacks.
-If authentication is not implemented, rate limiting or other denial of service mitigation MUST be implemented.
 
 ### Discovery {#secrrapidisco}
 
