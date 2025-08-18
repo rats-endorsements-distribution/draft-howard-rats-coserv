@@ -502,11 +502,11 @@ This section defines and mandates the API endpoint behaviours for CoSERV request
 Implementations MUST provide all parts of the API as specified in this section.
 The API is a simple protocol for the execution of CoSERV queries.
 It takes a single CoSERV query as input, and produces a corresponding single CoSERV result set as the output.
-It is a RESTful API because it treats the CoSERV query as the canonical representation of a resource, where that resource is the set of artifacts being selected for by the query.
+It is a RESTful API because the CoSERV query serves as a unique and stable identifier of the target resource, where that resource is the set of artifacts being selected for by the query.
 The encoding rules for CoSERV are deterministic as set out in {{secencoding}}.
 This means that any given CoSERV query will always encode to the same sequence of bytes.
-The base64 encoding of the byte sequence is used as the canonical resource identifier, and forms part of the URL path.
-The HTTP `GET` verb is then used with this URL path to execute the query.
+The Base64Url encoding ({{Section 2 of !RFC7515}}) of the byte sequence becomes the rightmost path segment of the URI used to identify the target resource.
+The HTTP `GET` verb is then used with this URI to execute the query.
 Further details are provided in the subsections below.
 
 Authentication is out of scope for this document.
@@ -524,7 +524,7 @@ This endpoint executes a single CoSERV query and returns a CoSERV result set.
 
 The HTTP method is `GET`.
 
-The URL path is formed of the discovered `coserv` endpoint (as set out in {{secrrapidisco}}), followed by a path separator ('/'), followed by the CoSERV query to be executed, which is represented as a Base64 encoding of the query's serialized CBOR byte sequence. The Base64 encoding MUST use the URL-safe alphabet according to {{RFC4648}}.
+The URL path is formed of the discovered `coserv` endpoint (as set out in {{secrrapidisco}}), followed by a path separator ('/'), followed by the CoSERV query to be executed, which is represented as a Base64Url encoding of the query's serialized CBOR byte sequence.
 
 There are no additional URL query parameters.
 
