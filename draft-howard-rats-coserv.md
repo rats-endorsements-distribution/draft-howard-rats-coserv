@@ -491,7 +491,7 @@ The API definitions are merely vehicles for the exchange of CoSERV queries and r
 Their purpose is to facilitate standard interactions that make the most effective use of available transports and protocols.
 
 The only API binding that is specified in this document is a request-response protocol that uses HTTP for transport.
-This is a simple pattern, and likely to be commonly-occurring one for a variety of use cases.
+This is a simple pattern, and likely to be a commonly occurring one for a variety of use cases.
 Future specifications may define other API bindings.
 Such future bindings may introduce further HTTP-based protocols.
 Alternatively, they may define protocols for use with other transports, such as CoAP {{RFC7252}}.
