@@ -500,7 +500,7 @@ Alternatively, they may define protocols for use with other transports, such as 
 
 This section defines and mandates the API endpoint behaviours for CoSERV request-response transactions over HTTP.
 Implementations MUST provide all parts of the API as specified in this section.
-The API is a simple protocol for execution of CoSERV queries.
+The API is a simple protocol for the execution of CoSERV queries.
 It takes a single CoSERV query as input, and produces a corresponding single CoSERV result set as the output.
 It is a RESTful API because it treats the CoSERV query as the canonical representation of a resource, where that resource is the set of artifacts being selected for by the query.
 The encoding rules for CoSERV are deterministic as set out in {{secencoding}}.
