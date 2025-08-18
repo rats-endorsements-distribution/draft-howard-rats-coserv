@@ -44,6 +44,7 @@ author:
 
 
 normative:
+  RFC4648: base64
   RFC8610: cddl
   RFC8259: json
   STD96:
@@ -520,11 +521,25 @@ If authentication is not implemented, rate limiting or other denial of service m
 
 ### Execute Query {#secrrapiquery}
 
+This endpoint executes a single CoSERV query and returns a CoSERV result set.
+
+The HTTP method is `GET`.
+
+The URL path is formed of the discovered `coserv` endpoint (as set out in {{secrrapidisco}}), followed by a path separator ('/'), followed by the CoSERV query to be executed, which is represented as a Base64 encoding of the query's serialized CBOR byte sequence. The Base64 encoding MUST use the URL-safe alphabet according to {{RFC4648}}.
+
+There are no additional URL query parameters.
+
+Clients MUST set the HTTP `Accept` header to a suitably-profiled `application/coserv+cose` or `application/coserv+cbor` media type.
+
+Endpoint implementations MUST respond with an HTTP status code and response body according to one of the subheadings below.
+
 #### Responses
 
 ##### Successful Transaction (200)
 
-* Request:
+This response indicates that the CoSERV query was executed successfully.
+
+Example HTTP request:
 
 ~~~ http-message
 # NOTE: '\' line wrapping per RFC 8792
@@ -535,7 +550,7 @@ Accept: application/coserv+cose; \
         profile="tag:vendor.com,2025:cc_platform#1.0.0"
 ~~~
 
-* Response:
+Example HTTP response:
 
 ~~~ http-message
 # NOTE: '\' line wrapping per RFC 8792
@@ -551,7 +566,9 @@ Body (in CBOR Extended Diagnostic Notation (EDN))
 
 ##### Failure to Validate Query (400)
 
-* Request:
+This response indicates that the supplied query is badly formed.
+
+Example HTTP request:
 
 ~~~ http-message
 # NOTE: '\' line wrapping per RFC 8792
@@ -562,7 +579,7 @@ Accept: application/coserv+cose; \
         profile="tag:vendor.com,2025:cc_platform#1.0.0"
 ~~~
 
-* Response:
+Example HTTP response:
 
 ~~~ http-message
 # NOTE: '\' line wrapping per RFC 8792
@@ -580,7 +597,9 @@ Body (in CBOR Extended Diagnostic Notation (EDN))
 
 ##### Failure to Negotiate Profile (406)
 
-* Request:
+This response indicates that the client has specified a CoSERV profile that is not understood or serviceable by the receiving endpoint implementation.
+
+Example HTTP request:
 
 ~~~ http-message
 # NOTE: '\' line wrapping per RFC 8792
@@ -591,7 +610,7 @@ Accept: application/coserv+cose; \
         profile="tag:vendor.com,2025:cc_platform#2.0.0"
 ~~~
 
-* Response:
+Example HTTP response:
 
 ~~~ http-message
 # NOTE: '\' line wrapping per RFC 8792
