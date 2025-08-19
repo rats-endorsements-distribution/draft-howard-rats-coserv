@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-08-17T00:53:29.299270+00:00",
+  "timestamp": "2025-08-19T00:47:04.261258+00:00",
   "repo": "rats-endorsements-distribution/draft-howard-rats-coserv",
   "labels": [
     {
@@ -2705,6 +2705,122 @@
           "body": "I checked the CDDL and problem-details contents mainly (not the CI parts!)\r\n\r\nlgtm",
           "createdAt": "2025-08-14T11:11:17Z",
           "updatedAt": "2025-08-14T11:11:17Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 64,
+      "id": "PR_kwDOOAZd1M6kFi4k",
+      "title": "Body text for API binding sections",
+      "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/pull/64",
+      "state": "OPEN",
+      "author": "paulhowardarm",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Draft prose changes:\r\n\r\n- New paragraph in the introduction to indicate the presence of API bindings and reference the relevant section\r\n- Body text for API bindings in general\r\n- Body text for the HTTP request-response binding (currently the only one being specified)\r\n- Body text around the example request/responses\r\n\r\nDiscovery section and caching section to do later (not this PR).\r\n\r\nSigned-off-by: Paul Howard <paul.howard@arm.com>",
+      "createdAt": "2025-08-18T11:21:47Z",
+      "updatedAt": "2025-08-18T16:38:31Z",
+      "baseRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
+      "baseRefName": "main",
+      "baseRefOid": "89d4ddd872fa52494ce5667c16312371fcc73e20",
+      "headRepository": "paulhowardarm/draft-howard-rats-coserv",
+      "headRefName": "phApiBindings",
+      "headRefOid": "dd5c7dd721f3e0017187bc5139cd66ab0e725639",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOOAZd1M66c_P2",
+          "commit": {
+            "abbreviatedOid": "5599d93"
+          },
+          "author": "thomas-fossati",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "Nice stuff.  I have inlined a few editorial comments.",
+          "createdAt": "2025-08-18T12:23:11Z",
+          "updatedAt": "2025-08-18T13:03:57Z",
+          "comments": [
+            {
+              "originalPosition": 53,
+              "body": "```suggestion\r\nThis is a simple pattern, and likely to be a commonly occurring one for a variety of use cases.\r\n```",
+              "createdAt": "2025-08-18T12:23:11Z",
+              "updatedAt": "2025-08-18T13:03:57Z"
+            },
+            {
+              "originalPosition": 62,
+              "body": "```suggestion\r\nThe API is a simple protocol for the execution of CoSERV queries.\r\n```",
+              "createdAt": "2025-08-18T12:28:16Z",
+              "updatedAt": "2025-08-18T13:03:57Z"
+            },
+            {
+              "originalPosition": 64,
+              "body": "In HTTP/ReST, the term \u201cresource representation\u201d has a [very specific meaning](https://www.rfc-editor.org/rfc/rfc9110.html#section-3.2).  In this case, rather than \u201ccanonical representation of a resource\u201d, I\u2019d say \u201cunique and stable identifier of the [target resource](https://www.rfc-editor.org/rfc/rfc9110.html#section-7.1)\u201d - or similar.",
+              "createdAt": "2025-08-18T12:37:34Z",
+              "updatedAt": "2025-08-18T13:03:57Z"
+            },
+            {
+              "originalPosition": 67,
+              "body": "This is not the usual base64, it\u2019s \"base64 encoding using the URL-safe alphabet with padding removed\" :-)\r\n\r\nI suggest that instead of that, we reuse the term \"Base64Url Encoding\u201d defined in the [glossary of JWS](https://www.rfc-editor.org/rfc/rfc7515.html#section-2).\r\n\r\nBesides, to align with the comment above (i.e., target resource identification) and to be more preceis in terms of how the URI is constructed, I suggest something like:\r\n\r\n```suggestion\r\nThe Base64Url encoding {{Section 2 of !RFC7515}} of the byte sequence becomes the rightmost path segment of the URI used to identify the target resource.\r\n```",
+              "createdAt": "2025-08-18T12:48:00Z",
+              "updatedAt": "2025-08-18T13:03:57Z"
+            },
+            {
+              "originalPosition": 68,
+              "body": "```suggestion\r\nThe HTTP `GET` verb is then used with this URI to execute the query.\r\n```",
+              "createdAt": "2025-08-18T12:48:31Z",
+              "updatedAt": "2025-08-18T13:03:58Z"
+            },
+            {
+              "originalPosition": 73,
+              "body": "I think that this (L514) is a deployment consideration rather than a protocol one; as such, it doesn\u2019t belong here.",
+              "createdAt": "2025-08-18T12:49:46Z",
+              "updatedAt": "2025-08-18T13:05:02Z"
+            },
+            {
+              "originalPosition": 87,
+              "body": "```suggestion\r\nThe URL path is formed of the discovered `coserv` endpoint (as set out in {{secrrapidisco}}), followed by a path separator ('/'), followed by the CoSERV query to be executed, which is represented as a Base64Url encoding of the query's serialized CBOR byte sequence.\r\n```",
+              "createdAt": "2025-08-18T12:50:17Z",
+              "updatedAt": "2025-08-18T13:03:58Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOOAZd1M66gP0f",
+          "commit": {
+            "abbreviatedOid": "5599d93"
+          },
+          "author": "paulhowardarm",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-08-18T16:08:53Z",
+          "updatedAt": "2025-08-18T16:08:53Z",
+          "comments": [
+            {
+              "originalPosition": 73,
+              "body": "I think that's reasonable. I actually took this text from the SCRAPI draft, but maybe it's no more appropriate there than it is here. Happy to remove this line.",
+              "createdAt": "2025-08-18T16:08:53Z",
+              "updatedAt": "2025-08-18T16:08:54Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOOAZd1M66gsSJ",
+          "commit": {
+            "abbreviatedOid": "dd5c7dd"
+          },
+          "author": "thomas-fossati",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Thank you, @paulhowardarm. \ud83d\udea2 it!",
+          "createdAt": "2025-08-18T16:38:31Z",
+          "updatedAt": "2025-08-18T16:38:31Z",
           "comments": []
         }
       ]
