@@ -1056,7 +1056,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Howard, et al.</td>
-<td class="center">Expires 15 February 2026</td>
+<td class="center">Expires 22 February 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1069,12 +1069,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-howard-rats-coserv-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-08-14" class="published">14 August 2025</time>
+<time datetime="2025-08-21" class="published">21 August 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-02-15">15 February 2026</time></dd>
+<dd class="expires"><time datetime="2026-02-22">22 February 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1138,7 +1138,7 @@ CoSERV defines a query language and corresponding result structure using CDDL, w
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 15 February 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 22 February 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1345,14 +1345,17 @@ The query language format provides Verifiers with a standard way to specify the 
 In turn, the result format allows those Endorsers and Reference Value Providers to package the artifacts within a standard structure.
 This facilitates the efficient discovery and retrieval of relevant Endorsements and Reference Values from providers, maximising the re-use of common software tools and libraries within the transactions.<a href="#section-1-2" class="pilcrow">¶</a></p>
 <p id="section-1-3">The CoSERV query language is intended to form the input data type for tools and services that provide access to Endorsements and Reference Values.
-The CoSERV result set is intended to form the corresponding output data type from those tools and services.
-This document does not define the complete APIs or interaction models for such tools and services.
-The scope of this document is limited to the definitions of the query language and the result set only.<a href="#section-1-3" class="pilcrow">¶</a></p>
+The CoSERV result set is intended to form the corresponding output data type from those tools and services.<a href="#section-1-3" class="pilcrow">¶</a></p>
 <p id="section-1-4">Both the query language and the result set are designed for extensibility.
 This addresses the need for a common baseline format to optimise for interoperability and software reuse, while maintaining the flexibility demanded by a dynamic and diverse ecosystem.<a href="#section-1-4" class="pilcrow">¶</a></p>
 <p id="section-1-5">The environment characteristics of Endorsements and Reference Values are derived from the equivalent concepts in CoRIM <span>[<a href="#I-D.ietf-rats-corim" class="cite xref">I-D.ietf-rats-corim</a>]</span>.
 CoSERV therefore borrows heavily from CoRIM, and shares some data types for its fields.
 And, like CoRIM, the CoSERV schema is defined using CDDL <span>[<a href="#RFC8610" class="cite xref">RFC8610</a>]</span>. A CoSERV query can be serialized in CBOR <span>[<a href="#STD94" class="cite xref">STD94</a>]</span> format.<a href="#section-1-5" class="pilcrow">¶</a></p>
+<p id="section-1-6">In addition to the CBOR-based data formats for CoSERV queries and responses, this specification also defines API bindings and behaviours for the exchange of CoSERV queries and responses.
+This is to facilitate standard interactions between CoSERV producers and consumers.
+Standard API endpoints and behaviours will encourage the growth of interoperable software tools and modules, not only for parsing and emitting CoSERV-compliant data, but also for implementing the clients and services that need to exchange such data when acting in the capacity of the relevant RATS roles.
+This will be of greater benefit to the software ecosystem than the CoSERV data format alone.
+See <a href="#secapibindings" class="auto internal xref">Section 6</a> for the API binding specifications.<a href="#section-1-6" class="pilcrow">¶</a></p>
 <div id="terminology-and-requirements-language">
 <section id="section-1.1">
         <h3 id="name-terminology-and-requirement">
@@ -1845,7 +1848,7 @@ cots = "TODO COTS"
 </div>
 </section>
 </div>
-<div id="encoding-requirements">
+<div id="secencoding">
 <section id="section-4.5">
         <h3 id="name-encoding-requirements">
 <a href="#section-4.5" class="section-number selfRef">4.5. </a><a href="#name-encoding-requirements" class="section-name selfRef">Encoding Requirements</a>
@@ -2088,11 +2091,35 @@ This means one or more original signed manifests containing information that sat
       <h2 id="name-api-bindings">
 <a href="#section-6" class="section-number selfRef">6. </a><a href="#name-api-bindings" class="section-name selfRef">API Bindings</a>
       </h2>
+<p id="section-6-1">This section sets out the ways in which CoSERV queries and responses can be exchanged between software components and services using APIs.
+The CoSERV data format itself is agnostic of any particular API model or transport.
+The API bindings provided here are intended to complement the data format.
+They will allow implementations to build the complete functionality of a CoSERV producer or consumer, in a way that is well-suited to any transport or interaction model that is needed.<a href="#section-6-1" class="pilcrow">¶</a></p>
+<p id="section-6-2">It is intended that these API definitions carry minimal additional semantics, since these are largely the preserve of the CoSERV query language itself.
+The API definitions are merely vehicles for the exchange of CoSERV queries and responses.
+Their purpose is to facilitate standard interactions that make the most effective use of available transports and protocols.<a href="#section-6-2" class="pilcrow">¶</a></p>
+<p id="section-6-3">The only API binding that is specified in this document is a request-response protocol that uses HTTP for transport.
+This is a simple pattern, and likely to be a commonly occurring one for a variety of use cases.
+Future specifications may define other API bindings.
+Such future bindings may introduce further HTTP-based protocols.
+Alternatively, they may define protocols for use with other transports, such as CoAP <span>[<a href="#RFC7252" class="cite xref">RFC7252</a>]</span>.<a href="#section-6-3" class="pilcrow">¶</a></p>
 <div id="secrrapi">
 <section id="section-6.1">
         <h3 id="name-request-response-over-http">
 <a href="#section-6.1" class="section-number selfRef">6.1. </a><a href="#name-request-response-over-http" class="section-name selfRef">Request Response over HTTP</a>
         </h3>
+<p id="section-6.1-1">This section defines and mandates the API endpoint behaviours for CoSERV request-response transactions over HTTP.
+Implementations <span class="bcp14">MUST</span> provide all parts of the API as specified in this section.
+The API is a simple protocol for the execution of CoSERV queries.
+It takes a single CoSERV query as input, and produces a corresponding single CoSERV result set as the output.
+It is a RESTful API because the CoSERV query serves as a unique and stable identifier of the target resource, where that resource is the set of artifacts being selected for by the query.
+The encoding rules for CoSERV are deterministic as set out in <a href="#secencoding" class="auto internal xref">Section 4.5</a>.
+This means that any given CoSERV query will always encode to the same sequence of bytes.
+The Base64Url encoding (<span><a href="https://rfc-editor.org/rfc/rfc7515#section-2" class="relref">Section 2</a> of [<a href="#RFC7515" class="cite xref">RFC7515</a>]</span>) of the byte sequence becomes the rightmost path segment of the URI used to identify the target resource.
+The HTTP <code>GET</code> verb is then used with this URI to execute the query.
+Further details are provided in the subsections below.<a href="#section-6.1-1" class="pilcrow">¶</a></p>
+<p id="section-6.1-2">Authentication is out of scope for this document.
+Implementations <span class="bcp14">MAY</span> authenticate clients, for example for authorization or for preventing denial of service attacks.<a href="#section-6.1-2" class="pilcrow">¶</a></p>
 <div id="secrrapidisco">
 <section id="section-6.1.1">
           <h4 id="name-discovery">
@@ -2116,11 +2143,12 @@ This means one or more original signed manifests containing information that sat
           <h4 id="name-execute-query">
 <a href="#section-6.1.2" class="section-number selfRef">6.1.2. </a><a href="#name-execute-query" class="section-name selfRef">Execute Query</a>
           </h4>
-<ul class="normal">
-<li class="normal" id="section-6.1.2-1.1">
-              <p id="section-6.1.2-1.1.1">body text<a href="#section-6.1.2-1.1.1" class="pilcrow">¶</a></p>
-</li>
-          </ul>
+<p id="section-6.1.2-1">This endpoint executes a single CoSERV query and returns a CoSERV result set.<a href="#section-6.1.2-1" class="pilcrow">¶</a></p>
+<p id="section-6.1.2-2">The HTTP method is <code>GET</code>.<a href="#section-6.1.2-2" class="pilcrow">¶</a></p>
+<p id="section-6.1.2-3">The URL path is formed of the discovered <code>coserv</code> endpoint (as set out in <a href="#secrrapidisco" class="auto internal xref">Section 6.1.1</a>), followed by a path separator ('/'), followed by the CoSERV query to be executed, which is represented as a Base64Url encoding of the query's serialized CBOR byte sequence.<a href="#section-6.1.2-3" class="pilcrow">¶</a></p>
+<p id="section-6.1.2-4">There are no additional URL query parameters.<a href="#section-6.1.2-4" class="pilcrow">¶</a></p>
+<p id="section-6.1.2-5">Clients <span class="bcp14">MUST</span> set the HTTP <code>Accept</code> header to a suitably-profiled <code>application/coserv+cose</code> or <code>application/coserv+cbor</code> media type.<a href="#section-6.1.2-5" class="pilcrow">¶</a></p>
+<p id="section-6.1.2-6">Endpoint implementations <span class="bcp14">MUST</span> respond with an HTTP status code and response body according to one of the subheadings below.<a href="#section-6.1.2-6" class="pilcrow">¶</a></p>
 <div id="responses">
 <section id="section-6.1.2.1">
             <h5 id="name-responses">
@@ -2131,12 +2159,9 @@ This means one or more original signed manifests containing information that sat
               <h6 id="name-successful-transaction-200">
 <a href="#section-6.1.2.1.1" class="section-number selfRef">6.1.2.1.1. </a><a href="#name-successful-transaction-200" class="section-name selfRef">Successful Transaction (200)</a>
               </h6>
-<ul class="normal">
-<li class="normal" id="section-6.1.2.1.1-1.1">
-                  <p id="section-6.1.2.1.1-1.1.1">Request:<a href="#section-6.1.2.1.1-1.1.1" class="pilcrow">¶</a></p>
-</li>
-              </ul>
-<div class="lang-http-message sourcecode" id="section-6.1.2.1.1-2">
+<p id="section-6.1.2.1.1-1">This response indicates that the CoSERV query was executed successfully.<a href="#section-6.1.2.1.1-1" class="pilcrow">¶</a></p>
+<p id="section-6.1.2.1.1-2">Example HTTP request:<a href="#section-6.1.2.1.1-2" class="pilcrow">¶</a></p>
+<div class="lang-http-message sourcecode" id="section-6.1.2.1.1-3">
 <pre>
 # NOTE: '\' line wrapping per RFC 8792
 
@@ -2144,14 +2169,10 @@ GET /coserv/ogB4I3R... HTTP/1.1
 Host: endorsements-distributor.example
 Accept: application/coserv+cose; \
         profile="tag:vendor.com,2025:cc_platform#1.0.0"
-</pre><a href="#section-6.1.2.1.1-2" class="pilcrow">¶</a>
+</pre><a href="#section-6.1.2.1.1-3" class="pilcrow">¶</a>
 </div>
-<ul class="normal">
-<li class="normal" id="section-6.1.2.1.1-3.1">
-                  <p id="section-6.1.2.1.1-3.1.1">Response:<a href="#section-6.1.2.1.1-3.1.1" class="pilcrow">¶</a></p>
-</li>
-              </ul>
-<div class="breakable lang-http-message sourcecode" id="section-6.1.2.1.1-4">
+<p id="section-6.1.2.1.1-4">Example HTTP response:<a href="#section-6.1.2.1.1-4" class="pilcrow">¶</a></p>
+<div class="breakable lang-http-message sourcecode" id="section-6.1.2.1.1-5">
 <pre>
 # NOTE: '\' line wrapping per RFC 8792
 
@@ -2225,7 +2246,7 @@ Body (in CBOR Extended Diagnostic Notation (EDN))
   &gt;&gt;,
   / signature / h'face5190'
 ])
-</pre><a href="#section-6.1.2.1.1-4" class="pilcrow">¶</a>
+</pre><a href="#section-6.1.2.1.1-5" class="pilcrow">¶</a>
 </div>
 </section>
 </div>
@@ -2234,12 +2255,9 @@ Body (in CBOR Extended Diagnostic Notation (EDN))
               <h6 id="name-failure-to-validate-query-4">
 <a href="#section-6.1.2.1.2" class="section-number selfRef">6.1.2.1.2. </a><a href="#name-failure-to-validate-query-4" class="section-name selfRef">Failure to Validate Query (400)</a>
               </h6>
-<ul class="normal">
-<li class="normal" id="section-6.1.2.1.2-1.1">
-                  <p id="section-6.1.2.1.2-1.1.1">Request:<a href="#section-6.1.2.1.2-1.1.1" class="pilcrow">¶</a></p>
-</li>
-              </ul>
-<div class="lang-http-message sourcecode" id="section-6.1.2.1.2-2">
+<p id="section-6.1.2.1.2-1">This response indicates that the supplied query is badly formed.<a href="#section-6.1.2.1.2-1" class="pilcrow">¶</a></p>
+<p id="section-6.1.2.1.2-2">Example HTTP request:<a href="#section-6.1.2.1.2-2" class="pilcrow">¶</a></p>
+<div class="lang-http-message sourcecode" id="section-6.1.2.1.2-3">
 <pre>
 # NOTE: '\' line wrapping per RFC 8792
 
@@ -2247,14 +2265,10 @@ GET /coserv/badquery... HTTP/1.1
 Host: endorsements-distributor.example
 Accept: application/coserv+cose; \
         profile="tag:vendor.com,2025:cc_platform#1.0.0"
-</pre><a href="#section-6.1.2.1.2-2" class="pilcrow">¶</a>
+</pre><a href="#section-6.1.2.1.2-3" class="pilcrow">¶</a>
 </div>
-<ul class="normal">
-<li class="normal" id="section-6.1.2.1.2-3.1">
-                  <p id="section-6.1.2.1.2-3.1.1">Response:<a href="#section-6.1.2.1.2-3.1.1" class="pilcrow">¶</a></p>
-</li>
-              </ul>
-<div class="lang-http-message sourcecode" id="section-6.1.2.1.2-4">
+<p id="section-6.1.2.1.2-4">Example HTTP response:<a href="#section-6.1.2.1.2-4" class="pilcrow">¶</a></p>
+<div class="lang-http-message sourcecode" id="section-6.1.2.1.2-5">
 <pre>
 # NOTE: '\' line wrapping per RFC 8792
 
@@ -2267,7 +2281,7 @@ Body (in CBOR Extended Diagnostic Notation (EDN))
   / title /  -1: "Query validation failed",
   / detail / -2: "The query payload is not in CBOR format"
 }
-</pre><a href="#section-6.1.2.1.2-4" class="pilcrow">¶</a>
+</pre><a href="#section-6.1.2.1.2-5" class="pilcrow">¶</a>
 </div>
 </section>
 </div>
@@ -2276,12 +2290,9 @@ Body (in CBOR Extended Diagnostic Notation (EDN))
               <h6 id="name-failure-to-negotiate-profil">
 <a href="#section-6.1.2.1.3" class="section-number selfRef">6.1.2.1.3. </a><a href="#name-failure-to-negotiate-profil" class="section-name selfRef">Failure to Negotiate Profile (406)</a>
               </h6>
-<ul class="normal">
-<li class="normal" id="section-6.1.2.1.3-1.1">
-                  <p id="section-6.1.2.1.3-1.1.1">Request:<a href="#section-6.1.2.1.3-1.1.1" class="pilcrow">¶</a></p>
-</li>
-              </ul>
-<div class="lang-http-message sourcecode" id="section-6.1.2.1.3-2">
+<p id="section-6.1.2.1.3-1">This response indicates that the client has specified a CoSERV profile that is not understood or serviceable by the receiving endpoint implementation.<a href="#section-6.1.2.1.3-1" class="pilcrow">¶</a></p>
+<p id="section-6.1.2.1.3-2">Example HTTP request:<a href="#section-6.1.2.1.3-2" class="pilcrow">¶</a></p>
+<div class="lang-http-message sourcecode" id="section-6.1.2.1.3-3">
 <pre>
 # NOTE: '\' line wrapping per RFC 8792
 
@@ -2289,14 +2300,10 @@ GET /coserv/ogB4I3R... HTTP/1.1
 Host: endorsements-distributor.example
 Accept: application/coserv+cose; \
         profile="tag:vendor.com,2025:cc_platform#2.0.0"
-</pre><a href="#section-6.1.2.1.3-2" class="pilcrow">¶</a>
+</pre><a href="#section-6.1.2.1.3-3" class="pilcrow">¶</a>
 </div>
-<ul class="normal">
-<li class="normal" id="section-6.1.2.1.3-3.1">
-                  <p id="section-6.1.2.1.3-3.1.1">Response:<a href="#section-6.1.2.1.3-3.1.1" class="pilcrow">¶</a></p>
-</li>
-              </ul>
-<div class="lang-http-message sourcecode" id="section-6.1.2.1.3-4">
+<p id="section-6.1.2.1.3-4">Example HTTP response:<a href="#section-6.1.2.1.3-4" class="pilcrow">¶</a></p>
+<div class="lang-http-message sourcecode" id="section-6.1.2.1.3-5">
 <pre>
 # NOTE: '\' line wrapping per RFC 8792
 
@@ -2310,7 +2317,7 @@ Body (in CBOR Extended Diagnostic Notation (EDN))
   / detail / -2: "Profile tag:vendor.com,2025:cc_platform#2.0.0 \
                   not supported",
 }
-</pre><a href="#section-6.1.2.1.3-4" class="pilcrow">¶</a>
+</pre><a href="#section-6.1.2.1.3-5" class="pilcrow">¶</a>
 </div>
 </section>
 </div>
@@ -2737,6 +2744,14 @@ Note that the <code>cose-type</code> parameter is explicitly not supported, as i
 <dt id="RFC2119">[RFC2119]</dt>
         <dd>
 <span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03" class="refDate">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc2119">https://www.rfc-editor.org/rfc/rfc2119</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC4648">[RFC4648]</dt>
+        <dd>
+<span class="refAuthor">Josefsson, S.</span>, <span class="refTitle">"The Base16, Base32, and Base64 Data Encodings"</span>, <span class="seriesInfo">RFC 4648</span>, <span class="seriesInfo">DOI 10.17487/RFC4648</span>, <time datetime="2006-10" class="refDate">October 2006</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc4648">https://www.rfc-editor.org/rfc/rfc4648</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC7515">[RFC7515]</dt>
+        <dd>
+<span class="refAuthor">Jones, M.</span>, <span class="refAuthor">Bradley, J.</span>, and <span class="refAuthor">N. Sakimura</span>, <span class="refTitle">"JSON Web Signature (JWS)"</span>, <span class="seriesInfo">RFC 7515</span>, <span class="seriesInfo">DOI 10.17487/RFC7515</span>, <time datetime="2015-05" class="refDate">May 2015</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7515">https://www.rfc-editor.org/rfc/rfc7515</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC8174">[RFC8174]</dt>
         <dd>
