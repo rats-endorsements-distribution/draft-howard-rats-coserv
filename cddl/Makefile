@@ -12,7 +12,7 @@ clean: ; rm -f $(CLEANFILES)
 
 $(eval $(call cddl_check_template,coserv,$(COSERV_FRAGS),$(COSERV_EXAMPLES),$(COSERV_IMPORT)))
 $(eval $(call cddl_check_template,signed-coserv,$(COSERV_SIGNED_FRAGS),$(COSERV_SIGNED_EXAMPLES),$(COSERV_SIGNED_IMPORT)))
-$(eval $(call cddl_check_template,discovery,$(DISCOVERY_FRAGS),$(DISCOVERY_CBOR_EXAMPLES),$(DISCOVERY_IMPORT)))
+$(eval $(call cddl_check_template,discovery,$(DISCOVERY_FRAGS),$(DISCOVERY_EXAMPLES),$(DISCOVERY_IMPORT)))
 
 include signed-examples.mk
 include subst.mk

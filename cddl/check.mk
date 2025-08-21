@@ -23,8 +23,6 @@ check-$(1)-examples: $(1)-autogen.cddl $(3:.diag=.cbor)
 	@for f in $(3:.diag=.cbor); do \
     echo ">> validating $$$$f against $$<" ; \
     $$(cddl) $$< validate $$$$f &>/dev/null || exit 1 ; \
-    echo ">> saving prettified CBOR to $$$${f%.cbor}.pretty" ; \
-    $$(cbor2pretty) $$$$f > $$$${f%.cbor}.pretty ; \
   done
 
 .PHONY: check-$(1)-examples
