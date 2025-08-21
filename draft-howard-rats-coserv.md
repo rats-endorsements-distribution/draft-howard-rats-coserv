@@ -44,6 +44,7 @@ author:
 
 
 normative:
+  RFC4648: base64
   RFC8610: cddl
   RFC8259: json
   STD96:
@@ -88,8 +89,6 @@ This facilitates the efficient discovery and retrieval of relevant Endorsements 
 
 The CoSERV query language is intended to form the input data type for tools and services that provide access to Endorsements and Reference Values.
 The CoSERV result set is intended to form the corresponding output data type from those tools and services.
-This document does not define the complete APIs or interaction models for such tools and services.
-The scope of this document is limited to the definitions of the query language and the result set only.
 
 Both the query language and the result set are designed for extensibility.
 This addresses the need for a common baseline format to optimise for interoperability and software reuse, while maintaining the flexibility demanded by a dynamic and diverse ecosystem.
@@ -97,6 +96,12 @@ This addresses the need for a common baseline format to optimise for interoperab
 The environment characteristics of Endorsements and Reference Values are derived from the equivalent concepts in CoRIM {{-rats-corim}}.
 CoSERV therefore borrows heavily from CoRIM, and shares some data types for its fields.
 And, like CoRIM, the CoSERV schema is defined using CDDL {{-cddl}}. A CoSERV query can be serialized in CBOR {{-cbor}} format.
+
+In addition to the CBOR-based data formats for CoSERV queries and responses, this specification also defines API bindings and behaviours for the exchange of CoSERV queries and responses.
+This is to facilitate standard interactions between CoSERV producers and consumers.
+Standard API endpoints and behaviours will encourage the growth of interoperable software tools and modules, not only for parsing and emitting CoSERV-compliant data, but also for implementing the clients and services that need to exchange such data when acting in the capacity of the relevant RATS roles.
+This will be of greater benefit to the software ecosystem than the CoSERV data format alone.
+See {{secapibindings}} for the API binding specifications.
 
 ## Terminology and Requirements Language
 
@@ -386,7 +391,7 @@ The result set structure is given by the following CDDL:
 {::include cddl/result-set.cddl}
 ~~~
 
-## Encoding Requirements
+## Encoding Requirements {#secencoding}
 
 Implementations may wish to use serialized CoSERV queries as canonical identifiers for artifact collections.
 For example, a Reference Value Provider service may wish the cache the results of a CoSERV query to gain efficiency when responding to a future identical query.
@@ -476,7 +481,36 @@ Compared with the previous example, the `rvq` entry is empty, while the `source-
 
 # API Bindings {#secapibindings}
 
+This section sets out the ways in which CoSERV queries and responses can be exchanged between software components and services using APIs.
+The CoSERV data format itself is agnostic of any particular API model or transport.
+The API bindings provided here are intended to complement the data format.
+They will allow implementations to build the complete functionality of a CoSERV producer or consumer, in a way that is well-suited to any transport or interaction model that is needed.
+
+It is intended that these API definitions carry minimal additional semantics, since these are largely the preserve of the CoSERV query language itself.
+The API definitions are merely vehicles for the exchange of CoSERV queries and responses.
+Their purpose is to facilitate standard interactions that make the most effective use of available transports and protocols.
+
+The only API binding that is specified in this document is a request-response protocol that uses HTTP for transport.
+This is a simple pattern, and likely to be a commonly occurring one for a variety of use cases.
+Future specifications may define other API bindings.
+Such future bindings may introduce further HTTP-based protocols.
+Alternatively, they may define protocols for use with other transports, such as CoAP {{RFC7252}}.
+
 ## Request Response over HTTP {#secrrapi}
+
+This section defines and mandates the API endpoint behaviours for CoSERV request-response transactions over HTTP.
+Implementations MUST provide all parts of the API as specified in this section.
+The API is a simple protocol for the execution of CoSERV queries.
+It takes a single CoSERV query as input, and produces a corresponding single CoSERV result set as the output.
+It is a RESTful API because the CoSERV query serves as a unique and stable identifier of the target resource, where that resource is the set of artifacts being selected for by the query.
+The encoding rules for CoSERV are deterministic as set out in {{secencoding}}.
+This means that any given CoSERV query will always encode to the same sequence of bytes.
+The Base64Url encoding ({{Section 2 of !RFC7515}}) of the byte sequence becomes the rightmost path segment of the URI used to identify the target resource.
+The HTTP `GET` verb is then used with this URI to execute the query.
+Further details are provided in the subsections below.
+
+Authentication is out of scope for this document.
+Implementations MAY authenticate clients, for example for authorization or for preventing denial of service attacks.
 
 ### Discovery {#secrrapidisco}
 
@@ -486,13 +520,25 @@ Compared with the previous example, the `rvq` entry is empty, while the `source-
 
 ### Execute Query {#secrrapiquery}
 
-* body text
+This endpoint executes a single CoSERV query and returns a CoSERV result set.
+
+The HTTP method is `GET`.
+
+The URL path is formed of the discovered `coserv` endpoint (as set out in {{secrrapidisco}}), followed by a path separator ('/'), followed by the CoSERV query to be executed, which is represented as a Base64Url encoding of the query's serialized CBOR byte sequence.
+
+There are no additional URL query parameters.
+
+Clients MUST set the HTTP `Accept` header to a suitably-profiled `application/coserv+cose` or `application/coserv+cbor` media type.
+
+Endpoint implementations MUST respond with an HTTP status code and response body according to one of the subheadings below.
 
 #### Responses
 
 ##### Successful Transaction (200)
 
-* Request:
+This response indicates that the CoSERV query was executed successfully.
+
+Example HTTP request:
 
 ~~~ http-message
 # NOTE: '\' line wrapping per RFC 8792
@@ -503,7 +549,7 @@ Accept: application/coserv+cose; \
         profile="tag:vendor.com,2025:cc_platform#1.0.0"
 ~~~
 
-* Response:
+Example HTTP response:
 
 ~~~ http-message
 # NOTE: '\' line wrapping per RFC 8792
@@ -519,7 +565,9 @@ Body (in CBOR Extended Diagnostic Notation (EDN))
 
 ##### Failure to Validate Query (400)
 
-* Request:
+This response indicates that the supplied query is badly formed.
+
+Example HTTP request:
 
 ~~~ http-message
 # NOTE: '\' line wrapping per RFC 8792
@@ -530,7 +578,7 @@ Accept: application/coserv+cose; \
         profile="tag:vendor.com,2025:cc_platform#1.0.0"
 ~~~
 
-* Response:
+Example HTTP response:
 
 ~~~ http-message
 # NOTE: '\' line wrapping per RFC 8792
@@ -548,7 +596,9 @@ Body (in CBOR Extended Diagnostic Notation (EDN))
 
 ##### Failure to Negotiate Profile (406)
 
-* Request:
+This response indicates that the client has specified a CoSERV profile that is not understood or serviceable by the receiving endpoint implementation.
+
+Example HTTP request:
 
 ~~~ http-message
 # NOTE: '\' line wrapping per RFC 8792
@@ -559,7 +609,7 @@ Accept: application/coserv+cose; \
         profile="tag:vendor.com,2025:cc_platform#2.0.0"
 ~~~
 
-* Response:
+Example HTTP response:
 
 ~~~ http-message
 # NOTE: '\' line wrapping per RFC 8792
