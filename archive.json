@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-08-19T00:47:04.261258+00:00",
+  "timestamp": "2025-08-21T00:43:55.266555+00:00",
   "repo": "rats-endorsements-distribution/draft-howard-rats-coserv",
   "labels": [
     {
@@ -675,6 +675,22 @@
           "updatedAt": "2025-08-15T13:40:37Z"
         }
       ]
+    },
+    {
+      "number": 65,
+      "id": "I_kwDOOAZd1M7Gu1G4",
+      "title": "Carl\u2019s (partial) review",
+      "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/issues/65",
+      "state": "OPEN",
+      "author": "thomas-fossati",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "@carl-wallace\u2019s (partial) review: https://mailarchive.ietf.org/arch/msg/rats/ouEOxv4b8myEc88tIPNDq17P4rs/\n\n\n- How one would implement \"shallow trust\" and \"deep trust\" is not clear to me. I think this stems from the fact that Endorsements are secure statements and Reference Values are not. Should \"shallow trust\" be limited to conveying Reference Values?\n \n- \"Shallow trust\" suggests a need to include Attestation Results in the result set (which in turn suggests including Evidence and Appraisal Policy in the query). CoServ seems a bit like SCVP with \"deep trust\" being analogous to \"delegated path building\" but \"shallow trust\" stopping short of \"delegated path validation.\"\n \n- How are verifiers (or aggregators) supposed to locate aggregators or supply chain actors?\n \n- Can/should CoSERV be used between aggregator and supply chain actors? If so, make this clearer in Section 2 (for example in the statement \"would have the ability to contact all contributing supply chain actors\" and in the last paragraph).\n \n- I think the term \"Endorser\" is used too loosely throughout. For example, Section 2 says: \u201cIn pure RATS terms, an aggregator is still an Endorser or a Reference Value Provider - or, more likely, both.\u201d Is an aggregator an \"Endorser\" or an \"Endorsement Provider\"? Given an endorsement is a \"secure statement\", referring to an aggregator as an \"Endorser\" does not seem right.\n \n- In 3.1, given the concerns about caching, why is a nonce not used?\n \n- In 4.3.3, it may be worth clarifying whether the timestamp informs how a result-set is prepared, i.e., whether result-sets should be relative to the point in time indicated by the timestamp or result-sets are always relative to the current time of the result-set provider.\n \n- In 4.4, should results also have a timestamp value indicating when result set was prepared?\n \n- In 3.2, do we expect trust anchor keys to be used to sign evidence? A better example may be a public key used to verify a certification oath to a certificate containing a public key used to verify evidence. This begs the questions is one bucket of trust anchors sufficient, i.e., ought they be differentiated by purpose, and are there any intermediate public keys that should also be conveyed, i.e., intermediate certificates?\n \n- The EAT I-D reference should be updated to RFC 9711.\n \n- 4.3.2.1 states \"the implementation of the artifact producer MUST consider these to be alternatives.\" Is \"producer\" the right term here if the recipient of the query is an aggregator? This section may benefit from a courtesy reproduction of the class-map type (or at least a reference to it).\n \n- Should artifact-type have an artifact-type-extensions to align with result-set? If not, what would prompt adding a new result-set type?\n \n- In 4.3.4, suggest replacing \"either\" with \"the desired type(s) of results: \".\n \n- This sentence in the Security Considerations is confusing: \"It does not directly convey Evidence, Endorsements, Reference Values, Policies or Attestation Results.\" Should Endorsements and Reference Values be removed, the entire sentence deleted, or is there some meaning of \"directly\" that makes the sentence accurate? How does this relate to \"shallow trust\"? Similarly, the statement \u201cthere are fewer security considerations for CoSERV\u201d would seem to vary with shallow or deep trust.\n \n- The Security Considerations section should address conveyance of trust anchors, which have very different security considerations than conveying secure statements like Endorsements.",
+      "createdAt": "2025-08-19T12:18:08Z",
+      "updatedAt": "2025-08-19T12:18:08Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
@@ -2721,7 +2737,7 @@
       "labels": [],
       "body": "Draft prose changes:\r\n\r\n- New paragraph in the introduction to indicate the presence of API bindings and reference the relevant section\r\n- Body text for API bindings in general\r\n- Body text for the HTTP request-response binding (currently the only one being specified)\r\n- Body text around the example request/responses\r\n\r\nDiscovery section and caching section to do later (not this PR).\r\n\r\nSigned-off-by: Paul Howard <paul.howard@arm.com>",
       "createdAt": "2025-08-18T11:21:47Z",
-      "updatedAt": "2025-08-18T16:38:31Z",
+      "updatedAt": "2025-08-20T07:54:25Z",
       "baseRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
       "baseRefName": "main",
       "baseRefOid": "89d4ddd872fa52494ce5667c16312371fcc73e20",
@@ -2732,7 +2748,15 @@
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
-      "comments": [],
+      "comments": [
+        {
+          "author": "paulhowardarm",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Courtesy note @shefali-kamal @henkbirkholz - I plan to merge this PR within the next day or two, just in case you have pending review feedback.",
+          "createdAt": "2025-08-20T07:54:25Z",
+          "updatedAt": "2025-08-20T07:54:25Z"
+        }
+      ],
       "reviews": [
         {
           "id": "PRR_kwDOOAZd1M66c_P2",
