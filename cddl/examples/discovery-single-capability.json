@@ -3,8 +3,8 @@
      "capabilities": [
       {
         "media-type": "application/coserv+cose; profile=\"tag:vendor.com,2025:cc_platform#1.0.0\"",
-        "supports-collected": "true",
-        "supports-source": "false"
+        "supports-collected": true,
+        "supports-source": false
       }
     ],
     "api-endpoints": [
