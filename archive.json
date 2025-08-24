@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-08-21T00:43:55.266555+00:00",
+  "timestamp": "2025-08-24T00:52:02.636777+00:00",
   "repo": "rats-endorsements-distribution/draft-howard-rats-coserv",
   "labels": [
     {
@@ -2730,24 +2730,26 @@
       "id": "PR_kwDOOAZd1M6kFi4k",
       "title": "Body text for API binding sections",
       "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/pull/64",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "paulhowardarm",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Draft prose changes:\r\n\r\n- New paragraph in the introduction to indicate the presence of API bindings and reference the relevant section\r\n- Body text for API bindings in general\r\n- Body text for the HTTP request-response binding (currently the only one being specified)\r\n- Body text around the example request/responses\r\n\r\nDiscovery section and caching section to do later (not this PR).\r\n\r\nSigned-off-by: Paul Howard <paul.howard@arm.com>",
       "createdAt": "2025-08-18T11:21:47Z",
-      "updatedAt": "2025-08-20T07:54:25Z",
+      "updatedAt": "2025-08-21T06:40:43Z",
       "baseRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
       "baseRefName": "main",
       "baseRefOid": "89d4ddd872fa52494ce5667c16312371fcc73e20",
       "headRepository": "paulhowardarm/draft-howard-rats-coserv",
       "headRefName": "phApiBindings",
       "headRefOid": "dd5c7dd721f3e0017187bc5139cd66ab0e725639",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-08-21T06:40:43Z",
+      "mergedAt": "2025-08-21T06:40:43Z",
+      "mergedBy": "paulhowardarm",
+      "mergeCommit": {
+        "oid": "ac2f23b832415dd3e76dc766496add3a9ef20288"
+      },
       "comments": [
         {
           "author": "paulhowardarm",
