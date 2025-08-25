@@ -11,11 +11,8 @@ check-$(1): $(1)-autogen.cddl
 
 .PHONY: check-$(1)
 
-import_files := $(foreach i,$(4),$(lastword $(subst =, ,$(i)).cddl))
-import_opts = $(foreach i,$(4),-I $(i))
-
-$(1)-autogen.cddl: $(2) $$(import_files)
-	$$(cddlc) $$(import_opts) -t cddl -2 $(2) > $$@
+$(1)-autogen.cddl: $(2) $(foreach i,$(4),$(lastword $(subst =, ,$(i)).cddl))
+	$$(cddlc) $(foreach i,$(4),-I $(i)) -t cddl -2 $(2) > $$@
 
 CLEANFILES += $(1)-autogen.cddl
 
