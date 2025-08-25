@@ -41,8 +41,10 @@ author:
   name: Shefali Kamal
   org: Fujitsu
   email: Shefali.Kamal@fujitsu.com
-
-
+- ins: G. Mandyam
+  name: Giridhar Mandyam
+  org: AMD
+  email: gmandyam@amd.com
 normative:
   RFC4648: base64
   RFC8610: cddl
