@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-08-24T00:52:02.636777+00:00",
+  "timestamp": "2025-08-26T00:45:11.907363+00:00",
   "repo": "rats-endorsements-distribution/draft-howard-rats-coserv",
   "labels": [
     {
@@ -2847,6 +2847,66 @@
           "body": "Thank you, @paulhowardarm. \ud83d\udea2 it!",
           "createdAt": "2025-08-18T16:38:31Z",
           "updatedAt": "2025-08-18T16:38:31Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 66,
+      "id": "PR_kwDOOAZd1M6lPrc7",
+      "title": "Add gmandyam to editors list",
+      "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/pull/66",
+      "state": "OPEN",
+      "author": "gmandyam",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2025-08-25T16:16:19Z",
+      "updatedAt": "2025-08-25T16:29:58Z",
+      "baseRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
+      "baseRefName": "main",
+      "baseRefOid": "ac2f23b832415dd3e76dc766496add3a9ef20288",
+      "headRepository": "gmandyam/draft-howard-rats-coserv",
+      "headRefName": "add_gmandyam",
+      "headRefOid": "ed1e5ef4cc270915f4da03ae684e5d2458c33506",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOOAZd1M674s3D",
+          "commit": {
+            "abbreviatedOid": "ed79395"
+          },
+          "author": "thomas-fossati",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-08-25T16:29:26Z",
+          "updatedAt": "2025-08-25T16:29:27Z",
+          "comments": [
+            {
+              "originalPosition": 9,
+              "body": "add space between author\u2019s stanza and refs\r\n\r\n```suggestion\r\n  email: gmandyam@amd.com\r\n\r\n```",
+              "createdAt": "2025-08-25T16:29:26Z",
+              "updatedAt": "2025-08-25T16:29:27Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOOAZd1M674tbt",
+          "commit": {
+            "abbreviatedOid": "ed1e5ef"
+          },
+          "author": "thomas-fossati",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Nice, thanks and welcome!",
+          "createdAt": "2025-08-25T16:29:58Z",
+          "updatedAt": "2025-08-25T16:29:58Z",
           "comments": []
         }
       ]
