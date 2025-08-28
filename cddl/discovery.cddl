@@ -19,13 +19,14 @@ version = tstr
 
 capability = {
     media-type-label => cmw.media-type,
-    supports-collected-label => bool,
-    supports-source-label => bool
+    artifact-support-label => artifact-support
 }
 
 media-type-label = eat.JC<"media-type", 1>
-supports-collected-label = eat.JC<"supports-collected", 2>
-supports-source-label = eat.JC<"supports-source", 3>
+artifact-support-label = eat.JC<"artifact-support", 2>
+
+non-empty-array<M> = (M) .and ([ + any ])
+artifact-support = non-empty-array<[ ? "source", ? "collected" ]>
 
 endpoint = {
     name-label => tstr,
