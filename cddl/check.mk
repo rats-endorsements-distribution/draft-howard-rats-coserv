@@ -2,7 +2,7 @@
 
 # $1: label
 # $2: cddl fragments
-# $3: diag test files
+# $3: diag or json test files
 # $4: imports (namespace=basename ...)
 define cddl_check_template
 
@@ -11,11 +11,8 @@ check-$(1): $(1)-autogen.cddl
 
 .PHONY: check-$(1)
 
-import_files := $(foreach i,$(4),$(lastword $(subst =, ,$(i)).cddl))
-import_opts = $(foreach i,$(4),-I $(i))
-
-$(1)-autogen.cddl: $(2) $$(import_files)
-	$$(cddlc) $$(import_opts) -t cddl -2 $(2) > $$@
+$(1)-autogen.cddl: $(2) $(foreach i,$(4),$(lastword $(subst =, ,$(i)).cddl))
+	$$(cddlc) $(foreach i,$(4),-I $(i)) -t cddl -2 $(2) > $$@
 
 CLEANFILES += $(1)-autogen.cddl
 
@@ -27,7 +24,8 @@ check-$(1)-examples: $(1)-autogen.cddl $(3:.diag=.cbor)
 
 .PHONY: check-$(1)-examples
 
-CLEANFILES += $(3:.diag=.cbor)
-CLEANFILES += $(3:.diag=.pretty)
+# Only clean up the example CBOR files generated from the EDN files; leave the
+# JSON files alone.
+CLEANFILES += $(patsubst %.diag,%.cbor,$(filter %.diag,$(3)))
 
 endef # cddl_check_template
