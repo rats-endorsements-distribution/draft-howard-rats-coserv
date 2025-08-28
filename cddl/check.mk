@@ -26,8 +26,6 @@ check-$(1)-examples: $(1)-autogen.cddl $(3:.diag=.cbor)
 
 # Only clean up the example CBOR files generated from the EDN files; leave the
 # JSON files alone.
-ifeq ($(suffix $(3)),.diag)
-CLEANFILES += $(3:.diag=.cbor)
-endif
+CLEANFILES += $(patsubst %.diag,%.cbor,$(filter %.diag,$(3)))
 
 endef # cddl_check_template
