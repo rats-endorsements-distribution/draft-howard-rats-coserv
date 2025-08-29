@@ -1,0 +1,37 @@
+;# import rfc9711 as eat
+;# import cmw-autogen as cmw
+;# import rfc9052 as cose
+;# import jwk-autogen as jwk
+
+coserv-well-known-info = {
+  version-label => version,
+  capabilities-label => [ + capability ],
+  api-endpoints-label => [ + endpoint ],
+  result-verification-key-label => eat.JC<jwk.JWK_Set, cose.COSE_KeySet>
+}
+
+version-label = eat.JC<"version", 1>
+capabilities-label = eat.JC<"capabilities", 2>
+api-endpoints-label = eat.JC<"api-endpoints", 3>
+result-verification-key-label = eat.JC<"result-verification-key", 4>
+
+version = tstr
+
+capability = {
+  media-type-label => cmw.media-type,
+  artifact-support-label => artifact-support
+}
+
+media-type-label = eat.JC<"media-type", 1>
+artifact-support-label = eat.JC<"artifact-support", 2>
+
+non-empty-array<M> = (M) .and ([ + any ])
+artifact-support = non-empty-array<[ ? "source", ? "collected" ]>
+
+endpoint = {
+  name-label => tstr,
+  path-label => tstr
+}
+
+name-label = eat.JC<"name", 1>
+path-label = eat.JC<"path", 2>

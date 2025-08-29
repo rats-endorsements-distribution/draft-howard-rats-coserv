@@ -15,3 +15,9 @@ COSERV_SIGNED_FRAGS += $(COSERV_FRAGS)
 COSERV_SIGNED_EXAMPLES := $(subst rv-,signed-rv-,$(COSERV_EXAMPLES))
 
 COSERV_SIGNED_IMPORT := $(COSERV_IMPORT)
+
+DISCOVERY_FRAGS := discovery.cddl
+DISCOVERY_IMPORT := cmw=cmw-autogen
+DISCOVERY_IMPORT += jwk=jwk-autogen
+DISCOVERY_EXAMPLES := $(wildcard examples/discovery-*.diag)
+DISCOVERY_EXAMPLES += $(wildcard examples/discovery-*.json)
