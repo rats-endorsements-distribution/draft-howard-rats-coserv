@@ -5,12 +5,14 @@
 Remote ATtestation ProcedureS                                  P. Howard
 Internet-Draft                                                       Arm
 Intended status: Informational                                T. Fossati
-Expires: 22 February 2026                                         Linaro
+Expires: 2 March 2026                                             Linaro
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                                 S. Kamal
                                                                  Fujitsu
-                                                          21 August 2025
+                                                              G. Mandyam
+                                                                     AMD
+                                                          29 August 2025
 
 
          Concise Selector for Endorsements and Reference Values
@@ -61,7 +63,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 22 February 2026.
+   This Internet-Draft will expire on 2 March 2026.
 
 Copyright Notice
 
@@ -1492,9 +1494,9 @@ Table of Contents
    [I-D.ietf-rats-endorsements]
               Thaler, D., Birkholz, H., and T. Fossati, "RATS
               Endorsements", Work in Progress, Internet-Draft, draft-
-              ietf-rats-endorsements-06, 3 March 2025,
+              ietf-rats-endorsements-07, 25 August 2025,
               <https://datatracker.ietf.org/doc/html/draft-ietf-rats-
-              endorsements-06>.
+              endorsements-07>.
 
    [RFC6024]  Reddy, R. and C. Wallace, "Trust Anchor Management
               Requirements", RFC 6024, DOI 10.17487/RFC6024, October
@@ -2194,3 +2196,8 @@ Authors' Addresses
    Shefali Kamal
    Fujitsu
    Email: Shefali.Kamal@fujitsu.com
+
+
+   Giridhar Mandyam
+   AMD
+   Email: gmandyam@amd.com
