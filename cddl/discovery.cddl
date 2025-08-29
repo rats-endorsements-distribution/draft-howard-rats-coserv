@@ -18,8 +18,8 @@ result-verification-key-label = eat.JC<"result-verification-key", 4>
 version = tstr
 
 capability = {
-    media-type-label => cmw.media-type,
-    artifact-support-label => artifact-support
+  media-type-label => cmw.media-type,
+  artifact-support-label => artifact-support
 }
 
 media-type-label = eat.JC<"media-type", 1>
@@ -29,8 +29,8 @@ non-empty-array<M> = (M) .and ([ + any ])
 artifact-support = non-empty-array<[ ? "source", ? "collected" ]>
 
 endpoint = {
-    name-label => tstr,
-    path-label => tstr
+  name-label => tstr,
+  path-label => tstr
 }
 
 name-label = eat.JC<"name", 1>
