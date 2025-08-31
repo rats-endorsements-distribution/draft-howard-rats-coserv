@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-08-26T00:45:11.907363+00:00",
+  "timestamp": "2025-08-31T00:48:16.933305+00:00",
   "repo": "rats-endorsements-distribution/draft-howard-rats-coserv",
   "labels": [
     {
@@ -62,7 +62,7 @@
       "labels": [],
       "body": "Hi, I am excited to see this standard work on \"How to identify reference value\" as a confidential computing developer. I have some questions about this\n\n1. This standard specifies how to calibrate reference values. Do we have plans to standardize the reference value return format or the protocol interaction process being queried? The context is that different hardware architectures currently do not have a unified reference value query API, and the APIs for distributing reference values \u200b\u200bin the software ecosystem are also different. If we standardized this process, it would benefit the confidential computing ecosystem.\n\n2. In the Query Structure of the reference value query, is it necessary to add the \"time\" optional parameter, which means the reference value that meets other conditions as of a certain time.\n\nThanks!",
       "createdAt": "2025-03-20T09:15:11Z",
-      "updatedAt": "2025-07-17T12:38:09Z",
+      "updatedAt": "2025-08-29T07:56:14Z",
       "closedAt": null,
       "comments": [
         {
@@ -99,6 +99,13 @@
           "body": "Our aim is for CoSERV to be applicable across the entire supply chain: hardware, firmware, software. We also support aggregation models, whereby an intelligent service could construct a whole body of endorsement/RV artifacts by combining pieces from different contributing parts of the supply chain, creating a readily-packaged bundle that could be used to appraise an entire system.",
           "createdAt": "2025-07-17T12:38:09Z",
           "updatedAt": "2025-07-17T12:38:09Z"
+        },
+        {
+          "author": "paulhowardarm",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Hi @Xynnn007. In your opinion, do we have any remaining actionable items in this issue? I'm hopeful that your insights and questions have been addressed in the comment trail, or by the natural evolution of the draft over the past months. I think we've captured a useful conversation here, but I'm wondering if we can close this now? Are there any specific changes that you would be keen to see? We would also welcome you to become a co-author of the draft if you wish.",
+          "createdAt": "2025-08-29T07:56:14Z",
+          "updatedAt": "2025-08-29T07:56:14Z"
         }
       ]
     },
@@ -689,6 +696,22 @@
       "body": "@carl-wallace\u2019s (partial) review: https://mailarchive.ietf.org/arch/msg/rats/ouEOxv4b8myEc88tIPNDq17P4rs/\n\n\n- How one would implement \"shallow trust\" and \"deep trust\" is not clear to me. I think this stems from the fact that Endorsements are secure statements and Reference Values are not. Should \"shallow trust\" be limited to conveying Reference Values?\n \n- \"Shallow trust\" suggests a need to include Attestation Results in the result set (which in turn suggests including Evidence and Appraisal Policy in the query). CoServ seems a bit like SCVP with \"deep trust\" being analogous to \"delegated path building\" but \"shallow trust\" stopping short of \"delegated path validation.\"\n \n- How are verifiers (or aggregators) supposed to locate aggregators or supply chain actors?\n \n- Can/should CoSERV be used between aggregator and supply chain actors? If so, make this clearer in Section 2 (for example in the statement \"would have the ability to contact all contributing supply chain actors\" and in the last paragraph).\n \n- I think the term \"Endorser\" is used too loosely throughout. For example, Section 2 says: \u201cIn pure RATS terms, an aggregator is still an Endorser or a Reference Value Provider - or, more likely, both.\u201d Is an aggregator an \"Endorser\" or an \"Endorsement Provider\"? Given an endorsement is a \"secure statement\", referring to an aggregator as an \"Endorser\" does not seem right.\n \n- In 3.1, given the concerns about caching, why is a nonce not used?\n \n- In 4.3.3, it may be worth clarifying whether the timestamp informs how a result-set is prepared, i.e., whether result-sets should be relative to the point in time indicated by the timestamp or result-sets are always relative to the current time of the result-set provider.\n \n- In 4.4, should results also have a timestamp value indicating when result set was prepared?\n \n- In 3.2, do we expect trust anchor keys to be used to sign evidence? A better example may be a public key used to verify a certification oath to a certificate containing a public key used to verify evidence. This begs the questions is one bucket of trust anchors sufficient, i.e., ought they be differentiated by purpose, and are there any intermediate public keys that should also be conveyed, i.e., intermediate certificates?\n \n- The EAT I-D reference should be updated to RFC 9711.\n \n- 4.3.2.1 states \"the implementation of the artifact producer MUST consider these to be alternatives.\" Is \"producer\" the right term here if the recipient of the query is an aggregator? This section may benefit from a courtesy reproduction of the class-map type (or at least a reference to it).\n \n- Should artifact-type have an artifact-type-extensions to align with result-set? If not, what would prompt adding a new result-set type?\n \n- In 4.3.4, suggest replacing \"either\" with \"the desired type(s) of results: \".\n \n- This sentence in the Security Considerations is confusing: \"It does not directly convey Evidence, Endorsements, Reference Values, Policies or Attestation Results.\" Should Endorsements and Reference Values be removed, the entire sentence deleted, or is there some meaning of \"directly\" that makes the sentence accurate? How does this relate to \"shallow trust\"? Similarly, the statement \u201cthere are fewer security considerations for CoSERV\u201d would seem to vary with shallow or deep trust.\n \n- The Security Considerations section should address conveyance of trust anchors, which have very different security considerations than conveying secure statements like Endorsements.",
       "createdAt": "2025-08-19T12:18:08Z",
       "updatedAt": "2025-08-19T12:18:08Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 67,
+      "id": "I_kwDOOAZd1M7IeFX3",
+      "title": "Security and Privacy Considerations for aggregators",
+      "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/issues/67",
+      "state": "OPEN",
+      "author": "thomas-fossati",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "CoSERV \u201caggregators\" consolidate multiple entities in the upstream supply chain into a single entity.\nThis enables a complex supply chain to be presented to a verifier in a simplified and robust way.\nHowever, there are security and privacy implications that need to be explored.\n\nFor example, an aggregator is generally more _powerful_ than a vendor or single-component endorser.  Since it conveys data from multiple upstream links, it can correlate queries for different parts of a system and build a precise picture of the composite attester, which would not be available to a single-component endorser.  This could pose a privacy risk that may be tricky to mitigate.\n\nIn terms of security, an aggregator is a one-stop shop for the verifier and therefore a single point of failure. If the aggregator is successfully attacked, the entire appraisal function can be compromised.  Mitigating measures include maintaining multiple active trust links, so that a verifier can direct queries to another aggregator under a different administration.",
+      "createdAt": "2025-08-28T13:25:05Z",
+      "updatedAt": "2025-08-28T13:33:43Z",
       "closedAt": null,
       "comments": []
     }
@@ -2458,24 +2481,26 @@
       "id": "PR_kwDOOAZd1M6fvCYI",
       "title": "ascii art acknowledgements",
       "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/pull/53",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "thomas-fossati",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "IETF 123 hackathon side-project",
       "createdAt": "2025-07-20T13:28:17Z",
-      "updatedAt": "2025-07-20T13:44:53Z",
+      "updatedAt": "2025-08-29T10:12:25Z",
       "baseRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
       "baseRefName": "main",
       "baseRefOid": "d4d6dacad21ba62330e3085cd58800cfb53e0ca2",
       "headRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
       "headRefName": "visual-acks",
       "headRefOid": "dd611a63ef6417d55e26482de246144352defbd0",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-08-29T10:12:25Z",
+      "mergedAt": "2025-08-29T10:12:25Z",
+      "mergedBy": "henkbirkholz",
+      "mergeCommit": {
+        "oid": "2d27b0f8f0e6950b76a6a5c540559af9d39475a3"
+      },
       "comments": [],
       "reviews": [
         {
@@ -2856,24 +2881,26 @@
       "id": "PR_kwDOOAZd1M6lPrc7",
       "title": "Add gmandyam to editors list",
       "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/pull/66",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "gmandyam",
-      "authorAssociation": "NONE",
+      "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2025-08-25T16:16:19Z",
-      "updatedAt": "2025-08-25T16:29:58Z",
+      "updatedAt": "2025-08-29T08:01:11Z",
       "baseRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
       "baseRefName": "main",
       "baseRefOid": "ac2f23b832415dd3e76dc766496add3a9ef20288",
       "headRepository": "gmandyam/draft-howard-rats-coserv",
       "headRefName": "add_gmandyam",
       "headRefOid": "ed1e5ef4cc270915f4da03ae684e5d2458c33506",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-08-29T08:01:11Z",
+      "mergedAt": "2025-08-29T08:01:11Z",
+      "mergedBy": "paulhowardarm",
+      "mergeCommit": {
+        "oid": "169b5a4748820d48f33fda328ed6a869b515d463"
+      },
       "comments": [],
       "reviews": [
         {
@@ -2907,6 +2934,122 @@
           "body": "Nice, thanks and welcome!",
           "createdAt": "2025-08-25T16:29:58Z",
           "updatedAt": "2025-08-25T16:29:58Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOOAZd1M68js_s",
+          "commit": {
+            "abbreviatedOid": "ed1e5ef"
+          },
+          "author": "paulhowardarm",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Welcome on board, @gmandyam.",
+          "createdAt": "2025-08-28T06:56:59Z",
+          "updatedAt": "2025-08-28T06:56:59Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 68,
+      "id": "PR_kwDOOAZd1M6l0dK8",
+      "title": "Introduce the CDDL model for well-known API endpoint discovery",
+      "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/pull/68",
+      "state": "MERGED",
+      "author": "paulhowardarm",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Adds a CDDL file and corresponding makefile infrastructure to validate both the schema and examples in CBOR and JSON.\r\n\r\nThe CDDL from EAT (rfc9711) is included verbatim because the tooling has not yet caught up with this relatively-new RFC. We only use EAT for the `JC` macro, which is a useful tool for parameterising the model to account for the differences between JSON and CBOR serialisation. (This hasn't been needed up until now, because most of CoSERV is CBOR-only, but this new CDDL file is a data model for API discovery, which is separate from the CoSERV query language itself.)\r\n\r\nThere are no updates to the draft itself at this stage. Those will be made in a separate PR.\r\n\r\nSigned-off-by: Paul Howard <paul.howard@arm.com>",
+      "createdAt": "2025-08-28T14:31:26Z",
+      "updatedAt": "2025-08-29T13:20:23Z",
+      "baseRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
+      "baseRefName": "main",
+      "baseRefOid": "ac2f23b832415dd3e76dc766496add3a9ef20288",
+      "headRepository": "paulhowardarm/draft-howard-rats-coserv",
+      "headRefName": "phDiscovery",
+      "headRefOid": "6ed45e0c6f082f22f72c7d116306d818f5482200",
+      "closedAt": "2025-08-29T13:20:23Z",
+      "mergedAt": "2025-08-29T13:20:23Z",
+      "mergedBy": "paulhowardarm",
+      "mergeCommit": {
+        "oid": "d057319e443b6bd9f72f6eb502a8469e7694a27a"
+      },
+      "comments": [
+        {
+          "author": "thomas-fossati",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Thanks Paul, I can relax now :-)",
+          "createdAt": "2025-08-29T08:38:45Z",
+          "updatedAt": "2025-08-29T08:38:45Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOOAZd1M68qIOq",
+          "commit": {
+            "abbreviatedOid": "ba51d21"
+          },
+          "author": "thomas-fossati",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "LGTM, thanks! (Except for a minuscule inconsistency.)",
+          "createdAt": "2025-08-28T14:38:07Z",
+          "updatedAt": "2025-08-28T14:39:31Z",
+          "comments": [
+            {
+              "originalPosition": 7,
+              "body": "Shouldn\u2019t jwk be in addition to cmw rather than as a replacement?\r\n\r\n```suggestion\r\nDISCOVERY_IMPORT += jwk=jwk-autogen\r\n```",
+              "createdAt": "2025-08-28T14:38:07Z",
+              "updatedAt": "2025-08-28T14:39:31Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOOAZd1M68qUFD",
+          "commit": {
+            "abbreviatedOid": "ba51d21"
+          },
+          "author": "paulhowardarm",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-08-28T14:47:15Z",
+          "updatedAt": "2025-08-28T14:47:15Z",
+          "comments": [
+            {
+              "originalPosition": 7,
+              "body": "Good catch, thanks.",
+              "createdAt": "2025-08-28T14:47:15Z",
+              "updatedAt": "2025-08-28T14:47:15Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOOAZd1M68qVtS",
+          "commit": {
+            "abbreviatedOid": "f42263c"
+          },
+          "author": "thomas-fossati",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Thanks! \ud83d\udea2 it!",
+          "createdAt": "2025-08-28T14:48:24Z",
+          "updatedAt": "2025-08-28T14:48:24Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOOAZd1M681waR",
+          "commit": {
+            "abbreviatedOid": "6ed45e0"
+          },
+          "author": "henkbirkholz",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "let's talk about mode names later",
+          "createdAt": "2025-08-29T10:20:07Z",
+          "updatedAt": "2025-08-29T10:20:07Z",
           "comments": []
         }
       ]
