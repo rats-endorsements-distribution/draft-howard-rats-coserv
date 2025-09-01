@@ -61,6 +61,10 @@ normative:
   RFC9334: rats-arch
   I-D.ietf-rats-corim: rats-corim
   I-D.ietf-rats-msg-wrap: rats-cmw
+  SEMVER:
+    title: "Semantic Versioning 2.0.0"
+    date: 2013
+    target: https://semver.org/spec/v2.0.0.html
 
 informative:
   STD98: HTTP Caching
@@ -541,7 +545,7 @@ This section defines how to populate and interpret the data fields in the discov
 
 The version field is denoted by the label `"version"` in JSON documents and by the codepoint `1` in CBOR documents.
 The is a Semantic Versioning (semver) string, which denotes the version and patch level of the service that is providing the API endpoints described by the document.
-The semver string MUST conform to the ABNF defined in [SEMVER](https://semver.org).
+The semver string MUST conform to the ABNF defined in {{SEMVER}}.
 Version numbers and patch levels are otherwise implementation-defined.
 
 ##### Capabilities
