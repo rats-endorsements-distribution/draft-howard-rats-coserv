@@ -45,6 +45,10 @@ author:
   name: Giridhar Mandyam
   org: AMD
   email: gmandyam@amd.com
+- ins: D. Ma
+  name: Ding Ma
+  org: Alibaba Cloud
+  email: xynnn@linux.alibaba.com
 
 normative:
   RFC4648: base64
