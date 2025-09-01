@@ -974,7 +974,7 @@ Optional parameters:
 : n/a
 
 Encoding considerations:
-: text (JSON)
+: binary (JSON is UTF-8-encoded text)
 
 Security considerations:
 : {{seccons}} of {{&SELF}}
