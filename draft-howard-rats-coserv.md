@@ -549,7 +549,7 @@ Version numbers and patch levels are otherwise implementation-defined.
 The capabilities field is denoted by the label `"capabilities"` in JSON documents and by the codepoint `2` in CBOR documents.
 This field allows clients to discover the profiled variants of CoSERV for which the service implementation can satisfy queries and provide artifacts.
 This field is structured as an array, which allows for service implementations that support more than one profile.
-Each supported profile is indicated according to its parameterised media type, along with the categories of artifact that can be provided for the profile.
+Each supported profile is indicated according to its parameterized media type, along with the categories of artifact that can be provided for the profile.
 The artifact categories are `source` and `collected`, as described in {{secartifacts}}.
 Each profile is paired with a non-empty set of artifact categories, allowing the service implementation to indicate whether it supports the retrieval of source artifacts, collected artifacts, or both.
 This pairing caters for situations where the service implementation might support different combinations of artifact category for different profiles.
