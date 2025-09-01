@@ -48,8 +48,10 @@ author:
 
 normative:
   RFC4648: base64
+  RFC7517: jwk
   RFC8610: cddl
   RFC8259: json
+  RFC8615: well-known
   STD96:
     -: cose
     =: RFC9052
@@ -517,9 +519,97 @@ Implementations MAY authenticate clients, for example for authorization or for p
 
 ### Discovery {#secrrapidisco}
 
-* body text
-* request and response example
-* CDDL model for the discovery payload (+ media type)
+Clients discover CoSERV HTTP API endpoints by means of a well-known URI that is formed using the `/.well-known/` path prefix as defined in {{RFC8615}}.
+This URI supplies a single discovery document that clients can use to locate the URIs of other API endpoints, in addition to finding out other relevant information about the configuration and capabilities of the service.
+
+Implementations that provide CoSERV HTTP API endpoints MUST also provide the discovery endpoint at the path `/.well-known/coserv-configuration`.
+This endpoint MUST be available via an HTTP GET method with no additional query parameters, and MUST return an HTTP 200 (OK) response code unless prevented by an error condition outside the scope of this specification.
+
+The response body can be formatted using either JSON or CBOR, governed by standard HTTP content-type negotiation.
+The media types defined for this purpose are `application/coserv-discovery+json` (for JSON-formatted documents) or `application/coserv-discovery+cbor` (for CBOR-formatted documents).
+In either case, the endpoint implementation MUST provide a document that conforms to the CDDL schema as follows:
+
+~~~ cddl
+{::include cddl/discovery.cddl}
+~~~
+
+#### Discovery Document Contents
+
+This section defines how to populate and interpret the data fields in the discovery document.
+
+##### Version
+
+The version field is denoted by the label `"version"` in JSON documents and by the codepoint `1` in CBOR documents.
+The is a Semantic Versioning (semver) string, which denotes the version and patch level of the service that is providing the API endpoints described by the document.
+The semver string MUST conform to the ABNF defined in [SEMVER](https://semver.org).
+Version numbers and patch levels are otherwise implementation-defined.
+
+##### Capabilities
+
+The capabilities field is denoted by the label `"capabilities"` in JSON documents and by the codepoint `2` in CBOR documents.
+This field allows clients to discover the profiled variants of CoSERV for which the service implementation can satisfy queries and provide artifacts.
+This field is structured as an array, which allows for service implementations that support more than one profile.
+Each supported profile is indicated according to its parameterised media type, along with the categories of artifact that can be provided for the profile.
+The artifact categories are `source` and `collected`, as described in {{secartifacts}}.
+Each profile is paired with a non-empty set of artifact categories, allowing the service implementation to indicate whether it supports the retrieval of source artifacts, collected artifacts, or both.
+This pairing caters for situations where the service implementation might support different combinations of artifact category for different profiles.
+
+##### API Endpoints
+
+The API endpoints field is denoted by the label `"api-endpoints"` in JSON documents and by the codepoint `3` in CBOR documents.
+This field allows clients to derive the correct URL for making HTTP API calls.
+The field is conceptually a map whose keys are the symbolic names of the APIs, and whose values are the URL path for the API endpoint.
+The symbolic name `CoSERVRequestResponse` is defined for services that offer the transactional API described in {{secrrapiquery}}.
+Service implementations that offer this API MUST include an entry with this name in the endpoints map field.
+
+##### Result Verification Key
+
+The result verification key is denoted by the label `"result-verification-key"` in JSON documents and by the codepoint `4` in CBOR documents.
+This field provides one or more public keys that can be used for the cryptographic verification of CoSERV query results that are returned by the service implementation.
+In JSON-formatted discovery documents, each key is a JSON Web Key (JWK) as defined in {{RFC7517}}.
+In CBOR-formatted discovery documents, each key is a COSE Key as defined in {{-cose}}.
+
+#### Discovery Document Examples
+
+In the following examples, the contents of bodies are informative examples only.
+
+Example HTTP request for retrieving the discovery document in JSON format:
+
+~~~ http-message
+GET /.well-known/coserv-configuration HTTP/1.1
+Host: endorsements-distributor.example
+Accept: application/coserv-discovery+json
+~~~
+
+Corresponding HTTP response:
+
+~~~ http-message
+HTTP/1.1 200 OK
+Content-Type: application/coserv-discovery+json
+
+Body (JSON)
+
+{::include-fold cddl/examples/discovery-single-capability.json}
+~~~
+
+Example HTTP request for retrieving the discovery document in CBOR format:
+
+~~~ http-message
+GET /.well-known/coserv-configuration HTTP/1.1
+Host: endorsements-distributor.example
+Accept: application/coserv-discovery+cbor
+~~~
+
+Corresponding HTTP response:
+
+~~~ http-message
+HTTP/1.1 200 OK
+Content-Type: application/coserv-discovery+cbor
+
+Body (in CBOR Extended Diagnostic Notation (EDN))
+
+{::include-fold cddl/examples/discovery-single-capability.diag}
+~~~
 
 ### Execute Query {#secrrapiquery}
 
@@ -718,6 +808,8 @@ IANA is requested to add the following media types to the "Media Types" registry
 |-----------------|-------------------------|-----------|
 | `coserv+cbor` | `application/coserv+cbor` | {{secdatamodel}} of {{&SELF}} |
 | `coserv+cose` | `application/coserv+cose` | {{signed-coserv}} of {{&SELF}} |
+| `coserv-discovery+cbor` | `application/coserv-discovery+cbor` | {{secrrapidisco}} of {{&SELF}} |
+| `coserv-discovery+json` | `application/coserv-discovery+json` | {{secrrapidisco}} of {{&SELF}} |
 {: #tab-mc-regs title="CoSERV Media Types"}
 
 ### `application/coserv+cbor`
@@ -816,6 +908,102 @@ Author/Change controller:
 : IETF
 
 Provisional registration?
+: no
+
+### `application/coserv-discovery+cbor`
+
+{:compact}
+Type name:
+: application
+
+Subtype name:
+: coserv-discovery+cbor
+
+Required parameters:
+: n/a
+
+Optional parameters:
+: n/a
+
+Encoding considerations:
+: binary (CBOR)
+
+Security considerations:
+: {{seccons}} of {{&SELF}}
+
+Interoperability considerations:
+: n/a
+
+Published specification:
+: {{&SELF}}
+
+Applications that use this media type:
+: Verifiers, Endorsers, Reference Value Providers
+
+Fragment identifier considerations:
+: The syntax and semantics of fragment identifiers are as specified for "application/cbor". (No fragment identification syntax is currently defined for "application/cbor".)
+
+Person & email address to contact for further information:
+: RATS WG mailing list (rats@ietf.org)
+
+Intended usage:
+: COMMON
+
+Restrictions on usage:
+: none
+
+Author/Change controller:
+: IETF
+
+Provisional registration:
+: no
+
+### `application/coserv-discovery+json`
+
+{:compact}
+Type name:
+: application
+
+Subtype name:
+: coserv-discovery+json
+
+Required parameters:
+: n/a
+
+Optional parameters:
+: n/a
+
+Encoding considerations:
+: text (JSON)
+
+Security considerations:
+: {{seccons}} of {{&SELF}}
+
+Interoperability considerations:
+: n/a
+
+Published specification:
+: {{&SELF}}
+
+Applications that use this media type:
+: Verifiers, Endorsers, Reference Value Providers
+
+Fragment identifier considerations:
+: The syntax and semantics of fragment identifiers are as specified for "application/json". (No fragment identification syntax is currently defined for "application/json".)
+
+Person & email address to contact for further information:
+: RATS WG mailing list (rats@ietf.org)
+
+Intended usage:
+: COMMON
+
+Restrictions on usage:
+: none
+
+Author/Change controller:
+: IETF
+
+Provisional registration:
 : no
 
 ## CoAP Content-Formats
