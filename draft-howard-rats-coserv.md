@@ -1017,6 +1017,18 @@ IANA is requested to register the following Content-Format IDs in the "CoAP Cont
 
 If possible, TBD1 and TBD2 should be assigned in the 256..9999 range.
 
+## Well-Known URI for CoSERV Configuration
+
+IANA is requested to register the following in the "Well-Known URIs" registry {{!IANA.well-known-uris}}:
+
+URI suffix: coserv-configuration
+
+Change controller: IETF
+
+Specification document: {{&SELF}}
+
+Related information: N/A
+
 --- back
 
 # Collated CoSERV CDDL {#collated-cddl}
