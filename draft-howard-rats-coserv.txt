@@ -5,14 +5,16 @@
 Remote ATtestation ProcedureS                                  P. Howard
 Internet-Draft                                                       Arm
 Intended status: Informational                                T. Fossati
-Expires: 2 March 2026                                             Linaro
+Expires: 5 March 2026                                             Linaro
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                                 S. Kamal
                                                                  Fujitsu
                                                               G. Mandyam
                                                                      AMD
-                                                          29 August 2025
+                                                                   D. Ma
+                                                           Alibaba Cloud
+                                                        1 September 2025
 
 
          Concise Selector for Endorsements and Reference Values
@@ -63,7 +65,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 2 March 2026.
+   This Internet-Draft will expire on 5 March 2026.
 
 Copyright Notice
 
@@ -2274,3 +2276,8 @@ Authors' Addresses
    Giridhar Mandyam
    AMD
    Email: gmandyam@amd.com
+
+
+   Ding Ma
+   Alibaba Cloud
+   Email: xynnn@linux.alibaba.com
