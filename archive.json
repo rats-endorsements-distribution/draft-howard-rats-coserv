@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-08-31T00:48:16.933305+00:00",
+  "timestamp": "2025-09-02T00:44:35.650500+00:00",
   "repo": "rats-endorsements-distribution/draft-howard-rats-coserv",
   "labels": [
     {
@@ -55,15 +55,15 @@
       "id": "I_kwDOOAZd1M6u6zi5",
       "title": "Some questions about CoSERV",
       "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/issues/1",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "Xynnn007",
-      "authorAssociation": "NONE",
+      "authorAssociation": "CONTRIBUTOR",
       "assignees": [],
       "labels": [],
       "body": "Hi, I am excited to see this standard work on \"How to identify reference value\" as a confidential computing developer. I have some questions about this\n\n1. This standard specifies how to calibrate reference values. Do we have plans to standardize the reference value return format or the protocol interaction process being queried? The context is that different hardware architectures currently do not have a unified reference value query API, and the APIs for distributing reference values \u200b\u200bin the software ecosystem are also different. If we standardized this process, it would benefit the confidential computing ecosystem.\n\n2. In the Query Structure of the reference value query, is it necessary to add the \"time\" optional parameter, which means the reference value that meets other conditions as of a certain time.\n\nThanks!",
       "createdAt": "2025-03-20T09:15:11Z",
-      "updatedAt": "2025-08-29T07:56:14Z",
-      "closedAt": null,
+      "updatedAt": "2025-09-01T07:15:29Z",
+      "closedAt": "2025-09-01T07:15:29Z",
       "comments": [
         {
           "author": "paulhowardarm",
@@ -88,7 +88,7 @@
         },
         {
           "author": "Xynnn007",
-          "authorAssociation": "NONE",
+          "authorAssociation": "CONTRIBUTOR",
           "body": "Another observation is that the reference value providers can include the hardware vendors, but also software delivers (a simple case is a github action which will build the artefact running inside TEE and to be measured)\n\nThe latter case is somehow easier to implement.",
           "createdAt": "2025-07-17T07:06:52Z",
           "updatedAt": "2025-07-17T07:06:52Z"
@@ -106,6 +106,20 @@
           "body": "Hi @Xynnn007. In your opinion, do we have any remaining actionable items in this issue? I'm hopeful that your insights and questions have been addressed in the comment trail, or by the natural evolution of the draft over the past months. I think we've captured a useful conversation here, but I'm wondering if we can close this now? Are there any specific changes that you would be keen to see? We would also welcome you to become a co-author of the draft if you wish.",
           "createdAt": "2025-08-29T07:56:14Z",
           "updatedAt": "2025-08-29T07:56:14Z"
+        },
+        {
+          "author": "Xynnn007",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "Hi @paulhowardarm \n\n> I'm hopeful that your insights and questions have been addressed in the comment trail, or by the natural evolution of the draft over the past months. I think we've captured a useful conversation here, but I'm wondering if we can close this now?\n\nThanks for accepting the comments! It is fine for me to close.\n\n> Are there any specific changes that you would be keen to see? \n\nI will keep an eye on the evolution of the draft and looking forward that it will make the ecosystem more standard and decrease burden for \"Glue Design\" and workarounds. If any, I will make issue in this repo.\n\n> We would also welcome you to become a co-author of the draft if you wish.\n\nCool! If possible, I am happy to join!",
+          "createdAt": "2025-09-01T02:23:08Z",
+          "updatedAt": "2025-09-01T02:23:08Z"
+        },
+        {
+          "author": "paulhowardarm",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Thanks, @Xynnn007 , I will close this issue. To join as a draft co-author, please raise a PR to the repo along the lines of [this one](https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/pull/66) to add your name.",
+          "createdAt": "2025-09-01T07:15:29Z",
+          "updatedAt": "2025-09-01T07:15:29Z"
         }
       ]
     },
@@ -3050,6 +3064,173 @@
           "body": "let's talk about mode names later",
           "createdAt": "2025-08-29T10:20:07Z",
           "updatedAt": "2025-08-29T10:20:07Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 69,
+      "id": "PR_kwDOOAZd1M6mOfsK",
+      "title": "Add Ding (Xynnn007) to editors list",
+      "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/pull/69",
+      "state": "MERGED",
+      "author": "Xynnn007",
+      "authorAssociation": "CONTRIBUTOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Hi @paulhowardarm . I put this PR according to [the comment](https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/issues/1#issuecomment-3241136622).",
+      "createdAt": "2025-09-01T07:27:10Z",
+      "updatedAt": "2025-09-01T08:04:45Z",
+      "baseRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
+      "baseRefName": "main",
+      "baseRefOid": "d057319e443b6bd9f72f6eb502a8469e7694a27a",
+      "headRepository": "Xynnn007/draft-howard-rats-coserv",
+      "headRefName": "ding",
+      "headRefOid": "64a6b121afc93aa6ac0834faf99fa3f66d261d49",
+      "closedAt": "2025-09-01T08:04:45Z",
+      "mergedAt": "2025-09-01T08:04:45Z",
+      "mergedBy": "thomas-fossati",
+      "mergeCommit": {
+        "oid": "739c1f4d22d7c3b40134d8bdaa04cf59103088c6"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOOAZd1M69F47w",
+          "commit": {
+            "abbreviatedOid": "64a6b12"
+          },
+          "author": "thomas-fossati",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Awesome!  Welcome onboard @Xynnn007 !",
+          "createdAt": "2025-09-01T07:33:03Z",
+          "updatedAt": "2025-09-01T07:33:03Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOOAZd1M69F7Rw",
+          "commit": {
+            "abbreviatedOid": "64a6b12"
+          },
+          "author": "paulhowardarm",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Approved - and welcome!",
+          "createdAt": "2025-09-01T07:36:07Z",
+          "updatedAt": "2025-09-01T07:36:07Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 70,
+      "id": "PR_kwDOOAZd1M6mTCJh",
+      "title": "Add the discovery API details to the draft",
+      "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/pull/70",
+      "state": "OPEN",
+      "author": "paulhowardarm",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "- Overview of discovery documents\r\n- Include the CDDL model\r\n- Details of document fields\r\n- Example HTTP requests and responses for discovery document retrieval in JSON/CBOR\r\n- IANA media types for JSON and CBOR\r\n\r\nSigned-off-by: Paul Howard <paul.howard@arm.com>",
+      "createdAt": "2025-09-01T14:21:26Z",
+      "updatedAt": "2025-09-01T16:06:25Z",
+      "baseRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
+      "baseRefName": "main",
+      "baseRefOid": "739c1f4d22d7c3b40134d8bdaa04cf59103088c6",
+      "headRepository": "paulhowardarm/draft-howard-rats-coserv",
+      "headRefName": "phDiscoveryDraft",
+      "headRefOid": "bbc5f0051fce56b9c6c251d3bdfa6e9d127ce41a",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOOAZd1M69LnwY",
+          "commit": {
+            "abbreviatedOid": "fb679d8"
+          },
+          "author": "thomas-fossati",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "Really awesome stuff, thanks!\r\n\r\nI have left a couple of simple to fix comments inline.",
+          "createdAt": "2025-09-01T14:44:52Z",
+          "updatedAt": "2025-09-01T14:53:05Z",
+          "comments": [
+            {
+              "originalPosition": 40,
+              "body": "`[SEMVER]` should be a proper entry in the normative section.\r\n\r\nAt present, using `[]()` in kramdown-rfc only creates a hyperlink to the web page.",
+              "createdAt": "2025-09-01T14:44:52Z",
+              "updatedAt": "2025-09-01T14:53:05Z"
+            },
+            {
+              "originalPosition": 48,
+              "body": "sorry, American Englishing \r\n\r\n```suggestion\r\nEach supported profile is indicated according to its parameterized media type, along with the categories of artifact that can be provided for the profile.\r\n```",
+              "createdAt": "2025-09-01T14:46:31Z",
+              "updatedAt": "2025-09-01T14:53:05Z"
+            },
+            {
+              "originalPosition": 18,
+              "body": "I believe that this document should register the well-known path following the procedure in [\u00a73.1 of RFC8615](https://www.rfc-editor.org/rfc/rfc8615#section-3.1).",
+              "createdAt": "2025-09-01T14:52:47Z",
+              "updatedAt": "2025-09-01T14:53:05Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOOAZd1M69MOwv",
+          "commit": {
+            "abbreviatedOid": "fb679d8"
+          },
+          "author": "paulhowardarm",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-01T15:48:59Z",
+          "updatedAt": "2025-09-01T15:48:59Z",
+          "comments": [
+            {
+              "originalPosition": 40,
+              "body": "Thanks, update pushed.",
+              "createdAt": "2025-09-01T15:48:59Z",
+              "updatedAt": "2025-09-01T15:48:59Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOOAZd1M69MO6N",
+          "commit": {
+            "abbreviatedOid": "fb679d8"
+          },
+          "author": "paulhowardarm",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-01T15:49:14Z",
+          "updatedAt": "2025-09-01T15:49:14Z",
+          "comments": [
+            {
+              "originalPosition": 18,
+              "body": "Thanks, update pushed.",
+              "createdAt": "2025-09-01T15:49:14Z",
+              "updatedAt": "2025-09-01T15:49:14Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOOAZd1M69MXsh",
+          "commit": {
+            "abbreviatedOid": "bbc5f00"
+          },
+          "author": "thomas-fossati",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Thanks for addressing my review comments!\r\n\r\n\ud83d\udea2 it!",
+          "createdAt": "2025-09-01T16:06:25Z",
+          "updatedAt": "2025-09-01T16:06:25Z",
           "comments": []
         }
       ]
