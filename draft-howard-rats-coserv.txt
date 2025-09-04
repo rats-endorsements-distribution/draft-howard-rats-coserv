@@ -5,7 +5,7 @@
 Remote ATtestation ProcedureS                                  P. Howard
 Internet-Draft                                                       Arm
 Intended status: Informational                                T. Fossati
-Expires: 5 March 2026                                             Linaro
+Expires: 8 March 2026                                             Linaro
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                                 S. Kamal
@@ -14,7 +14,7 @@ Expires: 5 March 2026                                             Linaro
                                                                      AMD
                                                                    D. Ma
                                                            Alibaba Cloud
-                                                        1 September 2025
+                                                        4 September 2025
 
 
          Concise Selector for Endorsements and Reference Values
@@ -65,7 +65,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 5 March 2026.
+   This Internet-Draft will expire on 8 March 2026.
 
 Copyright Notice
 
@@ -120,7 +120,10 @@ Table of Contents
      10.1.  Media Types Registrations
        10.1.1.  application/coserv+cbor
        10.1.2.  application/coserv+cose
+       10.1.3.  application/coserv-discovery+cbor
+       10.1.4.  application/coserv-discovery+json
      10.2.  CoAP Content-Formats
+     10.3.  Well-Known URI for CoSERV Configuration
    11. References
      11.1.  Normative References
      11.2.  Informative References
@@ -1028,11 +1031,218 @@ Table of Contents
 
 6.1.1.  Discovery
 
-   *  body text
+   Clients discover CoSERV HTTP API endpoints by means of a well-known
+   URI that is formed using the /.well-known/ path prefix as defined in
+   [RFC8615].  This URI supplies a single discovery document that
+   clients can use to locate the URIs of other API endpoints, in
+   addition to finding out other relevant information about the
+   configuration and capabilities of the service.
 
-   *  request and response example
+   Implementations that provide CoSERV HTTP API endpoints MUST also
+   provide the discovery endpoint at the path /.well-known/coserv-
+   configuration.  This endpoint MUST be available via an HTTP GET
+   method with no additional query parameters, and MUST return an HTTP
+   200 (OK) response code unless prevented by an error condition outside
+   the scope of this specification.
 
-   *  CDDL model for the discovery payload (+ media type)
+   The response body can be formatted using either JSON or CBOR,
+   governed by standard HTTP content-type negotiation.  The media types
+   defined for this purpose are application/coserv-discovery+json (for
+   JSON-formatted documents) or application/coserv-discovery+cbor (for
+   CBOR-formatted documents).  In either case, the endpoint
+   implementation MUST provide a document that conforms to the CDDL
+   schema as follows:
+
+   ;# import rfc9711 as eat
+   ;# import cmw-autogen as cmw
+   ;# import rfc9052 as cose
+   ;# import jwk-autogen as jwk
+
+   coserv-well-known-info = {
+     version-label => version,
+     capabilities-label => [ + capability ],
+     api-endpoints-label => [ + endpoint ],
+     result-verification-key-label => eat.JC<jwk.JWK_Set, cose.COSE_KeySet>
+   }
+
+   version-label = eat.JC<"version", 1>
+   capabilities-label = eat.JC<"capabilities", 2>
+   api-endpoints-label = eat.JC<"api-endpoints", 3>
+   result-verification-key-label = eat.JC<"result-verification-key", 4>
+
+   version = tstr
+
+   capability = {
+     media-type-label => cmw.media-type,
+     artifact-support-label => artifact-support
+   }
+
+   media-type-label = eat.JC<"media-type", 1>
+   artifact-support-label = eat.JC<"artifact-support", 2>
+
+   non-empty-array<M> = (M) .and ([ + any ])
+   artifact-support = non-empty-array<[ ? "source", ? "collected" ]>
+
+   endpoint = {
+     name-label => tstr,
+     path-label => tstr
+   }
+
+   name-label = eat.JC<"name", 1>
+   path-label = eat.JC<"path", 2>
+
+6.1.1.1.  Discovery Document Contents
+
+   This section defines how to populate and interpret the data fields in
+   the discovery document.
+
+6.1.1.1.1.  Version
+
+   The version field is denoted by the label "version" in JSON documents
+   and by the codepoint 1 in CBOR documents.  The is a Semantic
+   Versioning (semver) string, which denotes the version and patch level
+   of the service that is providing the API endpoints described by the
+   document.  The semver string MUST conform to the ABNF defined in
+   [SEMVER].  Version numbers and patch levels are otherwise
+   implementation-defined.
+
+6.1.1.1.2.  Capabilities
+
+   The capabilities field is denoted by the label "capabilities" in JSON
+   documents and by the codepoint 2 in CBOR documents.  This field
+   allows clients to discover the profiled variants of CoSERV for which
+   the service implementation can satisfy queries and provide artifacts.
+   This field is structured as an array, which allows for service
+   implementations that support more than one profile.  Each supported
+   profile is indicated according to its parameterized media type, along
+   with the categories of artifact that can be provided for the profile.
+   The artifact categories are source and collected, as described in
+   Section 3.2.  Each profile is paired with a non-empty set of artifact
+   categories, allowing the service implementation to indicate whether
+   it supports the retrieval of source artifacts, collected artifacts,
+   or both.  This pairing caters for situations where the service
+   implementation might support different combinations of artifact
+   category for different profiles.
+
+6.1.1.1.3.  API Endpoints
+
+   The API endpoints field is denoted by the label "api-endpoints" in
+   JSON documents and by the codepoint 3 in CBOR documents.  This field
+   allows clients to derive the correct URL for making HTTP API calls.
+   The field is conceptually a map whose keys are the symbolic names of
+   the APIs, and whose values are the URL path for the API endpoint.
+   The symbolic name CoSERVRequestResponse is defined for services that
+   offer the transactional API described in Section 6.1.2.  Service
+   implementations that offer this API MUST include an entry with this
+   name in the endpoints map field.
+
+6.1.1.1.4.  Result Verification Key
+
+   The result verification key is denoted by the label "result-
+   verification-key" in JSON documents and by the codepoint 4 in CBOR
+   documents.  This field provides one or more public keys that can be
+   used for the cryptographic verification of CoSERV query results that
+   are returned by the service implementation.  In JSON-formatted
+   discovery documents, each key is a JSON Web Key (JWK) as defined in
+   [RFC7517].  In CBOR-formatted discovery documents, each key is a COSE
+   Key as defined in [STD96].
+
+6.1.1.2.  Discovery Document Examples
+
+   In the following examples, the contents of bodies are informative
+   examples only.
+
+   Example HTTP request for retrieving the discovery document in JSON
+   format:
+
+   GET /.well-known/coserv-configuration HTTP/1.1
+   Host: endorsements-distributor.example
+   Accept: application/coserv-discovery+json
+
+   Corresponding HTTP response:
+
+   HTTP/1.1 200 OK
+   Content-Type: application/coserv-discovery+json
+
+   Body (JSON)
+
+   =============== NOTE: '\' line wrapping per RFC 8792 ================
+
+   {
+       "version": "1.2.3-beta",
+        "capabilities": [
+         {
+           "media-type": "application/coserv+cose; profile=\"tag:vendor\
+                                         .com,2025:cc_platform#1.0.0\"",
+           "artifact-support": [
+             "source",
+             "collected"
+           ]
+         }
+       ],
+       "api-endpoints": [
+         {
+           "name": "CoSERVRequestResponse",
+           "path": "endorsement-distribution/v1/coserv"
+         }
+       ],
+       "result-verification-key": [
+         {
+           "alg": "ES256",
+           "crv": "P-256",
+           "kty": "EC",
+           "x": "usWxHK2PmfnHKwXPS54m0kTcGJ90UiglWiGahtagnv8",
+           "y": "IBOL-C3BttVivg-lSreASjpkttcsz-1rb7btKLv8EX4",
+           "kid": "key1"
+         }
+       ]
+     }
+
+   Example HTTP request for retrieving the discovery document in CBOR
+   format:
+
+   GET /.well-known/coserv-configuration HTTP/1.1
+   Host: endorsements-distributor.example
+   Accept: application/coserv-discovery+cbor
+
+   Corresponding HTTP response:
+
+   HTTP/1.1 200 OK
+   Content-Type: application/coserv-discovery+cbor
+
+   Body (in CBOR Extended Diagnostic Notation (EDN))
+
+   =============== NOTE: '\' line wrapping per RFC 8792 ================
+
+   {
+     / version / 1: "1.2.3-beta",
+     / capabilities / 2: [
+       {
+         / media-type / 1: "application/coserv+cose; profile=\"tag:\
+                                   vendor.com,2025:cc_platform#1.0.0\"",
+         / artifact-support / 2: [
+           "source",
+           "collected"
+         ]
+       }
+     ],
+     / api-endpoints / 3: [
+       {
+         / name / 1: "CoSERVRequestResponse",
+         / path / 2: "endorsement-distribution/v1/coserv"
+       }
+     ],
+     / result-verification-key / 4: [
+       {
+         / kty / 1: 2,
+         / alg / 3: -7,
+         / crv / -1: 1,
+         / x / -2: h'1A2B3C4D',
+         / y / -3: h'5E6F7A8B',
+         / kid / 2: h'ABCDEF1234'
+       }
+     ]
+   }
 
 6.1.2.  Execute Query
 
@@ -1335,15 +1545,23 @@ Table of Contents
    IANA is requested to add the following media types to the "Media
    Types" registry [IANA.media-types].
 
-    +=============+=========================+========================+
-    | Name        | Template                | Reference              |
-    +=============+=========================+========================+
-    | coserv+cbor | application/coserv+cbor | Section 4 of RFCthis   |
-    +-------------+-------------------------+------------------------+
-    | coserv+cose | application/coserv+cose | Section 4.6 of RFCthis |
-    +-------------+-------------------------+------------------------+
+    +=======================+=========================+===============+
+    | Name                  | Template                | Reference     |
+    +=======================+=========================+===============+
+    | coserv+cbor           | application/coserv+cbor | Section 4 of  |
+    |                       |                         | RFCthis       |
+    +-----------------------+-------------------------+---------------+
+    | coserv+cose           | application/coserv+cose | Section 4.6   |
+    |                       |                         | of RFCthis    |
+    +-----------------------+-------------------------+---------------+
+    | coserv-discovery+cbor | application/coserv-     | Section 6.1.1 |
+    |                       | discovery+cbor          | of RFCthis    |
+    +-----------------------+-------------------------+---------------+
+    | coserv-discovery+json | application/coserv-     | Section 6.1.1 |
+    |                       | discovery+json          | of RFCthis    |
+    +-----------------------+-------------------------+---------------+
 
-                       Table 1: CoSERV Media Types
+                        Table 1: CoSERV Media Types
 
 10.1.1.  application/coserv+cbor
 
@@ -1393,6 +1611,52 @@ Table of Contents
    Author/Change controller:  IETF
    Provisional registration?  no
 
+10.1.3.  application/coserv-discovery+cbor
+
+   Type name:  application
+   Subtype name:  coserv-discovery+cbor
+   Required parameters:  n/a
+   Optional parameters:  n/a
+   Encoding considerations:  binary (CBOR)
+   Security considerations:  Section 8 of RFCthis
+   Interoperability considerations:  n/a
+   Published specification:  RFCthis
+   Applications that use this media type:  Verifiers, Endorsers,
+      Reference Value Providers
+   Fragment identifier considerations:  The syntax and semantics of
+      fragment identifiers are as specified for "application/cbor".  (No
+      fragment identification syntax is currently defined for
+      "application/cbor".)
+   Person & email address to contact for further information:  RATS WG
+      mailing list (rats@ietf.org)
+   Intended usage:  COMMON
+   Restrictions on usage:  none
+   Author/Change controller:  IETF
+   Provisional registration:  no
+
+10.1.4.  application/coserv-discovery+json
+
+   Type name:  application
+   Subtype name:  coserv-discovery+json
+   Required parameters:  n/a
+   Optional parameters:  n/a
+   Encoding considerations:  binary (JSON is UTF-8-encoded text)
+   Security considerations:  Section 8 of RFCthis
+   Interoperability considerations:  n/a
+   Published specification:  RFCthis
+   Applications that use this media type:  Verifiers, Endorsers,
+      Reference Value Providers
+   Fragment identifier considerations:  The syntax and semantics of
+      fragment identifiers are as specified for "application/json".  (No
+      fragment identification syntax is currently defined for
+      "application/json".)
+   Person & email address to contact for further information:  RATS WG
+      mailing list (rats@ietf.org)
+   Intended usage:  COMMON
+   Restrictions on usage:  none
+   Author/Change controller:  IETF
+   Provisional registration:  no
+
 10.2.  CoAP Content-Formats
 
    IANA is requested to register the following Content-Format IDs in the
@@ -1413,6 +1677,19 @@ Table of Contents
                    Table 2: New CoAP Content Formats
 
    If possible, TBD1 and TBD2 should be assigned in the 256..9999 range.
+
+10.3.  Well-Known URI for CoSERV Configuration
+
+   IANA is requested to register the following in the "Well-Known URIs"
+   registry [IANA.well-known-uris]:
+
+   URI suffix: coserv-configuration
+
+   Change controller: IETF
+
+   Specification document: RFCthis
+
+   Related information: N/A
 
 11.  References
 
@@ -1441,6 +1718,10 @@ Table of Contents
               IANA, "Media Types",
               <https://www.iana.org/assignments/media-types>.
 
+   [IANA.well-known-uris]
+              IANA, "Well-Known URIs",
+              <https://www.iana.org/assignments/well-known-uris>.
+
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
               DOI 10.17487/RFC2119, March 1997,
@@ -1453,6 +1734,10 @@ Table of Contents
    [RFC7515]  Jones, M., Bradley, J., and N. Sakimura, "JSON Web
               Signature (JWS)", RFC 7515, DOI 10.17487/RFC7515, May
               2015, <https://www.rfc-editor.org/rfc/rfc7515>.
+
+   [RFC7517]  Jones, M., "JSON Web Key (JWK)", RFC 7517,
+              DOI 10.17487/RFC7517, May 2015,
+              <https://www.rfc-editor.org/rfc/rfc7517>.
 
    [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
@@ -1469,10 +1754,17 @@ Table of Contents
               JSON Data Structures", RFC 8610, DOI 10.17487/RFC8610,
               June 2019, <https://www.rfc-editor.org/rfc/rfc8610>.
 
+   [RFC8615]  Nottingham, M., "Well-Known Uniform Resource Identifiers
+              (URIs)", RFC 8615, DOI 10.17487/RFC8615, May 2019,
+              <https://www.rfc-editor.org/rfc/rfc8615>.
+
    [RFC9334]  Birkholz, H., Thaler, D., Richardson, M., Smith, N., and
               W. Pan, "Remote ATtestation procedureS (RATS)
               Architecture", RFC 9334, DOI 10.17487/RFC9334, January
               2023, <https://www.rfc-editor.org/rfc/rfc9334>.
+
+   [SEMVER]   "Semantic Versioning 2.0.0", 2013,
+              <https://semver.org/spec/v2.0.0.html>.
 
    [STD94]    Bormann, C. and P. Hoffman, "Concise Binary Object
               Representation (CBOR)", STD 94, RFC 8949,

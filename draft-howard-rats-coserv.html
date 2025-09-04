@@ -16,24 +16,24 @@
 This document specifies the Concise Selector for Endorsements and Reference Values (CoSERV), a structured query/result format designed to facilitate the discovery and retrieval of these artifacts from various providers.
 CoSERV defines a query language and corresponding result structure using CDDL, which can be serialized in CBOR format, enabling efficient interoperability across diverse systems. 
     " name="description">
-<meta content="xml2rfc 3.30.0" name="generator">
+<meta content="xml2rfc 3.30.1" name="generator">
 <meta content="RATS" name="keyword">
 <meta content="attestation" name="keyword">
 <meta content="endorsement" name="keyword">
 <meta content="reference value" name="keyword">
 <meta content="draft-howard-rats-coserv-latest" name="ietf.draft">
 <!-- Generator version information:
-  xml2rfc 3.30.0
+  xml2rfc 3.30.1
     Python 3.12.11
     ConfigArgParse 1.7
     google-i18n-address 3.1.1
     intervaltree 3.1.0
     Jinja2 3.1.6
     lxml 5.3.1
-    platformdirs 4.3.8
+    platformdirs 4.4.0
     pycountry 24.6.1
     PyYAML 6.0.2
-    requests 2.32.4
+    requests 2.32.5
     setuptools 80.9.0
     wcwidth 0.2.13
 -->
@@ -1058,7 +1058,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Howard, et al.</td>
-<td class="center">Expires 5 March 2026</td>
+<td class="center">Expires 8 March 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1071,12 +1071,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-howard-rats-coserv-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-09-01" class="published">1 September 2025</time>
+<time datetime="2025-09-04" class="published">4 September 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-03-05">5 March 2026</time></dd>
+<dd class="expires"><time datetime="2026-03-08">8 March 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1148,7 +1148,7 @@ CoSERV defines a query language and corresponding result structure using CDDL, w
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 5 March 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 8 March 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1308,10 +1308,19 @@ CoSERV defines a query language and corresponding result structure using CDDL, w
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.1.2.2">
                     <p id="section-toc.1-1.10.2.1.2.2.1"><a href="#section-10.1.2" class="auto internal xref">10.1.2</a>.  <a href="#name-application-coservcose" class="internal xref"><code>application/coserv+cose</code></a></p>
 </li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.1.2.3">
+                    <p id="section-toc.1-1.10.2.1.2.3.1"><a href="#section-10.1.3" class="auto internal xref">10.1.3</a>.  <a href="#name-application-coserv-discover" class="internal xref"><code>application/coserv-discovery+cbor</code></a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.1.2.4">
+                    <p id="section-toc.1-1.10.2.1.2.4.1"><a href="#section-10.1.4" class="auto internal xref">10.1.4</a>.  <a href="#name-application-coserv-discovery" class="internal xref"><code>application/coserv-discovery+json</code></a></p>
+</li>
                 </ul>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.2">
                 <p id="section-toc.1-1.10.2.2.1"><a href="#section-10.2" class="auto internal xref">10.2</a>.  <a href="#name-coap-content-formats" class="internal xref">CoAP Content-Formats</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.10.2.3">
+                <p id="section-toc.1-1.10.2.3.1"><a href="#section-10.3" class="auto internal xref">10.3</a>.  <a href="#name-well-known-uri-for-coserv-c" class="internal xref">Well-Known URI for CoSERV Configuration</a></p>
 </li>
             </ul>
 </li>
@@ -2135,17 +2144,217 @@ Implementations <span class="bcp14">MAY</span> authenticate clients, for example
           <h4 id="name-discovery">
 <a href="#section-6.1.1" class="section-number selfRef">6.1.1. </a><a href="#name-discovery" class="section-name selfRef">Discovery</a>
           </h4>
-<ul class="normal">
-<li class="normal" id="section-6.1.1-1.1">
-              <p id="section-6.1.1-1.1.1">body text<a href="#section-6.1.1-1.1.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-6.1.1-1.2">
-              <p id="section-6.1.1-1.2.1">request and response example<a href="#section-6.1.1-1.2.1" class="pilcrow">¶</a></p>
-</li>
-            <li class="normal" id="section-6.1.1-1.3">
-              <p id="section-6.1.1-1.3.1">CDDL model for the discovery payload (+ media type)<a href="#section-6.1.1-1.3.1" class="pilcrow">¶</a></p>
-</li>
-          </ul>
+<p id="section-6.1.1-1">Clients discover CoSERV HTTP API endpoints by means of a well-known URI that is formed using the <code>/.well-known/</code> path prefix as defined in <span>[<a href="#RFC8615" class="cite xref">RFC8615</a>]</span>.
+This URI supplies a single discovery document that clients can use to locate the URIs of other API endpoints, in addition to finding out other relevant information about the configuration and capabilities of the service.<a href="#section-6.1.1-1" class="pilcrow">¶</a></p>
+<p id="section-6.1.1-2">Implementations that provide CoSERV HTTP API endpoints <span class="bcp14">MUST</span> also provide the discovery endpoint at the path <code>/.well-known/coserv-configuration</code>.
+This endpoint <span class="bcp14">MUST</span> be available via an HTTP GET method with no additional query parameters, and <span class="bcp14">MUST</span> return an HTTP 200 (OK) response code unless prevented by an error condition outside the scope of this specification.<a href="#section-6.1.1-2" class="pilcrow">¶</a></p>
+<p id="section-6.1.1-3">The response body can be formatted using either JSON or CBOR, governed by standard HTTP content-type negotiation.
+The media types defined for this purpose are <code>application/coserv-discovery+json</code> (for JSON-formatted documents) or <code>application/coserv-discovery+cbor</code> (for CBOR-formatted documents).
+In either case, the endpoint implementation <span class="bcp14">MUST</span> provide a document that conforms to the CDDL schema as follows:<a href="#section-6.1.1-3" class="pilcrow">¶</a></p>
+<div class="lang-cddl sourcecode" id="section-6.1.1-4">
+<pre>
+;# import rfc9711 as eat
+;# import cmw-autogen as cmw
+;# import rfc9052 as cose
+;# import jwk-autogen as jwk
+
+coserv-well-known-info = {
+  version-label =&gt; version,
+  capabilities-label =&gt; [ + capability ],
+  api-endpoints-label =&gt; [ + endpoint ],
+  result-verification-key-label =&gt; eat.JC&lt;jwk.JWK_Set, cose.COSE_KeySet&gt;
+}
+
+version-label = eat.JC&lt;"version", 1&gt;
+capabilities-label = eat.JC&lt;"capabilities", 2&gt;
+api-endpoints-label = eat.JC&lt;"api-endpoints", 3&gt;
+result-verification-key-label = eat.JC&lt;"result-verification-key", 4&gt;
+
+version = tstr
+
+capability = {
+  media-type-label =&gt; cmw.media-type,
+  artifact-support-label =&gt; artifact-support
+}
+
+media-type-label = eat.JC&lt;"media-type", 1&gt;
+artifact-support-label = eat.JC&lt;"artifact-support", 2&gt;
+
+non-empty-array&lt;M&gt; = (M) .and ([ + any ])
+artifact-support = non-empty-array&lt;[ ? "source", ? "collected" ]&gt;
+
+endpoint = {
+  name-label =&gt; tstr,
+  path-label =&gt; tstr
+}
+
+name-label = eat.JC&lt;"name", 1&gt;
+path-label = eat.JC&lt;"path", 2&gt;
+</pre><a href="#section-6.1.1-4" class="pilcrow">¶</a>
+</div>
+<div id="discovery-document-contents">
+<section id="section-6.1.1.1">
+            <h5 id="name-discovery-document-contents">
+<a href="#section-6.1.1.1" class="section-number selfRef">6.1.1.1. </a><a href="#name-discovery-document-contents" class="section-name selfRef">Discovery Document Contents</a>
+            </h5>
+<p id="section-6.1.1.1-1">This section defines how to populate and interpret the data fields in the discovery document.<a href="#section-6.1.1.1-1" class="pilcrow">¶</a></p>
+<div id="version">
+<section id="section-6.1.1.1.1">
+              <h6 id="name-version">
+<a href="#section-6.1.1.1.1" class="section-number selfRef">6.1.1.1.1. </a><a href="#name-version" class="section-name selfRef">Version</a>
+              </h6>
+<p id="section-6.1.1.1.1-1">The version field is denoted by the label <code>"version"</code> in JSON documents and by the codepoint <code>1</code> in CBOR documents.
+The is a Semantic Versioning (semver) string, which denotes the version and patch level of the service that is providing the API endpoints described by the document.
+The semver string <span class="bcp14">MUST</span> conform to the ABNF defined in <span>[<a href="#SEMVER" class="cite xref">SEMVER</a>]</span>.
+Version numbers and patch levels are otherwise implementation-defined.<a href="#section-6.1.1.1.1-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="capabilities">
+<section id="section-6.1.1.1.2">
+              <h6 id="name-capabilities">
+<a href="#section-6.1.1.1.2" class="section-number selfRef">6.1.1.1.2. </a><a href="#name-capabilities" class="section-name selfRef">Capabilities</a>
+              </h6>
+<p id="section-6.1.1.1.2-1">The capabilities field is denoted by the label <code>"capabilities"</code> in JSON documents and by the codepoint <code>2</code> in CBOR documents.
+This field allows clients to discover the profiled variants of CoSERV for which the service implementation can satisfy queries and provide artifacts.
+This field is structured as an array, which allows for service implementations that support more than one profile.
+Each supported profile is indicated according to its parameterized media type, along with the categories of artifact that can be provided for the profile.
+The artifact categories are <code>source</code> and <code>collected</code>, as described in <a href="#secartifacts" class="auto internal xref">Section 3.2</a>.
+Each profile is paired with a non-empty set of artifact categories, allowing the service implementation to indicate whether it supports the retrieval of source artifacts, collected artifacts, or both.
+This pairing caters for situations where the service implementation might support different combinations of artifact category for different profiles.<a href="#section-6.1.1.1.2-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="api-endpoints">
+<section id="section-6.1.1.1.3">
+              <h6 id="name-api-endpoints">
+<a href="#section-6.1.1.1.3" class="section-number selfRef">6.1.1.1.3. </a><a href="#name-api-endpoints" class="section-name selfRef">API Endpoints</a>
+              </h6>
+<p id="section-6.1.1.1.3-1">The API endpoints field is denoted by the label <code>"api-endpoints"</code> in JSON documents and by the codepoint <code>3</code> in CBOR documents.
+This field allows clients to derive the correct URL for making HTTP API calls.
+The field is conceptually a map whose keys are the symbolic names of the APIs, and whose values are the URL path for the API endpoint.
+The symbolic name <code>CoSERVRequestResponse</code> is defined for services that offer the transactional API described in <a href="#secrrapiquery" class="auto internal xref">Section 6.1.2</a>.
+Service implementations that offer this API <span class="bcp14">MUST</span> include an entry with this name in the endpoints map field.<a href="#section-6.1.1.1.3-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="result-verification-key">
+<section id="section-6.1.1.1.4">
+              <h6 id="name-result-verification-key">
+<a href="#section-6.1.1.1.4" class="section-number selfRef">6.1.1.1.4. </a><a href="#name-result-verification-key" class="section-name selfRef">Result Verification Key</a>
+              </h6>
+<p id="section-6.1.1.1.4-1">The result verification key is denoted by the label <code>"result-verification-key"</code> in JSON documents and by the codepoint <code>4</code> in CBOR documents.
+This field provides one or more public keys that can be used for the cryptographic verification of CoSERV query results that are returned by the service implementation.
+In JSON-formatted discovery documents, each key is a JSON Web Key (JWK) as defined in <span>[<a href="#RFC7517" class="cite xref">RFC7517</a>]</span>.
+In CBOR-formatted discovery documents, each key is a COSE Key as defined in <span>[<a href="#STD96" class="cite xref">STD96</a>]</span>.<a href="#section-6.1.1.1.4-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="discovery-document-examples">
+<section id="section-6.1.1.2">
+            <h5 id="name-discovery-document-examples">
+<a href="#section-6.1.1.2" class="section-number selfRef">6.1.1.2. </a><a href="#name-discovery-document-examples" class="section-name selfRef">Discovery Document Examples</a>
+            </h5>
+<p id="section-6.1.1.2-1">In the following examples, the contents of bodies are informative examples only.<a href="#section-6.1.1.2-1" class="pilcrow">¶</a></p>
+<p id="section-6.1.1.2-2">Example HTTP request for retrieving the discovery document in JSON format:<a href="#section-6.1.1.2-2" class="pilcrow">¶</a></p>
+<div class="lang-http-message sourcecode" id="section-6.1.1.2-3">
+<pre>
+GET /.well-known/coserv-configuration HTTP/1.1
+Host: endorsements-distributor.example
+Accept: application/coserv-discovery+json
+</pre><a href="#section-6.1.1.2-3" class="pilcrow">¶</a>
+</div>
+<p id="section-6.1.1.2-4">Corresponding HTTP response:<a href="#section-6.1.1.2-4" class="pilcrow">¶</a></p>
+<div class="lang-http-message sourcecode" id="section-6.1.1.2-5">
+<pre>
+HTTP/1.1 200 OK
+Content-Type: application/coserv-discovery+json
+
+Body (JSON)
+
+=============== NOTE: '\' line wrapping per RFC 8792 ================
+
+{
+    "version": "1.2.3-beta",
+     "capabilities": [
+      {
+        "media-type": "application/coserv+cose; profile=\"tag:vendor\
+                                      .com,2025:cc_platform#1.0.0\"",
+        "artifact-support": [
+          "source",
+          "collected"
+        ]
+      }
+    ],
+    "api-endpoints": [
+      {
+        "name": "CoSERVRequestResponse",
+        "path": "endorsement-distribution/v1/coserv"
+      }
+    ],
+    "result-verification-key": [
+      {
+        "alg": "ES256",
+        "crv": "P-256",
+        "kty": "EC",
+        "x": "usWxHK2PmfnHKwXPS54m0kTcGJ90UiglWiGahtagnv8",
+        "y": "IBOL-C3BttVivg-lSreASjpkttcsz-1rb7btKLv8EX4",
+        "kid": "key1"
+      }
+    ]
+  }
+
+</pre><a href="#section-6.1.1.2-5" class="pilcrow">¶</a>
+</div>
+<p id="section-6.1.1.2-6">Example HTTP request for retrieving the discovery document in CBOR format:<a href="#section-6.1.1.2-6" class="pilcrow">¶</a></p>
+<div class="lang-http-message sourcecode" id="section-6.1.1.2-7">
+<pre>
+GET /.well-known/coserv-configuration HTTP/1.1
+Host: endorsements-distributor.example
+Accept: application/coserv-discovery+cbor
+</pre><a href="#section-6.1.1.2-7" class="pilcrow">¶</a>
+</div>
+<p id="section-6.1.1.2-8">Corresponding HTTP response:<a href="#section-6.1.1.2-8" class="pilcrow">¶</a></p>
+<div class="lang-http-message sourcecode" id="section-6.1.1.2-9">
+<pre>
+HTTP/1.1 200 OK
+Content-Type: application/coserv-discovery+cbor
+
+Body (in CBOR Extended Diagnostic Notation (EDN))
+
+=============== NOTE: '\' line wrapping per RFC 8792 ================
+
+{
+  / version / 1: "1.2.3-beta",
+  / capabilities / 2: [
+    {
+      / media-type / 1: "application/coserv+cose; profile=\"tag:\
+                                vendor.com,2025:cc_platform#1.0.0\"",
+      / artifact-support / 2: [
+        "source",
+        "collected"
+      ]
+    }
+  ],
+  / api-endpoints / 3: [
+    {
+      / name / 1: "CoSERVRequestResponse",
+      / path / 2: "endorsement-distribution/v1/coserv"
+    }
+  ],
+  / result-verification-key / 4: [
+    {
+      / kty / 1: 2,
+      / alg / 3: -7,
+      / crv / -1: 1,
+      / x / -2: h'1A2B3C4D',
+      / y / -3: h'5E6F7A8B',
+      / kid / 2: h'ABCDEF1234'
+    }
+  ]
+}
+</pre><a href="#section-6.1.1.2-9" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
 </section>
 </div>
 <div id="secrrapiquery">
@@ -2508,6 +2717,26 @@ Suitable mitigations include the following:<a href="#section-9-1" class="pilcrow
               <td class="text-left" rowspan="1" colspan="1">
                 <a href="#signed-coserv" class="auto internal xref">Section 4.6</a> of RFCthis</td>
             </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">
+                <code>coserv-discovery+cbor</code>
+</td>
+              <td class="text-left" rowspan="1" colspan="1">
+                <code>application/coserv-discovery+cbor</code>
+</td>
+              <td class="text-left" rowspan="1" colspan="1">
+                <a href="#secrrapidisco" class="auto internal xref">Section 6.1.1</a> of RFCthis</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">
+                <code>coserv-discovery+json</code>
+</td>
+              <td class="text-left" rowspan="1" colspan="1">
+                <code>application/coserv-discovery+json</code>
+</td>
+              <td class="text-left" rowspan="1" colspan="1">
+                <a href="#secrrapidisco" class="auto internal xref">Section 6.1.1</a> of RFCthis</td>
+            </tr>
           </tbody>
         </table>
 </div>
@@ -2681,6 +2910,174 @@ Note that the <code>cose-type</code> parameter is explicitly not supported, as i
 </dl>
 </section>
 </div>
+<div id="applicationcoserv-discoverycbor">
+<section id="section-10.1.3">
+          <h4 id="name-application-coserv-discover">
+<a href="#section-10.1.3" class="section-number selfRef">10.1.3. </a><a href="#name-application-coserv-discover" class="section-name selfRef"><code>application/coserv-discovery+cbor</code></a>
+          </h4>
+<span class="break"></span><dl class="dlCompact dlParallel" id="section-10.1.3-1">
+            <dt id="section-10.1.3-1.1">Type name:</dt>
+            <dd style="margin-left: 1.5em" id="section-10.1.3-1.2">
+              <p id="section-10.1.3-1.2.1">application<a href="#section-10.1.3-1.2.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+<dt id="section-10.1.3-1.3">Subtype name:</dt>
+            <dd style="margin-left: 1.5em" id="section-10.1.3-1.4">
+              <p id="section-10.1.3-1.4.1">coserv-discovery+cbor<a href="#section-10.1.3-1.4.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+<dt id="section-10.1.3-1.5">Required parameters:</dt>
+            <dd style="margin-left: 1.5em" id="section-10.1.3-1.6">
+              <p id="section-10.1.3-1.6.1">n/a<a href="#section-10.1.3-1.6.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+<dt id="section-10.1.3-1.7">Optional parameters:</dt>
+            <dd style="margin-left: 1.5em" id="section-10.1.3-1.8">
+              <p id="section-10.1.3-1.8.1">n/a<a href="#section-10.1.3-1.8.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+<dt id="section-10.1.3-1.9">Encoding considerations:</dt>
+            <dd style="margin-left: 1.5em" id="section-10.1.3-1.10">
+              <p id="section-10.1.3-1.10.1">binary (CBOR)<a href="#section-10.1.3-1.10.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+<dt id="section-10.1.3-1.11">Security considerations:</dt>
+            <dd style="margin-left: 1.5em" id="section-10.1.3-1.12">
+              <p id="section-10.1.3-1.12.1"><a href="#seccons" class="auto internal xref">Section 8</a> of RFCthis<a href="#section-10.1.3-1.12.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+<dt id="section-10.1.3-1.13">Interoperability considerations:</dt>
+            <dd style="margin-left: 1.5em" id="section-10.1.3-1.14">
+              <p id="section-10.1.3-1.14.1">n/a<a href="#section-10.1.3-1.14.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+<dt id="section-10.1.3-1.15">Published specification:</dt>
+            <dd style="margin-left: 1.5em" id="section-10.1.3-1.16">
+              <p id="section-10.1.3-1.16.1">RFCthis<a href="#section-10.1.3-1.16.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+<dt id="section-10.1.3-1.17">Applications that use this media type:</dt>
+            <dd style="margin-left: 1.5em" id="section-10.1.3-1.18">
+              <p id="section-10.1.3-1.18.1">Verifiers, Endorsers, Reference Value Providers<a href="#section-10.1.3-1.18.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+<dt id="section-10.1.3-1.19">Fragment identifier considerations:</dt>
+            <dd style="margin-left: 1.5em" id="section-10.1.3-1.20">
+              <p id="section-10.1.3-1.20.1">The syntax and semantics of fragment identifiers are as specified for "application/cbor". (No fragment identification syntax is currently defined for "application/cbor".)<a href="#section-10.1.3-1.20.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+<dt id="section-10.1.3-1.21">Person &amp; email address to contact for further information:</dt>
+            <dd style="margin-left: 1.5em" id="section-10.1.3-1.22">
+              <p id="section-10.1.3-1.22.1">RATS WG mailing list (rats@ietf.org)<a href="#section-10.1.3-1.22.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+<dt id="section-10.1.3-1.23">Intended usage:</dt>
+            <dd style="margin-left: 1.5em" id="section-10.1.3-1.24">
+              <p id="section-10.1.3-1.24.1">COMMON<a href="#section-10.1.3-1.24.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+<dt id="section-10.1.3-1.25">Restrictions on usage:</dt>
+            <dd style="margin-left: 1.5em" id="section-10.1.3-1.26">
+              <p id="section-10.1.3-1.26.1">none<a href="#section-10.1.3-1.26.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+<dt id="section-10.1.3-1.27">Author/Change controller:</dt>
+            <dd style="margin-left: 1.5em" id="section-10.1.3-1.28">
+              <p id="section-10.1.3-1.28.1">IETF<a href="#section-10.1.3-1.28.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+<dt id="section-10.1.3-1.29">Provisional registration:</dt>
+            <dd style="margin-left: 1.5em" id="section-10.1.3-1.30">
+              <p id="section-10.1.3-1.30.1">no<a href="#section-10.1.3-1.30.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+</dl>
+</section>
+</div>
+<div id="applicationcoserv-discoveryjson">
+<section id="section-10.1.4">
+          <h4 id="name-application-coserv-discovery">
+<a href="#section-10.1.4" class="section-number selfRef">10.1.4. </a><a href="#name-application-coserv-discovery" class="section-name selfRef"><code>application/coserv-discovery+json</code></a>
+          </h4>
+<span class="break"></span><dl class="dlCompact dlParallel" id="section-10.1.4-1">
+            <dt id="section-10.1.4-1.1">Type name:</dt>
+            <dd style="margin-left: 1.5em" id="section-10.1.4-1.2">
+              <p id="section-10.1.4-1.2.1">application<a href="#section-10.1.4-1.2.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+<dt id="section-10.1.4-1.3">Subtype name:</dt>
+            <dd style="margin-left: 1.5em" id="section-10.1.4-1.4">
+              <p id="section-10.1.4-1.4.1">coserv-discovery+json<a href="#section-10.1.4-1.4.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+<dt id="section-10.1.4-1.5">Required parameters:</dt>
+            <dd style="margin-left: 1.5em" id="section-10.1.4-1.6">
+              <p id="section-10.1.4-1.6.1">n/a<a href="#section-10.1.4-1.6.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+<dt id="section-10.1.4-1.7">Optional parameters:</dt>
+            <dd style="margin-left: 1.5em" id="section-10.1.4-1.8">
+              <p id="section-10.1.4-1.8.1">n/a<a href="#section-10.1.4-1.8.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+<dt id="section-10.1.4-1.9">Encoding considerations:</dt>
+            <dd style="margin-left: 1.5em" id="section-10.1.4-1.10">
+              <p id="section-10.1.4-1.10.1">binary (JSON is UTF-8-encoded text)<a href="#section-10.1.4-1.10.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+<dt id="section-10.1.4-1.11">Security considerations:</dt>
+            <dd style="margin-left: 1.5em" id="section-10.1.4-1.12">
+              <p id="section-10.1.4-1.12.1"><a href="#seccons" class="auto internal xref">Section 8</a> of RFCthis<a href="#section-10.1.4-1.12.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+<dt id="section-10.1.4-1.13">Interoperability considerations:</dt>
+            <dd style="margin-left: 1.5em" id="section-10.1.4-1.14">
+              <p id="section-10.1.4-1.14.1">n/a<a href="#section-10.1.4-1.14.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+<dt id="section-10.1.4-1.15">Published specification:</dt>
+            <dd style="margin-left: 1.5em" id="section-10.1.4-1.16">
+              <p id="section-10.1.4-1.16.1">RFCthis<a href="#section-10.1.4-1.16.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+<dt id="section-10.1.4-1.17">Applications that use this media type:</dt>
+            <dd style="margin-left: 1.5em" id="section-10.1.4-1.18">
+              <p id="section-10.1.4-1.18.1">Verifiers, Endorsers, Reference Value Providers<a href="#section-10.1.4-1.18.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+<dt id="section-10.1.4-1.19">Fragment identifier considerations:</dt>
+            <dd style="margin-left: 1.5em" id="section-10.1.4-1.20">
+              <p id="section-10.1.4-1.20.1">The syntax and semantics of fragment identifiers are as specified for "application/json". (No fragment identification syntax is currently defined for "application/json".)<a href="#section-10.1.4-1.20.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+<dt id="section-10.1.4-1.21">Person &amp; email address to contact for further information:</dt>
+            <dd style="margin-left: 1.5em" id="section-10.1.4-1.22">
+              <p id="section-10.1.4-1.22.1">RATS WG mailing list (rats@ietf.org)<a href="#section-10.1.4-1.22.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+<dt id="section-10.1.4-1.23">Intended usage:</dt>
+            <dd style="margin-left: 1.5em" id="section-10.1.4-1.24">
+              <p id="section-10.1.4-1.24.1">COMMON<a href="#section-10.1.4-1.24.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+<dt id="section-10.1.4-1.25">Restrictions on usage:</dt>
+            <dd style="margin-left: 1.5em" id="section-10.1.4-1.26">
+              <p id="section-10.1.4-1.26.1">none<a href="#section-10.1.4-1.26.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+<dt id="section-10.1.4-1.27">Author/Change controller:</dt>
+            <dd style="margin-left: 1.5em" id="section-10.1.4-1.28">
+              <p id="section-10.1.4-1.28.1">IETF<a href="#section-10.1.4-1.28.1" class="pilcrow">¶</a></p>
+</dd>
+            <dd class="break"></dd>
+<dt id="section-10.1.4-1.29">Provisional registration:</dt>
+            <dd style="margin-left: 1.5em" id="section-10.1.4-1.30">
+              <p id="section-10.1.4-1.30.1">no<a href="#section-10.1.4-1.30.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+</dl>
+</section>
+</div>
 </section>
 </div>
 <div id="coap-content-formats">
@@ -2722,6 +3119,18 @@ Note that the <code>cose-type</code> parameter is explicitly not supported, as i
 <p id="section-10.2-3">If possible, TBD1 and TBD2 should be assigned in the 256..9999 range.<a href="#section-10.2-3" class="pilcrow">¶</a></p>
 </section>
 </div>
+<div id="well-known-uri-for-coserv-configuration">
+<section id="section-10.3">
+        <h3 id="name-well-known-uri-for-coserv-c">
+<a href="#section-10.3" class="section-number selfRef">10.3. </a><a href="#name-well-known-uri-for-coserv-c" class="section-name selfRef">Well-Known URI for CoSERV Configuration</a>
+        </h3>
+<p id="section-10.3-1">IANA is requested to register the following in the "Well-Known URIs" registry <span>[<a href="#IANA.well-known-uris" class="cite xref">IANA.well-known-uris</a>]</span>:<a href="#section-10.3-1" class="pilcrow">¶</a></p>
+<p id="section-10.3-2">URI suffix: coserv-configuration<a href="#section-10.3-2" class="pilcrow">¶</a></p>
+<p id="section-10.3-3">Change controller: IETF<a href="#section-10.3-3" class="pilcrow">¶</a></p>
+<p id="section-10.3-4">Specification document: RFCthis<a href="#section-10.3-4" class="pilcrow">¶</a></p>
+<p id="section-10.3-5">Related information: N/A<a href="#section-10.3-5" class="pilcrow">¶</a></p>
+</section>
+</div>
 </section>
 </div>
 <div id="sec-combined-references">
@@ -2751,6 +3160,10 @@ Note that the <code>cose-type</code> parameter is explicitly not supported, as i
         <dd>
 <span class="refAuthor">IANA</span>, <span class="refTitle">"Media Types"</span>, <span>&lt;<a href="https://www.iana.org/assignments/media-types">https://www.iana.org/assignments/media-types</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="IANA.well-known-uris">[IANA.well-known-uris]</dt>
+        <dd>
+<span class="refAuthor">IANA</span>, <span class="refTitle">"Well-Known URIs"</span>, <span>&lt;<a href="https://www.iana.org/assignments/well-known-uris">https://www.iana.org/assignments/well-known-uris</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC2119">[RFC2119]</dt>
         <dd>
 <span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03" class="refDate">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc2119">https://www.rfc-editor.org/rfc/rfc2119</a>&gt;</span>. </dd>
@@ -2762,6 +3175,10 @@ Note that the <code>cose-type</code> parameter is explicitly not supported, as i
 <dt id="RFC7515">[RFC7515]</dt>
         <dd>
 <span class="refAuthor">Jones, M.</span>, <span class="refAuthor">Bradley, J.</span>, and <span class="refAuthor">N. Sakimura</span>, <span class="refTitle">"JSON Web Signature (JWS)"</span>, <span class="seriesInfo">RFC 7515</span>, <span class="seriesInfo">DOI 10.17487/RFC7515</span>, <time datetime="2015-05" class="refDate">May 2015</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7515">https://www.rfc-editor.org/rfc/rfc7515</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC7517">[RFC7517]</dt>
+        <dd>
+<span class="refAuthor">Jones, M.</span>, <span class="refTitle">"JSON Web Key (JWK)"</span>, <span class="seriesInfo">RFC 7517</span>, <span class="seriesInfo">DOI 10.17487/RFC7517</span>, <time datetime="2015-05" class="refDate">May 2015</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7517">https://www.rfc-editor.org/rfc/rfc7517</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC8174">[RFC8174]</dt>
         <dd>
@@ -2775,9 +3192,17 @@ Note that the <code>cose-type</code> parameter is explicitly not supported, as i
         <dd>
 <span class="refAuthor">Birkholz, H.</span>, <span class="refAuthor">Vigano, C.</span>, and <span class="refAuthor">C. Bormann</span>, <span class="refTitle">"Concise Data Definition Language (CDDL): A Notational Convention to Express Concise Binary Object Representation (CBOR) and JSON Data Structures"</span>, <span class="seriesInfo">RFC 8610</span>, <span class="seriesInfo">DOI 10.17487/RFC8610</span>, <time datetime="2019-06" class="refDate">June 2019</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8610">https://www.rfc-editor.org/rfc/rfc8610</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="RFC8615">[RFC8615]</dt>
+        <dd>
+<span class="refAuthor">Nottingham, M.</span>, <span class="refTitle">"Well-Known Uniform Resource Identifiers (URIs)"</span>, <span class="seriesInfo">RFC 8615</span>, <span class="seriesInfo">DOI 10.17487/RFC8615</span>, <time datetime="2019-05" class="refDate">May 2019</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8615">https://www.rfc-editor.org/rfc/rfc8615</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC9334">[RFC9334]</dt>
         <dd>
 <span class="refAuthor">Birkholz, H.</span>, <span class="refAuthor">Thaler, D.</span>, <span class="refAuthor">Richardson, M.</span>, <span class="refAuthor">Smith, N.</span>, and <span class="refAuthor">W. Pan</span>, <span class="refTitle">"Remote ATtestation procedureS (RATS) Architecture"</span>, <span class="seriesInfo">RFC 9334</span>, <span class="seriesInfo">DOI 10.17487/RFC9334</span>, <time datetime="2023-01" class="refDate">January 2023</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc9334">https://www.rfc-editor.org/rfc/rfc9334</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="SEMVER">[SEMVER]</dt>
+        <dd>
+<span class="refTitle">"Semantic Versioning 2.0.0"</span>, <time datetime="2013" class="refDate">2013</time>, <span>&lt;<a href="https://semver.org/spec/v2.0.0.html">https://semver.org/spec/v2.0.0.html</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="STD94">[STD94]</dt>
         <dd>
