@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-09-04T00:42:07.962237+00:00",
+  "timestamp": "2025-09-07T00:47:45.307790+00:00",
   "repo": "rats-endorsements-distribution/draft-howard-rats-coserv",
   "labels": [
     {
@@ -3128,24 +3128,26 @@
       "id": "PR_kwDOOAZd1M6mTCJh",
       "title": "Add the discovery API details to the draft",
       "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/pull/70",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "paulhowardarm",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "- Overview of discovery documents\r\n- Include the CDDL model\r\n- Details of document fields\r\n- Example HTTP requests and responses for discovery document retrieval in JSON/CBOR\r\n- IANA media types for JSON and CBOR\r\n\r\nSigned-off-by: Paul Howard <paul.howard@arm.com>",
       "createdAt": "2025-09-01T14:21:26Z",
-      "updatedAt": "2025-09-03T04:19:53Z",
+      "updatedAt": "2025-09-04T15:21:18Z",
       "baseRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
       "baseRefName": "main",
       "baseRefOid": "739c1f4d22d7c3b40134d8bdaa04cf59103088c6",
       "headRepository": "paulhowardarm/draft-howard-rats-coserv",
       "headRefName": "phDiscoveryDraft",
       "headRefOid": "bbc5f0051fce56b9c6c251d3bdfa6e9d127ce41a",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-09-04T15:21:18Z",
+      "mergedAt": "2025-09-04T15:21:18Z",
+      "mergedBy": "paulhowardarm",
+      "mergeCommit": {
+        "oid": "292a68231411983c6f0290d322d24712f25b90cd"
+      },
       "comments": [],
       "reviews": [
         {
