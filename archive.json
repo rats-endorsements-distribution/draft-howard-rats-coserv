@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-09-07T00:47:45.307790+00:00",
+  "timestamp": "2025-09-09T00:43:37.968133+00:00",
   "repo": "rats-endorsements-distribution/draft-howard-rats-coserv",
   "labels": [
     {
@@ -588,7 +588,7 @@
       "id": "I_kwDOOAZd1M7CeEMT",
       "title": "Populate Discovery section",
       "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/issues/57",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "paulhowardarm",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -597,9 +597,17 @@
       "labels": [],
       "body": "Body text, CDDL model and examples for the Discovery sub-section.\nCDDL needs to support both JSON and CBOR\nMedia types need to be added for both\n",
       "createdAt": "2025-07-25T09:53:12Z",
-      "updatedAt": "2025-07-25T09:53:12Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2025-09-08T09:25:21Z",
+      "closedAt": "2025-09-08T09:25:20Z",
+      "comments": [
+        {
+          "author": "paulhowardarm",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Completed with https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/pull/70",
+          "createdAt": "2025-09-08T09:25:21Z",
+          "updatedAt": "2025-09-08T09:25:21Z"
+        }
+      ]
     },
     {
       "number": 58,
