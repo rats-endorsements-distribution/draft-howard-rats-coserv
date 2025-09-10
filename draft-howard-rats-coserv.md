@@ -729,7 +729,7 @@ Body (in CBOR Extended Diagnostic Notation (EDN))
 
 ### Caching {#secrrapicaching}
 
-In practical usage, the artifacts transacted via CoSERV queries (such as trust anchors and reference values) may change signficantly less often than they are used.
+In practical usage, the artifacts transacted via CoSERV queries (such as trust anchors and reference values) may change significantly less often than they are used.
 For example, a Verifier needs to use the artifacts whenever it needs to verify or appraise Evidence from an Attester.
 This might be a very frequent operation, for which a low latency is desirable.
 By contrast, the artifacts themselves would vary only as a consequence of impactful changes to the Attester's desired state or environment.
