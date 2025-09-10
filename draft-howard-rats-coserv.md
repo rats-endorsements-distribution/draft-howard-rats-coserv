@@ -727,9 +727,41 @@ Body (in CBOR Extended Diagnostic Notation (EDN))
 }
 ~~~
 
-#### Caching {#secrrapicaching}
+### Caching {#secrrapicaching}
 
-* body text
+In practical usage, the artifacts transacted via CoSERV queries (such as trust anchors and reference values) may change signficantly less often than they are used.
+For example, a Verifier needs to use the artifacts whenever it needs to verify or appraise Evidence from an Attester.
+This might be a very frequent operation, for which a low latency is desirable.
+By contrast, the artifacts themselves would vary only as a consequence of impactful changes to the Attester's desired state or environment.
+One example of such an impactful change might be the roll-out of a firmware update, which would result in a new reference value for the impacted firmware component(s).
+Such changes would tend to be relatively infrequent.
+The caching of CoSERV artifacts is therefore beneficial for overall system performance.
+
+CoSERV is designed to facilitate both client-side and server-side caching by use of the standard HTTP caching mechanisms specified in {{STD98}}.
+This includes use of the HTTP `Cache-Control` header and its associated directives.
+It also includes the use of entity-tags (ETags).
+The following features of CoSERV and its HTTP binding are specifically designed to favor caching implementations:
+
+- CoSERV queries form stable URL paths.
+As specified in {{secencoding}}, any given CoSERV query will always serialize to the same fixed sequence of bytes.
+This allows queries to be used as canonical and stable resource identifiers, which in turn allows them to function effectively as cache keys.
+- The result set is cryptographically bound to the query.
+As specified in {{signed-coserv}}, the origin server is required to return a signed response that combines the result set with the client's original query, in any deployment where untrusted intermediaries might exist.
+This means that the client can always verify the integrity of the result on an end-to-end basis, even in the presence of caching infrastructure.
+- The use of safe HTTP methods.
+CoSERV queries are executed as read-only operations using HTTP `GET`.
+The execution of a query does not modify any state on the server, which creates more opportunities for the re-use of cached results.
+
+#### HTTP Caching and Result Set Expiry
+
+CoSERV's data model includes a mandatory expiration timestamp on every result set.
+This is an authoritative marker of the point in time at which the entire result set becomes invalid, and the query must be re-executed to obtain fresh results.
+This timestamp is established by the origin server.
+
+In the presence of HTTP caching infrastructure, the origin server MUST NOT set HTTP cache directives (e.g. `Cache-Control: max-age`, `Expires`) such that the freshness lifetime of the HTTP response exceeds the result set expiry timestamp contained within the CoSERV result set payload.
+
+#### Example HTTP Messages with Caching
+
 * example request
 * example response
 
