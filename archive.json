@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-09-09T00:43:37.968133+00:00",
+  "timestamp": "2025-09-11T00:43:18.934037+00:00",
   "repo": "rats-endorsements-distribution/draft-howard-rats-coserv",
   "labels": [
     {
@@ -3255,6 +3255,53 @@
           "createdAt": "2025-09-03T04:19:53Z",
           "updatedAt": "2025-09-03T04:19:53Z",
           "comments": []
+        }
+      ]
+    },
+    {
+      "number": 71,
+      "id": "PR_kwDOOAZd1M6n1fvA",
+      "title": "Draft text for HTTP caching considerations.",
+      "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/pull/71",
+      "state": "OPEN",
+      "author": "paulhowardarm",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "- Why caching matters\r\n- Features of CoSERV that specifically play nicely with caching\r\n- Describe how the in-message expiry timestamp interacts with HTTP caching layers\r\n\r\n",
+      "createdAt": "2025-09-10T14:52:19Z",
+      "updatedAt": "2025-09-10T17:15:41Z",
+      "baseRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
+      "baseRefName": "main",
+      "baseRefOid": "292a68231411983c6f0290d322d24712f25b90cd",
+      "headRepository": "paulhowardarm/draft-howard-rats-coserv",
+      "headRefName": "phHttpCaching",
+      "headRefOid": "b783fb09d158ba74af5b965e0df5a2d79384c3bf",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOOAZd1M6_JulS",
+          "commit": {
+            "abbreviatedOid": "7e28c9c"
+          },
+          "author": "thomas-fossati",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Great stuff!",
+          "createdAt": "2025-09-10T16:52:05Z",
+          "updatedAt": "2025-09-10T16:55:58Z",
+          "comments": [
+            {
+              "originalPosition": 7,
+              "body": "typo\r\n\r\n```suggestion\r\nIn practical usage, the artifacts transacted via CoSERV queries (such as trust anchors and reference values) may change significantly less often than they are used.\r\n```",
+              "createdAt": "2025-09-10T16:52:05Z",
+              "updatedAt": "2025-09-10T16:55:58Z"
+            }
+          ]
         }
       ]
     }
