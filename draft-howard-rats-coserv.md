@@ -762,19 +762,122 @@ In the presence of HTTP caching infrastructure, the origin server MUST NOT set H
 
 #### Example HTTP Messages with Caching
 
-* example request
-* example response
+This section illustrates a caching scenario.
 
-~~~ http-message
-# NOTE: '\' line wrapping per RFC 8792
+In this example, the CoSERV HTTP API server endpoint is hosted by an HTTP origin (coserv.example), while a reverse proxy (cache.example) operates a public cache in front of the origin.
 
-GET coserv/ogB4I3RhZ... HTTP/1.1
-Host: coserv.example
-Accept: application/coserv+cbor; \
-        profile="tag:example.com,2025:cc-platform#1.0.0"
-Content-Type: application/coserv+cbor
+Client A sends a request using a specific CoSERV query.
+As the reverse proxy has a "cache miss" for the resource, it forwards the request to the origin.
+The origin then constructs the response and returns it to the proxy.
+The response includes cache-control headers that are compatible with the time-to-live associated with the computed result set.
+For the purposes of this example, the HTTP response `max-age` has been set to 10 minutes and the `s-maxage` to 1 hour.
+This means that the origin allows intermediaries (e.g., its CDN) to cache this resource for longer than the client.
+The result is different caching behaviours between clients and intermediaries, which reduces the load on the origin by enabling CDNs to cache content for longer, while ensuring that clients receive fresher content.
+Before forwarding it to the client, the proxy stores the response in its cache using the request URI as the cache key alongside the entry's time-to-live value.
+
+~~~ aasvg
+client A             cache.example          coserv.example
+                         .---.                   .-.
+    o                   |     |                 |   |
+    |                   |'---'|                  '+'
+    |                   |     |                   |
+    |                    '-+-'                    |
+    |   GET ogB4I3RhZ..    |                      |
+    +--------------------->| lookup(obB4I3RhZ..)  |
+    |                      +---.                  |
+    |                      |    |                 |
+    |                      |<--'                  |
+    |                      | MISS                 |
+    |                      |                      |
+    |                      |   GET ogB4I3RhZ..    |
+    |                      +--------------------->|
+    |                      |                      +---.  compute
+    |                      |                      |    | result
+    |                      |                      |<--'  set
+    |                      |  200 OK              |
+    |                      |  C-C: max-age=600,   |
+    |                      |       s-maxage=3600  |
+    |                      |  #6.18([...])        |
+    |                      |<---------------------+
+    |                      |                      |
+    |                      | store(K=obB4I3RhZ.., |
+    |                      +---.   V=#6.18([...], |
+    |                      |    |  TTL=3600)      |
+    |                      |<--'                  |
+    |  200 OK              |                      |
+    |  C-C: max-age=600,   |                      |
+    |       s-maxage=3600  |                      |
+    |  #6.18([...])        |                      |
+    |<---------------------+                      |
+    |                      |                      |
 ~~~
-{: #fig-rest-req title="Request CoSERV"}
+
+At a later point, after 2 minutes, a different client B makes the same request.
+This time, the request generates a "cache hit" event on the proxy.
+The response is therefore served from the public cache, bypassing the origin.
+This reduces the load on the origin, where computing the result set is generally costly, as well as reducing the overall latency of the transaction.
+Client B operates a local cache, where it stores a copy of the response.
+
+~~~ aasvg
+client B             cache.example          coserv.example
+                         .---.                   .-.
+   .-.                  |     |                 |   |
+  |   |                 |'---'|                  '+'
+  |'-'|                 |     |                   |
+   '+'                   '-+-'                    |
+    |   GET ogB4I3RhZ..    |                      |
+    +--------------------->| lookup(obB4I3RhZ..)  |
+    |                      +---.                  |
+    |                      |    |                 |
+    |                      |<--'                  |
+    |                      | HIT                  |
+    |  200 OK              |                      |
+    |  C-C: max-age=480,   |                      |
+    |       s-maxage=3480  |                      |
+    |  Etag: "xyz"         |                      |
+    |  #6.18([...])        |                      |
+    |<---------------------+                      |
+    |                      |                      |
+    | store(K=obB4I3RhZ.., |                      |
+    +---.   V=#6.18([...], |                      |
+    |    |  TTL=480)       |                      |
+    |<--'                  |                      |
+    |                      |                      |
+~~~
+
+After 9 more minutes, B is instructed to make the same request again.
+The request generates a "cache hit" event on the local cache.
+However, the cached resource is become stale and needs to be revalidated.
+Therefore, B sends a conditional request to the proxy.
+The request generates a "cache hit" event on the proxy where the resource is still fresh due to the differential caching behaviour dictated by the original response from the origin.
+The proxy returns a 304 (Not modified) status code, which instructs the client to reuse its local copy of the response.
+
+~~~ aasvg
+client B              cache.example          coserv.example
+                         .---.                   .-.
+   .-.                  |     |                 |   |
+  |   |                 |'---'|                  '+'
+  |'-'|                 |     |                   |
+   '+'                   '-+-'                    |
+    | lookup(obB4I3RhZ..)  |                      |
+    +---.                  |                      |
+    |    |                 |                      |
+    |<--'                  |                      |
+    | HIT (stale)          |                      |
+    |                      |                      |
+    | GET ogB4I3RhZ..      |                      |
+    | If-None-Match:"xyz"  |                      |
+    +--------------------->|                      |
+    |                      +---.                  |
+    |                      |    |                 |
+    |                      |<--'                  |
+    |                      | HIT                  |
+    |  304 Not modified    |                      |
+    |  C-C: max-age=0,     |                      |
+    |       s-maxage=3060  |                      |
+    |<---------------------+                      |
+    |                      |                      |
+~~~
 
 # Implementation Status
 [^rfced] please remove this section prior to publication.
