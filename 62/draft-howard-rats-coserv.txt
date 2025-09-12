@@ -5,7 +5,7 @@
 Remote ATtestation ProcedureS                                  P. Howard
 Internet-Draft                                                       Arm
 Intended status: Informational                                T. Fossati
-Expires: 15 March 2026                                            Linaro
+Expires: 16 March 2026                                            Linaro
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                                 S. Kamal
@@ -14,7 +14,7 @@ Expires: 15 March 2026                                            Linaro
                                                                      AMD
                                                                    D. Ma
                                                            Alibaba Cloud
-                                                       11 September 2025
+                                                       12 September 2025
 
 
          Concise Selector for Endorsements and Reference Values
@@ -65,7 +65,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 15 March 2026.
+   This Internet-Draft will expire on 16 March 2026.
 
 Copyright Notice
 
@@ -1493,40 +1493,46 @@ Table of Contents
    response in its cache using the request URI as the cache key
    alongside the entry's time-to-live value.
 
-   client A             cache.example          coserv.example
-                            .---.                   .-.
-       o                   |     |                 |   |
-       |                   |'---'|                  '+'
-       |                   |     |                   |
-       |                    '-+-'                    |
-       |   GET ogB4I3RhZ..    |                      |
-       +--------------------->| lookup(obB4I3RhZ..)  |
-       |                      +---.                  |
-       |                      |    |                 |
-       |                      |<--'                  |
-       |                      | MISS                 |
-       |                      |                      |
-       |                      |   GET ogB4I3RhZ..    |
-       |                      +--------------------->|
-       |                      |                      +---.  compute
-       |                      |                      |    | result
-       |                      |                      |<--'  set
-       |                      |  200 OK              |
-       |                      |  C-C: max-age=600,   |
-       |                      |       s-maxage=3600  |
-       |                      |  #6.18([...])        |
-       |                      |<---------------------+
-       |                      |                      |
-       |                      | store(K=obB4I3RhZ.., |
-       |                      +---.   V=#6.18([...], |
-       |                      |    |  TTL=3600)      |
-       |                      |<--'                  |
-       |  200 OK              |                      |
-       |  C-C: max-age=600,   |                      |
-       |       s-maxage=3600  |                      |
-       |  #6.18([...])        |                      |
-       |<---------------------+                      |
-       |                      |                      |
+      |  This "differential caching" strategy could be useful if the
+      |  origin and its CDN have control plane APIs that the origin
+      |  owner can use to instruct the CDN operator to purge certain
+      |  cached entries [RFC8007].  For instance, in CoSERV, this
+      |  feature could be used in case of an unexpected revocation.
+
+ client A             cache.example          coserv.example
+                          .---.                   .-.
+     o                   |     |                 |   |
+     |                   |'---'|                  '+'
+     |                   |     |                   |
+     |                    '-+-'                    |
+     |   GET ogB4I3RhZ..    |                      |
+     +--------------------->| lookup(obB4I3RhZ..)  |
+     |                      +---.                  |
+     |                      |    |                 |
+     |                      |<--'                  |
+     |                      | MISS                 |
+     |                      |                      |
+     |                      |   GET ogB4I3RhZ..    |
+     |                      +--------------------->|
+     |                      |                      +---.  compute
+     |                      |                      |    | result
+     |                      |                      |<--'  set
+     |                      |  200 OK              | (expiry = now + 1h)
+     |                      |  C-C: max-age=600,   |
+     |                      |       s-maxage=3600  |
+     |                      |  #6.18([...])        |
+     |                      |<---------------------+
+     |                      |                      |
+     |                      | store(K=obB4I3RhZ.., |
+     |                      +---.   V=#6.18([...], |
+     |                      |    |  TTL=3600)      |
+     |                      |<--'                  |
+     |  200 OK              |                      |
+     |  C-C: max-age=600,   |                      |
+     |       s-maxage=3600  |                      |
+     |  #6.18([...])        |                      |
+     |<---------------------+                      |
+     |                      |                      |
 
    At a later point, after 2 minutes, a different client B makes the
    same request.  This time, the request generates a "cache hit" event
@@ -1971,6 +1977,11 @@ Table of Contents
               Code: The Implementation Status Section", BCP 205,
               RFC 7942, DOI 10.17487/RFC7942, July 2016,
               <https://www.rfc-editor.org/rfc/rfc7942>.
+
+   [RFC8007]  Murray, R. and B. Niven-Jenkins, "Content Delivery Network
+              Interconnection (CDNI) Control Interface / Triggers",
+              RFC 8007, DOI 10.17487/RFC8007, December 2016,
+              <https://www.rfc-editor.org/rfc/rfc8007>.
 
    [STD98]    Internet Standard 98,
               <https://www.rfc-editor.org/info/std98>.

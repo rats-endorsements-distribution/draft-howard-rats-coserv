@@ -1058,7 +1058,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Howard, et al.</td>
-<td class="center">Expires 15 March 2026</td>
+<td class="center">Expires 16 March 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1071,12 +1071,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-howard-rats-coserv-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-09-11" class="published">11 September 2025</time>
+<time datetime="2025-09-12" class="published">12 September 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-03-15">15 March 2026</time></dd>
+<dd class="expires"><time datetime="2026-03-16">16 March 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1148,7 +1148,7 @@ CoSERV defines a query language and corresponding result structure using CDDL, w
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 15 March 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 16 March 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -2606,9 +2606,12 @@ For the purposes of this example, the HTTP response <code>max-age</code> has bee
 This means that the origin allows intermediaries (e.g., its CDN) to cache this resource for longer than the client.
 The result is different caching behaviours between clients and intermediaries, which reduces the load on the origin by enabling CDNs to cache content for longer, while ensuring that clients receive fresher content.
 Before forwarding it to the client, the proxy stores the response in its cache using the request URI as the cache key alongside the entry's time-to-live value.<a href="#section-6.1.3.2-3" class="pilcrow">¶</a></p>
-<div id="section-6.1.3.2-4">
-              <div class="alignLeft art-svg artwork" id="section-6.1.3.2-4.1">
-<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="576" width="520" viewBox="0 0 520 576" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
+<aside id="section-6.1.3.2-4">
+              <p id="section-6.1.3.2-4.1">This "differential caching" strategy could be useful if the origin and its CDN have control plane APIs that the origin owner can use to instruct the CDN operator to purge certain cached entries <span>[<a href="#RFC8007" class="cite xref">RFC8007</a>]</span>. For instance, in CoSERV, this feature could be used in case of an unexpected revocation.<a href="#section-6.1.3.2-4.1" class="pilcrow">¶</a></p>
+</aside>
+<div id="section-6.1.3.2-5">
+              <div class="alignLeft art-svg artwork" id="section-6.1.3.2-5.1">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="576" width="576" viewBox="0 0 576 576" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
                   <path d="M 40,64 L 40,560" fill="none" stroke="black"></path>
                   <path d="M 200,64 L 200,96" fill="none" stroke="black"></path>
                   <path d="M 224,112 L 224,560" fill="none" stroke="black"></path>
@@ -2667,6 +2670,11 @@ Before forwarding it to the client, the proxy stores the response in its cache u
                     <text x="472" y="308">set</text>
                     <text x="256" y="324">200</text>
                     <text x="284" y="324">OK</text>
+                    <text x="448" y="324">(expiry</text>
+                    <text x="488" y="324">=</text>
+                    <text x="512" y="324">now</text>
+                    <text x="536" y="324">+</text>
+                    <text x="560" y="324">1h)</text>
                     <text x="260" y="340">C-C:</text>
                     <text x="332" y="340">max-age=600,</text>
                     <text x="336" y="356">s-maxage=3600</text>
@@ -2681,16 +2689,16 @@ Before forwarding it to the client, the proxy stores the response in its cache u
                     <text x="152" y="516">s-maxage=3600</text>
                     <text x="108" y="532">#6.18([...])</text>
                   </g>
-                </svg><a href="#section-6.1.3.2-4.1" class="pilcrow">¶</a>
+                </svg><a href="#section-6.1.3.2-5.1" class="pilcrow">¶</a>
 </div>
 </div>
-<p id="section-6.1.3.2-5">At a later point, after 2 minutes, a different client B makes the same request.
+<p id="section-6.1.3.2-6">At a later point, after 2 minutes, a different client B makes the same request.
 This time, the request generates a "cache hit" event on the proxy.
 The response is therefore served from the public cache, bypassing the origin.
 This reduces the load on the origin, where computing the result set is generally costly, as well as reducing the overall latency of the transaction.
-Client B operates a local cache, where it stores a copy of the response.<a href="#section-6.1.3.2-5" class="pilcrow">¶</a></p>
-<div id="section-6.1.3.2-6">
-              <div class="alignLeft art-svg artwork" id="section-6.1.3.2-6.1">
+Client B operates a local cache, where it stores a copy of the response.<a href="#section-6.1.3.2-6" class="pilcrow">¶</a></p>
+<div id="section-6.1.3.2-7">
+              <div class="alignLeft art-svg artwork" id="section-6.1.3.2-7.1">
 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="416" width="472" viewBox="0 0 472 416" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
                   <path d="M 24,80 L 24,96" fill="none" stroke="black"></path>
                   <path d="M 40,112 L 40,400" fill="none" stroke="black"></path>
@@ -2753,17 +2761,17 @@ Client B operates a local cache, where it stores a copy of the response.<a href=
                     <text x="156" y="356">V=#6.18([...],</text>
                     <text x="132" y="372">TTL=480)</text>
                   </g>
-                </svg><a href="#section-6.1.3.2-6.1" class="pilcrow">¶</a>
+                </svg><a href="#section-6.1.3.2-7.1" class="pilcrow">¶</a>
 </div>
 </div>
-<p id="section-6.1.3.2-7">After 9 more minutes, B is instructed to make the same request again.
+<p id="section-6.1.3.2-8">After 9 more minutes, B is instructed to make the same request again.
 The request generates a "cache hit" event on the local cache.
 However, the cached resource is become stale and needs to be revalidated.
 Therefore, B sends a conditional request to the proxy.
 The request generates a "cache hit" event on the proxy where the resource is still fresh due to the differential caching behaviour dictated by the original response from the origin.
-The proxy returns a 304 (Not modified) status code, which instructs the client to reuse its local copy of the response.<a href="#section-6.1.3.2-7" class="pilcrow">¶</a></p>
-<div id="section-6.1.3.2-8">
-              <div class="alignLeft art-svg artwork" id="section-6.1.3.2-8.1">
+The proxy returns a 304 (Not modified) status code, which instructs the client to reuse its local copy of the response.<a href="#section-6.1.3.2-8" class="pilcrow">¶</a></p>
+<div id="section-6.1.3.2-9">
+              <div class="alignLeft art-svg artwork" id="section-6.1.3.2-9.1">
 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="416" width="480" viewBox="0 0 480 416" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
                   <path d="M 24,80 L 24,96" fill="none" stroke="black"></path>
                   <path d="M 40,112 L 40,400" fill="none" stroke="black"></path>
@@ -2824,7 +2832,7 @@ The proxy returns a 304 (Not modified) status code, which instructs the client t
                     <text x="140" y="356">max-age=0,</text>
                     <text x="152" y="372">s-maxage=3060</text>
                   </g>
-                </svg><a href="#section-6.1.3.2-8.1" class="pilcrow">¶</a>
+                </svg><a href="#section-6.1.3.2-9.1" class="pilcrow">¶</a>
 </div>
 </div>
 </section>
@@ -3492,6 +3500,10 @@ Note that the <code>cose-type</code> parameter is explicitly not supported, as i
 <dt id="RFC7942">[RFC7942]</dt>
         <dd>
 <span class="refAuthor">Sheffer, Y.</span> and <span class="refAuthor">A. Farrel</span>, <span class="refTitle">"Improving Awareness of Running Code: The Implementation Status Section"</span>, <span class="seriesInfo">BCP 205</span>, <span class="seriesInfo">RFC 7942</span>, <span class="seriesInfo">DOI 10.17487/RFC7942</span>, <time datetime="2016-07" class="refDate">July 2016</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7942">https://www.rfc-editor.org/rfc/rfc7942</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8007">[RFC8007]</dt>
+        <dd>
+<span class="refAuthor">Murray, R.</span> and <span class="refAuthor">B. Niven-Jenkins</span>, <span class="refTitle">"Content Delivery Network Interconnection (CDNI) Control Interface / Triggers"</span>, <span class="seriesInfo">RFC 8007</span>, <span class="seriesInfo">DOI 10.17487/RFC8007</span>, <time datetime="2016-12" class="refDate">December 2016</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8007">https://www.rfc-editor.org/rfc/rfc8007</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="STD98">[STD98]</dt>
       <dd>
