@@ -775,6 +775,9 @@ This means that the origin allows intermediaries (e.g., its CDN) to cache this r
 The result is different caching behaviours between clients and intermediaries, which reduces the load on the origin by enabling CDNs to cache content for longer, while ensuring that clients receive fresher content.
 Before forwarding it to the client, the proxy stores the response in its cache using the request URI as the cache key alongside the entry's time-to-live value.
 
+{:aside}
+> This "differential caching" strategy could be useful if the origin and its CDN have control plane APIs that the origin owner can use to instruct the CDN operator to purge certain cached entries {{?RFC8007}}. For instance, in CoSERV, this feature could be used in case of an unexpected revocation.
+
 ~~~ aasvg
 client A             cache.example          coserv.example
                          .---.                   .-.
@@ -794,7 +797,7 @@ client A             cache.example          coserv.example
     |                      |                      +---.  compute
     |                      |                      |    | result
     |                      |                      |<--'  set
-    |                      |  200 OK              |
+    |                      |  200 OK              | (expiry = now + 1h)
     |                      |  C-C: max-age=600,   |
     |                      |       s-maxage=3600  |
     |                      |  #6.18([...])        |
