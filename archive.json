@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-09-11T00:43:18.934037+00:00",
+  "timestamp": "2025-09-14T00:46:10.941729+00:00",
   "repo": "rats-endorsements-distribution/draft-howard-rats-coserv",
   "labels": [
     {
@@ -614,7 +614,7 @@
       "id": "I_kwDOOAZd1M7CeEzw",
       "title": "Body text for all API sections",
       "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/issues/58",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "paulhowardarm",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -623,9 +623,17 @@
       "labels": [],
       "body": "Write all of the normative body text for the API chapter.\n",
       "createdAt": "2025-07-25T09:54:13Z",
-      "updatedAt": "2025-07-25T09:54:13Z",
-      "closedAt": null,
-      "comments": []
+      "updatedAt": "2025-09-11T11:23:31Z",
+      "closedAt": "2025-09-11T11:23:30Z",
+      "comments": [
+        {
+          "author": "paulhowardarm",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Completed with https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/pull/71 https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/pull/70 https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/pull/64",
+          "createdAt": "2025-09-11T11:23:31Z",
+          "updatedAt": "2025-09-11T11:23:31Z"
+        }
+      ]
     },
     {
       "number": 59,
@@ -3263,24 +3271,26 @@
       "id": "PR_kwDOOAZd1M6n1fvA",
       "title": "Draft text for HTTP caching considerations.",
       "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/pull/71",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "paulhowardarm",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "- Why caching matters\r\n- Features of CoSERV that specifically play nicely with caching\r\n- Describe how the in-message expiry timestamp interacts with HTTP caching layers\r\n\r\n",
       "createdAt": "2025-09-10T14:52:19Z",
-      "updatedAt": "2025-09-10T17:15:41Z",
+      "updatedAt": "2025-09-11T10:24:56Z",
       "baseRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
       "baseRefName": "main",
       "baseRefOid": "292a68231411983c6f0290d322d24712f25b90cd",
       "headRepository": "paulhowardarm/draft-howard-rats-coserv",
       "headRefName": "phHttpCaching",
       "headRefOid": "b783fb09d158ba74af5b965e0df5a2d79384c3bf",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-09-11T10:24:56Z",
+      "mergedAt": "2025-09-11T10:24:56Z",
+      "mergedBy": "paulhowardarm",
+      "mergeCommit": {
+        "oid": "faeda7c4c6bdcb0a8ba529d9681ec8b43efc91c6"
+      },
       "comments": [],
       "reviews": [
         {
@@ -3302,6 +3312,213 @@
               "updatedAt": "2025-09-10T16:55:58Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOOAZd1M6_PLgE",
+          "commit": {
+            "abbreviatedOid": "b783fb0"
+          },
+          "author": "Xynnn007",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Nice to see the definition. Only one piece to ensure my understanding is right",
+          "createdAt": "2025-09-11T02:18:26Z",
+          "updatedAt": "2025-09-11T02:19:53Z",
+          "comments": [
+            {
+              "originalPosition": 25,
+              "body": "Does this mean that the signature sent by the server is the server's own, so the cache service cannot tamper with the integrity of either the query or the query result; it can only return the historical query+results?",
+              "createdAt": "2025-09-11T02:18:26Z",
+              "updatedAt": "2025-09-11T02:19:53Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOOAZd1M6_RM84",
+          "commit": {
+            "abbreviatedOid": "b783fb0"
+          },
+          "author": "thomas-fossati",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-11T05:52:06Z",
+          "updatedAt": "2025-09-11T05:52:06Z",
+          "comments": [
+            {
+              "originalPosition": 25,
+              "body": "Yes, the signature from the origin server on the CoSERV resource (i.e. the query and results) guarantees its end-to-end integrity, meaning that no intermediary or cache can manipulate it without being detected.",
+              "createdAt": "2025-09-11T05:52:06Z",
+              "updatedAt": "2025-09-11T05:52:06Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 72,
+      "id": "PR_kwDOOAZd1M6oChoY",
+      "title": "add caching example",
+      "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/pull/72",
+      "state": "OPEN",
+      "author": "thomas-fossati",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Fix #62",
+      "createdAt": "2025-09-11T13:33:40Z",
+      "updatedAt": "2025-09-12T09:54:36Z",
+      "baseRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
+      "baseRefName": "main",
+      "baseRefOid": "faeda7c4c6bdcb0a8ba529d9681ec8b43efc91c6",
+      "headRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
+      "headRefName": "62",
+      "headRefOid": "d58f453efdfec94aa5c70a500bdca9a35b3b9eb7",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "thomas-fossati",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> LGTM. Thanks @thomas-fossati !\r\n\r\nThank you @Xynnn007 for reviewing it!",
+          "createdAt": "2025-09-12T07:54:52Z",
+          "updatedAt": "2025-09-12T07:54:52Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOOAZd1M6_ld24",
+          "commit": {
+            "abbreviatedOid": "0188c0c"
+          },
+          "author": "Xynnn007",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "Thanks @thomas-fossati . There is one question from my side",
+          "createdAt": "2025-09-12T01:17:54Z",
+          "updatedAt": "2025-09-12T01:18:16Z",
+          "comments": [
+            {
+              "originalPosition": 101,
+              "body": "Question: How does the proxy knows what client B caches locally? Is it something including the query and result hash in the \"conditional request\"?",
+              "createdAt": "2025-09-12T01:17:54Z",
+              "updatedAt": "2025-09-12T01:18:16Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOOAZd1M6_pA0-",
+          "commit": {
+            "abbreviatedOid": "0188c0c"
+          },
+          "author": "thomas-fossati",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-12T07:39:30Z",
+          "updatedAt": "2025-09-12T07:39:30Z",
+          "comments": [
+            {
+              "originalPosition": 101,
+              "body": "> Question: How does the proxy knows what client B caches locally?\r\n> Is it something including the query and result hash in the \"conditional request\"?\r\n\r\nThe proxy is unaware of the client's capabilities.  It only knows that the client (or someone acting on the client's behalf) has a cached copy of the requested resource with the ETag \u201cxyz\".  The 304 signal from the proxy indicates that anyone with _that_ cached copy of the resource can still consider it \"fresh\".",
+              "createdAt": "2025-09-12T07:39:30Z",
+              "updatedAt": "2025-09-12T07:54:26Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOOAZd1M6_pJzr",
+          "commit": {
+            "abbreviatedOid": "0188c0c"
+          },
+          "author": "Xynnn007",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "LGTM. Thanks @thomas-fossati !",
+          "createdAt": "2025-09-12T07:49:06Z",
+          "updatedAt": "2025-09-12T07:49:06Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOOAZd1M6_om9k",
+          "commit": {
+            "abbreviatedOid": "0188c0c"
+          },
+          "author": "paulhowardarm",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "Great stuff, and I love the diagrams - they help enormously. A couple of questions for my own education.",
+          "createdAt": "2025-09-12T07:21:48Z",
+          "updatedAt": "2025-09-12T08:00:35Z",
+          "comments": [
+            {
+              "originalPosition": 36,
+              "body": "When the origin server computes the result set, I think it would be good to be explicit about how it's setting the in-message timestamp. I guess that's tricky because it's a `tdate` rather than a duration. But can we say something like `compute result set (expiry = now + 1 hour)`? This would help me to understand why `s-maxage` is then set in the way that it is.",
+              "createdAt": "2025-09-12T07:21:49Z",
+              "updatedAt": "2025-09-12T08:00:35Z"
+            },
+            {
+              "originalPosition": 16,
+              "body": "I'm hazy on why the client can't be allowed to cache for just as long as the CDN? It's the same content, and it's valid for as long as the origin's CoSERV timestamp demands. When the client goes stale, it will inevitably hit the CDN cache and get the same content back anyway. I may be blinkered on the example and missing the bigger networking picture here. But I'm struggling to think of a situation where the client \"receives fresher content\" due to the differential TTL.",
+              "createdAt": "2025-09-12T07:59:41Z",
+              "updatedAt": "2025-09-12T08:00:35Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOOAZd1M6_p2UZ",
+          "commit": {
+            "abbreviatedOid": "0188c0c"
+          },
+          "author": "thomas-fossati",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-12T08:36:13Z",
+          "updatedAt": "2025-09-12T08:36:13Z",
+          "comments": [
+            {
+              "originalPosition": 16,
+              "body": "Admittedly, this is a rather contrived example. :-)\r\nThis \u201cdifferential\" strategy may be useful in case the origin and its CDN have a separate control plane with APIs that can be used by the origin owner to instruct the CDN operator to purge certain cached entries.  This is quite typical, see for example [CDNI](https://datatracker.ietf.org/doc/rfc8007/).\r\nIn the case of CoSERV, I thought this feature could be used in the event of an unexpected revocation scenario.\r\n",
+              "createdAt": "2025-09-12T08:36:13Z",
+              "updatedAt": "2025-09-12T08:36:14Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOOAZd1M6_qBys",
+          "commit": {
+            "abbreviatedOid": "0188c0c"
+          },
+          "author": "paulhowardarm",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2025-09-12T08:46:21Z",
+          "updatedAt": "2025-09-12T08:46:21Z",
+          "comments": [
+            {
+              "originalPosition": 16,
+              "body": "Ah, I see. This makes sense. Could you add a version of that explanation to the draft? It's an implementation detail, of course, but it might help other readers to understand the value of the differential cache.",
+              "createdAt": "2025-09-12T08:46:21Z",
+              "updatedAt": "2025-09-12T08:46:21Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOOAZd1M6_rb7Y",
+          "commit": {
+            "abbreviatedOid": "d58f453"
+          },
+          "author": "paulhowardarm",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Works for me! Great stuff. Thanks.",
+          "createdAt": "2025-09-12T09:54:36Z",
+          "updatedAt": "2025-09-12T09:54:36Z",
+          "comments": []
         }
       ]
     }
