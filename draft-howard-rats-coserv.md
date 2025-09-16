@@ -548,7 +548,7 @@ This section defines how to populate and interpret the data fields in the discov
 ##### Version
 
 The version field is denoted by the label `"version"` in JSON documents and by the codepoint `1` in CBOR documents.
-The is a Semantic Versioning (semver) string, which denotes the version and patch level of the service that is providing the API endpoints described by the document.
+It is a Semantic Versioning (semver) string, which denotes the version and patch level of the service that is providing the API endpoints described by the document.
 The semver string MUST conform to the ABNF defined in {{SEMVER}}.
 Version numbers and patch levels are otherwise implementation-defined.
 
