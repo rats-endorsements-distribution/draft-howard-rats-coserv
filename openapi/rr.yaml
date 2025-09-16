@@ -1,8 +1,8 @@
 openapi: '3.0.0'
 
 info:
-  title: RR HTTP API
-  description: Request-Response API over HTTP
+  title: CoSERV HTTP API Binding
+  description: CoSERV HTTP API Binding, including request-response and discovery
   version: '1.0.0alpha'
 paths:
   /coserv/{query}:
@@ -21,7 +21,53 @@ paths:
           description: >
             A CoSERV result set has been successfully computed.
           content:
-            application/coserv+cbor:
+            application/coserv+cose:
               schema:
                 type: string
                 format: binary
+                description: >
+                  A CoSERV result set enveloped in a COSE Sign1 object.
+        '400':
+          description: >
+            The request was malformed; e.g., the query was not valid base64url,
+            or the CoSERV data item could not be successfully parsed.
+          content:
+            application/concise-problem-details+cbor:
+              schema:
+                type: string
+                format: binary
+                description: >
+                  A CBOR-encoded problem details data item.
+        '406':
+          description: >
+            The server cannot produce a response matching the list of acceptable
+            values defined in the request's 'Accept' header field.  In particular,
+            the client may have specified a CoSERV profile that is not understood or
+            serviceable by the server.
+          content:
+            application/concise-problem-details+cbor:
+              schema:
+                type: string
+                format: binary
+                description: >
+                  A CBOR-encoded problem details data item.
+  /.well-known/coserv-configuration:
+    get:
+      summary: Retrieve the CoSERV configuration document.
+      responses:
+        '200':
+          description: >
+            The CoSERV configuration document has been successfully retrieved.
+          content:
+            application/coserv-discovery+json:
+              schema:
+                type: string
+                format: binary
+                description: >
+                  A JSON-encoded CoSERV configuration document.
+            application/coserv-discovery+cbor:
+              schema:
+                type: string
+                format: binary
+                description: >
+                  A CBOR-encoded CoSERV configuration document.
