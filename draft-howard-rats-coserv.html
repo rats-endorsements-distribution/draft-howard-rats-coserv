@@ -1058,7 +1058,7 @@ svg :is([fill="white"], [fill^="#fff"]) {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Howard, et al.</td>
-<td class="center">Expires 15 March 2026</td>
+<td class="center">Expires 20 March 2026</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1071,12 +1071,12 @@ svg :is([fill="white"], [fill^="#fff"]) {
 <dd class="internet-draft">draft-howard-rats-coserv-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2025-09-11" class="published">11 September 2025</time>
+<time datetime="2025-09-16" class="published">16 September 2025</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Informational</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2026-03-15">15 March 2026</time></dd>
+<dd class="expires"><time datetime="2026-03-20">20 March 2026</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1148,7 +1148,7 @@ CoSERV defines a query language and corresponding result structure using CDDL, w
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 15 March 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 20 March 2026.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -2596,30 +2596,244 @@ This timestamp is established by the origin server.<a href="#section-6.1.3.1-1" 
             <h5 id="name-example-http-messages-with-">
 <a href="#section-6.1.3.2" class="section-number selfRef">6.1.3.2. </a><a href="#name-example-http-messages-with-" class="section-name selfRef">Example HTTP Messages with Caching</a>
             </h5>
-<ul class="normal">
-<li class="normal" id="section-6.1.3.2-1.1">
-                <p id="section-6.1.3.2-1.1.1">example request<a href="#section-6.1.3.2-1.1.1" class="pilcrow">¶</a></p>
-</li>
-              <li class="normal" id="section-6.1.3.2-1.2">
-                <p id="section-6.1.3.2-1.2.1">example response<a href="#section-6.1.3.2-1.2.1" class="pilcrow">¶</a></p>
-</li>
-            </ul>
-<span id="name-request-coserv"></span><div id="fig-rest-req">
-<figure id="figure-1">
-              <div class="lang-http-message sourcecode" id="section-6.1.3.2-2.1">
-<pre>
-# NOTE: '\' line wrapping per RFC 8792
-
-GET coserv/ogB4I3RhZ... HTTP/1.1
-Host: coserv.example
-Accept: application/coserv+cbor; \
-        profile="tag:example.com,2025:cc-platform#1.0.0"
-Content-Type: application/coserv+cbor
-</pre>
+<p id="section-6.1.3.2-1">This section illustrates a caching scenario.<a href="#section-6.1.3.2-1" class="pilcrow">¶</a></p>
+<p id="section-6.1.3.2-2">In this example, the CoSERV HTTP API server endpoint is hosted by an HTTP origin (coserv.example), while a reverse proxy (cache.example) operates a public cache in front of the origin.<a href="#section-6.1.3.2-2" class="pilcrow">¶</a></p>
+<p id="section-6.1.3.2-3">Client A sends a request using a specific CoSERV query.
+As the reverse proxy has a "cache miss" for the resource, it forwards the request to the origin.
+The origin then constructs the response and returns it to the proxy.
+The response includes cache-control headers that are compatible with the time-to-live associated with the computed result set.
+For the purposes of this example, the HTTP response <code>max-age</code> has been set to 10 minutes and the <code>s-maxage</code> to 1 hour.
+This means that the origin allows intermediaries (e.g., its CDN) to cache this resource for longer than the client.
+The result is different caching behaviours between clients and intermediaries, which reduces the load on the origin by enabling CDNs to cache content for longer, while ensuring that clients receive fresher content.
+Before forwarding it to the client, the proxy stores the response in its cache using the request URI as the cache key alongside the entry's time-to-live value.<a href="#section-6.1.3.2-3" class="pilcrow">¶</a></p>
+<aside id="section-6.1.3.2-4">
+              <p id="section-6.1.3.2-4.1">This "differential caching" strategy could be useful if the origin and its CDN have control plane APIs that the origin owner can use to instruct the CDN operator to purge certain cached entries <span>[<a href="#RFC8007" class="cite xref">RFC8007</a>]</span>. For instance, in CoSERV, this feature could be used in case of an unexpected revocation.<a href="#section-6.1.3.2-4.1" class="pilcrow">¶</a></p>
+</aside>
+<div id="section-6.1.3.2-5">
+              <div class="alignLeft art-svg artwork" id="section-6.1.3.2-5.1">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="576" width="576" viewBox="0 0 576 576" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
+                  <path d="M 40,64 L 40,560" fill="none" stroke="black"></path>
+                  <path d="M 200,64 L 200,96" fill="none" stroke="black"></path>
+                  <path d="M 224,112 L 224,560" fill="none" stroke="black"></path>
+                  <path d="M 248,64 L 248,96" fill="none" stroke="black"></path>
+                  <path d="M 408,80 L 408,560" fill="none" stroke="black"></path>
+                  <path d="M 216,48 L 232,48" fill="none" stroke="black"></path>
+                  <path d="M 216,80 L 232,80" fill="none" stroke="black"></path>
+                  <path d="M 216,112 L 232,112" fill="none" stroke="black"></path>
+                  <path d="M 40,144 L 216,144" fill="none" stroke="black"></path>
+                  <path d="M 224,160 L 248,160" fill="none" stroke="black"></path>
+                  <path d="M 232,192 L 248,192" fill="none" stroke="black"></path>
+                  <path d="M 224,256 L 400,256" fill="none" stroke="black"></path>
+                  <path d="M 408,272 L 432,272" fill="none" stroke="black"></path>
+                  <path d="M 416,304 L 432,304" fill="none" stroke="black"></path>
+                  <path d="M 232,384 L 408,384" fill="none" stroke="black"></path>
+                  <path d="M 224,432 L 248,432" fill="none" stroke="black"></path>
+                  <path d="M 232,464 L 248,464" fill="none" stroke="black"></path>
+                  <path d="M 48,544 L 224,544" fill="none" stroke="black"></path>
+                  <path d="M 216,48 C 207.16936,48 200,55.16936 200,64" fill="none" stroke="black"></path>
+                  <path d="M 232,48 C 240.83064,48 248,55.16936 248,64" fill="none" stroke="black"></path>
+                  <path d="M 408,48 C 399.16936,48 392,55.16936 392,64" fill="none" stroke="black"></path>
+                  <path d="M 408,48 C 416.83064,48 424,55.16936 424,64" fill="none" stroke="black"></path>
+                  <path d="M 216,80 C 207.16936,80 200,72.83064 200,64" fill="none" stroke="black"></path>
+                  <path d="M 232,80 C 240.83064,80 248,72.83064 248,64" fill="none" stroke="black"></path>
+                  <path d="M 408,80 C 399.16936,80 392,72.83064 392,64" fill="none" stroke="black"></path>
+                  <path d="M 408,80 C 416.83064,80 424,72.83064 424,64" fill="none" stroke="black"></path>
+                  <path d="M 216,112 C 207.16936,112 200,104.83064 200,96" fill="none" stroke="black"></path>
+                  <path d="M 232,112 C 240.83064,112 248,104.83064 248,96" fill="none" stroke="black"></path>
+                  <path d="M 248,160 C 256.83064,160 264,167.16936 264,176" fill="none" stroke="black"></path>
+                  <path d="M 248,192 C 256.83064,192 264,184.83064 264,176" fill="none" stroke="black"></path>
+                  <path d="M 432,272 C 440.83064,272 448,279.16936 448,288" fill="none" stroke="black"></path>
+                  <path d="M 432,304 C 440.83064,304 448,296.83064 448,288" fill="none" stroke="black"></path>
+                  <path d="M 248,432 C 256.83064,432 264,439.16936 264,448" fill="none" stroke="black"></path>
+                  <path d="M 248,464 C 256.83064,464 264,456.83064 264,448" fill="none" stroke="black"></path>
+                  <polygon class="arrowhead" points="424,304 412,298.4 412,309.6" fill="black" transform="rotate(180,416,304)"></polygon>
+                  <polygon class="arrowhead" points="408,256 396,250.4 396,261.6" fill="black" transform="rotate(0,400,256)"></polygon>
+                  <polygon class="arrowhead" points="240,464 228,458.4 228,469.6" fill="black" transform="rotate(180,232,464)"></polygon>
+                  <polygon class="arrowhead" points="240,384 228,378.4 228,389.6" fill="black" transform="rotate(180,232,384)"></polygon>
+                  <polygon class="arrowhead" points="240,192 228,186.4 228,197.6" fill="black" transform="rotate(180,232,192)"></polygon>
+                  <polygon class="arrowhead" points="224,144 212,138.4 212,149.6" fill="black" transform="rotate(0,216,144)"></polygon>
+                  <polygon class="arrowhead" points="56,544 44,538.4 44,549.6" fill="black" transform="rotate(180,48,544)"></polygon>
+                  <circle cx="40" cy="64" r="6" class="opendot" fill="white" stroke="black"></circle>
+                  <g class="text">
+                    <text x="28" y="36">client</text>
+                    <text x="64" y="36">A</text>
+                    <text x="224" y="36">cache.example</text>
+                    <text x="412" y="36">coserv.example</text>
+                    <text x="80" y="132">GET</text>
+                    <text x="144" y="132">ogB4I3RhZ..</text>
+                    <text x="312" y="148">lookup(obB4I3RhZ..)</text>
+                    <text x="252" y="212">MISS</text>
+                    <text x="264" y="244">GET</text>
+                    <text x="328" y="244">ogB4I3RhZ..</text>
+                    <text x="488" y="276">compute</text>
+                    <text x="484" y="292">result</text>
+                    <text x="472" y="308">set</text>
+                    <text x="256" y="324">200</text>
+                    <text x="284" y="324">OK</text>
+                    <text x="448" y="324">(expiry</text>
+                    <text x="488" y="324">=</text>
+                    <text x="512" y="324">now</text>
+                    <text x="536" y="324">+</text>
+                    <text x="560" y="324">1h)</text>
+                    <text x="260" y="340">C-C:</text>
+                    <text x="332" y="340">max-age=600,</text>
+                    <text x="336" y="356">s-maxage=3600</text>
+                    <text x="292" y="372">#6.18([...])</text>
+                    <text x="316" y="420">store(K=obB4I3RhZ..,</text>
+                    <text x="340" y="436">V=#6.18([...],</text>
+                    <text x="320" y="452">TTL=3600)</text>
+                    <text x="72" y="484">200</text>
+                    <text x="100" y="484">OK</text>
+                    <text x="76" y="500">C-C:</text>
+                    <text x="148" y="500">max-age=600,</text>
+                    <text x="152" y="516">s-maxage=3600</text>
+                    <text x="108" y="532">#6.18([...])</text>
+                  </g>
+                </svg><a href="#section-6.1.3.2-5.1" class="pilcrow">¶</a>
 </div>
-<figcaption><a href="#figure-1" class="selfRef">Figure 1</a>:
-<a href="#name-request-coserv" class="selfRef">Request CoSERV</a>
-              </figcaption></figure>
+</div>
+<p id="section-6.1.3.2-6">At a later point, after 2 minutes, a different client B makes the same request.
+This time, the request generates a "cache hit" event on the proxy.
+The response is therefore served from the public cache, bypassing the origin.
+This reduces the load on the origin, where computing the result set is generally costly, as well as reducing the overall latency of the transaction.
+Client B operates a local cache, where it stores a copy of the response.<a href="#section-6.1.3.2-6" class="pilcrow">¶</a></p>
+<div id="section-6.1.3.2-7">
+              <div class="alignLeft art-svg artwork" id="section-6.1.3.2-7.1">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="416" width="472" viewBox="0 0 472 416" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
+                  <path d="M 24,80 L 24,96" fill="none" stroke="black"></path>
+                  <path d="M 40,112 L 40,400" fill="none" stroke="black"></path>
+                  <path d="M 56,80 L 56,96" fill="none" stroke="black"></path>
+                  <path d="M 200,64 L 200,96" fill="none" stroke="black"></path>
+                  <path d="M 224,112 L 224,400" fill="none" stroke="black"></path>
+                  <path d="M 248,64 L 248,96" fill="none" stroke="black"></path>
+                  <path d="M 408,80 L 408,400" fill="none" stroke="black"></path>
+                  <path d="M 216,48 L 232,48" fill="none" stroke="black"></path>
+                  <path d="M 216,80 L 232,80" fill="none" stroke="black"></path>
+                  <path d="M 216,112 L 232,112" fill="none" stroke="black"></path>
+                  <path d="M 40,144 L 216,144" fill="none" stroke="black"></path>
+                  <path d="M 224,160 L 248,160" fill="none" stroke="black"></path>
+                  <path d="M 232,192 L 248,192" fill="none" stroke="black"></path>
+                  <path d="M 48,304 L 224,304" fill="none" stroke="black"></path>
+                  <path d="M 40,352 L 64,352" fill="none" stroke="black"></path>
+                  <path d="M 48,384 L 64,384" fill="none" stroke="black"></path>
+                  <path d="M 216,48 C 207.16936,48 200,55.16936 200,64" fill="none" stroke="black"></path>
+                  <path d="M 232,48 C 240.83064,48 248,55.16936 248,64" fill="none" stroke="black"></path>
+                  <path d="M 408,48 C 399.16936,48 392,55.16936 392,64" fill="none" stroke="black"></path>
+                  <path d="M 408,48 C 416.83064,48 424,55.16936 424,64" fill="none" stroke="black"></path>
+                  <path d="M 40,64 C 31.16936,64 24,71.16936 24,80" fill="none" stroke="black"></path>
+                  <path d="M 40,64 C 48.83064,64 56,71.16936 56,80" fill="none" stroke="black"></path>
+                  <path d="M 216,80 C 207.16936,80 200,72.83064 200,64" fill="none" stroke="black"></path>
+                  <path d="M 232,80 C 240.83064,80 248,72.83064 248,64" fill="none" stroke="black"></path>
+                  <path d="M 408,80 C 399.16936,80 392,72.83064 392,64" fill="none" stroke="black"></path>
+                  <path d="M 408,80 C 416.83064,80 424,72.83064 424,64" fill="none" stroke="black"></path>
+                  <path d="M 40,96 C 31.16936,96 24,88.83064 24,80" fill="none" stroke="black"></path>
+                  <path d="M 40,96 C 48.83064,96 56,88.83064 56,80" fill="none" stroke="black"></path>
+                  <path d="M 40,112 C 31.16936,112 24,104.83064 24,96" fill="none" stroke="black"></path>
+                  <path d="M 40,112 C 48.83064,112 56,104.83064 56,96" fill="none" stroke="black"></path>
+                  <path d="M 216,112 C 207.16936,112 200,104.83064 200,96" fill="none" stroke="black"></path>
+                  <path d="M 232,112 C 240.83064,112 248,104.83064 248,96" fill="none" stroke="black"></path>
+                  <path d="M 248,160 C 256.83064,160 264,167.16936 264,176" fill="none" stroke="black"></path>
+                  <path d="M 248,192 C 256.83064,192 264,184.83064 264,176" fill="none" stroke="black"></path>
+                  <path d="M 64,352 C 72.83064,352 80,359.16936 80,368" fill="none" stroke="black"></path>
+                  <path d="M 64,384 C 72.83064,384 80,376.83064 80,368" fill="none" stroke="black"></path>
+                  <polygon class="arrowhead" points="240,192 228,186.4 228,197.6" fill="black" transform="rotate(180,232,192)"></polygon>
+                  <polygon class="arrowhead" points="224,144 212,138.4 212,149.6" fill="black" transform="rotate(0,216,144)"></polygon>
+                  <polygon class="arrowhead" points="56,384 44,378.4 44,389.6" fill="black" transform="rotate(180,48,384)"></polygon>
+                  <polygon class="arrowhead" points="56,304 44,298.4 44,309.6" fill="black" transform="rotate(180,48,304)"></polygon>
+                  <g class="text">
+                    <text x="28" y="36">client</text>
+                    <text x="64" y="36">B</text>
+                    <text x="224" y="36">cache.example</text>
+                    <text x="412" y="36">coserv.example</text>
+                    <text x="80" y="132">GET</text>
+                    <text x="144" y="132">ogB4I3RhZ..</text>
+                    <text x="312" y="148">lookup(obB4I3RhZ..)</text>
+                    <text x="248" y="212">HIT</text>
+                    <text x="72" y="228">200</text>
+                    <text x="100" y="228">OK</text>
+                    <text x="76" y="244">C-C:</text>
+                    <text x="148" y="244">max-age=480,</text>
+                    <text x="152" y="260">s-maxage=3480</text>
+                    <text x="80" y="276">Etag:</text>
+                    <text x="128" y="276">"xyz"</text>
+                    <text x="108" y="292">#6.18([...])</text>
+                    <text x="132" y="340">store(K=obB4I3RhZ..,</text>
+                    <text x="156" y="356">V=#6.18([...],</text>
+                    <text x="132" y="372">TTL=480)</text>
+                  </g>
+                </svg><a href="#section-6.1.3.2-7.1" class="pilcrow">¶</a>
+</div>
+</div>
+<p id="section-6.1.3.2-8">After 9 more minutes, B is instructed to make the same request again.
+The request generates a "cache hit" event on the local cache.
+However, the cached resource is become stale and needs to be revalidated.
+Therefore, B sends a conditional request to the proxy.
+The request generates a "cache hit" event on the proxy where the resource is still fresh due to the differential caching behaviour dictated by the original response from the origin.
+The proxy returns a 304 (Not modified) status code, which instructs the client to reuse its local copy of the response.<a href="#section-6.1.3.2-8" class="pilcrow">¶</a></p>
+<div id="section-6.1.3.2-9">
+              <div class="alignLeft art-svg artwork" id="section-6.1.3.2-9.1">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="416" width="480" viewBox="0 0 480 416" class="diagram" text-anchor="middle" font-family="monospace" font-size="13px" stroke-linecap="round">
+                  <path d="M 24,80 L 24,96" fill="none" stroke="black"></path>
+                  <path d="M 40,112 L 40,400" fill="none" stroke="black"></path>
+                  <path d="M 56,80 L 56,96" fill="none" stroke="black"></path>
+                  <path d="M 200,64 L 200,96" fill="none" stroke="black"></path>
+                  <path d="M 224,112 L 224,400" fill="none" stroke="black"></path>
+                  <path d="M 248,64 L 248,96" fill="none" stroke="black"></path>
+                  <path d="M 408,80 L 408,400" fill="none" stroke="black"></path>
+                  <path d="M 216,48 L 232,48" fill="none" stroke="black"></path>
+                  <path d="M 216,80 L 232,80" fill="none" stroke="black"></path>
+                  <path d="M 216,112 L 232,112" fill="none" stroke="black"></path>
+                  <path d="M 40,144 L 64,144" fill="none" stroke="black"></path>
+                  <path d="M 48,176 L 64,176" fill="none" stroke="black"></path>
+                  <path d="M 40,256 L 216,256" fill="none" stroke="black"></path>
+                  <path d="M 224,272 L 248,272" fill="none" stroke="black"></path>
+                  <path d="M 232,304 L 248,304" fill="none" stroke="black"></path>
+                  <path d="M 48,384 L 224,384" fill="none" stroke="black"></path>
+                  <path d="M 216,48 C 207.16936,48 200,55.16936 200,64" fill="none" stroke="black"></path>
+                  <path d="M 232,48 C 240.83064,48 248,55.16936 248,64" fill="none" stroke="black"></path>
+                  <path d="M 408,48 C 399.16936,48 392,55.16936 392,64" fill="none" stroke="black"></path>
+                  <path d="M 408,48 C 416.83064,48 424,55.16936 424,64" fill="none" stroke="black"></path>
+                  <path d="M 40,64 C 31.16936,64 24,71.16936 24,80" fill="none" stroke="black"></path>
+                  <path d="M 40,64 C 48.83064,64 56,71.16936 56,80" fill="none" stroke="black"></path>
+                  <path d="M 216,80 C 207.16936,80 200,72.83064 200,64" fill="none" stroke="black"></path>
+                  <path d="M 232,80 C 240.83064,80 248,72.83064 248,64" fill="none" stroke="black"></path>
+                  <path d="M 408,80 C 399.16936,80 392,72.83064 392,64" fill="none" stroke="black"></path>
+                  <path d="M 408,80 C 416.83064,80 424,72.83064 424,64" fill="none" stroke="black"></path>
+                  <path d="M 40,96 C 31.16936,96 24,88.83064 24,80" fill="none" stroke="black"></path>
+                  <path d="M 40,96 C 48.83064,96 56,88.83064 56,80" fill="none" stroke="black"></path>
+                  <path d="M 40,112 C 31.16936,112 24,104.83064 24,96" fill="none" stroke="black"></path>
+                  <path d="M 40,112 C 48.83064,112 56,104.83064 56,96" fill="none" stroke="black"></path>
+                  <path d="M 216,112 C 207.16936,112 200,104.83064 200,96" fill="none" stroke="black"></path>
+                  <path d="M 232,112 C 240.83064,112 248,104.83064 248,96" fill="none" stroke="black"></path>
+                  <path d="M 64,144 C 72.83064,144 80,151.16936 80,160" fill="none" stroke="black"></path>
+                  <path d="M 64,176 C 72.83064,176 80,168.83064 80,160" fill="none" stroke="black"></path>
+                  <path d="M 248,272 C 256.83064,272 264,279.16936 264,288" fill="none" stroke="black"></path>
+                  <path d="M 248,304 C 256.83064,304 264,296.83064 264,288" fill="none" stroke="black"></path>
+                  <polygon class="arrowhead" points="240,304 228,298.4 228,309.6" fill="black" transform="rotate(180,232,304)"></polygon>
+                  <polygon class="arrowhead" points="224,256 212,250.4 212,261.6" fill="black" transform="rotate(0,216,256)"></polygon>
+                  <polygon class="arrowhead" points="56,384 44,378.4 44,389.6" fill="black" transform="rotate(180,48,384)"></polygon>
+                  <polygon class="arrowhead" points="56,176 44,170.4 44,181.6" fill="black" transform="rotate(180,48,176)"></polygon>
+                  <g class="text">
+                    <text x="28" y="36">client</text>
+                    <text x="64" y="36">B</text>
+                    <text x="232" y="36">cache.example</text>
+                    <text x="420" y="36">coserv.example</text>
+                    <text x="128" y="132">lookup(obB4I3RhZ..)</text>
+                    <text x="64" y="196">HIT</text>
+                    <text x="112" y="196">(stale)</text>
+                    <text x="64" y="228">GET</text>
+                    <text x="128" y="228">ogB4I3RhZ..</text>
+                    <text x="128" y="244">If-None-Match:"xyz"</text>
+                    <text x="248" y="324">HIT</text>
+                    <text x="72" y="340">304</text>
+                    <text x="104" y="340">Not</text>
+                    <text x="156" y="340">modified</text>
+                    <text x="76" y="356">C-C:</text>
+                    <text x="140" y="356">max-age=0,</text>
+                    <text x="152" y="372">s-maxage=3060</text>
+                  </g>
+                </svg><a href="#section-6.1.3.2-9.1" class="pilcrow">¶</a>
+</div>
 </div>
 </section>
 </div>
@@ -3286,6 +3500,10 @@ Note that the <code>cose-type</code> parameter is explicitly not supported, as i
 <dt id="RFC7942">[RFC7942]</dt>
         <dd>
 <span class="refAuthor">Sheffer, Y.</span> and <span class="refAuthor">A. Farrel</span>, <span class="refTitle">"Improving Awareness of Running Code: The Implementation Status Section"</span>, <span class="seriesInfo">BCP 205</span>, <span class="seriesInfo">RFC 7942</span>, <span class="seriesInfo">DOI 10.17487/RFC7942</span>, <time datetime="2016-07" class="refDate">July 2016</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc7942">https://www.rfc-editor.org/rfc/rfc7942</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8007">[RFC8007]</dt>
+        <dd>
+<span class="refAuthor">Murray, R.</span> and <span class="refAuthor">B. Niven-Jenkins</span>, <span class="refTitle">"Content Delivery Network Interconnection (CDNI) Control Interface / Triggers"</span>, <span class="seriesInfo">RFC 8007</span>, <span class="seriesInfo">DOI 10.17487/RFC8007</span>, <time datetime="2016-12" class="refDate">December 2016</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8007">https://www.rfc-editor.org/rfc/rfc8007</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="STD98">[STD98]</dt>
       <dd>

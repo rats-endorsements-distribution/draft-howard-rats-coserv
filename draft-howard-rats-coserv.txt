@@ -5,7 +5,7 @@
 Remote ATtestation ProcedureS                                  P. Howard
 Internet-Draft                                                       Arm
 Intended status: Informational                                T. Fossati
-Expires: 15 March 2026                                            Linaro
+Expires: 20 March 2026                                            Linaro
                                                              H. Birkholz
                                                           Fraunhofer SIT
                                                                 S. Kamal
@@ -14,7 +14,7 @@ Expires: 15 March 2026                                            Linaro
                                                                      AMD
                                                                    D. Ma
                                                            Alibaba Cloud
-                                                       11 September 2025
+                                                       16 September 2025
 
 
          Concise Selector for Endorsements and Reference Values
@@ -65,7 +65,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 15 March 2026.
+   This Internet-Draft will expire on 20 March 2026.
 
 Copyright Notice
 
@@ -1471,19 +1471,136 @@ Table of Contents
 
 6.1.3.2.  Example HTTP Messages with Caching
 
-   *  example request
+   This section illustrates a caching scenario.
 
-   *  example response
+   In this example, the CoSERV HTTP API server endpoint is hosted by an
+   HTTP origin (coserv.example), while a reverse proxy (cache.example)
+   operates a public cache in front of the origin.
 
-   # NOTE: '\' line wrapping per RFC 8792
+   Client A sends a request using a specific CoSERV query.  As the
+   reverse proxy has a "cache miss" for the resource, it forwards the
+   request to the origin.  The origin then constructs the response and
+   returns it to the proxy.  The response includes cache-control headers
+   that are compatible with the time-to-live associated with the
+   computed result set.  For the purposes of this example, the HTTP
+   response max-age has been set to 10 minutes and the s-maxage to 1
+   hour.  This means that the origin allows intermediaries (e.g., its
+   CDN) to cache this resource for longer than the client.  The result
+   is different caching behaviours between clients and intermediaries,
+   which reduces the load on the origin by enabling CDNs to cache
+   content for longer, while ensuring that clients receive fresher
+   content.  Before forwarding it to the client, the proxy stores the
+   response in its cache using the request URI as the cache key
+   alongside the entry's time-to-live value.
 
-   GET coserv/ogB4I3RhZ... HTTP/1.1
-   Host: coserv.example
-   Accept: application/coserv+cbor; \
-           profile="tag:example.com,2025:cc-platform#1.0.0"
-   Content-Type: application/coserv+cbor
+      |  This "differential caching" strategy could be useful if the
+      |  origin and its CDN have control plane APIs that the origin
+      |  owner can use to instruct the CDN operator to purge certain
+      |  cached entries [RFC8007].  For instance, in CoSERV, this
+      |  feature could be used in case of an unexpected revocation.
 
-                          Figure 1: Request CoSERV
+ client A             cache.example          coserv.example
+                          .---.                   .-.
+     o                   |     |                 |   |
+     |                   |'---'|                  '+'
+     |                   |     |                   |
+     |                    '-+-'                    |
+     |   GET ogB4I3RhZ..    |                      |
+     +--------------------->| lookup(obB4I3RhZ..)  |
+     |                      +---.                  |
+     |                      |    |                 |
+     |                      |<--'                  |
+     |                      | MISS                 |
+     |                      |                      |
+     |                      |   GET ogB4I3RhZ..    |
+     |                      +--------------------->|
+     |                      |                      +---.  compute
+     |                      |                      |    | result
+     |                      |                      |<--'  set
+     |                      |  200 OK              | (expiry = now + 1h)
+     |                      |  C-C: max-age=600,   |
+     |                      |       s-maxage=3600  |
+     |                      |  #6.18([...])        |
+     |                      |<---------------------+
+     |                      |                      |
+     |                      | store(K=obB4I3RhZ.., |
+     |                      +---.   V=#6.18([...], |
+     |                      |    |  TTL=3600)      |
+     |                      |<--'                  |
+     |  200 OK              |                      |
+     |  C-C: max-age=600,   |                      |
+     |       s-maxage=3600  |                      |
+     |  #6.18([...])        |                      |
+     |<---------------------+                      |
+     |                      |                      |
+
+   At a later point, after 2 minutes, a different client B makes the
+   same request.  This time, the request generates a "cache hit" event
+   on the proxy.  The response is therefore served from the public
+   cache, bypassing the origin.  This reduces the load on the origin,
+   where computing the result set is generally costly, as well as
+   reducing the overall latency of the transaction.  Client B operates a
+   local cache, where it stores a copy of the response.
+
+   client B             cache.example          coserv.example
+                            .---.                   .-.
+      .-.                  |     |                 |   |
+     |   |                 |'---'|                  '+'
+     |'-'|                 |     |                   |
+      '+'                   '-+-'                    |
+       |   GET ogB4I3RhZ..    |                      |
+       +--------------------->| lookup(obB4I3RhZ..)  |
+       |                      +---.                  |
+       |                      |    |                 |
+       |                      |<--'                  |
+       |                      | HIT                  |
+       |  200 OK              |                      |
+       |  C-C: max-age=480,   |                      |
+       |       s-maxage=3480  |                      |
+       |  Etag: "xyz"         |                      |
+       |  #6.18([...])        |                      |
+       |<---------------------+                      |
+       |                      |                      |
+       | store(K=obB4I3RhZ.., |                      |
+       +---.   V=#6.18([...], |                      |
+       |    |  TTL=480)       |                      |
+       |<--'                  |                      |
+       |                      |                      |
+
+   After 9 more minutes, B is instructed to make the same request again.
+   The request generates a "cache hit" event on the local cache.
+   However, the cached resource is become stale and needs to be
+   revalidated.  Therefore, B sends a conditional request to the proxy.
+   The request generates a "cache hit" event on the proxy where the
+   resource is still fresh due to the differential caching behaviour
+   dictated by the original response from the origin.  The proxy returns
+   a 304 (Not modified) status code, which instructs the client to reuse
+   its local copy of the response.
+
+   client B              cache.example          coserv.example
+                            .---.                   .-.
+      .-.                  |     |                 |   |
+     |   |                 |'---'|                  '+'
+     |'-'|                 |     |                   |
+      '+'                   '-+-'                    |
+       | lookup(obB4I3RhZ..)  |                      |
+       +---.                  |                      |
+       |    |                 |                      |
+       |<--'                  |                      |
+       | HIT (stale)          |                      |
+       |                      |                      |
+       | GET ogB4I3RhZ..      |                      |
+       | If-None-Match:"xyz"  |                      |
+       +--------------------->|                      |
+       |                      +---.                  |
+       |                      |    |                 |
+       |                      |<--'                  |
+       |                      | HIT                  |
+       |  304 Not modified    |                      |
+       |  C-C: max-age=0,     |                      |
+       |       s-maxage=3060  |                      |
+       |<---------------------+                      |
+       |                      |                      |
 
 7.  Implementation Status
 
@@ -1860,6 +1977,11 @@ Table of Contents
               Code: The Implementation Status Section", BCP 205,
               RFC 7942, DOI 10.17487/RFC7942, July 2016,
               <https://www.rfc-editor.org/rfc/rfc7942>.
+
+   [RFC8007]  Murray, R. and B. Niven-Jenkins, "Content Delivery Network
+              Interconnection (CDNI) Control Interface / Triggers",
+              RFC 8007, DOI 10.17487/RFC8007, December 2016,
+              <https://www.rfc-editor.org/rfc/rfc8007>.
 
    [STD98]    Internet Standard 98,
               <https://www.rfc-editor.org/info/std98>.
