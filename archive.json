@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2025-09-14T00:46:10.941729+00:00",
+  "timestamp": "2025-09-18T00:41:31.714541+00:00",
   "repo": "rats-endorsements-distribution/draft-howard-rats-coserv",
   "labels": [
     {
@@ -676,7 +676,7 @@
       "id": "I_kwDOOAZd1M7F-t8p",
       "title": "Add HTTP example requests and responses with caching headers",
       "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/issues/62",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "thomas-fossati",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -685,8 +685,8 @@
       "labels": [],
       "body": "",
       "createdAt": "2025-08-14T09:41:33Z",
-      "updatedAt": "2025-08-14T09:41:33Z",
-      "closedAt": null,
+      "updatedAt": "2025-09-16T08:38:47Z",
+      "closedAt": "2025-09-16T08:38:47Z",
       "comments": []
     },
     {
@@ -742,6 +742,22 @@
       "body": "CoSERV \u201caggregators\" consolidate multiple entities in the upstream supply chain into a single entity.\nThis enables a complex supply chain to be presented to a verifier in a simplified and robust way.\nHowever, there are security and privacy implications that need to be explored.\n\nFor example, an aggregator is generally more _powerful_ than a vendor or single-component endorser.  Since it conveys data from multiple upstream links, it can correlate queries for different parts of a system and build a precise picture of the composite attester, which would not be available to a single-component endorser.  This could pose a privacy risk that may be tricky to mitigate.\n\nIn terms of security, an aggregator is a one-stop shop for the verifier and therefore a single point of failure. If the aggregator is successfully attacked, the entire appraisal function can be compromised.  Mitigating measures include maintaining multiple active trust links, so that a verifier can direct queries to another aggregator under a different administration.",
       "createdAt": "2025-08-28T13:25:05Z",
       "updatedAt": "2025-08-28T13:33:43Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 73,
+      "id": "I_kwDOOAZd1M7L6g60",
+      "title": "OpenAPI document for the HTTP API",
+      "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/issues/73",
+      "state": "OPEN",
+      "author": "thomas-fossati",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Make sure that the OpenAPI document for the HTTP API is complete and consistent with the API description.",
+      "createdAt": "2025-09-16T08:35:20Z",
+      "updatedAt": "2025-09-16T08:35:20Z",
       "closedAt": null,
       "comments": []
     }
@@ -3360,24 +3376,26 @@
       "id": "PR_kwDOOAZd1M6oChoY",
       "title": "add caching example",
       "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/pull/72",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "thomas-fossati",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Fix #62",
       "createdAt": "2025-09-11T13:33:40Z",
-      "updatedAt": "2025-09-12T09:54:36Z",
+      "updatedAt": "2025-09-16T08:38:46Z",
       "baseRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
       "baseRefName": "main",
       "baseRefOid": "faeda7c4c6bdcb0a8ba529d9681ec8b43efc91c6",
       "headRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
       "headRefName": "62",
       "headRefOid": "d58f453efdfec94aa5c70a500bdca9a35b3b9eb7",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2025-09-16T08:38:46Z",
+      "mergedAt": "2025-09-16T08:38:46Z",
+      "mergedBy": "paulhowardarm",
+      "mergeCommit": {
+        "oid": "5b156b3002bfe6aee063f63a895f06e37027e0dd"
+      },
       "comments": [
         {
           "author": "thomas-fossati",
@@ -3518,6 +3536,61 @@
           "body": "Works for me! Great stuff. Thanks.",
           "createdAt": "2025-09-12T09:54:36Z",
           "updatedAt": "2025-09-12T09:54:36Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 74,
+      "id": "PR_kwDOOAZd1M6o2oZG",
+      "title": "finalise OpenAPI document",
+      "url": "https://github.com/rats-endorsements-distribution/draft-howard-rats-coserv/pull/74",
+      "state": "OPEN",
+      "author": "thomas-fossati",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Ensure that the OpenAPI spec reflects the API described in the draft.\r\n\r\nFix #73 ",
+      "createdAt": "2025-09-16T12:28:54Z",
+      "updatedAt": "2025-09-16T20:30:51Z",
+      "baseRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
+      "baseRefName": "main",
+      "baseRefOid": "5b156b3002bfe6aee063f63a895f06e37027e0dd",
+      "headRepository": "rats-endorsements-distribution/draft-howard-rats-coserv",
+      "headRefName": "73",
+      "headRefOid": "943ba64a87f552139cd833deb45ac1e96ce555aa",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "gmandyam",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Why try to re-define error codes that are already defined in https://www.rfc-editor.org/rfc/rfc9110?  Could this doc simply point to the existing definition of the codes in the RFC?",
+          "createdAt": "2025-09-16T20:18:34Z",
+          "updatedAt": "2025-09-16T20:18:34Z"
+        },
+        {
+          "author": "paulhowardarm",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> Why try to re-define error codes that are already defined in https://www.rfc-editor.org/rfc/rfc9110? Could this doc simply point to the existing definition of the codes in the RFC?\r\n\r\nHi, @gmandyam - the document is not defining the HTTP status codes themselves. Rather it is enumerating what status codes are possible within the semantics of the API. The descriptions are not \"pure\" HTTP descriptions (which I agree would not belong here), but they describe how the status code should be interpreted for the CoSERV API specifically.",
+          "createdAt": "2025-09-16T20:30:51Z",
+          "updatedAt": "2025-09-16T20:30:51Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOOAZd1M7Aiz-V",
+          "commit": {
+            "abbreviatedOid": "943ba64"
+          },
+          "author": "paulhowardarm",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Looks good. Many thanks.",
+          "createdAt": "2025-09-16T14:41:55Z",
+          "updatedAt": "2025-09-16T14:41:55Z",
           "comments": []
         }
       ]
